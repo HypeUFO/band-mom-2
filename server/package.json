@@ -1,15 +1,16 @@
 {
-  "name": "thinkful-full-stack-template-server",
+  "name": "band-mom-2-server",
   "version": "0.1.0",
-  "description": "Server portion of a full-stack starter template",
+  "description": "Server portion of band mom",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
   },
-  "author": "Joe Turner <jturner@thinkful.com>",
+  "author": "Michael Maio <michael.maio22@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.1",
+    "firebase-admin": "^5.0.0",
     "nodemon": "^1.11.0"
   }
 }
