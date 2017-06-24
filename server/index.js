@@ -3,6 +3,17 @@ const express = require('express');
 
 const app = express();
 
+const admin = require("firebase-admin");
+
+const serviceAccount = require("https://www.dropbox.com/s/ku0wfg90fz1ffbf/band-mom-firebase-adminsdk-f4hbv-4d244ec55d.json?dl=0");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://band-mom.firebaseio.com"
+});
+
+
+
 // API endpoints go here!
 
 
