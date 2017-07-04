@@ -1,0 +1,72 @@
+/* Carousel Styling */
+
+.slide {
+    max-height: 350px;
+    min-height: 350px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    }
+
+.slide1 {
+    background-image: url('../../public/images/music-planning.jpeg');
+    -webkit-filter: brightness(0.6);
+    -moz-filter: brightness(0.6);
+    -o-filter: brightness(0.6);
+    -ms-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+.slide2 {
+    background-image: url('../../public/images/stage-plot.jpeg');
+    -webkit-filter: brightness(0.6);
+    -moz-filter: brightness(0.6);
+    -o-filter: brightness(0.6);
+    -ms-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+.slide3 {
+    background-image: url('../../public/images/gear.jpeg');
+    -webkit-filter: brightness(0.6);
+    -moz-filter: brightness(0.6);
+    -o-filter: brightness(0.6);
+    -ms-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+.carousel-caption {
+    color: white;
+    text-shadow: 2px 1px 2px #2E2D88;
+    position: relative;
+    top: -300px;
+}
+
+.carousel-caption h1 {
+    font-size: 3.5em;
+    font-family: 'Pacifico', cursive;
+    padding-bottom: .4em;
+}
+
+.carousel-caption p {
+    font-size: 2em;
+    padding-bottom: .4em;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+    .carousel-caption {
+        top: -330px;
+    }
+
+    .carousel-caption h1 {
+        font-size: 2.75em;
+        font-family: 'Pacifico', cursive;
+        padding-bottom: .4em;
+    }
+
+    .carousel-caption p {
+        font-size: 1.25em;
+        padding-bottom: .4em;
+    }
+}

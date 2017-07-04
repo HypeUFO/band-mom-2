@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <!--
       Notice the use of %PUBLIC_URL% in the tag above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -16,7 +17,15 @@
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
+    <noscript>
+        <style type="text/css">
+            .pagecontainer {display:none;}
+        </style>
+        <div class="noscriptmsg no-js-warning">
+          <h4>Hi there! This app needs JavaScript in order to run, but it doesn't seem to be working! Please be sure you have <a href="http://enable-javascript.com/">enabled JavaScript</a>. If you have and you still see this message, please <a href="mailto:michael.maio22@gmail.com?subject=Javascript Disabled Error">contact the developer</a>.</h4>
+        </div>
+      </noscript>
+      <div id="root"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
