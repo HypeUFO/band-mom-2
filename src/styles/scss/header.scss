@@ -1,0 +1,32 @@
+.header {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background-color: $color-light;
+  color: $color-purple;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  .logo,
+  .nav__group {
+    display: inline-block;
+  }
+}
+
+@include lg {
+  .header {
+    color: transparent;
+    background-color: transparent;
+    // visibility: hidden;
+    // display: none;
+    &:hover {
+      // color: $color-light;
+      // visibility: visible;
+      background-color: $color-light;
+      color: $color-purple;
+    }
+  }
+
+}

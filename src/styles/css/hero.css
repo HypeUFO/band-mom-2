@@ -10,6 +10,7 @@
     font-size: 1.75em;
     position: relative;
     z-index: 2;
+    background-color: transparent;
     color: #FFFFFF;
     text-align: center; }
   .hero__login__reminder, .hero__login__link {

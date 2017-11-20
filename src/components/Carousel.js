@@ -8,10 +8,18 @@ class Carousel extends React.Component {
   return (
     <div data-carousel="blah" className="Carousel">
     <div className="Carousel-Slide clearfix">
-        <div className="Carousel-Slide-item"><img src="http://lorempixel.com/1600/1000/abstract/1/" /></div>
-        <div className="Carousel-Slide-item"><img src="http://lorempixel.com/1600/1000/abstract/2/"/></div>
-        <div className="Carousel-Slide-item"><img src="http://lorempixel.com/1600/1000/abstract/3/" /></div>
-        {/* <div className="Carousel-Slide-item" data-background="url(http://lorempixel.com/1600/1000/abstract/4/)"></div> */}
+        <div className="Carousel-Slide-item">
+          {/* <p className="hero__slogan">Become the most organized band in town!</p> */}
+          <img className="carousel__img" src="http://lorempixel.com/1600/1000/abstract/1/" />
+        </div>
+        <div className="Carousel-Slide-item">
+          {/* <p className="hero__slogan">Upload Your StagePlot</p> */}
+          <img className="carousel__img"src="http://lorempixel.com/1600/1000/abstract/2/"/>
+        </div>
+        <div className="Carousel-Slide-item">
+          {/* <p className="hero__slogan">Keep Track Of Your Gear</p> */}
+          <img src="http://lorempixel.com/1600/1000/abstract/3/" />
+        </div>
     </div>
     <div className="Carousel-Controller">
         <div className="Carousel-Controller-Nav">
