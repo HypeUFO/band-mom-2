@@ -1,0 +1,20 @@
+.hero {
+  height: 100vh;
+  background: linear-gradient(#7F4FE1, #121F27);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF; }
+  .hero__slogan {
+    font-size: 1.75em;
+    position: relative;
+    z-index: 2;
+    color: #FFFFFF;
+    text-align: center; }
+  .hero__login__reminder, .hero__login__link {
+    color: #BBBBBB;
+    position: relative;
+    z-index: 2; }
+
+/*# sourceMappingURL=hero.css.map */

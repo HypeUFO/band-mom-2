@@ -1,0 +1,26 @@
+@import './variables/_colors.scss';
+
+.hero {
+  height: 100vh;
+  background: $color-purple-dark-gradient-vertical;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $color-light;
+  &__slogan {
+    font-size: 1.75em;
+    position: relative;
+    z-index: 2;
+    color: $color-light;
+    text-align: center;
+  }
+  &__login {
+    &__reminder,
+    &__link {
+    color: $color-grey;
+    position: relative;
+    z-index: 2;
+  }
+}
+}

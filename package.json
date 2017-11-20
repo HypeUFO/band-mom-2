@@ -11,17 +11,20 @@
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "history": "^4.6.3",
+    "prop-types": "^15.5.8"
   },
   "devDependencies": {
     "react-scripts": "1.0.17"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && npm run sass",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && firebase deploy"
+    "deploy": "npm run build && firebase deploy",
+    "sass": "sass --watch src/styles/scss:src/styles/css"
   },
   "author": "Michael Maio <michael.maio22@gmail.com>",
   "repository": {

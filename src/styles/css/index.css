@@ -1,0 +1,101 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+.App {
+  text-align: center; }
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px; }
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white; }
+
+.App-title {
+  font-size: 1.5em; }
+
+.App-intro {
+  font-size: large; }
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+#websiteSlogan {
+  font-size: 1.75em;
+  color: #2E2D88;
+  text-align: center; }
+
+.hero {
+  height: 100vh;
+  background: linear-gradient(#7F4FE1, #121F27);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF; }
+  .hero__slogan {
+    font-size: 1.75em;
+    position: relative;
+    z-index: 2;
+    color: #FFFFFF;
+    text-align: center; }
+  .hero__login__reminder, .hero__login__link {
+    color: #BBBBBB;
+    position: relative;
+    z-index: 2; }
+
+.Carousel {
+  position: absolute;
+  width: 66%;
+  height: 66%;
+  background: blue;
+  overflow: hidden; }
+  .Carousel .Carousel-Slide {
+    left: 0;
+    position: relative;
+    background: grey;
+    height: 100%;
+    transition: left 1s linear; }
+    .Carousel .Carousel-Slide .Carousel-Slide-item {
+      height: 100%;
+      float: left; }
+
+.Carousel-Controller, .Carousel-Controller-Nav {
+  box-sizing: border-box;
+  height: auto;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  position: absolute;
+  top: 50%; }
+  .Carousel-Controller .Carousel-Controller-Nav-right, .Carousel-Controller-Nav .Carousel-Controller-Nav-right {
+    float: right; }
+
+[class^=Carousel-Controller-Nav-] {
+  color: white;
+  cursor: pointer;
+  width: auto;
+  float: left;
+  font-size: 30px;
+  height: 100%; }
+  [class^=Carousel-Controller-Nav-]:hover {
+    color: #000; }
+
+#completed {
+  display: none;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  color: white;
+  letter-spacing: 1px; }
+
+/*# sourceMappingURL=index.css.map */

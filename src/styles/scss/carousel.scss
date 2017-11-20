@@ -1,0 +1,54 @@
+.Carousel{
+  position: absolute;
+  width: 66%;
+  height: 66%;
+  background: blue;
+  overflow: hidden;
+
+  .Carousel-Slide{
+    left: 0;
+    position: relative;
+    background: grey;
+    height: 100%;
+    transition: left 1s linear;
+
+    .Carousel-Slide-item{
+      height: 100%;
+      float: left;
+    }
+  }
+}
+.Carousel-Controller, .Carousel-Controller-Nav{
+  box-sizing: border-box;
+  height: auto;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  position: absolute;
+  top: 50%;
+
+  .Carousel-Controller-Nav-right{
+    float: right;
+  }
+}
+[class^=Carousel-Controller-Nav-]{
+  color: white;
+  cursor: pointer;
+  width: auto;
+  float:left;
+  font-size: 30px;
+  height: 100%;
+  &:hover{
+    color: #000;
+  }
+}
+
+#completed{
+  display: none;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  color: white;
+  letter-spacing: 1px;
+}
