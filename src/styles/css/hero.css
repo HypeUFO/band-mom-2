@@ -1,21 +1,25 @@
 .hero {
   height: 100vh;
-  background: linear-gradient(#7F4FE1, #121F27);
+  background: linear-gradient(#7F4FFF, #121F27);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #FFFFFF; }
+  color: #FFFFFF;
+  text-shadow: 2px 1px #222; }
   .hero__slogan {
-    font-size: 1.75em;
+    font-size: 2em;
     position: relative;
     z-index: 2;
     background-color: transparent;
     color: #FFFFFF;
     text-align: center; }
+  .hero__login__content {
+    background-color: rgba(150, 150, 150, 0.5); }
   .hero__login__reminder, .hero__login__link {
-    color: #BBBBBB;
+    color: #FFFFFF;
     position: relative;
-    z-index: 2; }
+    z-index: 2;
+    font-size: 1.25rem; }
 
 /*# sourceMappingURL=hero.css.map */

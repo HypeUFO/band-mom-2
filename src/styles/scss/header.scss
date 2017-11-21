@@ -1,32 +1,191 @@
 .header {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
-  background-color: $color-light;
-  color: $color-purple;
-  padding: 0 20px;
+  height: 50px;
+  background-color: #eee;
+  text-shadow: 2px 2px #222;
+  // color: $color-purple;
+  color: #FFF !important;
+  padding: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  background-color: rgba(150, 150, 150, 0.5);
   .logo,
-  .nav__group {
+  &__menu {
     display: inline-block;
+  }
+}
+
+
+/*Strip the ul of padding and list styling*/
+
+ul.header__menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; // position: absolute;
+  right: 5px;
+}
+
+
+/*Create a horizontal list with spacing*/
+
+li {
+  display: inline-block; // float: left;
+  margin-right: 1px;
+}
+
+
+/*Style for menu links*/
+
+li a {
+  display: block;
+  min-width: 140px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff; // background: #2f3036;
+  text-decoration: none;
+}
+
+
+/*Hover state for top level links*/
+
+li:hover a {
+  background: $color-purple;
+}
+
+
+/*Style for dropdown links*/
+
+li:hover ul a {
+  background: #f3f3f3;
+  color: #2f3036; // height: 40px;
+  // line-height: 40px;
+}
+
+
+/*Hover state for dropdown links*/
+
+li:hover ul a:hover {
+  background: $color-purple;
+  color: #fff;
+}
+
+
+/*Hide dropdown links until they are needed*/
+
+li ul {
+  display: none;
+}
+
+
+/*Make dropdown links vertical*/
+
+li ul li {
+  display: block;
+  float: none;
+}
+
+
+/*Prevent text wrapping*/
+
+li ul li a {
+  width: auto;
+  min-width: 100px;
+  padding: 0 20px;
+}
+
+
+/*Display the dropdown on hover*/
+
+ul li a:hover+.hidden,
+.hidden:hover {
+  display: block;
+}
+
+
+/*Style 'show menu' label button and hide it by default*/
+
+.show-menu {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  color: #fff;
+  background: $color-purple;
+  text-align: center;
+  padding: 10px;
+  display: none;
+}
+
+
+/*Hide checkbox*/
+
+input[type=checkbox] {
+  display: none;
+}
+
+
+/*Show menu when invisible checkbox is checked*/
+
+input[type=checkbox]:checked~#menu {
+  display: block;
+}
+
+
+/*Responsive Styles*/
+
+@media screen and (max-width: 760px) {
+  /*Make dropdown links appear inline*/
+  ul {
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    top: 74px;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: $color-purple;
+    display: none;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: display 5s, opacity 0.1s linear;
+  }
+  ul.show {
+    // display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+  /*Create vertical spacing*/
+  li {
+    margin-bottom: 20px;
+  }
+  /*Make all menu links full width*/
+  ul li,
+  li a {
+    width: 100%;
+  }
+  /*Display 'show menu' link*/
+  .show-menu {
+    display: block;
+    font-size: 1.25em;
+    transform: rotate(90deg);
   }
 }
 
 @include lg {
   .header {
-    color: transparent;
-    background-color: transparent;
-    // visibility: hidden;
-    // display: none;
-    &:hover {
-      // color: $color-light;
-      // visibility: visible;
-      background-color: $color-light;
-      color: $color-purple;
+    justify-content: center;
+    .logo {
+      text-shadow: 2px 2px #222;
+      position: absolute;
+      left: 25px;
+      top: 5px;
     }
   }
-
 }

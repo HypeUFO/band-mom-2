@@ -46,92 +46,209 @@ body {
     transform: rotate(360deg); } }
 .header {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
-  background-color: #FFFFFF;
-  color: #7F4FE1;
-  padding: 0 20px;
+  height: 50px;
+  background-color: #eee;
+  text-shadow: 2px 2px #222;
+  color: #FFF !important;
+  padding: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center; }
-  .header .logo,
-  .header .nav__group {
+  align-items: center;
+  background-color: rgba(150, 150, 150, 0.5); }
+  .header .logo, .header__menu {
     display: inline-block; }
 
+/*Strip the ul of padding and list styling*/
+ul.header__menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  right: 5px; }
+
+/*Create a horizontal list with spacing*/
+li {
+  display: inline-block;
+  margin-right: 1px; }
+
+/*Style for menu links*/
+li a {
+  display: block;
+  min-width: 140px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  text-decoration: none; }
+
+/*Hover state for top level links*/
+li:hover a {
+  background: #7F4FFF; }
+
+/*Style for dropdown links*/
+li:hover ul a {
+  background: #f3f3f3;
+  color: #2f3036; }
+
+/*Hover state for dropdown links*/
+li:hover ul a:hover {
+  background: #7F4FFF;
+  color: #fff; }
+
+/*Hide dropdown links until they are needed*/
+li ul {
+  display: none; }
+
+/*Make dropdown links vertical*/
+li ul li {
+  display: block;
+  float: none; }
+
+/*Prevent text wrapping*/
+li ul li a {
+  width: auto;
+  min-width: 100px;
+  padding: 0 20px; }
+
+/*Display the dropdown on hover*/
+ul li a:hover + .hidden,
+.hidden:hover {
+  display: block; }
+
+/*Style 'show menu' label button and hide it by default*/
+.show-menu {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  color: #fff;
+  background: #7F4FFF;
+  text-align: center;
+  padding: 10px;
+  display: none; }
+
+/*Hide checkbox*/
+input[type=checkbox] {
+  display: none; }
+
+/*Show menu when invisible checkbox is checked*/
+input[type=checkbox]:checked ~ #menu {
+  display: block; }
+
+/*Responsive Styles*/
+@media screen and (max-width: 760px) {
+  /*Make dropdown links appear inline*/
+  ul {
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    top: 74px;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #7F4FFF;
+    display: none;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: display 5s, opacity 0.1s linear; }
+
+  ul.show {
+    visibility: visible;
+    opacity: 1; }
+
+  /*Create vertical spacing*/
+  li {
+    margin-bottom: 20px; }
+
+  /*Make all menu links full width*/
+  ul li,
+  li a {
+    width: 100%; }
+
+  /*Display 'show menu' link*/
+  .show-menu {
+    display: block;
+    font-size: 1.25em;
+    transform: rotate(90deg); } }
 @media (min-width: 1025px) {
   .header {
-    color: transparent;
-    background-color: transparent; }
-    .header:hover {
-      background-color: #FFFFFF;
-      color: #7F4FE1; } }
+    justify-content: center; }
+    .header .logo {
+      text-shadow: 2px 2px #222;
+      position: absolute;
+      left: 25px;
+      top: 5px; } }
 .hero {
   height: 100vh;
-  background: linear-gradient(#7F4FE1, #121F27);
+  background: linear-gradient(#7F4FFF, #121F27);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #FFFFFF; }
+  color: #FFFFFF;
+  text-shadow: 2px 1px #222; }
   .hero__slogan {
-    font-size: 1.75em;
+    font-size: 2em;
     position: relative;
     z-index: 2;
     background-color: transparent;
     color: #FFFFFF;
     text-align: center; }
+  .hero__login__content {
+    background-color: rgba(150, 150, 150, 0.5); }
   .hero__login__reminder, .hero__login__link {
-    color: #BBBBBB;
+    color: #FFFFFF;
     position: relative;
-    z-index: 2; }
+    z-index: 2;
+    font-size: 1.25rem; }
 
-.Carousel {
+.carousel {
   position: absolute;
-  width: 70%;
-  height: 60%;
   width: 100%;
   height: 100%;
-  background: blue;
   overflow: hidden; }
-  .Carousel .Carousel-Slide {
+  .carousel [class^=carousel__controller__nav--] {
+    color: white;
+    cursor: pointer;
+    width: auto;
+    font-size: 30px;
+    height: 100%; }
+    .carousel [class^=carousel__controller__nav--]:hover {
+      color: #000; }
+  .carousel__img {
+    width: 100%;
+    height: 100%; }
+  .carousel__slide {
     left: 0;
     position: relative;
-    background: grey;
+    background: transparent;
     height: 100%;
     transition: left 1s linear; }
-    .Carousel .Carousel-Slide .Carousel-Slide-item {
+    .carousel__slide-item {
       height: 100%;
       float: left; }
-
-.Carousel-Controller, .Carousel-Controller-Nav {
-  box-sizing: border-box;
-  height: auto;
-  left: 0;
-  width: 100%;
-  padding: 0 20px;
-  position: absolute;
-  top: 50%; }
-  .Carousel-Controller .Carousel-Controller-Nav-right, .Carousel-Controller-Nav .Carousel-Controller-Nav-right {
+  .carousel__controller, .carousel__controller__nav {
+    box-sizing: border-box;
+    height: auto;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    position: absolute;
+    top: 50%; }
+  .carousel__controller__nav--right {
     float: right; }
-
-[class^=Carousel-Controller-Nav-] {
-  color: white;
-  cursor: pointer;
-  width: auto;
-  float: left;
-  font-size: 30px;
-  height: 100%; }
-  [class^=Carousel-Controller-Nav-]:hover {
-    color: #000; }
-
-#completed {
-  display: none;
-  position: absolute;
-  top: 0;
-  text-align: center;
-  width: 100%;
-  color: white;
-  letter-spacing: 1px; }
+  .carousel__controller__nav--left {
+    float: left; }
+  @media (min-width: 1025px) {
+    .carousel [class^=carousel__controller__nav--] {
+      visibility: hidden; }
+    .carousel:hover [class^=carousel__controller__nav--] {
+      visibility: visible; }
+      .carousel:hover [class^=carousel__controller__nav--]:hover {
+        color: #000; } }
 
 /*# sourceMappingURL=index.css.map */
