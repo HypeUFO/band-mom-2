@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const Header = () => {
   return (
-    <header class="header">
+    <header className="header">
     <a href="/"><h1 className="logo">BandMom</h1></a>
     <ul id="header__menu">
     <li><a href="/about">About</a></li>
@@ -10,7 +10,7 @@ const Header = () => {
     <li><a href="/register">Sign Up</a></li>
     <li><a href="/login">Log In</a></li>
 </ul>
-<label for="show-menu" class="show-menu">|||</label>
+<label htmlFor="show-menu" className="show-menu">|||</label>
 <input type="checkbox" id="show-menu" role="button"
 onClick={() => {
   const menu = document.querySelector('#header__menu');

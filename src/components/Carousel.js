@@ -91,10 +91,12 @@ class Carousel extends React.Component {
           <div className="carousel__slide-item">
             {/* <p className="hero__slogan">Upload Your StagePlot</p> */}
             <img className="carousel__img"src="http://lorempixel.com/1600/1000/abstract/2/"/>
+            {/* <img className="carousel__img" src="../../assets/img/stage-plot.jpeg" /> */}
           </div>
           <div className="carousel__slide-item">
             {/* <p className="hero__slogan">Keep Track Of Your Gear</p> */}
             <img src="http://lorempixel.com/1600/1000/abstract/3/" />
+            {/* <img className="carousel__img" src="../../assets/img/gear.jpeg  " /> */}
           </div>
         </div>
         <div className="carousel__controller">

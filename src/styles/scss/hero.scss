@@ -2,7 +2,7 @@
 
 .hero {
   height: 100vh;
-  background: $color-purple-dark-gradient-vertical;
+  // background: $color-purple-dark-gradient-vertical;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,8 +11,8 @@
   text-shadow: 2px 1px #222;
   &__slogan {
     font-size: 2em;
-    position: relative;
-    z-index: 2;
+    // position: relative;
+    // z-index: 2;
     // top: 25%;
     // top: 30%;
     background-color: transparent;
@@ -20,14 +20,24 @@
     text-align: center;
   }
   &__login {
-    &__content {
-      background-color: rgba(150,150,150,0.5);
+    &__container {
+      // background-color: rgba(150,150,150,0.6);
+      width: 60%;
+      height: 40%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
     }
     &__reminder,
     &__link {
     color: $color-light;
-    position: relative;
-    z-index: 2;
+    // position: relative;
+    // z-index: 2;
     font-size: 1.25rem;
   }
 }

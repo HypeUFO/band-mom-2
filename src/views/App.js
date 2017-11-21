@@ -25,13 +25,14 @@ export default class App extends Component {
       <Router history={history}>
         <div className="app">
           <div className='page'>
-            {/* <Switch> */}
-              <Route path={routeCodes.LANDING} component={Landing}/>
-              {/* <Route path={routeCodes.LOGIN} component={Login}/> */}
-              {/* <Route path={routeCodes.REGISTER} component={Register}/> */}
-              {/* <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/> */}
-              {/* <Redirect path="*" to={routeCodes.LOGIN}/> */}
-            {/* </Switch> */}
+            <Switch>
+              <Route exact path={routeCodes.LANDING} component={Landing}/>
+              <Route exact path={routeCodes.LOGIN} component={Login}/>
+              <Route path={routeCodes.REGISTER} component={Register}/>
+              {/* <Route path={routeCodes.ABOUT} component={About}/> */}
+              <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
+              <Redirect path="*" to={routeCodes.LOGIN}/>
+            </Switch>
           </div>
           {/* <Footer/> */}
         </div>

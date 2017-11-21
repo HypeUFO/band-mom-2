@@ -8,16 +8,20 @@ const Landing = (props) => {
     <div className="landing">
       <Header />
       <Hero>
-        <p className="hero__slogan">Become the most organized band in town!</p>
+       
         <Carousel />
-        <p className="hero__login__reminder">
-          Already have an account?
-          <a className="hero__login__link" href="#"
-          //onTouchTap={handleLoginModal}
-          >
-            Login here
-          </a>
-        </p>
+        <div className="hero__login__container">
+        <p className="hero__slogan">Become the most organized band in town!</p>
+          <p className="hero__login__reminder">
+            Already have an account?
+            <br />
+            <a className="hero__login__link" href="#"
+            //onTouchTap={handleLoginModal}
+            >
+              Login here
+            </a>
+          </p>
+        </div>
       </Hero>
     </div>
   )

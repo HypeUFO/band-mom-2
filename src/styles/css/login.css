@@ -1,28 +1,19 @@
 /*
-Error: Undefined mixin 'lg'.
-        on line 54 of src/styles/scss/carousel.scss, in `lg'
-        from line 54 of src/styles/scss/carousel.scss
+Error: Undefined variable: "$color-purple-dark-gradient-diagonal".
+        on line 2 of src/styles/scss/login.scss
 
-49:     }
-50:     &left {
-51:       float: left;
-52:     }
-53:   }
-54:   @include lg {
-55:     [class^=carousel__controller__nav--] {
-56:       visibility: hidden;
-57:     }
-58:     &:hover {
-59:       [class^=carousel__controller__nav--] {
+1: .login__container {
+2:   background: $color-purple-dark-gradient-diagonal;
+3:   color: $color-light;
+4:   height: 100vh;
+5:   width: 100%;
+6: }
 
 Backtrace:
-src/styles/scss/carousel.scss:54:in `lg'
-src/styles/scss/carousel.scss:54
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `with_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
+src/styles/scss/login.scss:2
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -71,4 +62,4 @@ src/styles/scss/carousel.scss:54
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'lg'.\A         on line 54 of src/styles/scss/carousel.scss, in `lg'\A         from line 54 of src/styles/scss/carousel.scss\A \A 49:     }\A 50:     &left {\A 51:       float: left;\A 52:     }\A 53:   }\A 54:   @include lg {\A 55:     [class^=carousel__controller__nav--] {\A 56:       visibility: hidden;\A 57:     }\A 58:     &:hover {\A 59:       [class^=carousel__controller__nav--] {"; }
+  content: "Error: Undefined variable: \"$color-purple-dark-gradient-diagonal\".\A         on line 2 of src/styles/scss/login.scss\A \A 1: .login__container {\A 2:   background: $color-purple-dark-gradient-diagonal;\A 3:   color: $color-light;\A 4:   height: 100vh;\A 5:   width: 100%;\A 6: }"; }
