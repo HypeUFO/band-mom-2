@@ -121,7 +121,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: linear-gradient(135deg, #7F4FFF, #121F27);
+    background-image: linear-gradient(135deg, #7F4FFF, #FFFFFF);
     opacity: .75; }
   .form-page__container {
     position: relative;
@@ -130,6 +130,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100%;
     margin: 0rem auto;
     box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.17); }
   .form-page__title {
@@ -148,7 +149,8 @@ body {
     padding: 1rem 0;
     margin: 0; }
     .form-page__text a {
-      color: #AAAAFF; }
+      color: #7F4FFF;
+      text-shadow: none; }
   .form-page fieldset {
     padding: 0; }
   @media (min-width: 768px) {
@@ -159,7 +161,8 @@ body {
       .form-page__container {
         padding: 4rem 6rem;
         width: 40%;
-        background: rgba(255, 255, 255, 0.13); } }
+        background: rgba(255, 255, 255, 0.13);
+        height: auto; } }
   @media (min-width: 1025px) {
     .form-page__container {
       width: 25%; } }
@@ -318,6 +321,7 @@ textarea {
 input,
 textarea {
   width: 100%;
+  font-size: 1rem;
   background: #F4FAF6;
   box-shadow: 0px 0.15rem 0px #7F4FFF;
   border-radius: 0.25rem; }

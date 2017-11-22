@@ -21,7 +21,7 @@ export default class Login extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
+      email: '',
       password: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -61,7 +61,7 @@ export default class Login extends Component {
     } = this.props;
 
     const {
-      username,
+      email,
       password,
     } = this.state;
 
@@ -80,9 +80,9 @@ export default class Login extends Component {
               // error={ loginError }
             >
               <Input type="text"
-                name="username"
-                placeholder="Username"
-                value={username}
+                name="email"
+                placeholder="Email"
+                value={email}
                 onChange={this.handleInputChange}
                 // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: {} }}
               />

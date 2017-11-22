@@ -10,7 +10,7 @@
     bottom: 0;
     left: 0;
     // background-image: $color-purple-dark-gradient-diagonal;
-    background-image: linear-gradient($color-purple, $color-light);
+    background-image: $color-purple-light-gradient-vertical;
     opacity: .75;
   }
   &__header {

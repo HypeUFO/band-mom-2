@@ -94,7 +94,7 @@ export default class Register extends Component {
       <div className="page__content">
         <section className="form-page">
           <div className="form-page__container">
-            <h2 className="form-page__title">BandMom Sign-up</h2>
+            <h2 className="form-page__title">BandMom</h2>
             <Form
               className="form-page__form"
               onSubmit={ this.handleFormSubmit }
