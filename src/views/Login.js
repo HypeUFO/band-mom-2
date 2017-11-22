@@ -48,7 +48,8 @@ export default class Login extends Component {
     };
     // dispatch(authAsyncLogin(params))
     // .then(() => {
-    //   // history.push(`/${params.name}/profile`);
+      // history.push(`/${params.name}/dashboard`);
+      history.push(`/dashboard`);
     // });
   }
 
@@ -83,14 +84,14 @@ export default class Login extends Component {
                 placeholder="Username"
                 value={username}
                 onChange={this.handleInputChange}
-                validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: {} }}
+                // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: {} }}
               />
               <Input type="password"
                 name="password"
                 placeholder="Password"
                 value={password}
                 onChange={this.handleInputChange}
-                validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: {} }}
+                // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: {} }}
               />
               <p className="form-page__text">
                 <Link to="/forgot-password">Forgot password?</Link>

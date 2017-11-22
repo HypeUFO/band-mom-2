@@ -8,6 +8,7 @@ import Landing from './Landing';
 import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
+import Dashboard from './Dashboard';
 import NotFound from './NotFound';
 import Footer from '../components/Global/Footer';
 import Loader from '../components/Global/Loader';
@@ -29,6 +30,7 @@ export default class App extends Component {
               <Route exact path={routeCodes.LANDING} component={Landing}/>
               <Route exact path={routeCodes.LOGIN} component={Login}/>
               <Route path={routeCodes.REGISTER} component={Register}/>
+              <Route path={routeCodes.DASHBOARD} component={Dashboard}/>
               {/* <Route path={routeCodes.ABOUT} component={About}/> */}
               <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
               <Redirect path="*" to={routeCodes.LOGIN}/>

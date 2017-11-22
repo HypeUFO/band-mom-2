@@ -136,7 +136,7 @@ export default class Register extends Component {
                 } }
               />
               <Input type="submit"
-                value="Register"
+                value="Sign Up"
               />
               <p className="form-page__text">
                 By clicking Register, you agree to our <Link to="/terms">
