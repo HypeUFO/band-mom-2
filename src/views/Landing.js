@@ -8,7 +8,6 @@ const Landing = (props) => {
     <div className="landing">
       <Header />
       <Hero>
-       
         <Carousel />
         <div className="hero__login__container">
         <p className="hero__slogan">Become the most organized band in town!</p>
