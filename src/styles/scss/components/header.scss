@@ -12,7 +12,8 @@
   background-color: rgba(150, 150, 150, 0.5);
   .logo,
   &__menu {
-    color: $color-purple;
+    // color: $color-purple;
+    color: $color-light;
     display: inline-block;
   }
 }
@@ -135,50 +136,50 @@ input[type=checkbox]:checked~#menu {
 
 /*Responsive Styles*/
 
-@media screen and (max-width: 760px) {
-  /*Make dropdown links appear inline*/
-  ul {
-    padding: 0;
-    position: absolute;
-    width: 100%;
-    top: 74px;
-    left: 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: $color-purple;
-    display: none;
-    display: flex;
-    visibility: hidden;
-    opacity: 0;
-    transition: display 5s, opacity 0.1s linear;
-  }
-  ul.show {
-    // display: flex;
-    visibility: visible;
-    opacity: 1;
-  }
-  /*Create vertical spacing*/
-  li {
-    margin-bottom: 20px;
-  }
-  /*Make all menu links full width*/
-  ul li,
-  li a {
-    width: 100%;
-  }
-  /*Display 'show menu' link*/
-  .show-menu {
-    display: block;
-    font-size: 1.25em;
-    transform: rotate(90deg);
-  }
-}
+// @media screen and (max-width: 760px) {
+//   /*Make dropdown links appear inline*/
+//   ul {
+//     padding: 0;
+//     position: absolute;
+//     width: 100%;
+//     top: 74px;
+//     left: 0;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     text-align: center;
+//     background: $color-purple;
+//     display: none;
+//     display: flex;
+//     visibility: hidden;
+//     opacity: 0;
+//     transition: display 5s, opacity 0.1s linear;
+//   }
+//   ul.show {
+//     // display: flex;
+//     visibility: visible;
+//     opacity: 1;
+//   }
+//   /*Create vertical spacing*/
+//   li {
+//     margin-bottom: 20px;
+//   }
+//   /*Make all menu links full width*/
+//   ul li,
+//   li a {
+//     width: 100%;
+//   }
+//   /*Display 'show menu' link*/
+//   .show-menu {
+//     display: block;
+//     font-size: 1.25em;
+//     transform: rotate(90deg);
+//   }
+// }
 
 @include lg {
   .header {
-    justify-content: center;
+    justify-content: space-between;
     .logo {
       text-shadow: 2px 2px #222;
       position: absolute;

@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-purple".
-        on line 30 of src/styles/scss/components/input.scss
+        on line 33 of src/styles/scss/components/input.scss
 
-25: 
-26: input,
-27: textarea {
-28:   width: 100%;
-29:   background: #F4FAF6;
-30:   box-shadow: 0px 0.15rem 0px $color-purple;
-31:   border-radius: 0.25rem;
-32: }
-33: 
-34: select {
-35:   width: 100%;
+28: 
+29: input,
+30: textarea {
+31:   width: 100%;
+32:   background: #F4FAF6;
+33:   box-shadow: 0px 0.15rem 0px $color-purple;
+34:   border-radius: 0.25rem;
+35: }
+36: 
+37: select {
+38:   width: 100%;
 
 Backtrace:
-src/styles/scss/components/input.scss:30
+src/styles/scss/components/input.scss:33
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `block in _perform'
@@ -71,4 +71,4 @@ src/styles/scss/components/input.scss:30
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 30 of src/styles/scss/components/input.scss\A \A 25: \A 26: input,\A 27: textarea {\A 28:   width: 100%;\A 29:   background: #F4FAF6;\A 30:   box-shadow: 0px 0.15rem 0px $color-purple;\A 31:   border-radius: 0.25rem;\A 32: }\A 33: \A 34: select {\A 35:   width: 100%;"; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 33 of src/styles/scss/components/input.scss\A \A 28: \A 29: input,\A 30: textarea {\A 31:   width: 100%;\A 32:   background: #F4FAF6;\A 33:   box-shadow: 0px 0.15rem 0px $color-purple;\A 34:   border-radius: 0.25rem;\A 35: }\A 36: \A 37: select {\A 38:   width: 100%;"; }

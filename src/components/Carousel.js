@@ -83,19 +83,19 @@ class Carousel extends React.Component {
     return (
       <div data-carousel="blah" className="carousel">
         <div className="carousel__slide clearfix">
-          <div className="carousel__slide-item">
-            {/* <p className="hero__slogan">Become the most organized band in town!</p> */}
-            <img className="carousel__img" src="http://lorempixel.com/1600/1000/abstract/1/" />
+          <div className="carousel__slide-item carousel__slide-item--1">
+            <p className="carousel__slide-item__text">Become the most organized band in town!</p>
+            {/* <img className="carousel__img" src="http://lorempixel.com/1600/1000/abstract/1/" /> */}
             {/* <img className="carousel__img" src="../../assets/img/music-planning.jpeg" /> */}
           </div>
-          <div className="carousel__slide-item">
-            {/* <p className="hero__slogan">Upload Your StagePlot</p> */}
-            <img className="carousel__img"src="http://lorempixel.com/1600/1000/abstract/2/"/>
+          <div className="carousel__slide-item carousel__slide-item--2">
+            <p className="carousel__slide-item__text">Something Else That's Exciting!</p>
+            {/* <img className="carousel__img"src="http://lorempixel.com/1600/1000/abstract/2/"/> */}
             {/* <img className="carousel__img" src="../../assets/img/stage-plot.jpeg" /> */}
           </div>
-          <div className="carousel__slide-item">
-            {/* <p className="hero__slogan">Keep Track Of Your Gear</p> */}
-            <img src="http://lorempixel.com/1600/1000/abstract/3/" />
+          <div className="carousel__slide-item carousel__slide-item--3">
+          <p className="carousel__slide-item__text">Upload Your StagePlot</p>
+            {/* <img src="http://lorempixel.com/1600/1000/abstract/3/" /> */}
             {/* <img className="carousel__img" src="../../assets/img/gear.jpeg  " /> */}
           </div>
         </div>

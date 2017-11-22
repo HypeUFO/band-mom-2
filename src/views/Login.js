@@ -64,19 +64,12 @@ export default class Login extends Component {
       password,
     } = this.state;
 
-    // Background
-    // let linearGradient = `linear-gradient(141.87deg,#7F4FFF -0.58%, #121F27 90.54%)`;
-    // let backgroundImage = `url(http://lorempixel.com/1600/1000/abstract/1/), ${linearGradient}`;
-
     // Error
     // let loginError = (asyncLoginError) ? asyncLoginError.get('error')  : '';
 
     return (
       <div className="page__content">
-      <div className="form-page">
-        <section className="form-page"
-        // style={{ backgroundImage: backgroundImage }}
-        >
+        <section className="form-page">
           <div className="form-page__container">
             <h2 className="form-page__title">BandMom</h2>
             <Form className="form-page__form"
@@ -99,7 +92,7 @@ export default class Login extends Component {
                 onChange={this.handleInputChange}
                 validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: {} }}
               />
-              <p className="login__text">
+              <p className="form-page__text">
                 <Link to="/forgot-password">Forgot password?</Link>
               </p>
               <Input type="submit"
@@ -111,7 +104,6 @@ export default class Login extends Component {
             </Form>
           </div>
         </section>
-        </div>
       </div>
     );
   }

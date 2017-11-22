@@ -5,9 +5,9 @@ const Header = () => {
     <header className="header">
     <a href="/"><h1 className="logo">BandMom</h1></a>
     <ul id="header__menu">
-    <li><a href="/about">About</a></li>
-    <li><a href="/news">News</a></li>
-    <li><a href="/register">Sign Up</a></li>
+    {/* <li><a href="/about">About</a></li> */}
+    {/* <li><a href="/news">News</a></li> */}
+    {/* <li><a href="/register">Sign Up</a></li> */}
     <li><a href="/login">Log In</a></li>
 </ul>
 <label htmlFor="show-menu" className="show-menu">|||</label>

@@ -57,7 +57,8 @@ export default class Form extends Component {
     let errorLabel = (error) ?
     <label className="input__error">{ error }</label> : null;
     let fieldsetStyle = {
-      opacity: (disabled) ? 0.8 : 1.0
+      opacity: (disabled) ? 0.8 : 1.0,
+      width: 'auto'
     };
     return (
       <form className={ className } onSubmit={ onSubmit }>

@@ -1,24 +1,12 @@
 @import './variables/_colors.scss';
-
 .hero {
-  height: 100vh;
-  // background: $color-purple-dark-gradient-vertical;
+  height: 100%; // background: $color-purple-dark-gradient-vertical;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: $color-light;
-  text-shadow: 2px 1px #222;
-  &__slogan {
-    font-size: 2em;
-    // position: relative;
-    // z-index: 2;
-    // top: 25%;
-    // top: 30%;
-    background-color: transparent;
-    color: $color-light;
-    text-align: center;
-  }
+  color: $color-light; // text-shadow: 2px 1px #222;
+  &__text {}
   &__login {
     &__container {
       // background-color: rgba(150,150,150,0.6);
@@ -29,16 +17,17 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      justify-content: center;
-      position: relative;
-      z-index: 2;
+      justify-content: center; // position: relative;
+      // z-index: 2;
     }
     &__reminder,
     &__link {
-    color: $color-light;
-    // position: relative;
-    // z-index: 2;
-    font-size: 1.25rem;
+      color: $color-light; // position: relative;
+      // z-index: 2;
+      font-size: 1.25rem;
+    }
   }
-}
+  @include lg {
+    height: 100vh;
+  }
 }

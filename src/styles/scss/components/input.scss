@@ -9,6 +9,9 @@ textarea,
   border: none;
   outline: none;
   padding: 0.25rem 1rem;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 input,
@@ -137,7 +140,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-.btn-calender {
+.btn-calendar {
   display: flex;
   flex-direction: column;
   justify-content: center;
