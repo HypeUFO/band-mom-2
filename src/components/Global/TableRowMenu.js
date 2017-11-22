@@ -14,6 +14,8 @@ export default class TableRowMenu extends Component {
       left: 0,
     };
     this.onClickToggleMenu = this.onClickToggleMenu.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickAway = this.handleClickAway.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
   }
 
@@ -42,7 +44,21 @@ export default class TableRowMenu extends Component {
       show: !prevState.show,
       top: rect.top + rect.height + 5,
       left: rect.left + rect.width,
-    }));
+    }))
+    document.addEventListener('click', this.handleClickAway);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickAway(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState(prevState => ({
+        show: false,
+      }))
+      document.removeEventListener('click', this.handleClickAway);
+    }
   }
 
   onClickToggleMenuChild(event) {
@@ -82,7 +98,7 @@ export default class TableRowMenu extends Component {
           <i className="material-icons">{ icon }</i>
         </button>
         <div className={ classes } style={ style }>
-          <div className="dropdown__container">
+          <div className="dropdown__container" ref={this.setWrapperRef}>
             { ch }
           </div>
         </div>
@@ -90,3 +106,7 @@ export default class TableRowMenu extends Component {
     );
   }
 }
+
+// TableRowMenu.propTypes = {
+//   children: React.PropTypes.element.isRequired
+// }

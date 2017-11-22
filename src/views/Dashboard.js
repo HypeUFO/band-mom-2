@@ -89,6 +89,10 @@ class Dashboard extends React.Component {
           label="Share"
           // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
         />
+        <TableRowMenuItem
+          label="Delete"
+          // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
+        />
       </TableRowMenu>
       :
       <TableRowMenu>
@@ -98,6 +102,10 @@ class Dashboard extends React.Component {
       />
       <TableRowMenuItem
         label="Share"
+        // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
+      />
+      <TableRowMenuItem
+        label="Delete"
         // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
       />
       <TableRowMenuItem
