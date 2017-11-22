@@ -72,9 +72,9 @@ class Dashboard extends React.Component {
     }
 
     let columns = [
+      { value: doc.date },
       { value: doc.venue },
       { value: doc.address },
-      { value: `${doc.date}` },
       { value: doc.status.toUpperCase(), colorClass: statusColorClass },
     ];
 
@@ -165,7 +165,7 @@ class Dashboard extends React.Component {
         // let results = this.sortData(docs);
         let rows = docs.map(this.renderRow.bind(this));
         return (
-          <Table columnLabels={["Venue", "Address", "Date", "Time", ""]}>
+          <Table columnLabels={["Date", "Venue", "Address", "Time", ""]}>
             { rows }
           </Table>
         );

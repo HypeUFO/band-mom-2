@@ -1,23 +1,23 @@
 /*
-Error: Undefined mixin 'md'.
-        on line 10 of src/styles/scss/components/table.scss, in `md'
-        from line 10 of src/styles/scss/components/table.scss
+Error: Undefined mixin 'lg'.
+        on line 15 of src/styles/scss/components/table.scss, in `lg'
+        from line 15 of src/styles/scss/components/table.scss
 
-5:   user-select: none;
-6:   margin-bottom: 250px;
-7:   &__container {
-8:     width: 100%;
-9:     overflow-x: scroll;
-10:     @include md {
-11:       width: 50rem;
-12:     }
-13:     @include lg {
-14:       width: 60rem;
-15:     }
+10:     justify-content: center;
+11:     overflow-x: scroll;
+12:     // @include md {
+13:       // width: 50rem;
+14:     // }
+15:     @include lg {
+16:       width: 60rem;
+17:     }
+18:   }
+19:   &__header {
+20:     display: flex;
 
 Backtrace:
-src/styles/scss/components/table.scss:10:in `md'
-src/styles/scss/components/table.scss:10
+src/styles/scss/components/table.scss:15:in `lg'
+src/styles/scss/components/table.scss:15
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
@@ -82,4 +82,4 @@ src/styles/scss/components/table.scss:10
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 10 of src/styles/scss/components/table.scss, in `md'\A         from line 10 of src/styles/scss/components/table.scss\A \A 5:   user-select: none;\A 6:   margin-bottom: 250px;\A 7:   &__container {\A 8:     width: 100%;\A 9:     overflow-x: scroll;\A 10:     @include md {\A 11:       width: 50rem;\A 12:     }\A 13:     @include lg {\A 14:       width: 60rem;\A 15:     }"; }
+  content: "Error: Undefined mixin 'lg'.\A         on line 15 of src/styles/scss/components/table.scss, in `lg'\A         from line 15 of src/styles/scss/components/table.scss\A \A 10:     justify-content: center;\A 11:     overflow-x: scroll;\A 12:     // @include md {\A 13:       // width: 50rem;\A 14:     // }\A 15:     @include lg {\A 16:       width: 60rem;\A 17:     }\A 18:   }\A 19:   &__header {\A 20:     display: flex;"; }

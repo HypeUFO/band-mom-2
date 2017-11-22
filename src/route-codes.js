@@ -1,7 +1,7 @@
 const publicPath = '/';
 export const routeCodes = {
   LANDING: `${publicPath}`,
-  REGISTER: `${publicPath}register/`,
+  REGISTER: `${publicPath}register`,
   FORGOT_PASSWORD: `${publicPath}forgot-password`,
   LOGIN: `${publicPath}login`,
   DASHBOARD: `${publicPath}dashboard`,
