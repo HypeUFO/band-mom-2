@@ -63,10 +63,15 @@ th {
   text-transform: uppercase;
   white-space: nowrap;
   vertical-align: middle;
+  &:nth-last-of-type(1) {
+    text-align: center;
+    font-size: 1.5em;
+  }
   span {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     i {
       padding-left: 0.5rem;
     }
@@ -76,12 +81,22 @@ th {
 td {
   position: relative;
   font-weight: 500;
-  color: $color-dark;
+  color: $color-purple;
   font-size: 0.9rem;
   padding: .75rem;
   border-bottom: none;
   width: 100%;
   text-align: center;
+  &:nth-child(4) {
+    &:before {
+      content: "Load In: "
+    }
+  }
+  &:nth-child(5) {
+    &:before {
+      content: "Show Time: "
+    }
+  }
 }
 
 tr {
@@ -92,6 +107,7 @@ tr {
   align-items: center;
   box-shadow: $card-shadow-1;
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  padding: 20px 0;
   margin-bottom: 25px;
   td {
     &:nth-last-of-type(1) {
@@ -126,8 +142,19 @@ tbody:hover>tr:hover td {
     td {
       width: auto;
       text-align: left;
+      color: $color-dark;
       border-bottom: 1px solid #e0e0e0;
       padding: 1.5rem 1rem;
+      &:nth-child(4) {
+        &:before {
+          content: ""
+        }
+      }
+      &:nth-child(5) {
+        &:before {
+          content: ""
+        }
+      }
     }
     thead tr {
       display: table-row;
@@ -136,6 +163,7 @@ tbody:hover>tr:hover td {
       // position: relative;
       display: table-row;
       box-shadow: none;
+      padding: 0;
       margin-bottom: 0;
       td {
         &:nth-last-of-type(1) {

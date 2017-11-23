@@ -146,7 +146,8 @@ body {
     text-align: center;
     max-width: 21.875rem;
     margin: 1rem auto;
-    display: block; }
+    display: block;
+    width: 90%; }
     .form-page__form__forgot {
       text-align: left;
       margin-left: 1.25rem; }
@@ -154,7 +155,7 @@ body {
     padding: 1rem 0;
     margin: 0; }
     .form-page__text a {
-      color: #7F4FFF;
+      color: #BF8FFF;
       text-shadow: none; }
   .form-page fieldset {
     padding: 0; }
@@ -166,11 +167,13 @@ body {
       .form-page__container {
         padding: 4rem 6rem;
         width: 40%;
-        background: rgba(255, 255, 255, 0.13);
-        height: auto; } }
+        background: rgba(175, 150, 200, 0.13);
+        height: auto; }
+      .form-page__form {
+        width: 100%; } }
   @media (min-width: 1025px) {
     .form-page__container {
-      width: 25%; } }
+      width: 23%; } }
 
 input {
   user-select: text; }
@@ -482,7 +485,7 @@ input[type="submit"] {
       .carousel__slide-item__text {
         width: 66.66%;
         font-size: 3.5em;
-        color: #9F6FFF;
+        color: #BF8FFF;
         text-align: center;
         text-shadow: 2px 2px #121F27; }
       .carousel__slide-item--1 {
@@ -559,22 +562,30 @@ th {
   text-transform: uppercase;
   white-space: nowrap;
   vertical-align: middle; }
+  th:nth-last-of-type(1) {
+    text-align: center;
+    font-size: 1.5em; }
   th span {
     display: flex;
     flex-direction: row;
-    align-items: center; }
+    align-items: center;
+    justify-content: center; }
     th span i {
       padding-left: 0.5rem; }
 
 td {
   position: relative;
   font-weight: 500;
-  color: #121F27;
+  color: #7F4FFF;
   font-size: 0.9rem;
   padding: .75rem;
   border-bottom: none;
   width: 100%;
   text-align: center; }
+  td:nth-child(4):before {
+    content: "Load In: "; }
+  td:nth-child(5):before {
+    content: "Show Time: "; }
 
 tr {
   position: relative;
@@ -584,6 +595,7 @@ tr {
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 20px 0;
   margin-bottom: 25px; }
   tr td:nth-last-of-type(1) {
     padding: 0 1rem;
@@ -606,13 +618,19 @@ tbody:hover > tr:hover td {
     .table td {
       width: auto;
       text-align: left;
+      color: #121F27;
       border-bottom: 1px solid #e0e0e0;
       padding: 1.5rem 1rem; }
+      .table td:nth-child(4):before {
+        content: ""; }
+      .table td:nth-child(5):before {
+        content: ""; }
     .table thead tr {
       display: table-row; }
     .table tr {
       display: table-row;
       box-shadow: none;
+      padding: 0;
       margin-bottom: 0; } }
 .dropdown {
   position: fixed;
@@ -676,7 +694,7 @@ tbody:hover > tr:hover td {
     padding: 5px;
     border-radius: 50%; }
     .drawer__close:hover {
-      background: #9F6FFF; }
+      background: #BF8FFF; }
   .drawer__list {
     display: flex;
     flex-direction: column;
@@ -687,17 +705,17 @@ tbody:hover > tr:hover td {
     color: #FFFFFF;
     text-align: left; }
   .drawer__item a {
-    font-weight: 400;
-    text-decoration: none; }
+    font-weight: 400; }
     .drawer__item a:hover {
       background: transparent;
       font-size: 1.2em; }
+  .drawer__item a {
+    text-decoration: none; }
   @media (min-width: 768px) {
     .drawer {
       width: 18rem; } }
 
 .show-drawer {
-  transform: rotate(90deg);
   margin: 20px;
   font-size: 2em; }
 

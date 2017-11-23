@@ -128,7 +128,7 @@ class Landing extends React.Component {
                 value="Sign Up"
               />
               <p className="form-page__text">
-                By clicking Sign Up, you agree to our <Link to="/terms">
+                By clicking Sign Up, you agree to our <Link to="/terms" style={{color: '#7F4FFF'}}>
                 Terms & Conditions</Link>
               </p>
             </Form>

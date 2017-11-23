@@ -31,7 +31,7 @@ export default class Header extends Component {
         {/* <li><a href="/register">Sign Up</a></li> */}
         <li><a href="/login">Log In</a></li>
         </ul>
-        <label htmlFor="show-menu" className="show-menu">|||</label>
+        {/* <label htmlFor="show-menu" className="show-menu">|||</label> */}
         <input type="checkbox" id="show-menu" role="button"
         onClick={() => {
           const menu = document.querySelector('#header__menu');

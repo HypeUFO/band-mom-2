@@ -24,7 +24,8 @@ export default class Header extends Component {
   render() {
     return (
       <header className="header">
-        <div className="show-drawer" onClick={this.toggleDrawer}>|||</div>
+        {/* <div className="show-drawer" onClick={this.toggleDrawer}>|||</div> */}
+        <i className="material-icons show-drawer" onClick={this.toggleDrawer}>&#xE8EE;</i>
         <a href="/"><h1 className="logo">BandMom</h1></a>
         {/* <ul id="header__menu"> */}
         {/* <li><a href="/about">About</a></li> */}

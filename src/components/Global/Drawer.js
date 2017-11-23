@@ -24,7 +24,7 @@ export default class Drawer extends Component {
     let profileUrl = `/profile`;
   	return (
 	    <div className={"drawer " + activeClass}>
-	    	<Link to={ bandsUrl }>
+	    	<Link to="/dashboard" style={{textDecoration: 'none'}}>
 	  			<h3 className="drawer__logo">BandMom</h3>
 	  		</Link>
 	  		<i className="drawer__close material-icons clr-light" onClick={ this.props.toggle }>close</i>
