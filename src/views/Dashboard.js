@@ -4,7 +4,7 @@ import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 
-let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", status: "upcoming"}},{doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", status: "upcoming"}},{doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", status: "past"}}];
+let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
 
 export const initialState = {
   showCreateProjectModal: false,
@@ -72,9 +72,11 @@ class Dashboard extends React.Component {
     }
 
     let columns = [
+      { value: doc.date },
       { value: doc.venue },
       { value: doc.address },
-      { value: `${doc.date}` },
+      { value: doc.loadIn },
+      { value: doc.showTime },
       { value: doc.status.toUpperCase(), colorClass: statusColorClass },
     ];
 
@@ -165,7 +167,7 @@ class Dashboard extends React.Component {
         // let results = this.sortData(docs);
         let rows = docs.map(this.renderRow.bind(this));
         return (
-          <Table columnLabels={["Venue", "Address", "Date", "Time", ""]}>
+          <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Status", "+"]}>
             { rows }
           </Table>
         );

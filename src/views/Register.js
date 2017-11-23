@@ -139,7 +139,7 @@ export default class Register extends Component {
                 value="Sign Up"
               />
               <p className="form-page__text">
-                By clicking Register, you agree to our <Link to="/terms">
+                By signing up, you agree to our <Link to="/terms">
                 Terms & Conditions</Link>
               </p>
             </Form>

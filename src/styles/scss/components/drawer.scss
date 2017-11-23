@@ -1,0 +1,76 @@
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 2rem;
+  // width: 100vw; FIX ME: Find out why 100vw width causes overflow
+  width: 85vw;
+  height: 100vh;
+  background: $color-purple-dark-gradient-vertical;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 4;
+  overflow: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s $ease-in-out-cubic;
+  text-shadow: none;
+  &--active {
+    transform: translateX(0);
+  }
+  &__logo {
+    color: $color-light;
+    padding-bottom: 2rem;
+  }
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: $color-light;
+    padding: 5px;
+    border-radius: 50%;
+    &:hover {
+      background: $color-purple-light;
+    }
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    list-style: none;
+    // padding: 0;
+    margin: 0;
+  }
+  &__item {
+    h2, h4, a {
+      color: $color-light;
+      text-align: left;
+    }
+    a {
+      font-weight: 400;
+      &:hover {
+        // color: $color-dark;
+        background: transparent;
+        font-size: 1.2em;
+      }
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+  @include md {
+    width: 18rem;
+  }
+
+  // @include lg {
+  //   transform: translateX(0);
+  //   &__close {
+  //     display: none;
+  //   }
+  // }
+}
+
+.show-drawer {
+  // transform: rotate(90deg);
+  margin: 20px;
+  font-size: 2em;
+}

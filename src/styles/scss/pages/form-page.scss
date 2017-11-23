@@ -49,6 +49,7 @@
     max-width: 21.875rem;
     margin: 1rem auto;
     display: block;
+    width: 90%;
     &__forgot {
       text-align: left;
       margin-left: 1.25rem;
@@ -58,8 +59,9 @@
     padding: 1rem 0;
     margin: 0;
     a {
-      color: $color-purple;
+      color: $color-purple-light;
       text-shadow: none;
+      font-size: 1.2em;
     }
   }
   fieldset {
@@ -73,13 +75,16 @@
     &__container {
       padding: 4rem 6rem;
       width: 40%;
-      background: rgba(255, 255, 255, 0.13);
+      background: rgba(175, 150, 200, 0.13);
       height: auto;
+    }
+    &__form {
+      width: 100%;
     }
   }
   @include lg {
     &__container {
-      width: 25%;
+      width: 23%;
     }
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import Carousel from '../components/Carousel';
-import Header from '../components/Global/Header';
+import HeaderLanding from '../components/Global/HeaderLanding';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 import { Link } from 'react-router-dom';
@@ -71,13 +71,13 @@ class Landing extends React.Component {
     } = this.state;
   return (
     <div className="landing">
-      <Header />
+      <HeaderLanding />
       <Hero>
         {/* <Carousel /> */}
         {/* <div className="two-column-grid--container"> */}
         <div className="two-column-grid two-column-grid--container">
         <div className="two-column-grid__column two-column-grid__column--1">
-        <h1 className="landing__header">Keep Your Team Informed</h1>
+        <h1 className="landing__header">Keep Your Band Informed</h1>
           <p className="landing__content">Easily manage your gigs</p>
           <p className="landing__content">Share gigs with bandmates</p>
           <p className="landing__content">Store stage plots, receive "time-to-leave" alerts, and more!</p>
@@ -128,7 +128,7 @@ class Landing extends React.Component {
                 value="Sign Up"
               />
               <p className="form-page__text">
-                By clicking Sign Up, you agree to our <Link to="/terms">
+                By signing up, you agree to our <Link to="/terms" style={{color: '#7F4FFF'}}>
                 Terms & Conditions</Link>
               </p>
             </Form>

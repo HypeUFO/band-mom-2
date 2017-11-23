@@ -43,6 +43,7 @@ export default class Table extends Component {
         <i className="material-icons" style={arrowStyle}>{ arrowIcon }</i>
       );
       let arrow = (columnLabel) ? arrowHtml : null;
+      if (index < columnLabels.length -1) {
       return (
         <th key={ index } onClick={ self.onClickColumnLabel.bind(self, index) }>
           <span>
@@ -51,6 +52,15 @@ export default class Table extends Component {
           </span>
         </th>
       );
+    } else {
+      return (
+        <th key={ index } onClick={ () => alert("Add Show Modal/View") }>
+          <span>
+            { columnLabel }
+          </span>
+        </th>
+      );
+    }
     });
 
     return (

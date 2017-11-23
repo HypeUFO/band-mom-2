@@ -1,15 +1,21 @@
-html,
+*
+html
 body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing:border-box;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
   width: 100%;
 }
-@import './variables/_colors.scss';
-@import './variables/_breakpoints.scss';
+@import './variables/_colors';
+@import './variables/_breakpoints';
+@import './variables/_animations';
 @import './app';
 @import './pages/landing';
 @import './pages/form-page';
@@ -21,4 +27,5 @@ body {
 @import './components/carousel';
 @import './components/table';
 @import './components/dropdown';
+@import './components/drawer';
 // @import './components/calendar';
