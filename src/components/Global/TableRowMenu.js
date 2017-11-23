@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export default class TableRowMenu extends Component {
-  static propTypes = {
-  }
+  // static propTypes = {
+  // }
 
   constructor(props) {
     super(props);

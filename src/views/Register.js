@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
@@ -39,7 +39,7 @@ export default class Register extends Component {
   }
 
   handleAsyncRegisterButtonClick() {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     let params = {
       email: this.state.email,
       password: this.state.password,
@@ -50,19 +50,14 @@ export default class Register extends Component {
   }
 
   render() {
-    const {
-      // asyncRegisterData,
-      // asyncRegisterError,
-      // asyncRegisterLoading,
-    } = this.props;
+    // const {
+    //   // asyncRegisterData,
+    //   // asyncRegisterError,
+    //   // asyncRegisterLoading,
+    // } = this.props;
 
     const {
-      username,
       email,
-      fullName,
-      company,
-      address,
-      phoneNumber,
       password,
       confirmPassword,
     } = this.state;

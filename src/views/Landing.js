@@ -1,6 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import Carousel from '../components/Carousel';
+// import Carousel from '../components/Carousel';
 import HeaderLanding from '../components/Global/HeaderLanding';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
@@ -36,36 +36,18 @@ class Landing extends React.Component {
   }
 
   handleAsyncRegisterButtonClick() {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     let params = {
       email: this.state.email,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
     };
     console.log(params);
-    // dispatch(registerAsync(params))
-    // .then(() => {
-      // if (this.props.asyncRegisterSuccess) {
-        // FIX ME:
-        // router is undefined?
-        // using router.push works on login
-        // not sure why it threw an error here
-        // this.props.router.push('/login');
         this.props.history.push('/login');
-      // }
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
   }
   render() {
     const {
-      username,
       email,
-      fullName,
-      company,
-      address,
-      phoneNumber,
       password,
       confirmPassword,
     } = this.state;
@@ -73,8 +55,6 @@ class Landing extends React.Component {
     <div className="landing">
       <HeaderLanding />
       <Hero>
-        {/* <Carousel /> */}
-        {/* <div className="two-column-grid--container"> */}
         <div className="two-column-grid two-column-grid--container">
         <div className="two-column-grid__column two-column-grid__column--1">
         <h1 className="landing__header">Keep Your Band Informed</h1>
@@ -134,7 +114,6 @@ class Landing extends React.Component {
             </Form>
         </div>
         </div>
-        {/* </div> */}
       </Hero>
     </div>
   )

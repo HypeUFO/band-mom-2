@@ -27,7 +27,7 @@ export default class CalendarModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-  	if (nextProps.show && nextProps.value && nextProps.value != this.state.selectedDate) {
+  	if (nextProps.show && nextProps.value && nextProps.value !== this.state.selectedDate) {
   		let date = moment(nextProps.value, DATE_FORMAT);
   		let selectedDate = moment(nextProps.value, DATE_FORMAT);
   		this.setState(prevState => ({
@@ -92,7 +92,7 @@ export default class CalendarModal extends Component {
     	if(onClick) {
     		let j = i.toString();
     		j = (j.length < 2) ? '0' + j : j;
-    		isSelected = sd == d && fd == j;
+    		isSelected = sd === d && fd === j;
     	}
 
     	let classes = classNames(classN, { 'calender__day--selected': isSelected })
@@ -116,7 +116,7 @@ export default class CalendarModal extends Component {
 
     const {
     	date,
-    	selectedDate,
+    	// selectedDate,
     } = this.state;
 
     let daysOfWeek = {

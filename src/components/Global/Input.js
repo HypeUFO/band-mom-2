@@ -38,7 +38,7 @@ export default class Input extends Component {
       validation,
     } = this.props;
 
-    if(value == undefined) {
+    if (value === undefined) {
       value = '';
     }
 
@@ -89,7 +89,7 @@ export default class Input extends Component {
     for (let key in validation) {
       let options = validation[key];
       let v;
-      if(typeof vs[key] == 'function') {
+      if(typeof vs[key] === 'function') {
         v = vs[key](value, options);
         if(!v.valid) {
           errors.push(v.error);
@@ -158,7 +158,7 @@ export default class Input extends Component {
       showCalender,
     } = this.state;
 
-    if (type == 'button-thin-submit') {
+    if (type === 'button-thin-submit') {
       return (
         <button
           className="btn-thin clr-green"
@@ -169,7 +169,7 @@ export default class Input extends Component {
       );
     }
 
-    else if (type == 'button-thin-cancel') {
+    else if (type === 'button-thin-cancel') {
       return (
         <button
           className="btn-thin clr-grey"
@@ -181,7 +181,7 @@ export default class Input extends Component {
       );
     }
 
-    else if (type == 'select') {
+    else if (type === 'select') {
       let opt = options.map((option, index) => {
         return (
           <option value={ option.value } key={ index }>
@@ -203,7 +203,7 @@ export default class Input extends Component {
       );
     }
 
-    else if (type == 'textarea') {
+    else if (type === 'textarea') {
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">
@@ -222,7 +222,7 @@ export default class Input extends Component {
       );
     }
 
-    else if (type == 'date') {
+    else if (type === 'date') {
       return (
         <div className="input">
           <label>{ placeholder }</label>
@@ -242,7 +242,7 @@ export default class Input extends Component {
       );
     }
 
-    else if (type == 'file') {
+    else if (type === 'file') {
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">

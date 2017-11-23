@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TableRow from './TableRow';
+// import TableRow from './TableRow';
 
 export default class Table extends Component {
   static propTypes = {
@@ -18,7 +18,7 @@ export default class Table extends Component {
   onClickColumnLabel(index, event) {
     this.setState(prevState => ({
       sortIndex: index,
-      asc: (prevState.sortIndex == index) ? !prevState.asc : prevState.asc,
+      asc: (prevState.sortIndex === index) ? !prevState.asc : prevState.asc,
     }));
   }
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {Provider} from 'react-redux';
+// import {connect} from 'react-redux';
+// import PropTypes from 'prop-types';
+// import {Provider} from 'react-redux';
 import history from '../history';
 import {Router, Switch, Route, Redirect} from 'react-router-dom';
 import Landing from './Landing';
@@ -9,10 +9,10 @@ import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
 import Dashboard from './Dashboard';
-import NotFound from './NotFound';
+// import NotFound from './NotFound';
 import Header from '../components/Global/Header';
-import Footer from '../components/Global/Footer';
-import Loader from '../components/Global/Loader';
+// import Footer from '../components/Global/Footer';
+// import Loader from '../components/Global/Loader';
 
 import {routeCodes} from '../route-codes';
 

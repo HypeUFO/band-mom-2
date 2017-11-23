@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 import history from '../history';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
@@ -34,11 +34,11 @@ export default class Login extends Component {
   }
 
   handleAsyncLoginButtonClick() {
-    const { dispatch } = this.props;
-    let params = {
-      name: this.state.username,
-      password: this.state.password,
-    };
+    // const { dispatch } = this.props;
+    // let params = {
+    //   name: this.state.username,
+    //   password: this.state.password,
+    // };
       history.push(`/dashboard`);
   }
 

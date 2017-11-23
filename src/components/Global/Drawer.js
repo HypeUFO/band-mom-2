@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { routeCodes } from '../../route-codes';
+// import { routeCodes } from '../../route-codes';
 
 export default class Drawer extends Component {
   static propTypes = {
@@ -15,9 +15,10 @@ export default class Drawer extends Component {
   }
 
   render() {
-    const {
-      userName,
-    } = this.props;
+    // const {
+    //   userName,
+    // } = this.props;
+
   	let activeClass = (this.props.show) ? 'drawer--active' : '';
     // let bandsUrl = `/${userName}/bands`;
     let bandsUrl = `/bands`;
