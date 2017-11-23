@@ -155,7 +155,7 @@ body {
     padding: 1rem 0;
     margin: 0; }
     .form-page__text a {
-      color: #BF8FFF;
+      color: #b79cff;
       text-shadow: none; }
   .form-page fieldset {
     padding: 0; }
@@ -485,7 +485,7 @@ input[type="submit"] {
       .carousel__slide-item__text {
         width: 66.66%;
         font-size: 3.5em;
-        color: #BF8FFF;
+        color: #b79cff;
         text-align: center;
         text-shadow: 2px 2px #121F27; }
       .carousel__slide-item--1 {
@@ -694,7 +694,7 @@ tbody:hover > tr:hover td {
     padding: 5px;
     border-radius: 50%; }
     .drawer__close:hover {
-      background: #BF8FFF; }
+      background: #b79cff; }
   .drawer__list {
     display: flex;
     flex-direction: column;
