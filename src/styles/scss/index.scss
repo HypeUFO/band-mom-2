@@ -1,13 +1,24 @@
+html,
 body {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing:border-box;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  width: 100%;
 }
 @import './variables/_colors.scss';
 @import './variables/_breakpoints.scss';
-@import 'App';
-@import 'Header';
-@import 'Landing';
-@import 'Hero';
-@import 'Carousel';
+@import './app';
+@import './pages/landing';
+@import './pages/form-page';
+@import './pages/login';
+@import './pages/register';
+@import './components/header';
+@import './components/hero';
+@import './components/input';
+@import './components/carousel';
+@import './components/table';
+@import './components/dropdown';
+// @import './components/calendar';

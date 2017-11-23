@@ -1,21 +1,17 @@
 /*
-Error: Undefined variable: "$color-purple".
-        on line 58 of src/styles/scss/header.scss
+Error: Undefined variable: "$color-purple-dark-gradient-diagonal".
+        on line 2 of src/styles/scss/pages/landing.scss
 
-53: 
-54: 
-55: /*Hover state for top level links*\/
-56: 
-57: li:hover a {
-58:   background: $color-purple;
-59: }
-60: 
-61: 
-62: /*Style for dropdown links*\/
-63: 
+1: .landing {
+2:   background: $color-purple-dark-gradient-diagonal;
+3:   background: url('/assets/img/form-page-img.jpeg');
+4:   text-shadow: 1px 1px #222;
+5:   &:before {
+6:     content: '';
+7:     position: fixed;
 
 Backtrace:
-src/styles/scss/header.scss:58
+src/styles/scss/pages/landing.scss:2
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
@@ -67,4 +63,4 @@ src/styles/scss/header.scss:58
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 58 of src/styles/scss/header.scss\A \A 53: \A 54: \A 55: /*Hover state for top level links*/\A 56: \A 57: li:hover a {\A 58:   background: $color-purple;\A 59: }\A 60: \A 61: \A 62: /*Style for dropdown links*/\A 63: "; }
+  content: "Error: Undefined variable: \"$color-purple-dark-gradient-diagonal\".\A         on line 2 of src/styles/scss/pages/landing.scss\A \A 1: .landing {\A 2:   background: $color-purple-dark-gradient-diagonal;\A 3:   background: url('/assets/img/form-page-img.jpeg');\A 4:   text-shadow: 1px 1px #222;\A 5:   &:before {\A 6:     content: '';\A 7:     position: fixed;"; }

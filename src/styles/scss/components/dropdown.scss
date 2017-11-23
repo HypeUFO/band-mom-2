@@ -1,0 +1,36 @@
+.dropdown {
+  position: fixed;
+  background: yellow;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  // transition: transform 0.1s $ease-in-out-cubic, opacity 0.1s $ease-in-out-cubic;
+  &__container {
+    background: #FFFFFF;
+    opacity: 1.00;
+    box-shadow: 0px 16px 20px rgba(0, 0, 0, 0.15);
+    border-top: 8px solid $color-purple;
+    position: absolute;
+    top: 0;
+    padding: 3rem 2rem;
+    right: 0;
+    width: 18rem;
+    text-align: left;
+  }
+  &__item {
+    display: block;
+    padding: 0.25rem 0;
+    color: #ccc;
+    &:hover {
+      color: $color-dark;
+    }
+  }
+  &--show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}

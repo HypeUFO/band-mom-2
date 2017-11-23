@@ -4,6 +4,7 @@ export const routeCodes = {
   REGISTER: `${publicPath}register/`,
   FORGOT_PASSWORD: `${publicPath}forgot-password`,
   LOGIN: `${publicPath}login`,
+  DASHBOARD: `${publicPath}dashboard`,
   USER_PROFILE: `${publicPath}:userId/profile`,
   BAND_LIST: `${publicPath}:userId/bands`,
   BAND_PROFILE: `${publicPath}:userId/bands/:bandId`,
