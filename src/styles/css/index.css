@@ -156,7 +156,8 @@ body {
     margin: 0; }
     .form-page__text a {
       color: #b79cff;
-      text-shadow: none; }
+      text-shadow: none;
+      font-size: 1.2em; }
   .form-page fieldset {
     padding: 0; }
   @media (min-width: 768px) {
