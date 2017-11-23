@@ -201,6 +201,7 @@ input {
 .logo,
 .header__menu,
 .show-drawer {
+  margin-left: 10px;
   color: #FFFFFF;
   display: inline-block; }
 
@@ -208,6 +209,7 @@ input {
 ul.header__menu {
   list-style-type: none;
   margin: 0;
+  margin-right: 20px;
   padding: 0;
   right: 5px; }
 

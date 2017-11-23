@@ -29,21 +29,14 @@ export default class Drawer extends Component {
 	  		</Link>
 	  		<i className="drawer__close material-icons clr-light" onClick={ this.props.toggle }>close</i>
         <ul className="drawer__list">
-          {/* <li className="drawer__item drawer__item--header"><h2>Site</h2></li> */}
           <li className="drawer__item">
-            {/* <h4> */}
               <Link to={ bandsUrl } onClick={ this.props.toggle }>Bands</Link>
-            {/* </h4> */}
           </li>
           <li className="drawer__item">
-            {/* <h4> */}
               <Link to={ profileUrl } onClick={ this.props.toggle }>Profile</Link>
-            {/* </h4> */}
           </li>
           <li className="drawer__item">
-            {/* <h4> */}
               <Link to={ profileUrl } onClick={ this.props.toggle }>Messages</Link>
-            {/* </h4> */}
           </li>
         </ul>
 			</div>

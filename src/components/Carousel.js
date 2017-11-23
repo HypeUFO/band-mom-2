@@ -15,7 +15,7 @@ for (__t in transitions)
   if (_elem.style[__t] !== undefined)
       transitionEvent = transitions[__t];
 
-if (transitionEvent == 'NO_TRANSITION_EVENT') {
+if (transitionEvent === 'NO_TRANSITION_EVENT') {
   var transEvent = document.createEvent('Event');
   transEvent.initEvent(transitionEvent, true, false);
 }
@@ -69,7 +69,7 @@ function handleCarousel() {
         else if (current >= carouselSlideItems.length) current = 0;
         carouselSlide.style.left = -(current * 100) + '%';
 
-        if (transitionEvent == 'NO_TRANSITION_EVENT')
+        if (transitionEvent === 'NO_TRANSITION_EVENT')
             elem.dispatchEvent(transEvent);
     }
   })

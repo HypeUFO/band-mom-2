@@ -3,18 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import history from '../history';
-// import { authAsyncLogin } from 'actions/auth';
-// import backgroundImg from '../../../assets/img/login/login-bg.png';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 
 export default class Login extends Component {
   static propTypes = {
-    // asyncLoginData: PropTypes.object,
-    // asyncLoginError: PropTypes.object,
-    // asyncLoginLoading: PropTypes.bool,
-    // authenticated: PropTypes.bool,
-    // from react-redux connect
     // dispatch: PropTypes.func,
   }
 
@@ -46,19 +39,10 @@ export default class Login extends Component {
       name: this.state.username,
       password: this.state.password,
     };
-    // dispatch(authAsyncLogin(params))
-    // .then(() => {
-      // history.push(`/${params.name}/dashboard`);
       history.push(`/dashboard`);
-    // });
   }
 
   render() {
-    const {
-      // asyncLoginData,
-      // asyncLoginError,
-      // asyncLoginLoading,
-    } = this.props;
 
     const {
       email,

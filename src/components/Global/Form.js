@@ -28,7 +28,7 @@ export default class Form extends Component {
     return React.Children.map(children, child => {
       var childProps = {};
       if (React.isValidElement(child)) {
-          if(child.type == Input) {
+          if(child.type === Input) {
             numInputs++;
             childProps = {
               key: 0,

@@ -22,6 +22,7 @@
   .header__menu,
   .show-drawer {
     // color: $color-purple;
+    margin-left: 10px;
     color: $color-light;
     display: inline-block;
   }
@@ -32,6 +33,7 @@
 ul.header__menu {
   list-style-type: none;
   margin: 0;
+  margin-right: 20px;
   padding: 0; // position: absolute;
   right: 5px;
 }

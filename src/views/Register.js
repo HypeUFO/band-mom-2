@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { registerAsync } from 'actions/register';
-// import backgroundImg from '../../../assets/img/login/login-bg.png';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 
@@ -20,12 +18,7 @@ export default class Register extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
       email: '',
-      fullName: '',
-      company: '',
-      address: '',
-      phoneNumber: '',
       password: '',
       confirmPassword: '',
     };
@@ -53,20 +46,7 @@ export default class Register extends Component {
       confirmPassword: this.state.confirmPassword,
     };
     console.log(params);
-    // dispatch(registerAsync(params))
-    // .then(() => {
-      // if (this.props.asyncRegisterSuccess) {
-        // FIX ME:
-        // router is undefined?
-        // using router.push works on login
-        // not sure why it threw an error here
-        // this.props.router.push('/login');
         this.props.history.push('/login');
-      // }
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
   }
 
   render() {

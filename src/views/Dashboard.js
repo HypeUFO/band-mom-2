@@ -11,53 +11,19 @@ export const initialState = {
   showShareModal: false,
   selected: '',
 };
-class Dashboard extends React.Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    // this.toggleCreateProjectModal = this.toggleCreateProjectModal.bind(this);
-    // this.toggleShareModal = this.toggleShareModal.bind(this);
-    // this.asyncFindProjects = this.asyncFindProjects.bind(this);
-    // this.asyncToggleProjectStatus = this.asyncToggleProjectStatus.bind(this);
-    // this.onCreateProjectSubmit = this.onCreateProjectSubmit.bind(this);
-    // this.onCreateProjectCancel = this.onCreateProjectCancel.bind(this);
-    // this.onCreateProjectSuccess = this.onCreateProjectSuccess.bind(this);
-    // this.onCreateProjectError = this.onCreateProjectError.bind(this);
-    // this.onShareProjectSubmit = this.onShareProjectSubmit.bind(this);
-    // this.onShareProjectCancel = this.onShareProjectCancel.bind(this);
-    // this.onShareProjectSuccess = this.onShareProjectSuccess.bind(this);
-    // this.onShareProjectError = this.onShareProjectError.bind(this);
   }
 
   handleRowClick(row) {
-    // history.push(`/${this.props.match.params.userId}/projects/${row._id}/bids/`);
   }
 
   handleRowMenuItemClick(doc, action, event) {
     event.stopPropagation();
-    // let apiUrl = config.get('api').url;
-    // switch(action) {
-    //   case MENU_DOWNLOAD_PDFS:
-    //     this.props.dispatch(projectsDownloadsAsyncBidsArchive({ id: doc._id }));
-    //     break;
-    //   case MENU_DOWNLOAD_EXCEL:
-    //     window.open(`${apiUrl}/project/excel/download/${doc._id}`);
-    //     break;
-    //   case MENU_SHARE:
-    //     this.toggleShareModal(doc._id);
-    //     break;
-    //   case MENU_ARCHIVE:
-    //     this.asyncToggleProjectStatus(doc);
-    //     break;
-    //   case MENU_EDIT_PROJECT_DETAILS:
-    //     history.push(`/${this.props.match.params.userId}/projects/${doc._id}/edit`);
-    //     break;
-    // }
   }
   renderRow(doc, index) {
-    // const {
-    //   asyncLoginData,
-    // } = this.props;
 
     doc = doc.doc;
 
@@ -85,7 +51,7 @@ class Dashboard extends React.Component {
       <TableRowMenu>
         <TableRowMenuItem
           label="Edit Details"
-          // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_EDIT_PROJECT_DETAILS) }
+          // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_EDIT_SHOW_DETAILS) }
         />
         <TableRowMenuItem
           label="Share"
@@ -100,7 +66,7 @@ class Dashboard extends React.Component {
       <TableRowMenu>
       <TableRowMenuItem
         label="Edit Details"
-        // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_EDIT_PROJECT_DETAILS) }
+        // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_EDIT_SHOW_DETAILS) }
       />
       <TableRowMenuItem
         label="Share"
@@ -130,34 +96,34 @@ class Dashboard extends React.Component {
   }
 
   // sortData(docs) {
-  //   let projects, bids;
+  //   let bands, bids;
 
   //   // Sort data
-  //   projects = docs.filter((doc) => {
+  //   bands = docs.filter((doc) => {
   //     return doc.key[1] === 0;
   //   });
-  //   bids = docs.filter((doc) => {
+  //   shows = docs.filter((doc) => {
   //     return doc.key[1] === 1;
   //   });
 
   //   // Calculate total cost
-  //   projects = projects.map((doc) => {
-  //     doc.doc.estimateCost = bids.reduce((a, b) => {
+  //   bands = bands.map((doc) => {
+  //     doc.doc.estimateCost = shows.reduce((a, b) => {
   //       return (b.key[0] == doc.doc._id) ? a + parseInt(b.doc.estimateCost) : a;
   //     }, 0);
   //     return doc;
   //   });
 
   //   return {
-  //     projects: projects,
-  //     bids: bids
+  //     bands: bands,
+  //     shows: shows
   //   };
   // }
 
   renderTable() {
       docs = docs.filter((doc) => {
         if(doc.doc.type === "gig") {
-          return doc.doc.type == 'gig';
+          return doc.doc.type === 'gig';
         }
         else if(doc.doc.status === "past") {
           return true;
@@ -174,8 +140,8 @@ class Dashboard extends React.Component {
       }
       else {
         return (
-          // <NoContent text="No Projects" />
-          <div>No Gigs</div>
+          // <NoContent text="No Shows" />
+          <div>No Shows</div>
         );
       }
     // }
@@ -185,12 +151,12 @@ class Dashboard extends React.Component {
 
     return (
       <div className='page__content'>
-        {/* <CreateGigModal
-          show={ showCreateGigModal }
-          onSubmit={ this.onCreateGigSubmit }
-          onCancel={ this.onCreateGigCancel }
-          onSuccess={ this.onCreateGigSuccess }
-          onError={ this.onCreateGigError }
+        {/* <CreateShowModal
+          show={ showCreateShowModal }
+          onSubmit={ this.onCreateShowSubmit }
+          onCancel={ this.onCreateShowCancel }
+          onSuccess={ this.onCreateShowSuccess }
+          onError={ this.onCreateShowError }
         /> */}
         { this.renderTable() }
       </div>
