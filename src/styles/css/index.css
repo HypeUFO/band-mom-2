@@ -670,8 +670,8 @@ tbody:hover > tr:hover td {
   top: 0;
   left: 0;
   padding: 2rem;
-  width: 85vw;
-  min-width: 175px;
+  width: 50vw;
+  min-width: 180px;
   height: 100vh;
   background: linear-gradient(#7F4FFF, #121F27);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -689,7 +689,8 @@ tbody:hover > tr:hover td {
   .drawer__logo {
     color: #FFFFFF;
     padding-bottom: 2rem;
-    text-shadow: 2px 2px #222; }
+    text-shadow: 2px 2px #222;
+    margin: 0; }
   .drawer__close {
     cursor: pointer;
     position: absolute;
