@@ -1,10 +1,11 @@
 .header,
 .header--landing {
+  // box-sizing: border-box;
   position: fixed;
   top: 0;
   z-index: 3;
   width: 100%;
-  height: 50px;
+  height: 70px;
   text-shadow: 2px 2px #222;
   padding: 20px;
   display: flex;
@@ -15,7 +16,7 @@
 }
 
 .header {
-  background: $color-dark-purple-gradient-diagonal;
+  background: $color-purple-dark-gradient-diagonal;
   justify-content: flex-start;
 }
   .logo,
@@ -33,7 +34,7 @@
 ul.header__menu {
   list-style-type: none;
   margin: 0;
-  margin-right: 20px;
+  // margin-right: 20px;
   padding: 0; // position: absolute;
   right: 5px;
 }
@@ -51,7 +52,7 @@ li {
 
 li a {
   display: block;
-  min-width: 140px;
+  // padding: 0 60px;
   height: 50px;
   text-align: center;
   line-height: 50px;
@@ -64,7 +65,7 @@ li a {
 /*Hover state for top level links*/
 
 li:hover a {
-  background: $color-purple;
+  // color: $color-purple;
 }
 
 
@@ -119,14 +120,10 @@ ul li a:hover+.hidden,
 
 /*Style 'show menu' label button and hide it by default*/
 
-.show-menu {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-decoration: none;
-  color: #fff;
-  background: $color-purple;
-  text-align: center;
-  padding: 10px;
-  display: none;
+.show-drawer {
+  margin: 20px;
+  font-size: 2em;
+
 }
 
 
@@ -187,10 +184,10 @@ input[type=checkbox]:checked~#menu {
 //   }
 // }
 
-@include lg {
+@include md {
   .header {
     justify-content: flex-start;
-    // background: transparent;
+    display: none;
     &--landing {
     justify-content: space-between;
     }
@@ -200,5 +197,11 @@ input[type=checkbox]:checked~#menu {
       left: 25px;
       top: 5px;
     }
+    .show-drawer {
+      display: none;
+    }
+  }
+  li a {
+    padding: 0 60px;
   }
 }

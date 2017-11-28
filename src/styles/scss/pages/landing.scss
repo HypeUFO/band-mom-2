@@ -1,6 +1,7 @@
 .landing {
-  background: $color-purple-dark-gradient-diagonal;
+  // background: $color-purple-dark-gradient-diagonal;
   background: url('/assets/img/form-page-img.jpeg');
+  width: 100%;
   text-shadow: 1px 1px #222;
   &:before {
     content: '';
@@ -9,6 +10,7 @@
     right: 0;
     bottom: 0;
     left: 0;
+    width: 100%;
     // background-image: $color-purple-dark-gradient-diagonal;
     background-image: $color-purple-light-gradient-vertical;
     opacity: .75;
@@ -29,7 +31,6 @@
     justify-content: flex-start; // height: calc(100% - 90px);
     width: 100%;
     margin-top: 90px;
-    padding: 0 50px;
     &--container {
       width: 80%;
     }
@@ -39,7 +40,7 @@
       // align-items: flex-start;
     }
   }
-  @include lg {
+  @include md {
     &__content {
       margin: 1em 0;
     }
@@ -61,7 +62,7 @@
           h1 {
             align-self: center;
           }
-          // padding-left: 20%;
+          padding-left: 10%;
           align-items: center;
           .form-page__form {
             margin: 0;
@@ -70,6 +71,7 @@
           }
           fieldset {
             // margin: 0;
+            padding: 0 50px;
           }
         }
       }

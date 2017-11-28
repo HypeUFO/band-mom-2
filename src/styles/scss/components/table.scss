@@ -4,6 +4,8 @@
   padding: 3rem 2rem;
   user-select: none;
   margin: 150px 0;
+  width: 100%;
+  // overflow-x: scroll;
   &__container {
     width: 100%;
     display: flex;
@@ -13,7 +15,8 @@
       // width: 50rem;
     // }
     @include lg {
-      width: 60rem;
+      // width: 60rem;
+      // width: 100%;
     }
   }
   &__header {
@@ -107,7 +110,7 @@ tr {
   align-items: center;
   box-shadow: $card-shadow-1;
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-  padding: 20px 0;
+  // padding: 20px 0;
   margin-bottom: 25px;
   td {
     &:nth-last-of-type(1) {
@@ -139,6 +142,8 @@ tbody:hover>tr:hover td {
 @include md {
   .table {
     margin: 175px 0;
+    width: 80%;
+    float: right;
     td {
       width: auto;
       text-align: left;

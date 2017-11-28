@@ -23,10 +23,12 @@ export default class Drawer extends Component {
     // let bandsUrl = `/${userName}/bands`;
     let bandsUrl = `/bands`;
     let profileUrl = `/profile`;
+    let messagesUrl = `/messages`;
+    let logOutUrl = `/logout`;
   	return (
-	    <div className={"drawer " + activeClass}>
+	    <div className={`drawer ${activeClass} ${this.props.className}`} style={this.props.style}>
 	    	<Link to="/dashboard" style={{textDecoration: 'none'}}>
-	  			<h3 className="drawer__logo">BandMom</h3>
+	  			<h2 className="drawer__logo">BandMom</h2>
 	  		</Link>
 	  		<i className="drawer__close material-icons clr-light" onClick={ this.props.toggle }>close</i>
         <ul className="drawer__list">
@@ -38,6 +40,9 @@ export default class Drawer extends Component {
           </li>
           <li className="drawer__item">
               <Link to={ profileUrl } onClick={ this.props.toggle }>Messages</Link>
+          </li>
+          <li className="drawer__item">
+              <Link to={ profileUrl } onClick={ this.props.toggle }>Sign Out</Link>
           </li>
         </ul>
 			</div>

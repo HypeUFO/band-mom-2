@@ -3,6 +3,7 @@ import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
+import Drawer from '../components/Global/Drawer';
 
 let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
 
@@ -151,6 +152,12 @@ class Dashboard extends Component {
 
     return (
       <div className='page__content'>
+      <Drawer
+          // userName={ userName }
+          show={ true }
+          className="drawer__sidebar"
+          // toggle={ this.toggleDrawer }
+        />
         {/* <CreateShowModal
           show={ showCreateShowModal }
           onSubmit={ this.onCreateShowSubmit }
