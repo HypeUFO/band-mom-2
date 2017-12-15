@@ -8,5 +8,11 @@ var config = {
   storageBucket: "band-mom.appspot.com",
   messagingSenderId: "755887989881"
 };
-var fire = firebase.initializeApp(config);
-export default fire;
+
+// var fire = firebase.initializeApp(config);
+// export default fire;
+
+firebase.initializeApp(config);
+const database = firebase.database();
+
+export default database;

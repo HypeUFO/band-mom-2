@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getGig } from '../actions/invite.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 
-let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
+// let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
 
 export const initialState = {
-  showCreateProjectModal: false,
+  showCreateGigModal: false,
   showShareModal: false,
   selected: '',
 };
-class Dashboard extends Component {
+class GigList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
+  }
+
+  componentDidMount() {
+    this.props.onGetGig();
   }
 
   handleRowClick(row) {
@@ -25,8 +32,6 @@ class Dashboard extends Component {
     event.stopPropagation();
   }
   renderRow(doc, index) {
-
-    doc = doc.doc;
 
     let statusColorClass = '';
     switch(doc.status) {
@@ -122,17 +127,18 @@ class Dashboard extends Component {
   // }
 
   renderTable() {
-      docs = docs.filter((doc) => {
-        if(doc.doc.type === "gig") {
-          return doc.doc.type === 'gig';
-        }
-        else if(doc.doc.status === "past") {
-          return true;
-        }
-      });
-      if(docs.length) {
-        // let results = this.sortData(docs);
-        let rows = docs.map(this.renderRow.bind(this));
+    const { gigs } = this.props;
+      // docs = docs.filter((doc) => {
+      //   if(doc.doc.type === "gig") {
+      //     return doc.doc.type === 'gig';
+      //   }
+      //   else if(doc.doc.status === "past") {
+      //     return true;
+      //   }
+      // });
+      if(gigs) {
+        // let results = this.sortData(gigs);
+        let rows = gigs.map(this.renderRow.bind(this));
         return (
           <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Status", "+"]}>
             { rows }
@@ -145,7 +151,6 @@ class Dashboard extends Component {
           <div>No Shows</div>
         );
       }
-    // }
   }
 
   render() {
@@ -171,4 +176,19 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+// export default GigList;
+
+function mapStateToProps(state) {
+  return {
+    gigs: state.gigs.gigs
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    onGetGig: getGig,
+    },
+  dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GigList);

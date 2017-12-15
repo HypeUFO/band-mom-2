@@ -8,6 +8,7 @@ export const routeCodes = {
   USER_PROFILE: `${publicPath}:userId/profile`,
   BAND_LIST: `${publicPath}:userId/bands`,
   BAND_PROFILE: `${publicPath}:userId/bands/:bandId`,
+  BAND_DASHBOARD: `${publicPath}:userId/bands/:bandId/dashboard`,
   BAND_EDIT: `${publicPath}:userId/bands/:bandId/edit`,
   GIG_LIST: `${publicPath}:userId/bands/:bandId/gigs`,
   GIG_DETAILS: `${publicPath}:userId/bands/:bandId/gigs/:gigId/details`,
