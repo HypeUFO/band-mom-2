@@ -20,10 +20,11 @@
     "validator": "^7.0.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "webpack-dashboard": "^1.0.2"
   },
   "scripts": {
-    "start": "react-scripts start && npm run sass",
+    "start": "webpack-dashboard -t 'BandMom Command Center' react-scripts start && npm run sass",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
