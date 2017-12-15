@@ -156,13 +156,14 @@ class GigList extends Component {
   render() {
 
     return (
-      <div className='page__content'>
-      <Drawer
+      <div className='page__container'>
+        <Drawer
           // userName={ userName }
           show={ true }
           className="drawer__sidebar"
           // toggle={ this.toggleDrawer }
         />
+        <div className='page__content--two-col'>
         {/* <CreateShowModal
           show={ showCreateShowModal }
           onSubmit={ this.onCreateShowSubmit }
@@ -171,6 +172,7 @@ class GigList extends Component {
           onError={ this.onCreateShowError }
         /> */}
         { this.renderTable() }
+      </div>
       </div>
     );
   }

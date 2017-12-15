@@ -1,0 +1,25 @@
+.page {
+  width: 100%;
+  &__container {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+  }
+  &__content {
+    width: 100%;
+    order: 1;
+    // flex: 5;
+    // padding: .5rem;
+
+    display: flex;
+    justify-content: center;
+    &--two-col {
+      width: 100%;
+    }
+  }
+  @include md {
+    &__content--two-col {
+      width: 80%;
+    }
+  }
+}

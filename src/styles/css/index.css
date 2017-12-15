@@ -51,6 +51,23 @@ body {
     transform: rotate(0deg); }
   to {
     transform: rotate(360deg); } }
+.page {
+  width: 100%; }
+  .page__container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%; }
+  .page__content {
+    width: 100%;
+    order: 1;
+    display: flex;
+    justify-content: center; }
+    .page__content--two-col {
+      width: 100%; }
+  @media (min-width: 768px) {
+    .page__content--two-col {
+      width: 80%; } }
+
 .landing {
   background: url("/assets/img/form-page-img.jpeg");
   width: 100%;
@@ -609,7 +626,6 @@ tbody:hover > tr:hover td {
 @media (min-width: 768px) {
   .table {
     margin: 175px 0;
-    width: 80%;
     float: right; }
     .table td {
       width: auto;
