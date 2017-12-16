@@ -161,7 +161,7 @@ export default class Input extends Component {
     if (type === 'button-thin-submit') {
       return (
         <button
-          className="btn-thin clr-green"
+          className="btn-thin bg-clr-purple"
           type="submit"
         >
           { value }
@@ -225,12 +225,14 @@ export default class Input extends Component {
     else if (type === 'date') {
       return (
         <div className="input">
-          <label>{ placeholder }</label>
-          <div className="btn-calender btn-calender--light"
+        <div className="date">
+          <div className="btn-calendar btn-calendar--light"
             onClick={ this.onClickDate }
           >
-            <i className="material-icons btn-calender__icon">date_range</i>
-            <label className="btn-calender__date">{ value }</label>
+            <i className="material-icons btn-calendar__icon">date_range</i>
+            <label>{ placeholder }: </label>
+            <label className="btn-calendar__date">{ value }</label>
+          </div>
           </div>
           <CalenderModal
             show={ showCalender }

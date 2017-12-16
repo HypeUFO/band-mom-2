@@ -1,28 +1,46 @@
 /*
-Error: Undefined variable: "$color-purple".
-        on line 36 of src/styles/scss/components/input.scss
+Error: Undefined variable: "$color-light".
+        on line 12 of src/styles/scss/components/create-gig.scss
 
-31: select,
-32: .date {
-33:   width: 100%;
-34:   font-size: 1rem;
-35:   background: #F4FAF6;
-36:   box-shadow: 0px 0.15rem 0px $color-purple;
-37:   border-radius: 0.25rem; // border-radius: 0;
-38:   label {
-39:     line-height: 1.5;
-40:   }
-41: }
+7:     display: flex;
+8:     flex-direction: column;
+9:     padding: 2rem 4rem;
+10:     &:nth-child(1) {
+11:       position: relative;
+12:       background: $color-light;
+13:       box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+14:     }
+15:     &__row {
+16:       display: flex;
+17:       flex-direction: row;
 
 Backtrace:
-src/styles/scss/components/input.scss:36
+src/styles/scss/components/create-gig.scss:12
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `block in _perform'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `map'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `_perform'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -71,4 +89,4 @@ src/styles/scss/components/input.scss:36
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 36 of src/styles/scss/components/input.scss\A \A 31: select,\A 32: .date {\A 33:   width: 100%;\A 34:   font-size: 1rem;\A 35:   background: #F4FAF6;\A 36:   box-shadow: 0px 0.15rem 0px $color-purple;\A 37:   border-radius: 0.25rem; // border-radius: 0;\A 38:   label {\A 39:     line-height: 1.5;\A 40:   }\A 41: }"; }
+  content: "Error: Undefined variable: \"$color-light\".\A         on line 12 of src/styles/scss/components/create-gig.scss\A \A 7:     display: flex;\A 8:     flex-direction: column;\A 9:     padding: 2rem 4rem;\A 10:     &:nth-child(1) {\A 11:       position: relative;\A 12:       background: $color-light;\A 13:       box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);\A 14:     }\A 15:     &__row {\A 16:       display: flex;\A 17:       flex-direction: row;"; }

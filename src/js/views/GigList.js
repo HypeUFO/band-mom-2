@@ -7,6 +7,9 @@ import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
+import Input from '../components/Global/Input';
+import Subheader from '../components/Global/Subheader';
+import CreateGigModal from '../modals/CreateGigModal';
 
 // let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
 
@@ -19,6 +22,10 @@ class GigList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
+
+    this.toggleCreateGigModal = this.toggleCreateGigModal.bind(this);
+    this.onCreateeGigSubmit = this.onCreateeGigSubmit.bind(this);
+    this.onCreateGigCancel = this.onCreateGigCancel.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +38,25 @@ class GigList extends Component {
   handleRowMenuItemClick(doc, action, event) {
     event.stopPropagation();
   }
+
+  toggleCreateGigModal() {
+    this.setState(prevState => ({
+      showCreateGigModal: !prevState.showCreateGigModal
+    }));
+  }
+
+  onCreateeGigSubmit() {
+    console.log('Submit Share Project Bid');
+  }
+
+  onCreateGigCancel() {
+    this.toggleCreateGigModal();
+  }
+
+  onCreateGigSuccess() {
+    this.toggleCreateGigModal();
+  }
+
   renderRow(doc, index) {
 
     let statusColorClass = '';
@@ -148,12 +174,26 @@ class GigList extends Component {
       else {
         return (
           // <NoContent text="No Shows" />
-          <div>No Shows</div>
+          <div className="no-content__wrapper">
+            <div>No Shows</div>
+          </div>
         );
       }
   }
 
   render() {
+
+    // Subheader
+    // let breadcrumbs = [
+    //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
+    //   { link: null, name: project.name },
+    // ];
+
+    let breadcrumbs = [
+      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
+      { link: null, name: 'Shows' },
+      // { link: null, name: gig.venue },
+    ];
 
     return (
       <div className='page__container'>
@@ -164,13 +204,19 @@ class GigList extends Component {
           // toggle={ this.toggleDrawer }
         />
         <div className='page__content--two-col'>
-        {/* <CreateShowModal
-          show={ showCreateShowModal }
-          onSubmit={ this.onCreateShowSubmit }
-          onCancel={ this.onCreateShowCancel }
-          onSuccess={ this.onCreateShowSuccess }
-          onError={ this.onCreateShowError }
-        /> */}
+        <Subheader breadcrumbs={ breadcrumbs }
+          // buttonHide={ buttonHide }
+          buttonLabel="Add Show"
+          buttonIcon="add"
+          buttonOnClick={ this.toggleCreateGigModal }
+        />
+        <CreateGigModal
+          show={ this.state.showCreateGigModal }
+          onSubmit={ this.onCreateGigSubmit }
+          onCancel={ this.onCreateGigCancel }
+          onSuccess={ this.onCreateGigSuccess }
+          onError={ this.onCreateGigError }
+        />
         { this.renderTable() }
       </div>
       </div>

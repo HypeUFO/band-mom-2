@@ -18,7 +18,7 @@ export default class CalendarModal extends Component {
   	let date = moment(DATE_FORMAT);
   	let selectedDate = moment(DATE_FORMAT);
   	this.state = {
-  		date: date,
+  		date: moment(),
   		selectedDate: selectedDate,
   	};
   	this.onClickPrevMonth = this.onClickPrevMonth.bind(this);
@@ -95,7 +95,7 @@ export default class CalendarModal extends Component {
     		isSelected = sd === d && fd === j;
     	}
 
-    	let classes = classNames(classN, { 'calender__day--selected': isSelected })
+    	let classes = classNames(classN, { 'calendar__day--selected': isSelected })
     	days.push(
     		<h4 className={ classes }
     			key={ moment(date).format('MMM') + '-' + i }
@@ -133,9 +133,9 @@ export default class CalendarModal extends Component {
     let nextDate = date.add('1', 'month');
 
     // Get arrays filled with h5 elements
-    let prevDays = this.getDaysInMonth(prevDate, 'calender__non-day', null);
-    let currentDays = this.getDaysInMonth(date, 'calender__day', this.onClickDate);
-    let nextDays = this.getDaysInMonth(nextDate, 'calender__non-day', null);
+    let prevDays = this.getDaysInMonth(prevDate, 'calendar__non-day', null);
+    let currentDays = this.getDaysInMonth(date, 'calendar__day', this.onClickDate);
+    let nextDays = this.getDaysInMonth(nextDate, 'calendar__non-day', null);
 
     let firstOfMonthDay = moment(date.format('MM/YYYY'), 'MM/YYYY').format('ddd').toLowerCase()
    	let weekDay = daysOfWeek[firstOfMonthDay];
@@ -145,7 +145,7 @@ export default class CalendarModal extends Component {
     prevDays = prevDays.slice(prevDays.length - weekDay, prevDays.length)
 
     // Get the correct number of next month days so we have a perfect
-    // grid calender
+    // grid calendar
     let totalDays = prevDays.length + currentDays.length;
     let remainder = totalDays % 7;
     let numDaysNeeded = (remainder) ? 7 - totalDays % 7 : 0;
@@ -156,20 +156,20 @@ export default class CalendarModal extends Component {
     return (
       <div className={ classes }>
 	      <div className="modal__wrapper">
-	        <div className="calender">
-	          <div className="calender__top">
-	          	<div className="calender__top__left">
+	        <div className="calendar">
+	          <div className="calendar__top">
+	          	<div className="calendar__top__left">
 	          		<button onClick={ this.onClickPrevMonth }>
 	          			<i className="material-icons clr-light">
 	          				keyboard_arrow_left
 	          			</i>
 	          		</button>
 	          	</div>
-	          	<div className="calender__top__middle">
-		            <h4 className="calender__month">{ date.format('MMM') }</h4>
-		            <h4 className="calender__year">{ date.format('YYYY') }</h4>
+	          	<div className="calendar__top__middle">
+		            <h4 className="calendar__month">{ date.format('MMM') }</h4>
+		            <h4 className="calendar__year">{ date.format('YYYY') }</h4>
 	          	</div>
-	          	<div className="calender__top__right">
+	          	<div className="calendar__top__right">
 	          		<button onClick={ this.onClickNextMonth }>
 	          			<i className="material-icons clr-light">
 	          				keyboard_arrow_right
@@ -177,21 +177,21 @@ export default class CalendarModal extends Component {
 	          		</button>
 	          	</div>
 	          </div>
-	          <div className="calender__middle">
-	            <h4 className="calender__weekday">S</h4>
-	            <h4 className="calender__weekday">M</h4>
-	            <h4 className="calender__weekday">T</h4>
-	            <h4 className="calender__weekday">W</h4>
-	            <h4 className="calender__weekday">T</h4>
-	            <h4 className="calender__weekday">F</h4>
-	            <h4 className="calender__weekday">S</h4>
+	          <div className="calendar__middle">
+	            <h4 className="calendar__weekday">S</h4>
+	            <h4 className="calendar__weekday">M</h4>
+	            <h4 className="calendar__weekday">T</h4>
+	            <h4 className="calendar__weekday">W</h4>
+	            <h4 className="calendar__weekday">T</h4>
+	            <h4 className="calendar__weekday">F</h4>
+	            <h4 className="calendar__weekday">S</h4>
 	            { prevDays }
 	            { currentDays }
 	            { nextDays }
 	          </div>
-	          <div className="calender__bottom">
-	            <button className="btn-thin clr-grey" onClick={ this.onClickCancel.bind(this) }>Cancel</button>
-	            <button className="btn-thin clr-green" onClick={ this.onClickOk.bind(this) }>Ok</button>
+	          <div className="calendar__bottom">
+	            <button className="btn-thin clr-purple" onClick={ this.onClickCancel.bind(this) }>Cancel</button>
+	            <button className="btn-thin clr-light" onClick={ this.onClickOk.bind(this) }>Ok</button>
 	          </div>
 	        </div>
 	      </div>

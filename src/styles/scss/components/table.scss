@@ -141,9 +141,9 @@ tbody:hover>tr:hover td {
 
 @include md {
   .table {
-    margin: 175px 0;
+    margin: 100px 0;
     // width: 80%;
-    float: right;
+    // float: right;
     td {
       width: auto;
       text-align: left;
