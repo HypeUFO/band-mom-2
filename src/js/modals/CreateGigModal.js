@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+// import PropTypes from 'prop-types';
+import { createGig } from '../actions/gig.actions';
 // import {
 //   projectsAsyncCreate,
 //   projectsAsyncUpload,
@@ -9,6 +11,7 @@ import classNames from 'classnames';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 // import truncate from 'utils/truncate';
+import database from '../config/fire';
 
 export const initialState = {
   venue: '',
@@ -16,9 +19,9 @@ export const initialState = {
   date: '',
   showTime: '',
   loadIn: '',
-  type: '',
-  status: 'building',
-  files: [],
+  type: 'show',
+  status: 'upcoming',
+  // files: [],
 };
 
 // @connect(state => ({
@@ -30,7 +33,7 @@ export const initialState = {
 //   asyncUploadError: state.projects.get('asyncUploadError'),
 //   asyncUploadLoading: state.projects.get('asyncUploadLoading'),
 // }))
-export default class CreateGigtModal extends Component {
+class CreateGigModal extends Component {
   static propTypes = {
     // asyncLoginData: PropTypes.object,
     // asyncCreateData: PropTypes.object,
@@ -57,8 +60,11 @@ export default class CreateGigtModal extends Component {
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
+    // this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
     this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(this);
+    this.addGig = this.addGig.bind(this);
+
+    this.db = database.ref().child('gigs');
   }
 
   onSubmit(event) {
@@ -87,56 +93,54 @@ export default class CreateGigtModal extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleInputFilesChange(event) {
-    if(!event.target.files) {
-      return;
-    }
-    let newFiles = [];
-    for(let i = 0; i < event.target.files.length; i++) {
-      newFiles.push(event.target.files[i]);
-    }
-    this.setState(prevState => ({
-      files: prevState.files.concat(newFiles)
-    }));
-  }
+  // handleInputFilesChange(event) {
+  //   if(!event.target.files) {
+  //     return;
+  //   }
+  //   let newFiles = [];
+  //   for(let i = 0; i < event.target.files.length; i++) {
+  //     newFiles.push(event.target.files[i]);
+  //   }
+  //   this.setState(prevState => ({
+  //     files: prevState.files.concat(newFiles)
+  //   }));
+  // }
 
-  removeFile(index) {
-    let files = this.state.files.slice();
-    files.splice(index, 1);
-    this.setState({
-      files: files
-    });
-  }
+  // removeFile(index) {
+  //   let files = this.state.files.slice();
+  //   files.splice(index, 1);
+  //   this.setState({
+  //     files: files
+  //   });
+  // }
 
+  addGig() {
+    const gig = {
+      venue: this.state.venue,
+      address: this.state.address,
+      date: this.state.date,
+      showTime: this.state.showTime,
+      loadIn: this.state.loadIn,
+      type: this.state.type,
+      status: this.state.status,
+    }
+    this.props.onCreateGig(gig);
+    // this.db.push().set({
+    //   venue: this.state.venue,
+    //   address: this.state.address,
+    //   date: this.state.date,
+    //   showTime: this.state.showTime,
+    //   loadIn: this.state.loadIn,
+    //   type: this.state.type,
+    //   status: this.state.status,
+    // })
+  }
   handleAsyncCreateButtonClick() {
+    console.log('submit button clicked');
     Promise.resolve()
-    .then(() =>{
-      let user = this.props.asyncLoginData.toJSON();
-      let params = {
-        type: 'project',
-        userId: user._id,
-        name: this.state.name,
-        address: this.state.address,
-        status: this.state.status,
-      };
-      // return this.props.dispatch(projectsAsyncCreate(params))
-    })
-    .then((data) =>{
-      if(!this.props.asyncCreateData) {
-        return;
-      }
-      if(!this.state.files.length) {
-        return;
-      }
-      let project = this.props.asyncCreateData.toJSON();
-      let uploadParams = {
-        id: project._id,
-        files: this.state.files,
-      };
-      // return this.props.dispatch(projectsAsyncUpload(uploadParams))
-    })
-    .then(this.onSuccess)
-    .catch(this.onError);
+    .then(this.addGig())
+    .then(() => this.onSuccess())
+    .catch(err => this.onError(err));
   }
 
   // renderFiles() {
@@ -176,7 +180,7 @@ export default class CreateGigtModal extends Component {
       showTime,
       loadIn,
       type,
-      files,
+      // files,
     } = this.state;
 
     let classes = classNames('modal', { 'modal--active': show });
@@ -262,3 +266,17 @@ export default class CreateGigtModal extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    onCreateGig: createGig,
+    },
+  dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateGigModal);

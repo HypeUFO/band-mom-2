@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getGig } from '../actions/invite.actions';
+import * as actions from '../actions/gig.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
-import Input from '../components/Global/Input';
+// import Input from '../components/Global/Input';
 import Subheader from '../components/Global/Subheader';
 import CreateGigModal from '../modals/CreateGigModal';
+
+import database from '../config/fire'
 
 // let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
 
 export const initialState = {
+  gigs: [],
   showCreateGigModal: false,
   showShareModal: false,
   selected: '',
@@ -23,13 +26,21 @@ class GigList extends Component {
     super(props);
     this.state = initialState;
 
+    this.db = database.ref().child('gigs');
+
     this.toggleCreateGigModal = this.toggleCreateGigModal.bind(this);
-    this.onCreateeGigSubmit = this.onCreateeGigSubmit.bind(this);
+    this.onCreateGigSubmit = this.onCreateGigSubmit.bind(this);
     this.onCreateGigCancel = this.onCreateGigCancel.bind(this);
+    this.onDeleteGigSuccess = this.onDeleteGigSuccess.bind(this);
+    this.onDeleteGigError = this.onDeleteGigError.bind(this);
+    this.deleteGig = this.deleteGig.bind(this);
+
   }
 
-  componentDidMount() {
-    this.props.onGetGig();
+  componentWillMount() {
+    this.db.on('child_added', () => {
+      this.props.onGetGig()
+    })
   }
 
   handleRowClick(row) {
@@ -45,8 +56,9 @@ class GigList extends Component {
     }));
   }
 
-  onCreateeGigSubmit() {
-    console.log('Submit Share Project Bid');
+  onCreateGigSubmit() {
+    console.log('gig submitted');
+    this.toggleCreateGigModal();
   }
 
   onCreateGigCancel() {
@@ -54,7 +66,28 @@ class GigList extends Component {
   }
 
   onCreateGigSuccess() {
-    this.toggleCreateGigModal();
+    console.log('Show successfully created');
+  }
+
+  onCreateGigError(err) {
+    console.log('An error occured:' + err);
+  }
+
+  deleteGig(gigId) {
+    // this.props.onDeleteGig(gigId);
+    this.db.child(gigId).remove()
+    .then(() => this.onDeleteGigSuccess())
+    .catch(err => this.onDeleteGigError())
+  }
+
+  onDeleteGigSuccess() {
+    this.props.onGetGig();
+    alert('Show successfully deleted');
+  }
+
+  onDeleteGigError() {
+    this.props.onGetGig();
+    alert('An error occured :(');
   }
 
   renderRow(doc, index) {
@@ -62,11 +95,13 @@ class GigList extends Component {
     let statusColorClass = '';
     switch(doc.status) {
       case 'upcoming':
-        statusColorClass = 'clr-green';
+        statusColorClass = 'clr-purple';
         break;
       case 'past':
         statusColorClass = 'clr-red';
         break;
+      default:
+        statusColorClass = 'clr-purple';
     }
 
     let columns = [
@@ -91,7 +126,7 @@ class GigList extends Component {
         />
         <TableRowMenuItem
           label="Delete"
-          // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
+          onClick={ () => this.deleteGig(doc.id) }
         />
       </TableRowMenu>
       :
@@ -106,7 +141,7 @@ class GigList extends Component {
       />
       <TableRowMenuItem
         label="Delete"
-        // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
+        onClick={ () => this.deleteGig(doc.id) }
       />
       <TableRowMenuItem
         label="Archive"
@@ -164,7 +199,12 @@ class GigList extends Component {
       // });
       if(gigs) {
         // let results = this.sortData(gigs);
-        let rows = gigs.map(this.renderRow.bind(this));
+
+        let rows = Object.keys(gigs).map((key) => {
+          gigs[key].id = key;
+          return this.renderRow(gigs[key], key)
+        });
+
         return (
           <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Status", "+"]}>
             { rows }
@@ -234,7 +274,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    onGetGig: getGig,
+    onGetGig: actions.getGig,
+    onDeleteGig: actions.deleteGig,
     },
   dispatch);
 }

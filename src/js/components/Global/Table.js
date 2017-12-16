@@ -88,8 +88,8 @@ export default class Table extends Component {
       let valueB = b.props.columns[sortIndex].value;
       // Handle currency value
       if(valueA[0] === '$' && valueB[0] === '$') {
-        valueA = parseInt(valueA.split("$")[1]);
-        valueB = parseInt(valueB.split("$")[1]);
+        valueA = parseInt(valueA.split("$")[1], 10);
+        valueB = parseInt(valueB.split("$")[1], 10);
       }
       if(asc) {
         return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;

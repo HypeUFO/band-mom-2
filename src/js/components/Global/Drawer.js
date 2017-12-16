@@ -23,8 +23,8 @@ export default class Drawer extends Component {
     // let bandsUrl = `/${userName}/bands`;
     let bandsUrl = `/bands`;
     let profileUrl = `/profile`;
-    let messagesUrl = `/messages`;
-    let logOutUrl = `/logout`;
+    // let messagesUrl = `/messages`;
+    // let logOutUrl = `/logout`;
   	return (
 	    <div className={`drawer ${activeClass} ${this.props.className}`} style={this.props.style}>
 	    	<Link to="/dashboard" style={{textDecoration: 'none'}}>

@@ -33,7 +33,7 @@ export default class Input extends Component {
 
   validate() {
     let {
-      name,
+      // name,
       value,
       validation,
     } = this.props;

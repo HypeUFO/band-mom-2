@@ -15,7 +15,7 @@ export default class CalendarModal extends Component {
 
   constructor(props) {
   	super(props);
-  	let date = moment(DATE_FORMAT);
+  	// let date = moment(DATE_FORMAT);
   	let selectedDate = moment(DATE_FORMAT);
   	this.state = {
   		date: moment(),

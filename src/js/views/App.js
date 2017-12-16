@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import {connect} from 'react-redux';
+import {connect} from 'react-redux';
 // import PropTypes from 'prop-types';
 // import {Provider} from 'react-redux';
 import history from '../history';
@@ -12,11 +12,11 @@ import GigList from './GigList';
 // import NotFound from './NotFound';
 import Header from '../components/Global/Header';
 // import Footer from '../components/Global/Footer';
-// import Loader from '../components/Global/Loader';
+import Loader from '../components/Global/Loader';
 
 import {routeCodes} from '../route-codes';
 
-export default class App extends Component {
+class App extends Component {
   render() {
     // Clean path
     let pathname = history.location.pathname;
@@ -42,6 +42,7 @@ export default class App extends Component {
         <div className="app">
           { header }
           <div className='page'>
+          { this.props.loading ? <Loader /> : null }
             <Switch>
               <Route exact path={routeCodes.LANDING} component={Landing}/>
               <Route exact path={routeCodes.LOGIN} component={Login}/>
@@ -58,3 +59,11 @@ export default class App extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    loading: state.app.loading
+  };
+}
+
+export default connect(mapStateToProps)(App);
