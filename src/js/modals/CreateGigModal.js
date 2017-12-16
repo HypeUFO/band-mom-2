@@ -118,7 +118,7 @@ class CreateGigModal extends Component {
     const gig = {
       venue: this.state.venue,
       address: this.state.address,
-      date: this.state.date,
+      date: new Date(this.state.date).toISOString(),
       showTime: this.state.showTime,
       loadIn: this.state.loadIn,
       type: this.state.type,

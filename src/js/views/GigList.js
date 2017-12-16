@@ -10,6 +10,7 @@ import Drawer from '../components/Global/Drawer';
 // import Input from '../components/Global/Input';
 import Subheader from '../components/Global/Subheader';
 import CreateGigModal from '../modals/CreateGigModal';
+import moment from 'moment';
 
 import database from '../config/fire'
 
@@ -105,7 +106,7 @@ class GigList extends Component {
     }
 
     let columns = [
-      { value: doc.date },
+      { value: moment(doc.date).format('MM/DD/YYYY') },
       { value: doc.venue },
       { value: doc.address },
       { value: doc.loadIn },
