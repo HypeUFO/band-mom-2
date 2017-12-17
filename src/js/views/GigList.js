@@ -7,14 +7,12 @@ import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
-// import Input from '../components/Global/Input';
 import Subheader from '../components/Global/Subheader';
 import CreateGigModal from '../modals/CreateGigModal';
 import moment from 'moment';
 
 import database from '../config/fire'
 
-// let docs = [{doc:{venue: "Viper Room", address: "123 Main St", type:"gig", date: "1/11/18", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Pianos", address: "123 Main St", type:"gig", date: "12/12/17", loadIn: "7:00", showTime: "11:00", status: "upcoming"}}, {doc:{venue: "Bordner's", address: "123 Main St", type:"gig", date: "11/11/17", loadIn: "7:00", showTime: "11:00", status: "past"}}];
 
 export const initialState = {
   gigs: [],

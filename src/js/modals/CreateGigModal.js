@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { createGig } from '../actions/gig.actions';
-// import {
-//   projectsAsyncCreate,
-//   projectsAsyncUpload,
-// } from 'actions/projects';
 import classNames from 'classnames';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
-// import truncate from 'utils/truncate';
 import database from '../config/fire';
 
 export const initialState = {
@@ -24,32 +19,13 @@ export const initialState = {
   // files: [],
 };
 
-// @connect(state => ({
-//   asyncLoginData: state.auth.get('asyncLoginData'),
-//   asyncCreateData: state.projects.get('asyncCreateData'),
-//   asyncCreateError: state.projects.get('asyncCreateError'),
-//   asyncCreateLoading: state.projects.get('asyncCreateLoading'),
-//   asyncUploadData: state.projects.get('asyncUploadData'),
-//   asyncUploadError: state.projects.get('asyncUploadError'),
-//   asyncUploadLoading: state.projects.get('asyncUploadLoading'),
-// }))
 class CreateGigModal extends Component {
   static propTypes = {
-    // asyncLoginData: PropTypes.object,
-    // asyncCreateData: PropTypes.object,
-    // asyncCreateError: PropTypes.object,
-    // asyncCreateLoading: PropTypes.bool,
-    // asyncUploadData: PropTypes.object,
-    // asyncUploadError: PropTypes.object,
-    // asyncUploadLoading: PropTypes.bool,
-    // show: PropTypes.bool,
-    // // from react-redux connect
-    // dispatch: PropTypes.func,
-    // //
-    // onSubmit: PropTypes.func.isRequired,
-    // onCancel: PropTypes.func.isRequired,
-    // onSuccess: PropTypes.func.isRequired,
-    // onError: PropTypes.func.isRequired,
+    show: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
   }
 
   constructor(props) {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import Drawer from 'components/Global/Drawer';
-//import workAndCoLogoImg from '../../../assets/img/workco-logo.svg';
 
 export default class Subheader extends Component {
   static propTypes = {
