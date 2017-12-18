@@ -1,6 +1,12 @@
 import ActionTypes from '../constants/action_types';
 
-export function gigReducer(state = {}, action) {
+const initialState = {
+  gigs: null,
+  message: null,
+  recentlyDeleted: [],
+}
+
+export function gigReducer(state = initialState, action) {
   switch (action.type) {
     default: return state;
 
@@ -39,6 +45,39 @@ export function gigReducer(state = {}, action) {
         ...state,
         message: action.message,
         // loading: false
+      }
+
+    case ActionTypes.DeleteGigRequested:
+      return {...state, recentlyDeleted: [...state.recentlyDeleted, action.gig]}
+    case ActionTypes.DeleteGigFulfilled:
+        return {
+        ...state,
+        // gigs: action.gigs.gigs,
+        // loading: false
+      }
+    case ActionTypes.DeleteGigRejected:
+        return {
+        ...state,
+        // message: action.message,
+        // loading: false
+      }
+
+      case ActionTypes.RestoreGigRequested:
+      return {
+      ...state,
+      }
+    case ActionTypes.RestoreGigFulfilled:
+      const prunedIds = state.recentlyDeleted.filter(item => {
+        console.log('itemId = ' + item.id)
+        console.log('gigId = ' + action.gig)
+        return item.id !== action.gig.id // return all the items not matching the action.id
+      })
+      return {
+        ...state, recentlyDeleted: prunedIds,
+      }
+    case ActionTypes.RestoreGigRejected:
+        return {
+        ...state,
       }
 
   }

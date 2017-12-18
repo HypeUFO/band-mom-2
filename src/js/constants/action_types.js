@@ -11,6 +11,12 @@ const actionTypes = {
   DeleteGigRejected: 'DELETE_GIGS_REJECTED',
   DeleteGigFulfilled: 'DELETE_GIGS_FULFILLED',
 
+  RestoreGigRequested: 'RESTORE_GIGS_REQUESTED',
+  RestoreGigRejected: 'RESTORE_GIGS_REJECTED',
+  RestoreGigFulfilled: 'RESTORE_GIGS_FULFILLED',
+
+  DismissNotification: 'DISMISS_NOTIFICATION',
+
 };
 
 export default actionTypes;

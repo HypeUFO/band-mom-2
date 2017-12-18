@@ -1,0 +1,33 @@
+.notification {
+  position: fixed;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #aaa;
+  padding: 10px 15px;
+  line-height: 24px;
+  margin-top: 20px;
+  background: $color-purple;
+  z-index: 1;
+}
+
+.notification__message {
+  color: $color-light;
+}
+
+.notification__button {
+  text-transform: uppercase;
+  color: $color-light;
+  background: $color-purple-light;
+  border: 1px solid $color-light;
+  width: auto;
+  margin: 0 10px;
+  font-size: 12px;
+
+  &:hover {
+    color: $color-purple;
+    background: $color-light;
+  }
+
+}

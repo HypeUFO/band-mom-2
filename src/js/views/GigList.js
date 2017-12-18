@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/gig.actions';
+import { dismissNotification } from '../actions/notification.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
+import Notification from '../components/Global/Notification';
 import CreateGigModal from '../modals/CreateGigModal';
 import moment from 'moment';
 
@@ -33,6 +35,7 @@ class GigList extends Component {
     this.onDeleteGigSuccess = this.onDeleteGigSuccess.bind(this);
     this.onDeleteGigError = this.onDeleteGigError.bind(this);
     this.deleteGig = this.deleteGig.bind(this);
+    this.restoreGig = this.restoreGig.bind(this);
 
   }
 
@@ -72,21 +75,43 @@ class GigList extends Component {
     console.log('An error occured:' + err);
   }
 
-  deleteGig(gigId) {
-    // this.props.onDeleteGig(gigId);
-    this.db.child(gigId).remove()
+  deleteGig(gig) {
+    this.props.onDeleteGig(gig)
+    // this.db.child(gigId).remove()
     .then(() => this.onDeleteGigSuccess())
     .catch(err => this.onDeleteGigError())
   }
 
   onDeleteGigSuccess() {
     this.props.onGetGig();
-    alert('Show successfully deleted');
+    // alert('Show successfully deleted');
   }
 
   onDeleteGigError() {
     this.props.onGetGig();
     alert('An error occured :(');
+  }
+
+  restoreGig() {
+    if (this.props.recentlyDeleted.length > 0) {
+      this.props.onRestoreGig(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
+    } else {
+      console.log('no gigs to restore');
+      this.props.dismissNotification();
+    }
+  }
+
+  renderNotification() {
+    const { notification } = this.props;
+    return (
+      <Notification
+        action={this.restoreGig}
+        actionLabel={notification.actionLabel}
+        dismiss={this.props.dismissNotification}
+        display={notification.display}
+        message={notification.message}
+      />
+    );
   }
 
   renderRow(doc, index) {
@@ -125,7 +150,7 @@ class GigList extends Component {
         />
         <TableRowMenuItem
           label="Delete"
-          onClick={ () => this.deleteGig(doc.id) }
+          onClick={ () => this.deleteGig(doc) }
         />
       </TableRowMenu>
       :
@@ -140,7 +165,7 @@ class GigList extends Component {
       />
       <TableRowMenuItem
         label="Delete"
-        onClick={ () => this.deleteGig(doc.id) }
+        onClick={ () => this.deleteGig(doc) }
       />
       <TableRowMenuItem
         label="Archive"
@@ -256,6 +281,7 @@ class GigList extends Component {
           onSuccess={ this.onCreateGigSuccess }
           onError={ this.onCreateGigError }
         />
+        {this.props.notification.display ? this.renderNotification() : null}
         { this.renderTable() }
       </div>
       </div>
@@ -267,7 +293,9 @@ class GigList extends Component {
 
 function mapStateToProps(state) {
   return {
-    gigs: state.gigs.gigs
+    gigs: state.gigs.gigs,
+    recentlyDeleted: state.gigs.recentlyDeleted,
+    notification: state.notification,
   };
 }
 
@@ -275,6 +303,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     onGetGig: actions.getGig,
     onDeleteGig: actions.deleteGig,
+    onRestoreGig: actions.restoreGig,
+    dismissNotification: dismissNotification,
     },
   dispatch);
 }

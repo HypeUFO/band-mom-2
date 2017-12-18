@@ -60,9 +60,10 @@ export default class CalendarModal extends Component {
   	let year = this.state.date.format('YYYY');
   	let month = this.state.date.format('MM');
   	let selectedDate = moment(month + '/' + day + '/' + year, DATE_FORMAT);
-  	this.setState(prevState => ({
-  		selectedDate: selectedDate
-  	}));
+  	// this.setState(prevState => ({
+  	// 	selectedDate: selectedDate
+    // }));
+    this.props.onClickOk(event, selectedDate.format(DATE_FORMAT));
   }
 
   onClickCancel(event) {

@@ -11,35 +11,35 @@ body {
   width: 100%; }
 
 .clr-dark {
-  color: #121F27; }
+  color: #121F27 !important; }
 
 .clr-gray {
-  color: #BBBBBB; }
+  color: #BBBBBB !important; }
 
 .clr-light {
-  color: #FFFFFF; }
+  color: #FFFFFF !important; }
 
 .clr-purple {
-  color: #7F4FFF; }
+  color: #7F4FFF !important; }
 
 .clr-red {
-  color: #E46F65; }
+  color: #E46F65 !important; }
 
 .bg-clr-dark {
-  background-color: #121F27; }
+  background-color: #121F27 !important; }
 
 .bg-clr-gray {
-  background-color: #BBBBBB; }
+  background-color: #BBBBBB !important; }
 
 .bg-clr-light {
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF !important; }
 
 .bg-clr-purple {
-  background-color: #7F4FFF;
-  color: #FFFFFF; }
+  background-color: #7F4FFF !important;
+  color: #FFFFFF !important; }
 
 .bg-clr-red {
-  background-color: #E46F65; }
+  background-color: #E46F65 !important; }
 
 @media (min-width: 500px) {
   .sm-hide {
@@ -378,35 +378,35 @@ input[type=checkbox]:checked ~ #menu {
       margin: 0; }
 
 .clr-dark {
-  color: #121F27; }
+  color: #121F27 !important; }
 
 .clr-gray {
-  color: #BBBBBB; }
+  color: #BBBBBB !important; }
 
 .clr-light {
-  color: #FFFFFF; }
+  color: #FFFFFF !important; }
 
 .clr-purple {
-  color: #7F4FFF; }
+  color: #7F4FFF !important; }
 
 .clr-red {
-  color: #E46F65; }
+  color: #E46F65 !important; }
 
 .bg-clr-dark {
-  background-color: #121F27; }
+  background-color: #121F27 !important; }
 
 .bg-clr-gray {
-  background-color: #BBBBBB; }
+  background-color: #BBBBBB !important; }
 
 .bg-clr-light {
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF !important; }
 
 .bg-clr-purple {
-  background-color: #7F4FFF;
-  color: #FFFFFF; }
+  background-color: #7F4FFF !important;
+  color: #FFFFFF !important; }
 
 .bg-clr-red {
-  background-color: #E46F65; }
+  background-color: #E46F65 !important; }
 
 .hero {
   height: 100%;
@@ -1106,5 +1106,32 @@ tbody:hover > tr:hover td {
   100% {
     bottom: 0;
     background-color: #03A9F4; } }
+.notification {
+  position: fixed;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #aaa;
+  padding: 10px 15px;
+  line-height: 24px;
+  margin-top: 20px;
+  background: #7F4FFF;
+  z-index: 1; }
+
+.notification__message {
+  color: #FFFFFF; }
+
+.notification__button {
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: #b79cff;
+  border: 1px solid #FFFFFF;
+  width: auto;
+  margin: 0 10px;
+  font-size: 12px; }
+  .notification__button:hover {
+    color: #7F4FFF;
+    background: #FFFFFF; }
 
 /*# sourceMappingURL=index.css.map */

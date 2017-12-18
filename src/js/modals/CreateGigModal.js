@@ -15,7 +15,6 @@ export const initialState = {
   showTime: '',
   loadIn: '',
   type: 'show',
-  status: 'upcoming',
   // files: [],
 };
 
@@ -91,6 +90,7 @@ class CreateGigModal extends Component {
   // }
 
   addGig() {
+    const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
     const gig = {
       venue: this.state.venue,
       address: this.state.address,
@@ -98,7 +98,7 @@ class CreateGigModal extends Component {
       showTime: this.state.showTime,
       loadIn: this.state.loadIn,
       type: this.state.type,
-      status: this.state.status,
+      status: status,
     }
     this.props.onCreateGig(gig);
     // this.db.push().set({

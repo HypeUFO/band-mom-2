@@ -9,9 +9,6 @@ export function getGig() {
       const gigs = snap.val();
        return dispatch(getGigFulfilledAction(gigs))
     })
-    // .then(data => {
-    //   console.log(data);
-    // })
     .catch((error) => {
       console.log(error);
       dispatch(getGigRejectedAction());
@@ -39,13 +36,12 @@ function getGigFulfilledAction(gigs) {
 }
 
 export function createGig(gig) {
-  // return {type: ActionTypes.createGigFulfilled,};
+  console.log(database.ref().child('gigs'))
   return dispatch => {
     dispatch(createGigRequestedAction());
     return database.ref().child('gigs').push().set(gig)
-    .then(data => {
-      console.log(data);
-      return createGigFulfilledAction();
+    .then(() => {
+      dispatch(createGigFulfilledAction());
     })
     .catch((error) => {
       console.log(error);
@@ -77,37 +73,72 @@ function createGigFulfilledAction(gigs) {
 
 
 
-export function deleteGig(gigId) {
+export function deleteGig(gig) {
   // return {type: ActionTypes.deleteGigFulfilled,};
+  console.log('gig to delete: ' + gig)
   return dispatch => {
-    dispatch(deleteGigRequestedAction());
-    return database.child(gigId).remove()
-    .then(data => {
-      console.log(data);
-      return deleteGigFulfilledAction();
+    dispatch(deleteGigRequestedAction(gig));
+    return database.ref('gigs').child(gig.id).remove()
+    .then(() => {
+      return dispatch(deleteGigFulfilledAction());
     })
     .catch((error) => {
       console.log(error);
-      dispatch(deleteGigRejectedAction());
+      return dispatch(deleteGigRejectedAction());
     });
   }
 }
 
-function deleteGigRequestedAction() {
+function deleteGigRequestedAction(gig) {
   return {
-    type: ActionTypes.DeleteGigRequested
+    type: ActionTypes.DeleteGigRequested,
+    gig,
   };
 }
 
 function deleteGigRejectedAction() {
   return {
-    type: ActionTypes.DeleteGigRejected
+    type: ActionTypes.DeleteGigRejected,
   }
 }
 
-function deleteGigFulfilledAction(gigs) {
+function deleteGigFulfilledAction() {
   return {
     type: ActionTypes.DeleteGigFulfilled,
-    gigs
+    // gigs
+  };
+}
+
+export function restoreGig(gig) {
+  console.log(database.ref().child('gigs'))
+  return dispatch => {
+    dispatch(restoreGigRequestedAction());
+    return database.ref().child('gigs').push().set(gig)
+    .then(() => {
+      dispatch(restoreGigFulfilledAction(gig));
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(restoreGigRejectedAction());
+    });
+  }
+}
+
+function restoreGigRequestedAction() {
+  return {
+    type: ActionTypes.RestoreGigRequested
+  };
+}
+
+function restoreGigRejectedAction() {
+  return {
+    type: ActionTypes.RestoreGigRejected
+  }
+}
+
+function restoreGigFulfilledAction(gig) {
+  return {
+    type: ActionTypes.RestoreGigFulfilled,
+    gig
   };
 }
