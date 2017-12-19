@@ -1,25 +1,29 @@
 .page {
   width: 100%;
   &__container {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
   }
   &__content {
     width: 100%;
     order: 1;
-    // flex: 5;
+    margin-top: 135px; // flex: 5;
     // padding: .5rem;
-
     display: flex;
     justify-content: center;
     &--two-col {
+      margin-top: 135px;
       width: 100%;
     }
   }
   @include md {
-    &__content--two-col {
-      width: 80%;
+    &__content {
+      margin-top: 0;
+      &--two-col {
+        margin-top: 0;
+        width: 80%;
+      }
     }
   }
 }

@@ -149,6 +149,7 @@ export default class Input extends Component {
       rows,
       cols,
       name,
+      label,
       accept,
       onChange,
       onCancel,
@@ -191,6 +192,7 @@ export default class Input extends Component {
       });
       return (
         <div className="input">
+          <label className="input__label">{ label }</label>
           <select
             className="input__input"
             name={ name }
@@ -207,6 +209,7 @@ export default class Input extends Component {
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">
+          <label className="input__label">{ label }</label>
           <textarea
             className="input__input"
             name={ name }
@@ -225,6 +228,7 @@ export default class Input extends Component {
     else if (type === 'date') {
       return (
         <div className="input">
+        <label className="input__label">{ label }</label>
         <div className="date">
           <div className="btn-calendar btn-calendar--light"
             onClick={ this.onClickDate }
@@ -248,6 +252,7 @@ export default class Input extends Component {
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">
+          <label className="input__label">{ label }</label>
           <input
             className="input__input"
             type={ type }
@@ -267,6 +272,7 @@ export default class Input extends Component {
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">
+          <label className="input__label">{ label }</label>
           <input
             className="input__input"
             type={ type }

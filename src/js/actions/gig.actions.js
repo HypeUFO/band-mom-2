@@ -1,16 +1,22 @@
 import ActionTypes from '../constants/action_types';
 import database from '../config/fire';
 
-export function getGig() {
-  // return {type: ActionTypes.GetGigFulfilled,};
+export function getGig(id) {
   return dispatch => {
     dispatch(getGigRequestedAction());
     database.ref('/').once('value', snap => {
-      const gigs = snap.val();
-       return dispatch(getGigFulfilledAction(gigs))
+      const gigs = snap.val().gigs;
+      let gig;
+      Object.keys(gigs).map((key) => {
+        if (key === id) {
+          gigs[key].id = id;
+          return gig = gigs[key];
+        }
+        return null;
+      });
+       return dispatch(getGigFulfilledAction(gig))
     })
     .catch((error) => {
-      console.log(error);
       dispatch(getGigRejectedAction());
     });
   }
@@ -28,9 +34,45 @@ function getGigRejectedAction() {
   }
 }
 
-function getGigFulfilledAction(gigs) {
+function getGigFulfilledAction(gig) {
   return {
     type: ActionTypes.GetGigFulfilled,
+    gig
+  };
+}
+
+
+
+export function getGigMany() {
+  // return {type: ActionTypes.GetGigManyFulfilled,};
+  return dispatch => {
+    dispatch(getGigManyRequestedAction());
+    database.ref('/').once('value', snap => {
+      const gigs = snap.val();
+       return dispatch(getGigManyFulfilledAction(gigs))
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(getGigManyRejectedAction());
+    });
+  }
+}
+
+function getGigManyRequestedAction() {
+  return {
+    type: ActionTypes.GetGigManyRequested
+  };
+}
+
+function getGigManyRejectedAction() {
+  return {
+    type: ActionTypes.GetGigManyRejected
+  }
+}
+
+function getGigManyFulfilledAction(gigs) {
+  return {
+    type: ActionTypes.GetGigManyFulfilled,
     gigs
   };
 }
@@ -139,6 +181,45 @@ function restoreGigRejectedAction() {
 function restoreGigFulfilledAction(gig) {
   return {
     type: ActionTypes.RestoreGigFulfilled,
+    gig
+  };
+}
+
+
+
+
+
+
+
+export function updateEvent(gig) {
+  return dispatch => {
+    dispatch(updateGigRequestedAction());
+    database.ref().child('gigs/' + gig.id).update(gig)
+    .then(() => {
+      dispatch(updateGigFulfilledAction());
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(updateGigRejectedAction());
+    });
+  }
+}
+
+function updateGigRequestedAction() {
+  return {
+    type: ActionTypes.UpdateGigRequested
+  };
+}
+
+function updateGigRejectedAction() {
+  return {
+    type: ActionTypes.UpdateGigRejected
+  }
+}
+
+function updateGigFulfilledAction(gig) {
+  return {
+    type: ActionTypes.UpdateGigFulfilled,
     gig
   };
 }

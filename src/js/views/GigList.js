@@ -12,6 +12,7 @@ import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
 import CreateGigModal from '../modals/CreateGigModal';
 import moment from 'moment';
+import history from '../history';
 
 import database from '../config/fire'
 
@@ -41,11 +42,14 @@ class GigList extends Component {
 
   componentWillMount() {
     this.db.on('child_added', () => {
-      this.props.onGetGig()
+      this.props.onGetGigMany()
     })
   }
 
   handleRowClick(row) {
+    // this.props.onGetGig(this.id)
+    // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row._id}/`);
+    history.push(`/testUser/bands/testBand/gigs/${row.id}/details`);
   }
 
   handleRowMenuItemClick(doc, action, event) {
@@ -83,12 +87,12 @@ class GigList extends Component {
   }
 
   onDeleteGigSuccess() {
-    this.props.onGetGig();
+    this.props.onGetGigMany();
     // alert('Show successfully deleted');
   }
 
   onDeleteGigError() {
-    this.props.onGetGig();
+    this.props.onGetGigMany();
     alert('An error occured :(');
   }
 
@@ -119,13 +123,13 @@ class GigList extends Component {
     let statusColorClass = '';
     switch(doc.status) {
       case 'upcoming':
-        statusColorClass = 'clr-purple';
+        // statusColorClass = 'clr-purple';
         break;
       case 'past':
         statusColorClass = 'clr-red';
         break;
       default:
-        statusColorClass = 'clr-purple';
+        // statusColorClass = 'clr-purple';
     }
 
     let columns = [
@@ -134,6 +138,7 @@ class GigList extends Component {
       { value: doc.address },
       { value: doc.loadIn },
       { value: doc.showTime },
+      { value: doc.type },
       { value: doc.status.toUpperCase(), colorClass: statusColorClass },
     ];
 
@@ -230,7 +235,7 @@ class GigList extends Component {
         });
 
         return (
-          <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Status", "+"]}>
+          <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Type", "Status", "+"]}>
             { rows }
           </Table>
         );
@@ -301,7 +306,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    onGetGig: actions.getGig,
+    // onGetGig: actions.getGig,
+    onGetGigMany: actions.getGigMany,
     onDeleteGig: actions.deleteGig,
     onRestoreGig: actions.restoreGig,
     dismissNotification: dismissNotification,

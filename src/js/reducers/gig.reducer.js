@@ -2,6 +2,7 @@ import ActionTypes from '../constants/action_types';
 
 const initialState = {
   gigs: null,
+  activeGig: null,
   message: null,
   recentlyDeleted: [],
 }
@@ -18,10 +19,28 @@ export function gigReducer(state = initialState, action) {
     case ActionTypes.GetGigFulfilled:
         return {
         ...state,
-        gigs: action.gigs ? action.gigs.gigs : null,
+        activeGig: action.gig ? action.gig : null,
         // loading: false
       }
     case ActionTypes.GetGigRejected:
+        return {
+        ...state,
+        message: action.message,
+        // loading: false
+      }
+
+    case ActionTypes.GetGigManyRequested:
+        return {
+        ...state,
+        // loading: true
+      }
+    case ActionTypes.GetGigManyFulfilled:
+        return {
+        ...state,
+        gigs: action.gigs ? action.gigs.gigs : null,
+        // loading: false
+      }
+    case ActionTypes.GetGigManyRejected:
         return {
         ...state,
         message: action.message,

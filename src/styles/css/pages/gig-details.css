@@ -1,39 +1,28 @@
 /*
-Error: Undefined mixin 'lg'.
-        on line 16 of src/styles/scss/components/table.scss, in `lg'
-        from line 16 of src/styles/scss/components/table.scss
+Error: Undefined mixin 'md'.
+        on line 29 of src/styles/scss/pages/gig-details.scss, in `md'
+        from line 29 of src/styles/scss/pages/gig-details.scss
 
-11:     justify-content: center;
-12:     overflow-x: scroll;
-13:     // @include md {
-14:       // width: 50rem;
-15:     // }
-16:     @include lg {
-17:       // width: 60rem;
-18:       // width: 100%;
-19:     }
-20:   }
-21:   &__header {
+24:     }
+25:   }
+26:   &__nav {
+27:     padding: 15px 25px;
+28:   }
+29:   @include md {
+30:     display: flex;
+31:     flex-direction: row;
+32:     &__column {
+33:       width: 50%;
+34:     }
 
 Backtrace:
-src/styles/scss/components/table.scss:16:in `lg'
-src/styles/scss/components/table.scss:16
+src/styles/scss/pages/gig-details.scss:29:in `md'
+src/styles/scss/pages/gig-details.scss:29
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -82,4 +71,4 @@ src/styles/scss/components/table.scss:16
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'lg'.\A         on line 16 of src/styles/scss/components/table.scss, in `lg'\A         from line 16 of src/styles/scss/components/table.scss\A \A 11:     justify-content: center;\A 12:     overflow-x: scroll;\A 13:     // @include md {\A 14:       // width: 50rem;\A 15:     // }\A 16:     @include lg {\A 17:       // width: 60rem;\A 18:       // width: 100%;\A 19:     }\A 20:   }\A 21:   &__header {"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 29 of src/styles/scss/pages/gig-details.scss, in `md'\A         from line 29 of src/styles/scss/pages/gig-details.scss\A \A 24:     }\A 25:   }\A 26:   &__nav {\A 27:     padding: 15px 25px;\A 28:   }\A 29:   @include md {\A 30:     display: flex;\A 31:     flex-direction: row;\A 32:     &__column {\A 33:       width: 50%;\A 34:     }"; }

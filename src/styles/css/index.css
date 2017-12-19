@@ -91,13 +91,18 @@ body {
   .page__content {
     width: 100%;
     order: 1;
+    margin-top: 135px;
     display: flex;
     justify-content: center; }
     .page__content--two-col {
+      margin-top: 135px;
       width: 100%; }
   @media (min-width: 768px) {
-    .page__content--two-col {
-      width: 80%; } }
+    .page__content {
+      margin-top: 0; }
+      .page__content--two-col {
+        margin-top: 0;
+        width: 80%; } }
 
 .landing {
   background: url("/assets/img/form-page-img.jpeg");
@@ -225,6 +230,34 @@ body {
 input {
   user-select: text; }
 
+.gig__details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #FAFAFA; }
+  .gig__details__column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 4rem; }
+    .gig__details__column:nth-child(2) {
+      background: #fff; }
+    .gig__details__column__row {
+      width: 100%;
+      padding-bottom: 1rem;
+      display: flex;
+      flex-direction: row; }
+      .gig__details__column__row .input:nth-of-type(2) {
+        margin-left: 1.5rem; }
+  .gig__details__nav {
+    padding: 15px 25px; }
+  @media (min-width: 768px) {
+    .gig__details {
+      display: flex;
+      flex-direction: row; }
+      .gig__details__column {
+        width: 50%; } }
+
 .header,
 .header--landing {
   position: fixed;
@@ -318,30 +351,17 @@ input[type=checkbox]:checked ~ #menu {
   display: block; }
 
 /*Responsive Styles*/
-@media (min-width: 768px) {
-  .header {
-    justify-content: flex-start;
-    display: none; }
-    .header--landing {
-      justify-content: space-between; }
-    .header .logo {
-      text-shadow: 2px 2px #222;
-      left: 25px;
-      top: 5px; }
-    .header .show-drawer {
-      display: none; }
-
-  li a {
-    padding: 0 60px; } }
 .subheader {
-  position: relative;
+  position: fixed;
+  top: 70px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   background: #fff;
   padding: 0 2rem;
-  height: 80px;
+  height: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 3; }
   .subheader__breadcrumbs {
@@ -377,6 +397,26 @@ input[type=checkbox]:checked ~ #menu {
     .subheader__actions button {
       margin: 0; }
 
+@media (min-width: 768px) {
+  .header {
+    justify-content: flex-start;
+    display: none; }
+    .header--landing {
+      justify-content: space-between; }
+    .header .logo {
+      text-shadow: 2px 2px #222;
+      left: 25px;
+      top: 5px; }
+    .header .show-drawer {
+      display: none; }
+
+  li a {
+    padding: 0 60px; }
+
+  .subheader {
+    position: relative;
+    top: 0;
+    height: 80px; } }
 .clr-dark {
   color: #121F27 !important; }
 
@@ -437,8 +477,7 @@ textarea,
 .btn,
 .btn-icon {
   font-weight: 500;
-  margin: 1rem 0;
-  border-radius: 0.25rem;
+  margin: 0.5rem 0;
   border: none;
   outline: none;
   padding: 0.25rem 1rem;
@@ -448,9 +487,11 @@ textarea,
 
 input,
 select,
-.btn,
-.btn-icon {
+.btn {
   height: 3.5rem; }
+
+.btn-icon {
+  height: 3rem; }
 
 textarea {
   min-height: 3.5rem;
@@ -463,8 +504,7 @@ select,
   width: 100%;
   font-size: 1rem;
   background: #F4FAF6;
-  box-shadow: 0px 0.15rem 0px #7F4FFF;
-  border-radius: 0.25rem; }
+  box-shadow: 0px 0.15rem 0px #7F4FFF; }
   input label,
   textarea label,
   select label,
@@ -508,7 +548,8 @@ button {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0 5px; }
+  padding: 0 5px;
+  margin-bottom: 10px; }
   .input__error {
     display: inline-block;
     color: #E46F65; }
@@ -516,6 +557,11 @@ button {
   .input--light select,
   .input--light textarea {
     background: #FFFFFF; }
+  .input__label {
+    align-self: flex-start;
+    color: #7F4FFF;
+    font-size: .9rem;
+    font-weight: 300; }
 
 .btn {
   width: 4rem; }
@@ -537,8 +583,7 @@ input[type="submit"] {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 3rem; }
+  align-items: center; }
   .btn-icon__text {
     display: none; }
   .btn-icon__icon .btn-icon {
@@ -564,7 +609,6 @@ input[type="submit"] {
   font-size: 1rem;
   background: #F4FAF6;
   box-shadow: 0px 0.15rem 0px #7F4FFF;
-  border-radius: 0.25rem;
   padding: 14px;
   cursor: pointer; }
   .btn-calendar__icon {
@@ -639,7 +683,6 @@ input[type="submit"] {
   flex-direction: column;
   padding: 3rem 2rem;
   user-select: none;
-  margin: 150px 0;
   width: 100%; }
   .table__container {
     width: 100%;
@@ -664,8 +707,7 @@ input[type="submit"] {
       align-items: center; } }
 
 table {
-  position: relative;
-  width: 100%; }
+  position: relative; }
 
 thead tr {
   display: none; }
@@ -1133,5 +1175,79 @@ tbody:hover > tr:hover td {
   .notification__button:hover {
     color: #7F4FFF;
     background: #FFFFFF; }
+
+.form {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  overflow: visible; }
+  .form--center {
+    text-align: center; }
+  .form__container {
+    width: 100%;
+    background: #FFFFFF;
+    padding: 3rem 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
+  .form__top {
+    margin: 10px; }
+    .form__top h3, .form__top p {
+      margin: 0;
+      padding: 0; }
+    .form__top p {
+      display: inline-block; }
+  .form__middle {
+    padding: 0.5rem 0; }
+  .form__bottom {
+    display: flex;
+    justify-content: center; }
+    .form__bottom--hidden {
+      visibility: hidden; }
+    .form__bottom > button {
+      font-size: 18px;
+      width: 8rem; }
+  .form__column {
+    flex: 1; }
+  .form__row {
+    display: flex;
+    flex-direction: column; }
+  .form__file {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; }
+    .form__file__close {
+      cursor: pointer; }
+  @media (min-width: 768px) {
+    .form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center; }
+      .form__container {
+        width: 600px;
+        height: auto; }
+      .form__middle {
+        display: flex;
+        flex-direction: column; }
+      .form__column {
+        display: flex;
+        flex-direction: column; }
+        .form__column:nth-of-type(2) {
+          margin-left: 2rem; }
+      .form__row {
+        padding: 15px;
+        flex-direction: row; } }
+
+.map {
+  height: 300px; }
+
+@media screen and (min-width: 1024px) {
+  .map {
+    height: 500px; } }
 
 /*# sourceMappingURL=index.css.map */

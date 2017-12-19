@@ -4,8 +4,8 @@ textarea,
 .btn,
 .btn-icon {
   font-weight: 500;
-  margin: 1rem 0;
-  border-radius: 0.25rem;
+  margin: 0.5rem 0;
+  // border-radius: 0.25rem;
   border: none;
   outline: none;
   padding: 0.25rem 1rem;
@@ -16,9 +16,12 @@ textarea,
 
 input,
 select,
-.btn,
-.btn-icon {
+.btn {
   height: 3.5rem;
+}
+
+.btn-icon {
+  height: 3rem;
 }
 
 textarea {
@@ -34,7 +37,7 @@ select,
   font-size: 1rem;
   background: #F4FAF6;
   box-shadow: 0px 0.15rem 0px $color-purple;
-  border-radius: 0.25rem; // border-radius: 0;
+  // border-radius: 0.25rem; // border-radius: 0;
   label {
     line-height: 1.5;
   }
@@ -88,6 +91,7 @@ button {
   justify-content: center;
   width: 100%;
   padding: 0 5px;
+  margin-bottom: 10px;
   &__error {
     display: inline-block;
     color: $color-red;
@@ -98,6 +102,12 @@ button {
     textarea {
       background: $color-light;
     }
+  }
+  &__label {
+    align-self: flex-start;
+    color: $color-purple;
+    font-size: .9rem;
+    font-weight: 300;
   }
 }
 
@@ -124,7 +134,7 @@ input[type="submit"] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 3rem;
+  // width: 3rem;
   &__text {
     display: none;
   }
@@ -157,7 +167,7 @@ input[type="submit"] {
   font-size: 1rem;
   background: #F4FAF6;
   box-shadow: 0px 0.15rem 0px $color-purple;
-  border-radius: 0.25rem;
+  // border-radius: 0.25rem;
   padding: 14px; // border-radius: 0;
   label {
     // line-height: 1.5;

@@ -9,6 +9,7 @@ import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
 import GigList from './GigList';
+import EventDetails from './EventDetails';
 // import NotFound from './NotFound';
 import Header from '../components/Global/Header';
 // import Footer from '../components/Global/Footer';
@@ -47,6 +48,7 @@ class App extends Component {
               <Route exact path={routeCodes.LANDING} component={Landing}/>
               <Route exact path={routeCodes.LOGIN} component={Login}/>
               <Route path={routeCodes.REGISTER} component={Register}/>
+              <Route path={routeCodes.GIG_DETAILS} component={EventDetails}/>
               <Route path={routeCodes.GIG_LIST} component={GigList}/>
               {/* <Route path={routeCodes.ABOUT} component={About}/> */}
               <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>

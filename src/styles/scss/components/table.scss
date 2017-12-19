@@ -3,7 +3,6 @@
   flex-direction: column;
   padding: 3rem 2rem;
   user-select: none;
-  margin: 150px 0;
   width: 100%;
   // overflow-x: scroll;
   &__container {
@@ -49,7 +48,7 @@
 
 table {
   position: relative;
-  width: 100%;
+  // margin: 100px 0;
 }
 
 thead tr {
