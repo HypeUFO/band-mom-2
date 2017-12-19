@@ -39,7 +39,7 @@ export default class Subheader extends Component {
     } = this.props;
 
     let parts = breadcrumbs.map((bc, index) => {
-      let backslash = (breadcrumbs.length > 1 && index !== breadcrumbs.length - 1) ? ' /' : '';
+      let backslash = (breadcrumbs.length > 1 && index !== breadcrumbs.length - 1) ? '' : '';
       let link;
       if(bc.link) {
         link = <Link to={ bc.link }>{ bc.name }{ backslash }</Link>;

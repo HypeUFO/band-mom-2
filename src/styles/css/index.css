@@ -382,6 +382,12 @@ input[type=checkbox]:checked ~ #menu {
     white-space: nowrap; }
     .subheader__breadcrumb a {
       color: #BBBBBB; }
+      .subheader__breadcrumb a > i {
+        font-size: 36px;
+        line-height: 1.5;
+        color: #b79cff; }
+        .subheader__breadcrumb a > i:hover {
+          color: #7F4FFF; }
     .subheader__breadcrumb:nth-last-of-type(1) {
       font-weight: 500;
       color: #121F27;
@@ -1244,10 +1250,17 @@ tbody:hover > tr:hover td {
         flex-direction: row; } }
 
 .map {
-  height: 300px; }
-
-@media screen and (min-width: 1024px) {
-  .map {
-    height: 500px; } }
+  width: 80%;
+  height: 80%; }
+  .map__container {
+    height: 300px;
+    margin: auto;
+    padding: 0 20px; }
+  @media (min-width: 768px) {
+    .map {
+      width: 100%;
+      height: 100%; }
+      .map__container {
+        height: 300px; } }
 
 /*# sourceMappingURL=index.css.map */

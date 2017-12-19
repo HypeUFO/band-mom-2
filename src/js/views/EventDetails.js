@@ -194,9 +194,9 @@ class EventDetails extends Component {
             <Map
               isMarkerShown
               googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&v=3.exp&libraries=geometry,drawing,places"
-              loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<div style={{ height: `250px`, padding: '0 20px' }} />}
-              mapElement={<div style={{ height: `100%` }} />}
+              // loadingElement={<div style={{ height: `100%` }} />}
+              // containerElement={<div style={{ height: `250px`, padding: '0 20px' }} />}
+              // mapElement={<div style={{ height: `100%` }} />}
               center={ gig.address }
             /> : null
             }
@@ -281,12 +281,18 @@ class EventDetails extends Component {
     //   { link: null, name: project.name },
     // ];
 
-    let breadcrumbs = [
+    let breadcrumbs = this.props.gig ? [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: 'Shows' },
-      // { link: null, name: gig.venue },
+      // { link: `/testUser/bands/testBand/gigs`, name: '<' },
+      { link: `/testUser/bands/testBand/gigs`, name: <i class="material-icons">chevron_left</i> },
+      { link: null, name: this.props.gig.venue },
+      { link: null, name: moment(this.props.gig.date).format('MM/DD/YY') },
+    ] :
+    [
+      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
+      // { link: `/testUser/bands/testBand/gigs`, name: '<' },
+      { link: `/testUser/bands/testBand/gigs`, name: 'Event:' },
     ];
-
     return (
       <div className='page__container'>
         <Drawer
@@ -303,9 +309,9 @@ class EventDetails extends Component {
           buttonOnClick={ this.handleFormEdit }
         />
         {/* <Link to={`/${user.id}`} activeClassName="active">{user.name}</Link> */}
-        <div className="gig__details__nav">
+        {/* <div className="gig__details__nav">
           <Link to={`/testUser/bands/testBand/gigs`} className="gig__details__edit--back">Back To Event List</Link>
-        </div>
+        </div> */}
         <div>
         { this.props.isLoading ? null : this.renderForm() }
       </div>

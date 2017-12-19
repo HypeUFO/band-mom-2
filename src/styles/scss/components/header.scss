@@ -216,6 +216,14 @@ input[type=checkbox]:checked~#menu {
     white-space: nowrap;
     a {
       color: $color-gray;
+      > i {
+        font-size: 36px;
+        line-height: 1.5;
+        color: $color-purple-light;
+        &:hover {
+          color: $color-purple;
+        }
+      }
     }
     &:nth-last-of-type(1) {
       font-weight: 500;

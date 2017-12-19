@@ -1,46 +1,6 @@
-// import React from 'react';
-// import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
-
-// const google = window.google;
-// let geocoder = new google.maps.Geocoder();
-
-// function center(address) {
-//   console.log(address);
-//   geocoder.geocode({'address': address}, function(results, status) {
-//     if (status == 'OK') {
-//       console.log('Geocode was successful ' + JSON.stringify(results));
-//       return results[0].geometry.location;
-//     } else {
-//       console.log('Geocode was not successfull because ' + status)
-//     }
-//   })
-// }
-
-// let mapCenter = center('4 Paag Lane Little Silver NJ 07739');
-
-// const Map = withGoogleMap((props) =>
-//   <GoogleMap
-//     defaultZoom={8}
-//     defaultCenter={ {lat: -34.397, lng: 150.644} }
-//     // defaultCenter={ center('4 Paag Lane Little Silver NJ 07739') }
-//   >
-//     {/* {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />} */}
-//   </GoogleMap>
-// )
-
-// // const Map = withScriptjs(withGoogleMap((props) =>
-// //   <GoogleMap
-// //     defaultZoom={8}
-// //     // defaultCenter={ {lat: -34.397, lng: 150.644} }
-// //     defaultCenter={ center('4 Paag Lane Little Silver NJ 07739') }
-// //   >
-// //     {/* {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />} */}
-// //   </GoogleMap>
-// // ))
-
-// export default Map;
-
-import { connect } from 'react-redux';
+import {
+  connect
+} from 'react-redux';
 const React = require('react')
 const PropTypes = require('prop-types')
 // import Reflux from 'reflux'
@@ -48,73 +8,449 @@ const PropTypes = require('prop-types')
 
 class Map extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.loadJS = this.loadJS.bind(this)
-        this.initMap = this.initMap.bind(this)
-        this.center = this.center.bind(this);
-        this.google = window.google;
-        this.geocoder = new this.google.maps.Geocoder();
-        this.initMap = this.initMap.bind(this);
-    }
+  constructor(props) {
+    super(props)
+    this.loadJS = this.loadJS.bind(this)
+    this.initMap = this.initMap.bind(this)
+    this.buildMap = this.buildMap.bind(this);
+    this.google = window.google;
+    this.geocoder = new this.google.maps.Geocoder();
+    this.initMap = this.initMap.bind(this);
+    this.geocodeAddress = this.geocodeAddress.bind(this);
+  }
 
-    center(address) {
-      console.log(address);
-      this.geocoder.geocode({'address': address}, function(results, status) {
-        if (status == 'OK') {
-          console.log('Geocode was successful ' + JSON.stringify(results));
-          return results[0].geometry.location;
-        } else {
-          console.log('Geocode was not successfull because ' + status)
-        }
-      })
+  componentDidMount() {
+    if (typeof this.google === 'object' && typeof this.google.maps === 'object') {
+      this.initMap()
+    } else {
+      this.loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&callback=initMap')
     }
+  }
 
-    componentDidMount() {
-        if (typeof this.google === 'object' && typeof this.google.maps === 'object') {
-            this.initMap()
-        } else {
-            this.loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&callback=initMap')
-        }
-    }
+  // https://github.com/filamentgroup/loadJS/blob/master/loadJS.js
+  loadJS(src) {
+    var ref = window.document.getElementsByTagName("script")[0];
+    var script = window.document.createElement("script");
+    script.src = src;
+    script.async = true;
+    ref.parentNode.insertBefore(script, ref);
+  }
 
-    // https://github.com/filamentgroup/loadJS/blob/master/loadJS.js
-    loadJS(src) {
-        var ref = window.document.getElementsByTagName("script")[0];
-        var script = window.document.createElement("script");
-        script.src = src;
-        script.async = true;
-        ref.parentNode.insertBefore(script, ref);
-    }
+  geocodeAddress(address) {
+    this.geocoder.geocode({
+      'address': address
+    }, function (results, status) {
+      if (status == 'OK') {
+        console.log('Geocode was successful ' + JSON.stringify(results));
+        return results[0].geometry.location;
+      } else {
+        console.log('Geocode was not successfull because ' + status)
+      }
+    })
 
-    initMap() {
-        var map = new this.google.maps.Map(this.refs.map, {
-          // center: this.center('4 Pennsylvania Plaza, New York, NY 10001'),
-          center: {"lat":40.7505621,"lng":-73.99347089999998},
-          zoom: 15
-        })
-        var marker = new this.google.maps.Marker({
-          position: {"lat":40.7505621,"lng":-73.99347089999998},
-          map: map
+  }
+
+
+  buildMap(map, address) {
+    const pinSymbol = {
+      path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+      fillColor: '#FFF',
+      fillOpacity: 1,
+      strokeColor: '#190999',
+      strokeWeight: 2,
+      scale: 1
+    };
+
+    this.geocoder.geocode({
+      'address': address
+    }, function (results, status) {
+      if (status == 'OK') {
+        map.setCenter(results[0].geometry.location);
+        const marker = new this.google.maps.Marker({
+          position: results[0].geometry.location,
+          map,
+          icon: pinSymbol,
+        });
+        marker.addListener('mouseover', function () {
+          infowindow.open(map, marker);
+        });
+        marker.addListener('mouseout', function () {
+          infowindow.close();
         });
         var contentString = `<div>Test Info WIndow</div>`
-
         var infowindow = new this.google.maps.InfoWindow({
           content: contentString
         });
-        marker.addListener('mouseover', function() {
-          infowindow.open(map, marker);
-        });
-        marker.addListener('mouseout', function() {
-          infowindow.close();
-        });
-    }
+      } else {
+        console.log('Geocode was not successfull because ' + status)
+      }
+    })
+  }
 
-    render() {
-        return (
-        <div ref='map' style={{height: 250, width: '100%'}}></div>
-      )
-    }
+  initMap() {
+    const mapOptions = {
+      styles: [
+        {
+            "featureType": "all",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "hue": "#7F4FFF"
+                },
+                {
+                    "saturation": "0"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#e8b8f9"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative.country",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "color": "#ff0000"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative.land_parcel",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#4B0BBB"
+                },
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                },
+                {
+                    "color": "#a02aca"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.natural",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "color": "#2e093b"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.natural",
+            "elementType": "labels.text",
+            "stylers": [
+                {
+                    "color": "#190099"
+                },
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.natural",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#190099"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.natural.landcover",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "color": "#58176e"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape.natural.landcover",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi.business",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "lightness": 45
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "color": "#7F4FFF"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#d180ee"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.text.stroke",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "color": "#7F4FFF"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                },
+                {
+                    "color": "#ff0000"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels.text",
+            "stylers": [
+                {
+                    "color": "#a02aca"
+                },
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#190099"
+                },
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels.text.stroke",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "hue": "#bc00ff"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "color": "#b79cff"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#190099",
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "labels.icon",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#000033"
+                },
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "color": "#000033"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                },
+                {
+                    "color": "#b79cff"
+                }
+            ]
+        }
+    ],
+    zoom: 15
+    };
+
+    const map = new this.google.maps.Map(this.refs.map, mapOptions)
+    this.buildMap(map, this.props.center)
+  }
+
+  render() {
+    return (
+      <div class = "map__container">
+        <div
+          ref = 'map'
+          class = "map"
+          // style = {
+          //   {
+          //     height: 250,
+          //     width: '100%'
+          //   }
+          // }
+        >
+        </div>
+      </div>
+    )
+  }
 
 }
 
