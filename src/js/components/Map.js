@@ -1,12 +1,14 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   connect
 } from 'react-redux';
-const React = require('react')
-const PropTypes = require('prop-types')
+import moment from 'moment';
+
 // import Reflux from 'reflux'
 // const Radium = require('radium')
 
-class Map extends React.Component {
+class Map extends Component {
 
   constructor(props) {
     super(props)
@@ -51,7 +53,7 @@ class Map extends React.Component {
   }
 
 
-  buildMap(map, address) {
+  buildMap(map, address, gig) {
     const pinSymbol = {
       path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
       fillColor: '#FFF',
@@ -71,16 +73,33 @@ class Map extends React.Component {
           map,
           icon: pinSymbol,
         });
-        marker.addListener('mouseover', function () {
+        marker.addListener('click', function () {
           infowindow.open(map, marker);
+          // const el = document.querySelector('.gm-style-iw');
+          // el.previousElementSibling.parentNode.removeChild(el);
+          // el.parentElement.setAttribute('style', 'background: linear-gradient(135deg, #7F4FFF, #121F27);')
         });
-        marker.addListener('mouseout', function () {
+        marker.addListener('blur', function () {
           infowindow.close();
-        });
-        var contentString = `<div>Test Info WIndow</div>`
+        }, true);
+        var contentString = (`
+            <div id="iw-container">
+              <div class="iw-title">${gig.venue} - ${moment(gig.date).format('MM/DD/YY')}</div>
+              <div class="iw-content">
+                <div>${gig.venue}</div>
+                <div>${gig.date}</div>
+                <div>${gig.address}</div>
+                <div>Show Time: ${gig.showTime}</div>
+                <div>Load In: ${gig.loadIn}</div>
+              </div>
+              <div class="iw-bottom-gradient"></div>
+            </div>
+          `)
+
         var infowindow = new this.google.maps.InfoWindow({
           content: contentString
         });
+
       } else {
         console.log('Geocode was not successfull because ' + status)
       }
@@ -431,7 +450,7 @@ class Map extends React.Component {
     };
 
     const map = new this.google.maps.Map(this.refs.map, mapOptions)
-    this.buildMap(map, this.props.center)
+    this.buildMap(map, this.props.center, this.props.gig)
   }
 
   render() {
