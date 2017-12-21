@@ -14,6 +14,8 @@ import history from '../history';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
+import smoothScroll from '../helpers/smoothScroll';
+
 import database from '../config/fire'
 
 export const initialState = {
@@ -68,18 +70,29 @@ class EventDetails extends Component {
   }
 
   handleFormEdit() {
+    const form = document.querySelector('#event-details__form');
+    // const form = this.refs.form;
     this.setState({
       disabled: !this.state.disabled,
-      venue: this.props.gig.venue,
-      address: this.props.gig.address,
-      phone: this.props.gig.phone,
-      date: this.props.gig.date,
-      showTime: this.props.gig.showTime,
-      loadIn: this.props.gig.loadIn,
+      venue: this.props.gig.venue || '',
+      address: this.props.gig.address || '',
+      phone: this.props.gig.phone || '',
+      date: this.props.gig.date || '',
+      showTime: this.props.gig.showTime || '',
+      loadIn: this.props.gig.loadIn || '',
       type: this.props.gig.type,
-      notes: this.props.gig.notes,
+      notes: this.props.gig.notes || '',
       id: this.id
     })
+
+    if (this.state.disabled) {
+      // form.scrollIntoView();
+      smoothScroll(form, 500);
+    } else {
+      // document.body.scrollTop = 0; // For Safari
+      // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      smoothScroll(document.body, 500);
+    }
   }
 
   onSubmit(event) {
@@ -98,6 +111,7 @@ class EventDetails extends Component {
     this.setState({
       disabled: true
     })
+    smoothScroll(document.body, 500);
     this.props.onGetGig(this.id);
   }
 
@@ -116,9 +130,11 @@ class EventDetails extends Component {
     const gig = {
       venue: this.state.venue,
       address: this.state.address,
+      phone: this.state.phone,
       date: new Date(this.state.date).toISOString(),
       showTime: this.state.showTime,
       loadIn: this.state.loadIn,
+      notes: this.state.notes,
       type: this.state.type,
       status: new Date(this.state.date) > new Date() ? 'upcoming' : 'past',
       id: this.state.id,
@@ -180,24 +196,13 @@ class EventDetails extends Component {
 
   renderForm() {
     const { gig } = this.props;
-    // let formBottom;
-    // if (!this.state.disabled) {
-    //   formBottom = <div>
-    //     <Input type="button-thin-cancel" value="Cancel" />
-    //     <Input type="button-thin-submit" value="Save" />
-    //   </div>
-    // } else {
-    //   formBottom =
-    //     <button className="btn-icon" onClick={ this.handleFormEdit }>
-    //       <span className="btn-icon__text">Edit</span>
-    //       <i className="material-icons btn-icon__icon">edit</i>
-    //     </button>
-    // }
     if (gig) {
       let formBottomClasses = classNames('form__bottom', 'event-details__form__bottom', { 'form__bottom--hidden': this.state.disabled });
       return (
         <Form
             // className="form__container"
+            className="event-details__form"
+            id="event-details__form"
             onSubmit={ this.onSubmit }
             onCancel={ this.onCancel }
             disabled={ this.state.disabled }
@@ -231,7 +236,7 @@ class EventDetails extends Component {
                     label="Venue Phone"
                     value={ this.state.disabled ? gig.phone : this.state.phone }
                     onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                   <Input type="date"
                     name="date"
@@ -271,12 +276,12 @@ class EventDetails extends Component {
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                   <Input type="textarea"
-                    name="Notes"
+                    name="notes"
                     placeholder="Notes"
                     label="Notes"
                     value={ this.state.disabled ? gig.notes : this.state.notes }
                     onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                 </div>
                 <div className="form__column">
@@ -312,7 +317,7 @@ class EventDetails extends Component {
     let breadcrumbs = this.props.gig ? [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
       // { link: `/testUser/bands/testBand/gigs`, name: '<' },
-      { link: `/testUser/bands/testBand/gigs`, name: <i className="material-icons">chevron_left</i> },
+      { link: `/testUser/bands/testBand/gigs`, name: <i className="icon material-icons">chevron_left</i> },
       { link: null, name: this.props.gig.venue },
       { link: null, name: moment(this.props.gig.date).format('MM/DD/YY') },
     ] :
@@ -334,10 +339,10 @@ class EventDetails extends Component {
         />
         <div className='page__content--two-col'>
         <Subheader breadcrumbs={ breadcrumbs }
-          buttonHide={ !this.state.disabled }
-          buttonLabel={ 'Edit' }
-          buttonIcon="edit"
-          buttonOnClick={ this.handleFormEdit }
+          // buttonHide={ !this.state.disabled }
+          buttonLabel={ this.state.disabled ? 'Edit' : 'Save'}
+          buttonIcon={ this.state.disabled ? 'edit' : 'save' }
+          buttonOnClick={ this.state.disabled ? this.handleFormEdit : this.onSubmit }
         />
         <div className={ classes }>
           {/* <div className="form__top">

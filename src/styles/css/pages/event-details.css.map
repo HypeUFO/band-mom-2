@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAqBE,yBAAa;EAIX,UAAU,EAAE,IAAI;EAChB,OAAO,EAAE,IAAI;;AAMjB,qBAAsB;EACpB,QAAQ,EAAE,QAAQ;EAClB,OAAO,EAAE,KAAK",
+"sources": ["../../scss/pages/event-details.scss"],
 "names": [],
 "file": "event-details.css"
 }

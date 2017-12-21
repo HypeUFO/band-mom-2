@@ -7,6 +7,7 @@
   // overflow-x: scroll;
   &__container {
     width: 100%;
+    // width: 90%;
     display: flex;
     justify-content: flex-start;
     overflow-x: scroll;
@@ -143,6 +144,9 @@ tbody:hover>tr:hover td {
     margin: 100px 0;
     // width: 80%;
     // float: right;
+    &__container {
+      width: 90%;
+    }
     td {
       width: auto;
       text-align: left;

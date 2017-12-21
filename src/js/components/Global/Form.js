@@ -53,6 +53,7 @@ export default class Form extends Component {
       onCancel,
       children,
       disabled,
+      id,
     } = this.props;
     let errorLabel = (error) ?
     <label className="input__error">{ error }</label> : null;
@@ -61,7 +62,7 @@ export default class Form extends Component {
       width: 'auto'
     };
     return (
-      <form className={ className } onSubmit={ onSubmit }>
+      <form id={ id } className={ className } onSubmit={ onSubmit }>
         <fieldset disabled={ disabled } style={ fieldsetStyle }>
           { this.renderChildren(children, onCancel) }
           { errorLabel }
