@@ -1,28 +1,39 @@
 /*
-Error: Undefined mixin 'md'.
-        on line 29 of src/styles/scss/pages/gig-details.scss, in `md'
-        from line 29 of src/styles/scss/pages/gig-details.scss
+Error: Undefined variable: "$ease-in-out-cubic".
+        on line 23 of src/styles/scss/pages/event-details.scss
 
-24:     }
-25:   }
-26:   &__nav {
-27:     padding: 15px 25px;
-28:   }
-29:   @include md {
-30:     display: flex;
-31:     flex-direction: row;
-32:     &__column {
-33:       width: 50%;
-34:     }
+18: //   }
+19: // }
+20: 
+21: .event-details {
+22:   &__container {
+23:     transition: transform 0.3s $ease-in-out-cubic;
+24:     transform: translateY(0);
+25:     padding: 20px;
+26:     &--hidden {
+27:       transform: translateY(-345px);
+28:     }
 
 Backtrace:
-src/styles/scss/pages/gig-details.scss:29:in `md'
-src/styles/scss/pages/gig-details.scss:29
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
+src/styles/scss/pages/event-details.scss:23
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `block in _perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `_perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `with_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -71,4 +82,4 @@ src/styles/scss/pages/gig-details.scss:29
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 29 of src/styles/scss/pages/gig-details.scss, in `md'\A         from line 29 of src/styles/scss/pages/gig-details.scss\A \A 24:     }\A 25:   }\A 26:   &__nav {\A 27:     padding: 15px 25px;\A 28:   }\A 29:   @include md {\A 30:     display: flex;\A 31:     flex-direction: row;\A 32:     &__column {\A 33:       width: 50%;\A 34:     }"; }
+  content: "Error: Undefined variable: \"$ease-in-out-cubic\".\A         on line 23 of src/styles/scss/pages/event-details.scss\A \A 18: //   }\A 19: // }\A 20: \A 21: .event-details {\A 22:   &__container {\A 23:     transition: transform 0.3s $ease-in-out-cubic;\A 24:     transform: translateY(0);\A 25:     padding: 20px;\A 26:     &--hidden {\A 27:       transform: translateY(-345px);\A 28:     }"; }

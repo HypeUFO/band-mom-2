@@ -8,7 +8,7 @@
   &__container {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     overflow-x: scroll;
     // @include md {
       // width: 50rem;

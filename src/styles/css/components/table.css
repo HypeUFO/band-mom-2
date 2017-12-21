@@ -3,7 +3,7 @@ Error: Undefined mixin 'lg'.
         on line 16 of src/styles/scss/components/table.scss, in `lg'
         from line 16 of src/styles/scss/components/table.scss
 
-11:     justify-content: center;
+11:     justify-content: flex-start;
 12:     overflow-x: scroll;
 13:     // @include md {
 14:       // width: 50rem;
@@ -82,4 +82,4 @@ src/styles/scss/components/table.scss:16
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'lg'.\A         on line 16 of src/styles/scss/components/table.scss, in `lg'\A         from line 16 of src/styles/scss/components/table.scss\A \A 11:     justify-content: center;\A 12:     overflow-x: scroll;\A 13:     // @include md {\A 14:       // width: 50rem;\A 15:     // }\A 16:     @include lg {\A 17:       // width: 60rem;\A 18:       // width: 100%;\A 19:     }\A 20:   }\A 21:   &__header {"; }
+  content: "Error: Undefined mixin 'lg'.\A         on line 16 of src/styles/scss/components/table.scss, in `lg'\A         from line 16 of src/styles/scss/components/table.scss\A \A 11:     justify-content: flex-start;\A 12:     overflow-x: scroll;\A 13:     // @include md {\A 14:       // width: 50rem;\A 15:     // }\A 16:     @include lg {\A 17:       // width: 60rem;\A 18:       // width: 100%;\A 19:     }\A 20:   }\A 21:   &__header {"; }

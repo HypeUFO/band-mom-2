@@ -4,7 +4,7 @@ Error: Undefined variable: "$color-purple-dark-gradient-vertical".
 
 9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow
 10:   width: 50vw;
-11:   min-width: 180px;
+11:   // min-width: 180px;
 12:   // width: 100%;
 13:   height: 100vh;
 14:   background: $color-purple-dark-gradient-vertical;
@@ -67,4 +67,4 @@ src/styles/scss/components/drawer.scss:14
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple-dark-gradient-vertical\".\A         on line 14 of src/styles/scss/components/drawer.scss\A \A 9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow\A 10:   width: 50vw;\A 11:   min-width: 180px;\A 12:   // width: 100%;\A 13:   height: 100vh;\A 14:   background: $color-purple-dark-gradient-vertical;\A 15:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\A 16:   z-index: 4;\A 17:   overflow: auto;\A 18:   transform: translateX(-100%);\A 19:   transition: transform 0.3s $ease-in-out-cubic;"; }
+  content: "Error: Undefined variable: \"$color-purple-dark-gradient-vertical\".\A         on line 14 of src/styles/scss/components/drawer.scss\A \A 9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow\A 10:   width: 50vw;\A 11:   // min-width: 180px;\A 12:   // width: 100%;\A 13:   height: 100vh;\A 14:   background: $color-purple-dark-gradient-vertical;\A 15:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\A 16:   z-index: 4;\A 17:   overflow: auto;\A 18:   transform: translateX(-100%);\A 19:   transition: transform 0.3s $ease-in-out-cubic;"; }

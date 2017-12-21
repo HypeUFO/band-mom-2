@@ -19,10 +19,12 @@ import database from '../config/fire'
 export const initialState = {
   venue: '',
   address: '',
+  phone: '',
   date: '',
   showTime: '',
   loadIn: '',
   type: '',
+  notes: '',
   disabled: true,
 };
 class EventDetails extends Component {
@@ -70,10 +72,12 @@ class EventDetails extends Component {
       disabled: !this.state.disabled,
       venue: this.props.gig.venue,
       address: this.props.gig.address,
+      phone: this.props.gig.phone,
       date: this.props.gig.date,
       showTime: this.props.gig.showTime,
       loadIn: this.props.gig.loadIn,
       type: this.props.gig.type,
+      notes: this.props.gig.notes,
       id: this.id
     })
   }
@@ -176,8 +180,21 @@ class EventDetails extends Component {
 
   renderForm() {
     const { gig } = this.props;
+    // let formBottom;
+    // if (!this.state.disabled) {
+    //   formBottom = <div>
+    //     <Input type="button-thin-cancel" value="Cancel" />
+    //     <Input type="button-thin-submit" value="Save" />
+    //   </div>
+    // } else {
+    //   formBottom =
+    //     <button className="btn-icon" onClick={ this.handleFormEdit }>
+    //       <span className="btn-icon__text">Edit</span>
+    //       <i className="material-icons btn-icon__icon">edit</i>
+    //     </button>
+    // }
     if (gig) {
-      let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': this.state.disabled });
+      let formBottomClasses = classNames('form__bottom', 'event-details__form__bottom', { 'form__bottom--hidden': this.state.disabled });
       return (
         <Form
             // className="form__container"
@@ -187,19 +204,6 @@ class EventDetails extends Component {
             ref="form"
             // error={ createError || uploadError }
           >
-            <div className="form__top">
-              <h3 className="clr-purple">Edit Event</h3>
-            </div>
-            { gig ?
-            <Map
-              isMarkerShown
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&v=3.exp&libraries=geometry,drawing,places"
-              // loadingElement={<div style={{ height: `100%` }} />}
-              // containerElement={<div style={{ height: `250px`, padding: '0 20px' }} />}
-              // mapElement={<div style={{ height: `100%` }} />}
-              center={ gig.address }
-            /> : null
-            }
             <div className="form__middle">
               <div className="form__column">
                 <div className="form__row">
@@ -216,6 +220,16 @@ class EventDetails extends Component {
                     placeholder="Venue Address"
                     label="Venue Address"
                     value={ this.state.disabled ? gig.address : this.state.address }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                  </div>
+                  <div className="form__row">
+                  <Input type="text"
+                    name="phone"
+                    placeholder="Venue Phone"
+                    label="Venue Phone"
+                    value={ this.state.disabled ? gig.phone : this.state.phone }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -245,6 +259,8 @@ class EventDetails extends Component {
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
+                </div>
+                <div className="form__row">
                   <Input type="select"
                     name="type"
                     placeholder="Show/Rehearsal"
@@ -254,14 +270,26 @@ class EventDetails extends Component {
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
+                  <Input type="textarea"
+                    name="Notes"
+                    placeholder="Notes"
+                    label="Notes"
+                    value={ this.state.disabled ? gig.notes : this.state.notes }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
                 </div>
                 <div className="form__column">
                   {/* { this.renderFiles() } */}
                 </div>
               </div>
-            <div className={ formBottomClasses }>
+            <div
+            // className="form__bottom"
+            className={ formBottomClasses }
+            >
               <Input type="button-thin-cancel" value="Cancel" />
               <Input type="button-thin-submit" value="Save" />
+              {/* { formBottom } */}
             </div>
             </div>
           </Form>
@@ -284,7 +312,7 @@ class EventDetails extends Component {
     let breadcrumbs = this.props.gig ? [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
       // { link: `/testUser/bands/testBand/gigs`, name: '<' },
-      { link: `/testUser/bands/testBand/gigs`, name: <i class="material-icons">chevron_left</i> },
+      { link: `/testUser/bands/testBand/gigs`, name: <i className="material-icons">chevron_left</i> },
       { link: null, name: this.props.gig.venue },
       { link: null, name: moment(this.props.gig.date).format('MM/DD/YY') },
     ] :
@@ -293,6 +321,9 @@ class EventDetails extends Component {
       // { link: `/testUser/bands/testBand/gigs`, name: '<' },
       { link: `/testUser/bands/testBand/gigs`, name: 'Event:' },
     ];
+
+    let classes = classNames("event-details__container", {"event-details__container--hidden": !this.state.disabled})
+
     return (
       <div className='page__container'>
         <Drawer
@@ -308,11 +339,17 @@ class EventDetails extends Component {
           buttonIcon="edit"
           buttonOnClick={ this.handleFormEdit }
         />
-        {/* <Link to={`/${user.id}`} activeClassName="active">{user.name}</Link> */}
-        {/* <div className="gig__details__nav">
-          <Link to={`/testUser/bands/testBand/gigs`} className="gig__details__edit--back">Back To Event List</Link>
-        </div> */}
-        <div>
+        <div className={ classes }>
+          {/* <div className="form__top">
+            <h3 className="clr-purple">Edit Event</h3>
+          </div> */}
+          { this.props.gig ?
+          <Map
+            isMarkerShown
+            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&v=3.exp&libraries=geometry,drawing,places"
+            center={ this.props.gig.address }
+          /> : null
+          }
         { this.props.isLoading ? null : this.renderForm() }
       </div>
       </div>

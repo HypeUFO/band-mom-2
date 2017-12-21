@@ -193,8 +193,8 @@ input[type=checkbox]:checked~#menu {
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  padding: 0 2rem;
-  height: 50px;
+  // padding: 0 2rem;
+  // height: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 3;
   &__breadcrumbs {
@@ -211,9 +211,10 @@ input[type=checkbox]:checked~#menu {
     margin: 0;
     padding-right: 0.5rem;
     font-weight: 400;
-    font-size: 1.5rem;
+    // font-size: 1.5rem;
     color: $color-purple;
     white-space: nowrap;
+    text-overflow: ellipsis;
     a {
       color: $color-gray;
       > i {
@@ -270,6 +271,10 @@ input[type=checkbox]:checked~#menu {
   .subheader {
     position: relative;
     top: 0;
-    height: 70px;
+    height: 60px;
+    padding: 0 2rem 0 1rem ;
+    &__breadcrumb {
+      font-size: 1.5rem;
+    }
   }
 }

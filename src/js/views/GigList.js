@@ -133,13 +133,13 @@ class GigList extends Component {
     }
 
     let columns = [
-      { value: moment(doc.date).format('MM/DD/YYYY') },
-      { value: doc.venue },
-      { value: doc.address },
-      { value: doc.loadIn },
-      { value: doc.showTime },
-      { value: doc.type },
-      { value: doc.status.toUpperCase(), colorClass: statusColorClass },
+      { value: moment(doc.date).format('MM/DD/YYYY') || '' },
+      { value: doc.venue || '' },
+      { value: doc.address || '' },
+      { value: doc.loadIn || '' },
+      { value: doc.showTime || '' },
+      { value: doc.type || '' },
+      { value: doc.status.toUpperCase() || '', colorClass: statusColorClass },
     ];
 
     let menu = (

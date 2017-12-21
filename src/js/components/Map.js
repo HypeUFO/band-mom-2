@@ -4,9 +4,7 @@ import {
   connect
 } from 'react-redux';
 import moment from 'moment';
-
-// import Reflux from 'reflux'
-// const Radium = require('radium')
+import classNames from 'classnames';
 
 class Map extends Component {
 
@@ -75,24 +73,25 @@ class Map extends Component {
         });
         marker.addListener('click', function () {
           infowindow.open(map, marker);
-          // const el = document.querySelector('.gm-style-iw');
-          // el.previousElementSibling.parentNode.removeChild(el);
-          // el.parentElement.setAttribute('style', 'background: linear-gradient(135deg, #7F4FFF, #121F27);')
+          const el = document.querySelector('.gm-style-iw');
+          el.parentNode.removeChild(el.previousElementSibling);
+          el.parentElement.style.background = 'white';
+          el.parentElement.style.borderRadius = '10px';
+          el.parentElement.style.overflow = 'auto';
         });
         marker.addListener('blur', function () {
           infowindow.close();
         }, true);
         var contentString = (`
             <div id="iw-container">
-              <div class="iw-title">${gig.venue} - ${moment(gig.date).format('MM/DD/YY')}</div>
-              <div class="iw-content">
-                <div>${gig.venue}</div>
-                <div>${gig.date}</div>
-                <div>${gig.address}</div>
-                <div>Show Time: ${gig.showTime}</div>
-                <div>Load In: ${gig.loadIn}</div>
+              <div className="iw-title">${gig.venue} - ${moment(gig.date).format('MM/DD/YY')}</div>
+              <div className="iw-content">
+                <div><span>Venue: </span>${gig.venue}</div>
+                <div><span>Date: </span>${moment(gig.date).format('MM/DD/YY')}</div>
+                <div><span>Address: </span><a href="http://maps.google.com/?q=${gig.address}" target="_blank">${gig.address}</a></div>
+                <div><span>Show Time: </span>${gig.showTime}</div>
+                <div><span>Load In: </span>${gig.loadIn}</div>
               </div>
-              <div class="iw-bottom-gradient"></div>
             </div>
           `)
 
@@ -165,7 +164,8 @@ class Map extends Component {
             "elementType": "all",
             "stylers": [
                 {
-                    "color": "#4B0BBB"
+                    // "color": "#4B0BBB",
+                    "color": "#380988"
                 },
                 {
                     "visibility": "simplified"
@@ -446,7 +446,7 @@ class Map extends Component {
             ]
         }
     ],
-    zoom: 15
+    zoom: 14,
     };
 
     const map = new this.google.maps.Map(this.refs.map, mapOptions)
@@ -455,16 +455,10 @@ class Map extends Component {
 
   render() {
     return (
-      <div class = "map__container">
+      <div className="map__container">
         <div
           ref = 'map'
-          class = "map"
-          // style = {
-          //   {
-          //     height: 250,
-          //     width: '100%'
-          //   }
-          // }
+          className = "map"
         >
         </div>
       </div>

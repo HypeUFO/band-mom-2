@@ -5,10 +5,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  padding: 2rem;
+  padding: 1.5rem;
   // width: 100vw; FIX ME: Find out why 100vw width causes overflow
   width: 50vw;
-  min-width: 180px;
+  // min-width: 180px;
   // width: 100%;
   height: 100vh;
   background: $color-purple-dark-gradient-vertical;
@@ -28,7 +28,7 @@
   }
   &__logo {
     color: $color-light;
-    padding-bottom: 2rem;
+    padding-bottom: 1.5rem;
     text-shadow: 2px 2px #222;
     margin: 0;
   }
@@ -49,7 +49,7 @@
     flex-direction: column;
     align-items: flex-start;
     list-style: none;
-    // padding: 0;
+    padding: 0 1rem;
     margin: 0;
   }
   &__item {
@@ -75,8 +75,8 @@
     width: 18rem;
     width: 20%;
     &__sidebar {
-      display: block;
       width: 20%;
+      display: block; 
     }
     &__close {
       display: none;
