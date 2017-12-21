@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { createGig } from '../actions/gig.actions';
+import { createEvent } from '../actions/event.actions';
 import classNames from 'classnames';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
@@ -11,14 +11,16 @@ import database from '../config/fire';
 export const initialState = {
   venue: '',
   address: '',
+  phone: '',
   date: '',
   showTime: '',
   loadIn: '',
+  notes: '',
   type: 'show',
   // files: [],
 };
 
-class CreateGigModal extends Component {
+class CreateEventModal extends Component {
   static propTypes = {
     show: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -37,9 +39,9 @@ class CreateGigModal extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     // this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
     this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(this);
-    this.addGig = this.addGig.bind(this);
+    this.addEvent = this.addEvent.bind(this);
 
-    this.db = database.ref().child('gigs');
+    this.db = database.ref().child('events');
   }
 
   onSubmit(event) {
@@ -89,18 +91,20 @@ class CreateGigModal extends Component {
   //   });
   // }
 
-  addGig() {
+  addEvent() {
     const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
-    const gig = {
+    const event = {
       venue: this.state.venue,
       address: this.state.address,
+      phone: this.state.phone,
       date: new Date(this.state.date).toISOString(),
       showTime: this.state.showTime,
       loadIn: this.state.loadIn,
+      notes: this.state.notes,
       type: this.state.type,
       status: status,
     }
-    this.props.onCreateGig(gig);
+    this.props.onCreateEvent(event);
     // this.db.push().set({
     //   venue: this.state.venue,
     //   address: this.state.address,
@@ -114,7 +118,7 @@ class CreateGigModal extends Component {
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
     Promise.resolve()
-    .then(this.addGig())
+    .then(this.addEvent())
     .then(() => this.onSuccess())
     .catch(err => this.onError(err));
   }
@@ -152,9 +156,11 @@ class CreateGigModal extends Component {
     const {
       venue,
       address,
+      phone,
       date,
       showTime,
       loadIn,
+      notes,
       type,
       // files,
     } = this.state;
@@ -197,6 +203,22 @@ class CreateGigModal extends Component {
                 />
               </div>
                <div className="modal__row">
+               <Input type="text"
+                  name="phone"
+                  placeholder="Venue Phone"
+                  value={ phone }
+                  onChange={ this.handleInputChange }
+                  // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                <Input type="date"
+                  name="date"
+                  placeholder="Date"
+                  value={ date }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                </div>
+                <div className="modal__row">
                 <Input type="text"
                   name="showTime"
                   placeholder="Show Time"
@@ -209,17 +231,10 @@ class CreateGigModal extends Component {
                   placeholder="Load In Time"
                   value={ loadIn }
                   onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
               </div>
               <div className="modal__row">
-                <Input type="date"
-                  name="date"
-                  placeholder="Date"
-                  value={ date }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
                 <Input type="select"
                   name="type"
                   placeholder="Show/Rehearsal"
@@ -227,6 +242,13 @@ class CreateGigModal extends Component {
                   value={ type }
                   onChange={ this.handleInputChange }
                   validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                <Input type="textarea"
+                  name="notes"
+                  placeholder="Notes"
+                  value={ notes }
+                  onChange={ this.handleInputChange }
+                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
               </div>
               {/* <div className="modal__column">
@@ -250,9 +272,9 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    onCreateGig: createGig,
+    onCreateEvent: createEvent,
     },
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateGigModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEventModal);

@@ -10,8 +10,8 @@ export const routeCodes = {
   BAND_PROFILE: `${publicPath}:userId/bands/:bandId`,
   BAND_DASHBOARD: `${publicPath}:userId/bands/:bandId/dashboard`,
   BAND_EDIT: `${publicPath}:userId/bands/:bandId/edit`,
-  GIG_LIST: `${publicPath}:userId/bands/:bandId/gigs`,
-  GIG_DETAILS: `${publicPath}:userId/bands/:bandId/gigs/:gigId/details`,
-  GIG_EDIT: `${publicPath}:userId/bands/:bandId/gigs/:gigId/edit`,
+  EVENT_LIST: `${publicPath}:userId/bands/:bandId/events`,
+  EVENT_DETAILS: `${publicPath}:userId/bands/:bandId/events/:eventId/details`,
+  EVENT_EDIT: `${publicPath}:userId/bands/:bandId/events/:eventId/edit`,
   NOT_FOUND: '*',
 };

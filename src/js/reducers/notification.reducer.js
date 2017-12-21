@@ -18,12 +18,12 @@ const initialState = {
 
 export function notificationReducer(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.DeleteGigFulfilled:
+    case ActionTypes.DeleteEventFulfilled:
       return {
         ...state,
         actionLabel: 'Undo',
         display: true,
-        message: 'Task deleted'
+        message: 'Event deleted'
       }
 
     case ActionTypes.DismissNotification:

@@ -1155,13 +1155,13 @@ tbody:hover > tr:hover td {
 .notification {
   position: fixed;
   left: 50%;
+  top: 10%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1px solid #aaa;
   padding: 10px 15px;
   line-height: 24px;
-  margin-top: 20px;
   background: #7F4FFF;
   z-index: 1; }
 
@@ -1278,7 +1278,6 @@ tbody:hover > tr:hover td {
     margin: 5px 0; }
     #iw-container .iw-content div {
       color: #121F27;
-      border-bottom: 1px solid #BBBBBB;
       margin: 10px 0 0;
       display: flex;
       justify-content: space-between; }

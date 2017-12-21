@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/gig.actions';
+import * as actions from '../actions/event.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
@@ -10,7 +10,7 @@ import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
-import CreateGigModal from '../modals/CreateGigModal';
+import CreateEventModal from '../modals/CreateEventModal';
 import moment from 'moment';
 import history from '../history';
 
@@ -18,89 +18,90 @@ import database from '../config/fire'
 
 
 export const initialState = {
-  gigs: [],
-  showCreateGigModal: false,
+  showCreateEventModal: false,
   showShareModal: false,
   selected: '',
 };
-class GigList extends Component {
+class EventList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
 
-    this.db = database.ref().child('gigs');
+    this.db = database.ref().child('events');
 
-    this.toggleCreateGigModal = this.toggleCreateGigModal.bind(this);
-    this.onCreateGigSubmit = this.onCreateGigSubmit.bind(this);
-    this.onCreateGigCancel = this.onCreateGigCancel.bind(this);
-    this.onDeleteGigSuccess = this.onDeleteGigSuccess.bind(this);
-    this.onDeleteGigError = this.onDeleteGigError.bind(this);
-    this.deleteGig = this.deleteGig.bind(this);
-    this.restoreGig = this.restoreGig.bind(this);
+    this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
+    this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
+    this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
+    this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
+    this.onDeleteEventError = this.onDeleteEventError.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
+    this.restoreEvent = this.restoreEvent.bind(this);
 
   }
 
   componentWillMount() {
     this.db.on('child_added', () => {
-      this.props.onGetGigMany()
+      this.props.onGetEventMany()
     })
+    this.props.onClearEvent()
   }
 
   handleRowClick(row) {
     // this.props.onGetGig(this.id)
     // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row._id}/`);
-    history.push(`/testUser/bands/testBand/gigs/${row.id}/details`);
+    // this.props.onGetEvent(row.id)
+    history.push(`/testUser/bands/testBand/events/${row.id}/details`);
   }
 
   handleRowMenuItemClick(doc, action, event) {
     event.stopPropagation();
   }
 
-  toggleCreateGigModal() {
+  toggleCreateEventModal() {
     this.setState(prevState => ({
-      showCreateGigModal: !prevState.showCreateGigModal
+      showCreateEventModal: !prevState.showCreateEventModal
     }));
   }
 
-  onCreateGigSubmit() {
-    console.log('gig submitted');
-    this.toggleCreateGigModal();
+  onCreateEventSubmit() {
+    console.log('Event submitted');
+    this.toggleCreateEventModal();
   }
 
-  onCreateGigCancel() {
-    this.toggleCreateGigModal();
+  onCreateEventCancel() {
+    this.toggleCreateEventModal();
   }
 
-  onCreateGigSuccess() {
+  onCreateEventSuccess() {
     console.log('Show successfully created');
   }
 
-  onCreateGigError(err) {
+  onCreateEventError(err) {
     console.log('An error occured:' + err);
   }
 
-  deleteGig(gig) {
-    this.props.onDeleteGig(gig)
+  deleteEvent(event) {
+    this.props.onDeleteEvent(event)
     // this.db.child(gigId).remove()
-    .then(() => this.onDeleteGigSuccess())
-    .catch(err => this.onDeleteGigError())
+    .then(() => this.onDeleteEventSuccess())
+    .catch(err => this.onDeleteEventError())
   }
 
-  onDeleteGigSuccess() {
-    this.props.onGetGigMany();
+  onDeleteEventSuccess() {
+    this.props.onGetEventMany();
     // alert('Show successfully deleted');
   }
 
-  onDeleteGigError() {
-    this.props.onGetGigMany();
+  onDeleteEventError() {
+    this.props.onGetEventMany();
     alert('An error occured :(');
   }
 
-  restoreGig() {
+  restoreEvent() {
     if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreGig(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
+      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
     } else {
-      console.log('no gigs to restore');
+      console.log('no Events to restore');
       this.props.dismissNotification();
     }
   }
@@ -109,7 +110,7 @@ class GigList extends Component {
     const { notification } = this.props;
     return (
       <Notification
-        action={this.restoreGig}
+        action={this.restoreEvent}
         actionLabel={notification.actionLabel}
         dismiss={this.props.dismissNotification}
         display={notification.display}
@@ -155,7 +156,7 @@ class GigList extends Component {
         />
         <TableRowMenuItem
           label="Delete"
-          onClick={ () => this.deleteGig(doc) }
+          onClick={ () => this.deleteEvent(doc) }
         />
       </TableRowMenu>
       :
@@ -170,7 +171,7 @@ class GigList extends Component {
       />
       <TableRowMenuItem
         label="Delete"
-        onClick={ () => this.deleteGig(doc) }
+        onClick={ () => this.deleteEvent(doc) }
       />
       <TableRowMenuItem
         label="Archive"
@@ -217,21 +218,21 @@ class GigList extends Component {
   // }
 
   renderTable() {
-    const { gigs } = this.props;
+    const { events } = this.props;
       // docs = docs.filter((doc) => {
-      //   if(doc.doc.type === "gig") {
-      //     return doc.doc.type === 'gig';
+      //   if(doc.doc.type === "event") {
+      //     return doc.doc.type === 'event';
       //   }
       //   else if(doc.doc.status === "past") {
       //     return true;
       //   }
       // });
-      if(gigs) {
-        // let results = this.sortData(gigs);
+      if(events) {
+        // let results = this.sortData(events);
 
-        let rows = Object.keys(gigs).map((key) => {
-          gigs[key].id = key;
-          return this.renderRow(gigs[key], key)
+        let rows = Object.keys(events).map((key) => {
+          events[key].id = key;
+          return this.renderRow(events[key], key)
         });
 
         return (
@@ -277,14 +278,14 @@ class GigList extends Component {
           // buttonHide={ buttonHide }
           buttonLabel="Add Show"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateGigModal }
+          buttonOnClick={ this.toggleCreateEventModal }
         />
-        <CreateGigModal
-          show={ this.state.showCreateGigModal }
-          onSubmit={ this.onCreateGigSubmit }
-          onCancel={ this.onCreateGigCancel }
-          onSuccess={ this.onCreateGigSuccess }
-          onError={ this.onCreateGigError }
+        <CreateEventModal
+          show={ this.state.showCreateEventModal }
+          onSubmit={ this.onCreateEventSubmit }
+          onCancel={ this.onCreateEventCancel }
+          onSuccess={ this.onCreateEventSuccess }
+          onError={ this.onCreateEventError }
         />
         {this.props.notification.display ? this.renderNotification() : null}
         { this.renderTable() }
@@ -294,25 +295,26 @@ class GigList extends Component {
   }
 }
 
-// export default GigList;
+// export default EventList;
 
 function mapStateToProps(state) {
   return {
-    gigs: state.gigs.gigs,
-    recentlyDeleted: state.gigs.recentlyDeleted,
+    events: state.events.events,
+    recentlyDeleted: state.events.recentlyDeleted,
     notification: state.notification,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    // onGetGig: actions.getGig,
-    onGetGigMany: actions.getGigMany,
-    onDeleteGig: actions.deleteGig,
-    onRestoreGig: actions.restoreGig,
+    onClearEvent: actions.clearEvent,
+    onGetEvent: actions.getEvent,
+    onGetEventMany: actions.getEventMany,
+    onDeleteEvent: actions.deleteEvent,
+    onRestoreEvent: actions.restoreEvent,
     dismissNotification: dismissNotification,
     },
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GigList);
+export default connect(mapStateToProps, mapDispatchToProps)(EventList);

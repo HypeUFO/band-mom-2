@@ -18,6 +18,7 @@
 
 .gm-style-iw {
   border-radius: 10px !important;
+  // padding: 10px;
 }
 
 #iw-container {
@@ -38,7 +39,7 @@
     margin: 5px 0;
     div {
       color: $color-dark;
-      border-bottom: 1px solid $color-gray;
+      // border-bottom: 1px solid $color-gray;
       margin: 10px 0 0;
       display: flex;
     justify-content: space-between;

@@ -51,7 +51,7 @@ class Map extends Component {
   }
 
 
-  buildMap(map, address, gig) {
+  buildMap(map, address, event) {
     const pinSymbol = {
       path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
       fillColor: '#FFF',
@@ -84,13 +84,13 @@ class Map extends Component {
         }, true);
         var contentString = (`
             <div id="iw-container">
-              <div className="iw-title">${gig.venue} - ${moment(gig.date).format('MM/DD/YY')}</div>
-              <div className="iw-content">
-                <div><span>Venue: </span>${gig.venue}</div>
-                <div><span>Date: </span>${moment(gig.date).format('MM/DD/YY')}</div>
-                <div><span>Address: </span><a href="http://maps.google.com/?q=${gig.address}" target="_blank">${gig.address}</a></div>
-                <div><span>Show Time: </span>${gig.showTime}</div>
-                <div><span>Load In: </span>${gig.loadIn}</div>
+              <div class="iw-title">${event.venue} - ${moment(event.date).format('MM/DD/YY')}</div>
+              <div class="iw-content">
+                <div><span>Venue: </span>${event.venue}</div>
+                <div><span>Date: </span>${moment(event.date).format('MM/DD/YY')}</div>
+                <div><span>Address: </span><a href="http://maps.google.com/?q=${event.address}" target="_blank">${event.address}</a></div>
+                <div><span>Show Time: </span>${event.showTime}</div>
+                <div><span>Load In: </span>${event.loadIn}</div>
               </div>
             </div>
           `)
@@ -450,7 +450,7 @@ class Map extends Component {
     };
 
     const map = new this.google.maps.Map(this.refs.map, mapOptions)
-    this.buildMap(map, this.props.center, this.props.gig)
+    this.buildMap(map, this.props.event.address, this.props.event)
   }
 
   render() {
@@ -469,7 +469,7 @@ class Map extends Component {
 
 function mapStateToProps(state) {
   return {
-    gig: state.gigs.activeGig,
+    event: state.events.activeEvent,
     isLoading: state.app.loading,
     notification: state.notification,
   };

@@ -4,68 +4,68 @@ export function appReducer(state = {}, action) {
   switch (action.type) {
     default: return state;
 
-    case ActionTypes.GetGigRequested:
+    case ActionTypes.GetEventRequested:
         return {
         ...state,
         loading: true
       }
-    case ActionTypes.GetGigFulfilled:
+    case ActionTypes.GetEventFulfilled:
         return {
         ...state,
         loading: false
       }
-    case ActionTypes.GetGigRejected:
+    case ActionTypes.GetEventRejected:
         return {
         ...state,
         // message: action.message,
         loading: false
       }
 
-    case ActionTypes.CreateGigRequested:
+    case ActionTypes.CreateEventRequested:
         return {
         ...state,
         loading: true
       }
-    case ActionTypes.CreateGigFulfilled:
+    case ActionTypes.CreateEventFulfilled:
         return {
         ...state,
         loading: false
       }
-    case ActionTypes.CreateGigRejected:
+    case ActionTypes.CreateEventRejected:
         return {
         ...state,
         // message: action.message,
         loading: false
       }
 
-    case ActionTypes.DeleteGigRequested:
+    case ActionTypes.DeleteEventRequested:
         return {
         ...state,
         loading: true
       }
-    case ActionTypes.DeleteGigFulfilled:
+    case ActionTypes.DeleteEventFulfilled:
         return {
         ...state,
         loading: false
       }
-    case ActionTypes.DeleteGigRejected:
+    case ActionTypes.DeleteEventRejected:
         return {
         ...state,
         // message: action.message,
         loading: false
       }
 
-      case ActionTypes.RestoreGigRequested:
+      case ActionTypes.RestoreEventRequested:
       return {
       ...state,
       loading: true
     }
-  case ActionTypes.RestoreGigFulfilled:
+  case ActionTypes.RestoreEventFulfilled:
       return {
       ...state,
       loading: false
     }
-  case ActionTypes.RestoreGigRejected:
+  case ActionTypes.RestoreEventRejected:
       return {
       ...state,
       // message: action.message,

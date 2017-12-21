@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { appReducer } from './app.reducer';
-import { gigReducer } from './gig.reducer';
+import { eventReducer } from './event.reducer';
 import { notificationReducer } from './notification.reducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
-  gigs: gigReducer,
+  events: eventReducer,
   notification: notificationReducer,
 });
 

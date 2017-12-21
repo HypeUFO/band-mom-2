@@ -1,46 +1,46 @@
 import ActionTypes from '../constants/action_types';
 
 const initialState = {
-  gigs: null,
-  activeGig: null,
+  events: null,
+  activeEvent: null,
   message: null,
   recentlyDeleted: [],
 }
 
-export function gigReducer(state = initialState, action) {
+export function eventReducer(state = initialState, action) {
   switch (action.type) {
     default: return state;
 
-    case ActionTypes.GetGigRequested:
+    case ActionTypes.GetEventRequested:
         return {
         ...state,
         // loading: true
       }
-    case ActionTypes.GetGigFulfilled:
+    case ActionTypes.GetEventFulfilled:
         return {
         ...state,
-        activeGig: action.gig ? action.gig : null,
+        activeEvent: action.event ? action.event : null,
         // loading: false
       }
-    case ActionTypes.GetGigRejected:
+    case ActionTypes.GetEventRejected:
         return {
         ...state,
         message: action.message,
         // loading: false
       }
 
-    case ActionTypes.GetGigManyRequested:
+    case ActionTypes.GetEventManyRequested:
         return {
         ...state,
         // loading: true
       }
-    case ActionTypes.GetGigManyFulfilled:
+    case ActionTypes.GetEventManyFulfilled:
         return {
         ...state,
-        gigs: action.gigs ? action.gigs.gigs : null,
+        events: action.events ? action.events.events : null,
         // loading: false
       }
-    case ActionTypes.GetGigManyRejected:
+    case ActionTypes.GetEventManyRejected:
         return {
         ...state,
         message: action.message,
@@ -48,53 +48,53 @@ export function gigReducer(state = initialState, action) {
       }
 
 
-    case ActionTypes.CreateGigRequested:
+    case ActionTypes.CreateEventRequested:
         return {
         ...state,
         // loading: true
       }
-    case ActionTypes.CreateGigFulfilled:
+    case ActionTypes.CreateEventFulfilled:
         return {
         ...state,
-        gigs: action.gigs.gigs,
+        events: action.events.events,
         // loading: false
       }
-    case ActionTypes.CreateGigRejected:
+    case ActionTypes.CreateEventRejected:
         return {
         ...state,
         message: action.message,
         // loading: false
       }
 
-    case ActionTypes.DeleteGigRequested:
-      return {...state, recentlyDeleted: [...state.recentlyDeleted, action.gig]}
-    case ActionTypes.DeleteGigFulfilled:
+    case ActionTypes.DeleteEventRequested:
+      return {...state, recentlyDeleted: [...state.recentlyDeleted, action.event]}
+    case ActionTypes.DeleteEventFulfilled:
         return {
         ...state,
         // gigs: action.gigs.gigs,
         // loading: false
       }
-    case ActionTypes.DeleteGigRejected:
+    case ActionTypes.DeleteEventRejected:
         return {
         ...state,
         // message: action.message,
         // loading: false
       }
 
-      case ActionTypes.RestoreGigRequested:
+      case ActionTypes.RestoreEventRequested:
       return {
       ...state,
       }
-    case ActionTypes.RestoreGigFulfilled:
+    case ActionTypes.RestoreEventFulfilled:
       const prunedIds = state.recentlyDeleted.filter(item => {
         console.log('itemId = ' + item.id)
-        console.log('gigId = ' + action.gig)
-        return item.id !== action.gig.id // return all the items not matching the action.id
+        console.log('eventId = ' + action.event)
+        return item.id !== action.event.id // return all the items not matching the action.id
       })
       return {
         ...state, recentlyDeleted: prunedIds,
       }
-    case ActionTypes.RestoreGigRejected:
+    case ActionTypes.RestoreEventRejected:
         return {
         ...state,
       }

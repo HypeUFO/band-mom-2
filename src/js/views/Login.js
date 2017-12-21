@@ -39,7 +39,7 @@ export default class Login extends Component {
     //   name: this.state.username,
     //   password: this.state.password,
     // };
-      history.push(`testUser/bands/testBand/gigs`);
+      history.push(`testUser/bands/testBand/events`);
   }
 
   render() {
