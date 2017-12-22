@@ -1269,7 +1269,8 @@ tbody:hover > tr:hover td {
       padding: 0 20px; } }
 
 .gm-style-iw {
-  border-radius: 10px !important; }
+  border-radius: 10px !important;
+  padding: 10px; }
 
 #iw-container {
   font-weight: 400; }
