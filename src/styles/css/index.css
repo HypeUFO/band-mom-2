@@ -235,7 +235,7 @@ input {
   padding: 0 1rem; }
 @media (min-width: 768px) {
   .event__list__container {
-    padding: 100px 3rem; } }
+    padding: 30px 3rem; } }
 
 .event-details__container {
   padding: 0 10px; }
