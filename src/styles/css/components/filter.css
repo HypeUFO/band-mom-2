@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-gray".
-        on line 17 of src/styles/scss/components/filter.scss
+        on line 15 of src/styles/scss/components/filter.scss
 
-12:     // justify-content: center;
-13:     // flex-direction: column;
-14:   }
-15:   &__link {
-16:     margin: 0 5px;
-17:     color: $color-gray;
-18:     text-decoration: none;
-19:     &--active {
-20:       color: $color-purple;
-21:     }
-22:   }
+10:       flex-direction: column;
+11:     }
+12:   }
+13:   &__link {
+14:     margin: 0 5px;
+15:     color: $color-gray;
+16:     text-decoration: none;
+17:     &--active {
+18:       color: $color-purple;
+19:     }
+20:   }
 
 Backtrace:
-src/styles/scss/components/filter.scss:17
+src/styles/scss/components/filter.scss:15
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
@@ -78,4 +78,4 @@ src/styles/scss/components/filter.scss:17
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-gray\".\A         on line 17 of src/styles/scss/components/filter.scss\A \A 12:     // justify-content: center;\A 13:     // flex-direction: column;\A 14:   }\A 15:   &__link {\A 16:     margin: 0 5px;\A 17:     color: $color-gray;\A 18:     text-decoration: none;\A 19:     &--active {\A 20:       color: $color-purple;\A 21:     }\A 22:   }"; }
+  content: "Error: Undefined variable: \"$color-gray\".\A         on line 15 of src/styles/scss/components/filter.scss\A \A 10:       flex-direction: column;\A 11:     }\A 12:   }\A 13:   &__link {\A 14:     margin: 0 5px;\A 15:     color: $color-gray;\A 16:     text-decoration: none;\A 17:     &--active {\A 18:       color: $color-purple;\A 19:     }\A 20:   }"; }

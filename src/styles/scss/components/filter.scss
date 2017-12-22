@@ -9,8 +9,6 @@
       justify-content: center;
       flex-direction: column;
     }
-    // justify-content: center;
-    // flex-direction: column;
   }
   &__link {
     margin: 0 5px;
@@ -23,9 +21,6 @@
   @include md {
     &__section {
       padding-left: 10px;
-      // display: flex;
-      // justify-content: space-between;
-      // flex-direction: row;
       p {
         display: inline-flex;
         justify-content: center;
