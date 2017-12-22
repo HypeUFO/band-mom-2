@@ -17,6 +17,7 @@ export default class Input extends Component {
     validation: PropTypes.object,
     onChange: PropTypes.func,
     onCancel: PropTypes.func,
+    disabled: PropTypes.bool,
   }
 
   constructor() {
@@ -153,13 +154,23 @@ export default class Input extends Component {
       accept,
       onChange,
       onCancel,
+      disabled,
     } = this.props;
 
     const {
       showCalender,
     } = this.state;
 
-    if (type === 'button-thin-submit') {
+    if (disabled === true) {
+      return (
+        <div className="input--disabled">
+          <label className="input__label">{ label }</label>
+          <p>{ value }</p>
+        </div>
+      )
+    }
+
+    else if (type === 'button-thin-submit') {
       return (
         <button
           className="btn-thin bg-clr-purple"

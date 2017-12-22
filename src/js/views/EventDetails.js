@@ -96,7 +96,7 @@ class EventDetails extends Component {
   // }
 
   handleFormEdit() {
-    const form = document.querySelector('#event-details__form');
+    const form = document.querySelector('#bottom');
     // const form = this.refs.form;
     this.setState({
       // disabled: !!this.props.eventEdit,
@@ -244,6 +244,7 @@ class EventDetails extends Component {
                     name="venue"
                     placeholder="Venue Name"
                     label="Venue Name"
+                    disabled={ !this.props.eventEdit }
                     value={ this.props.eventEdit ? this.state.venue : event.venue }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
@@ -252,7 +253,8 @@ class EventDetails extends Component {
                     name="address"
                     placeholder="Venue Address"
                     label="Venue Address"
-                    value={ this.props.eventEdit ? this.state.address : event.address }
+                    disabled={ !this.props.eventEdit }
+                    value={ this.props.eventEdit ? this.state.address : <a href={`http://maps.google.com/?q=${event.address}`} target="_blank">{event.address}</a> }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -262,7 +264,8 @@ class EventDetails extends Component {
                     name="phone"
                     placeholder="Venue Phone"
                     label="Venue Phone"
-                    value={ this.props.eventEdit ? this.state.phone : event.phone }
+                    disabled={ !this.props.eventEdit }
+                    value={ this.props.eventEdit ? this.state.phone : <a href="tel:${event.phone}">{event.phone}</a> }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -270,6 +273,7 @@ class EventDetails extends Component {
                     name="date"
                     placeholder="Date"
                     label="Event Date"
+                    disabled={ !this.props.eventEdit }
                     value={ this.props.eventEdit ? moment(this.state.date).format('MM/DD/YYYY') : moment(event.date).format('MM/DD/YYYY') }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
@@ -280,6 +284,7 @@ class EventDetails extends Component {
                     name="showTime"
                     placeholder="Show Time"
                     label="Show Time"
+                    disabled={ !this.props.eventEdit }
                     value={ this.props.eventEdit ? this.state.showTime : event.showTime }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
@@ -288,6 +293,7 @@ class EventDetails extends Component {
                     name="loadIn"
                     placeholder="Load In Time"
                     label="Load In Time"
+                    disabled={ !this.props.eventEdit }
                     value={ this.props.eventEdit ? this.state.loadIn : event.loadIn }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
@@ -298,6 +304,7 @@ class EventDetails extends Component {
                     name="type"
                     placeholder="Show/Rehearsal"
                     label="Event Type"
+                    disabled={ !this.props.eventEdit }
                     options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
                     value={ this.props.eventEdit ? this.state.type : event.type }
                     onChange={ this.handleInputChange }
@@ -307,6 +314,7 @@ class EventDetails extends Component {
                     name="notes"
                     placeholder="Notes"
                     label="Notes"
+                    disabled={ !this.props.eventEdit }
                     value={ this.props.eventEdit ? this.state.notes : event.notes }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
@@ -384,6 +392,7 @@ class EventDetails extends Component {
           /> : null
           }
         { this.props.isLoading ? null : this.renderForm() }
+        <div id="bottom" style={{width: '100%', height: 80}}></div>
       </div>
       </div>
       </div>

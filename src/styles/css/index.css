@@ -557,6 +557,12 @@ button {
   width: 100%;
   padding: 0 5px;
   margin-bottom: 10px; }
+  .input--disabled {
+    align-items: flex-start;
+    width: 100%;
+    margin: 10px 0; }
+    .input--disabled p {
+      margin: 10px 0; }
   .input__error {
     display: inline-block;
     color: #E46F65; }
