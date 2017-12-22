@@ -27,7 +27,7 @@ export const initialState = {
   loadIn: '',
   type: '',
   notes: '',
-  disabled: true,
+  // disabled: true,
 };
 class EventDetails extends Component {
   constructor(props) {
@@ -66,14 +66,40 @@ class EventDetails extends Component {
     // this.db.on('child_changed', () => {
       // this.props.onGetEvent(this.id)
     // })
-    this.props.onGetEvent(this.id)
+    Promise.resolve()
+    .then(() => {
+      this.props.onGetEvent(this.id)
+    })
+    .then(() => {
+      this.setState({
+        // disabled: !!this.props.eventEdit,
+        venue: this.props.event.venue || '',
+        address: this.props.event.address || '',
+        phone: this.props.event.phone || '',
+        date: this.props.event.date || '',
+        showTime: this.props.event.showTime || '',
+        loadIn: this.props.event.loadIn || '',
+        type: this.props.event.type,
+        notes: this.props.event.notes || '',
+        id: this.id
+      })
+    })
+    .catch((err) => console.log(err));
   }
+
+  // componentDidMount() {
+  //   console.log('ComponentDidMount' + this.props.eventEdit)
+  //   if (this.props.eventEdit) {
+  //     const form = this.refs.form;
+  //     smoothScroll(form, 500);
+  //   }
+  // }
 
   handleFormEdit() {
     const form = document.querySelector('#event-details__form');
     // const form = this.refs.form;
     this.setState({
-      disabled: !this.state.disabled,
+      // disabled: !!this.props.eventEdit,
       venue: this.props.event.venue || '',
       address: this.props.event.address || '',
       phone: this.props.event.phone || '',
@@ -84,8 +110,8 @@ class EventDetails extends Component {
       notes: this.props.event.notes || '',
       id: this.id
     })
-
-    if (this.state.disabled) {
+    this.props.updateEventEdit();
+    if (!this.props.eventEdit) {
       // form.scrollIntoView();
       smoothScroll(form, 500);
     } else {
@@ -105,12 +131,14 @@ class EventDetails extends Component {
 
   onCancel() {
     this.handleFormEdit();
+    // this.props.updateEventEdit();
   }
 
   onSuccess() {
-    this.setState({
-      disabled: true
-    })
+    // this.setState({
+    //   disabled: true
+    // })
+    this.props.updateEventEdit();
     smoothScroll(document.body, 500);
     this.props.onGetEvent(this.id);
   }
@@ -197,7 +225,7 @@ class EventDetails extends Component {
   renderForm() {
     const { event } = this.props;
     if (event) {
-      let formBottomClasses = classNames('form__bottom', 'event-details__form__bottom', { 'form__bottom--hidden': this.state.disabled });
+      let formBottomClasses = classNames('form__bottom', 'event-details__form__bottom', { 'form__bottom--hidden': !this.props.eventEdit });
       return (
         <Form
             // className="form__container"
@@ -205,7 +233,7 @@ class EventDetails extends Component {
             id="event-details__form"
             onSubmit={ this.onSubmit }
             onCancel={ this.onCancel }
-            disabled={ this.state.disabled }
+            disabled={ !this.props.eventEdit }
             ref="form"
             // error={ createError || uploadError }
           >
@@ -216,7 +244,7 @@ class EventDetails extends Component {
                     name="venue"
                     placeholder="Venue Name"
                     label="Venue Name"
-                    value={ this.state.disabled ? event.venue : this.state.venue }
+                    value={ event.venue }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -224,7 +252,7 @@ class EventDetails extends Component {
                     name="address"
                     placeholder="Venue Address"
                     label="Venue Address"
-                    value={ this.state.disabled ? event.address : this.state.address }
+                    value={ event.address }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -234,7 +262,7 @@ class EventDetails extends Component {
                     name="phone"
                     placeholder="Venue Phone"
                     label="Venue Phone"
-                    value={ this.state.disabled ? event.phone : this.state.phone }
+                    value={ event.phone }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -242,7 +270,7 @@ class EventDetails extends Component {
                     name="date"
                     placeholder="Date"
                     label="Event Date"
-                    value={ this.state.disabled ? moment(event.date).format('MM/DD/YYYY') : moment(this.state.date).format('MM/DD/YYYY')  }
+                    value={ moment(event.date).format('MM/DD/YYYY') }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -252,7 +280,7 @@ class EventDetails extends Component {
                     name="showTime"
                     placeholder="Show Time"
                     label="Show Time"
-                    value={ this.state.disabled ? event.showTime : this.state.showTime }
+                    value={ event.showTime }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -260,7 +288,7 @@ class EventDetails extends Component {
                     name="loadIn"
                     placeholder="Load In Time"
                     label="Load In Time"
-                    value={ this.state.disabled ? event.loadIn : this.state.loadIn }
+                    value={ event.loadIn }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -271,7 +299,7 @@ class EventDetails extends Component {
                     placeholder="Show/Rehearsal"
                     label="Event Type"
                     options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
-                    value={ this.state.disabled ? event.type : this.state.type }
+                    value={ event.type }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -279,7 +307,7 @@ class EventDetails extends Component {
                     name="notes"
                     placeholder="Notes"
                     label="Notes"
-                    value={ this.state.disabled ? event.notes : this.state.notes }
+                    value={ event.notes }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -327,7 +355,7 @@ class EventDetails extends Component {
       { link: `/testUser/bands/testBand/events`, name: 'Event:' },
     ];
 
-    let classes = classNames("event-details__container", {"event-details__container--hidden": !this.state.disabled})
+    let classes = classNames("event-details__container", {"event-details__container--hidden": !!this.props.eventEdit})
 
     return (
       <div className='page__container'>
@@ -338,10 +366,10 @@ class EventDetails extends Component {
           // toggle={ this.toggleDrawer }
         />
          <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ !this.state.disabled }
-          buttonLabel={ this.state.disabled ? 'Edit' : 'Save'}
-          buttonIcon={ this.state.disabled ? 'edit' : 'save' }
-          buttonOnClick={ this.state.disabled ? this.handleFormEdit : this.onSubmit }
+          // buttonHide={ !!this.props.eventEdit }
+          buttonLabel={ !this.props.eventEdit ? 'Edit' : 'Save'}
+          buttonIcon={ !this.props.eventEdit ? 'edit' : 'save' }
+          buttonOnClick={ !this.props.eventEdit ? this.handleFormEdit : this.onSubmit }
         />
         <div className='page__content page__content--two-col'>
         <div className={ classes }>
@@ -370,6 +398,7 @@ function mapStateToProps(state) {
     event: state.events.activeEvent,
     isLoading: state.app.loading,
     notification: state.notification,
+    eventEdit: state.events.edit,
   };
 }
 
@@ -380,6 +409,7 @@ function mapDispatchToProps(dispatch) {
     onRestoreEvent: actions.restoreEvent,
     onUpdateEvent: actions.updateEvent,
     dismissNotification: dismissNotification,
+    updateEventEdit: actions.updateEventEdit,
     },
   dispatch);
 }

@@ -149,14 +149,17 @@ class EventList extends Component {
     let menu = (
       doc.status === 'upcoming' ?
       <TableRowMenu>
-        <TableRowMenuItem
+        {/* <TableRowMenuItem
           label="Edit Details"
-          // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_EDIT_SHOW_DETAILS) }
-        />
-        <TableRowMenuItem
+          onClick={ () => {
+            this.props.updateEventEdit();
+            history.push(`/testUser/bands/testBand/events/${doc.id}/details`);
+          }}
+        /> */}
+        {/* <TableRowMenuItem
           label="Share"
           // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
-        />
+        /> */}
         <TableRowMenuItem
           label="Delete"
           onClick={ () => this.deleteEvent(doc) }
@@ -164,14 +167,14 @@ class EventList extends Component {
       </TableRowMenu>
       :
       <TableRowMenu>
-      <TableRowMenuItem
+      {/* <TableRowMenuItem
         label="Edit Details"
         // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_EDIT_SHOW_DETAILS) }
       />
       <TableRowMenuItem
         label="Share"
         // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_SHARE) }
-      />
+      /> */}
       <TableRowMenuItem
         label="Delete"
         onClick={ () => this.deleteEvent(doc) }
@@ -371,6 +374,7 @@ function mapDispatchToProps(dispatch) {
     dismissNotification: dismissNotification,
     filterEventsByStatus: actions.filterEventsByStatus,
     filterEventsByType: actions.filterEventsByType,
+    updateEventEdit: actions.updateEventEdit,
     },
   dispatch);
 }

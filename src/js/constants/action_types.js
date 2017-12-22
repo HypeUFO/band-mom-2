@@ -28,6 +28,10 @@ const actionTypes = {
   SetEventStatusFilter: 'SET_EVENT_STATUS_FILTER',
   SetEventTypeFilter: 'SET_EVENT_TYPE_FILTER',
 
+  UpdateEventEditRequested: 'UPDATE_EVENT_EDIT_REQUESTED',
+  UpdateEventEditFulfilled: 'UPDATE_EVENT_EDIT_FULFILLED',
+  UpdateEventEditRejected: 'UPDATE_EVENT_EDIT_REJECTED',
+
 };
 
 export default actionTypes;

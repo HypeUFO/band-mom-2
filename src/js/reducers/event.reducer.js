@@ -3,10 +3,11 @@ import ActionTypes from '../constants/action_types';
 const initialState = {
   events: null,
   activeEvent: null,
-  message: null,
+  error: null,
   recentlyDeleted: [],
   statusFilter: 'UPCOMING',
   typeFilter: 'ALL',
+  edit: false,
 }
 
 export function eventReducer(state = initialState, action) {
@@ -27,7 +28,7 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.GetEventRejected:
         return {
         ...state,
-        message: action.message,
+        error: action.error,
         // loading: false
       }
 
@@ -45,7 +46,7 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.GetEventManyRejected:
         return {
         ...state,
-        message: action.message,
+        error: action.error,
         // loading: false
       }
 
@@ -64,7 +65,7 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.CreateEventRejected:
         return {
         ...state,
-        message: action.message,
+        error: action.error,
         // loading: false
       }
 
@@ -79,7 +80,7 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.DeleteEventRejected:
         return {
         ...state,
-        // message: action.message,
+        // error: action.error,
         // loading: false
       }
 
@@ -109,6 +110,20 @@ export function eventReducer(state = initialState, action) {
       return {
           ...state,
           typeFilter: action.filter
+      }
+    case ActionTypes.UpdateEventEditRequested:
+      return {
+          ...state,
+      }
+    case ActionTypes.UpdateEventEditFulfilled:
+      return {
+          ...state,
+          edit: !state.edit
+      }
+    case ActionTypes.UpdateEventEditRejected:
+      return {
+          ...state,
+          error: action.error
       }
 
   }

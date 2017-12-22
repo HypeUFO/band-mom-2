@@ -716,7 +716,8 @@ input[type="submit"] {
       align-items: center; } }
 
 table {
-  position: relative; }
+  position: relative;
+  width: 100%; }
 
 thead tr {
   display: none; }
@@ -790,9 +791,9 @@ tbody:hover > tr:hover td {
     color: #121F27;
     border-bottom: 1px solid #e0e0e0;
     padding: 1.5rem 1rem; }
-    .table td:nth-child(4):before {
-      content: ""; }
     .table td:nth-child(5):before {
+      content: ""; }
+    .table td:nth-child(6):before {
       content: ""; }
   .table thead tr {
     display: table-row; }
@@ -817,13 +818,14 @@ tbody:hover > tr:hover td {
     position: relative;
     top: 0;
     right: 11.75rem;
-    padding: 3rem 2rem;
+    padding: 2rem 1rem;
     width: 18rem;
     text-align: left; }
   .dropdown__item {
     display: block;
     padding: 0.25rem 0;
-    color: #ccc; }
+    color: #777;
+    font-size: 14px; }
     .dropdown__item:hover {
       color: #121F27; }
   .dropdown--show {

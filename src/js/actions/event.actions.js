@@ -161,7 +161,6 @@ function deleteEventFulfilledAction() {
 }
 
 export function restoreEvent(event) {
-  console.log(database.ref().child('events'))
   return dispatch => {
     dispatch(restoreEventRequestedAction());
     return database.ref().child('events').push().set(event)
@@ -244,5 +243,37 @@ export function filterEventsByType(filter) {
   return {
         type: ActionTypes.SetEventTypeFilter,
         filter,
+  }
+}
+
+export function updateEventEdit() {
+  return dispatch => {
+    Promise.resolve()
+    .then(() => dispatch(updateEventEditRequestedAction()))
+    .then(() => {
+      dispatch(updateEventEditFulfilledAction());
+    })
+    .catch((err) => {
+      dispatch(updateEventEditRejectedAction(err));
+    });
+  }
+}
+
+function updateEventEditRequestedAction() {
+  return {
+    type: ActionTypes.UpdateEventEditRequested
+  }
+}
+
+function updateEventEditFulfilledAction() {
+  return {
+    type: ActionTypes.UpdateEventEditFulfilled
+  };
+}
+
+function updateEventEditRejectedAction(error) {
+  return {
+    type: ActionTypes.UpdateEventEditRejected,
+    error
   }
 }

@@ -16,14 +16,17 @@
     position: relative;
     top: 0;
     right: 11.75rem;
-    padding: 3rem 2rem;
+    // padding: 3rem 2rem;
+    padding: 2rem 1rem;
     width: 18rem;
     text-align: left;
   }
   &__item {
     display: block;
     padding: 0.25rem 0;
-    color: #ccc;
+    // color: #ccc;
+    color: #777;
+    font-size: 14px;
     &:hover {
       color: $color-dark;
     }
