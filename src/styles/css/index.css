@@ -1300,8 +1300,7 @@ tbody:hover > tr:hover td {
   padding-left: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  flex-direction: column; }
+  justify-content: space-between; }
   .filter__section p {
     display: inline-flex;
     justify-content: center;
@@ -1314,10 +1313,7 @@ tbody:hover > tr:hover td {
     color: #7F4FFF; }
 @media (min-width: 768px) {
   .filter__section {
-    padding-left: 10px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row; }
+    padding-left: 10px; }
     .filter__section p {
       display: inline-flex;
       justify-content: center;

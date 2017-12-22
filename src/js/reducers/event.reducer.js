@@ -5,7 +5,7 @@ const initialState = {
   activeEvent: null,
   message: null,
   recentlyDeleted: [],
-  statusFilter: 'ALL',
+  statusFilter: 'UPCOMING',
   typeFilter: 'ALL',
 }
 
