@@ -1299,26 +1299,31 @@ tbody:hover > tr:hover td {
         margin-right: 10px; }
 
 .filter__section {
-  padding-left: 10px;
+  padding-left: 0;
   display: flex;
   flex-direction: row;
-  justify-content: space-between; }
-  .filter__section p {
-    display: inline-flex;
-    justify-content: center;
-    flex-direction: column; }
+  justify-content: space-between;
+  margin: 20px 0; }
 .filter__link {
-  margin: 0 5px;
-  color: #BBBBBB;
-  text-decoration: none; }
+  margin: 0 10px;
+  color: #7F4FFF;
+  text-decoration: none;
+  align-items: center; }
   .filter__link--active {
     color: #7F4FFF; }
+  .filter__link > select {
+    margin-top: 10px;
+    height: 2.5rem; }
 @media (min-width: 768px) {
   .filter__section {
-    padding-left: 10px; }
-    .filter__section p {
-      display: inline-flex;
-      justify-content: center;
-      flex-direction: row; } }
+    justify-content: flex-end;
+    padding-left: 10px;
+    margin: 10px 0;
+    justify-content: flex-end;
+    margin: 10px 0 20px; }
+    .filter__section__link {
+      margin: 10px 0; }
+      .filter__section__link > select {
+        margin: 0; } }
 
 /*# sourceMappingURL=index.css.map */

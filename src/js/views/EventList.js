@@ -295,8 +295,25 @@ class EventList extends Component {
         <div className="event__list__container">
         {this.props.notification.display ? this.renderNotification() : null}
         <div className="filter__section">
-        <p>
-        Filter by status:
+        <p className="filter__link">
+          Filter by status:
+          <select
+            // className="filter__link"
+            defaultValue={this.props.statusFilter}
+            ref="statusFilter"
+            onChange={ () => this.props.filterEventsByStatus(this.refs.statusFilter.value) }
+          >
+            <option value="ALL" currentFilter={this.props.statusFilter} key={ 0 }>
+              All
+            </option>
+            <option value="UPCOMING" currentFilter={this.props.statusFilter} key={ 1 }>
+              Upcoming
+            </option>
+            <option value="PAST" currentFilter={this.props.statusFilter} key={ 2 }>
+              Past
+            </option>
+          </select>
+        {/* Filter by status:
           <FilterLink
               filter="ALL"
               currentFilter={this.props.statusFilter}
@@ -317,11 +334,27 @@ class EventList extends Component {
               action={this.props.filterEventsByStatus}
               >
               Past
-          </FilterLink>
+          </FilterLink> */}
         </p>
-        <p>
+        <p className="filter__link">
           Filter by type:
-          <FilterLink
+          <select
+            // className="filter__link"
+            defaultValue={this.props.typeFilter}
+            ref="typeFilter"
+            onChange={ () => this.props.filterEventsByType(this.refs.typeFilter.value) }
+          >
+            <option value="ALL" currentFilter={this.props.typeFilter} key={ 0 }>
+              All
+            </option>
+            <option value="SHOW" currentFilter={this.props.typeFilter} key={ 1 }>
+              Show
+            </option>
+            <option value="REHEARSAL" currentFilter={this.props.typeFilter} key={ 2 }>
+              Rehearsal
+            </option>
+          </select>
+          {/* <FilterLink
               filter="ALL"
               currentFilter={this.props.typeFilter}
               action={this.props.filterEventsByType}
@@ -341,7 +374,7 @@ class EventList extends Component {
               action={this.props.filterEventsByType}
               >
               Rehearsal
-          </FilterLink>
+          </FilterLink> */}
         </p>
         </div>
         { this.renderTable() }

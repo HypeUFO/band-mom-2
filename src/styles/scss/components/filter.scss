@@ -1,30 +1,36 @@
 .filter {
   &__section {
-    padding-left: 10px;
+    padding-left: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    p {
-      display: inline-flex;
-      justify-content: center;
-      flex-direction: column;
-    }
+    margin: 20px 0;
   }
   &__link {
-    margin: 0 5px;
-    color: $color-gray;
+    margin: 0 10px;
+    color: $color-purple;
     text-decoration: none;
+    align-items: center;
     &--active {
       color: $color-purple;
+    }
+    > select {
+      margin-top: 10px;
+      height: 2.5rem;
     }
   }
   @include md {
     &__section {
-      padding-left: 10px;
-      p {
-        display: inline-flex;
-        justify-content: center;
-        flex-direction: row;
+    justify-content: flex-end;
+    padding-left: 10px;
+      margin: 10px 0;
+      justify-content: flex-end;
+      margin: 10px 0 20px;
+      &__link {
+        margin: 10px 0;
+        > select {
+          margin: 0;
+        }
       }
     }
   }
