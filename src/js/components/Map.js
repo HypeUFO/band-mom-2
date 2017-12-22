@@ -82,18 +82,39 @@ class Map extends Component {
         marker.addListener('blur', function () {
           infowindow.close();
         }, true);
-        var contentString = (`
+        // const contentString = (`
+        //     <div id="iw-container">
+        //       <div class="iw-title">${event.venue} - ${moment(event.date).format('MM/DD/YY')}</div>
+        //       <div class="iw-content">
+        //         <div><span>Venue: </span>${event.venue}</div>
+        //         <div><span>Date: </span>${moment(event.date).format('MM/DD/YY')}</div>
+        //         <div><span>Address: </span><a href="http://maps.google.com/?q=${event.address}" target="_blank">${event.address}</a></div>
+        //         <div><span>Show Time: </span>${event.showTime}</div>
+        //         <div><span>Load In: </span>${event.loadIn}</div>
+        //       </div>
+        //     </div>
+        //   `)
+        let contentString;
+        if (event.phone) {
+          contentString = (`
             <div id="iw-container">
               <div class="iw-title">${event.venue} - ${moment(event.date).format('MM/DD/YY')}</div>
               <div class="iw-content">
-                <div><span>Venue: </span>${event.venue}</div>
-                <div><span>Date: </span>${moment(event.date).format('MM/DD/YY')}</div>
                 <div><span>Address: </span><a href="http://maps.google.com/?q=${event.address}" target="_blank">${event.address}</a></div>
-                <div><span>Show Time: </span>${event.showTime}</div>
-                <div><span>Load In: </span>${event.loadIn}</div>
+                <div><span>Phone: </span>${event.phone || ''}</div>
               </div>
             </div>
           `)
+        } else {
+          contentString = (`
+            <div id="iw-container">
+              <div class="iw-title">${event.venue} - ${moment(event.date).format('MM/DD/YY')}</div>
+              <div class="iw-content">
+                <div><span>Address: </span><a href="http://maps.google.com/?q=${event.address}" target="_blank">${event.address}</a></div>
+              </div>
+            </div>
+          `)
+        }
 
         var infowindow = new this.google.maps.InfoWindow({
           content: contentString
