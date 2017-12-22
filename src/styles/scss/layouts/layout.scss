@@ -12,6 +12,9 @@
     // padding: .5rem;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    // padding: 1rem 3rem;
+    // padding: 100px 3rem;
     &--two-col {
       margin-top: 135px;
       width: 100%;
@@ -20,8 +23,11 @@
   @include md {
     &__content {
       margin-top: 0;
+      // padding: 100px 3rem;
       &--two-col {
-        margin-top: 0;
+        margin-top: 60px;
+        // margin-top: 80px;
+        // padding: 100px 3rem;
         width: 80%;
       }
     }

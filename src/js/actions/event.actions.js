@@ -232,3 +232,17 @@ function updateEventFulfilledAction(event) {
     event
   };
 }
+
+export function filterEventsByStatus(filter) {
+  return {
+        type: ActionTypes.SetEventStatusFilter,
+        filter,
+  }
+}
+
+export function filterEventsByType(filter) {
+  return {
+        type: ActionTypes.SetEventTypeFilter,
+        filter,
+  }
+}

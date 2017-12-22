@@ -25,6 +25,9 @@ const actionTypes = {
 
   DismissNotification: 'DISMISS_NOTIFICATION',
 
+  SetEventStatusFilter: 'SET_EVENT_STATUS_FILTER',
+  SetEventTypeFilter: 'SET_EVENT_TYPE_FILTER',
+
 };
 
 export default actionTypes;

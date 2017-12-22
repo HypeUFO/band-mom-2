@@ -1,28 +1,35 @@
 /*
-Error: Undefined mixin 'md'.
-        on line 27 of src/styles/scss/pages/event-details.scss, in `md'
-        from line 27 of src/styles/scss/pages/event-details.scss
+Error: Undefined variable: "$color-gray".
+        on line 9 of src/styles/scss/components/filter.scss
 
-22:   }
-23:   &__form {
-24:     padding-top: 130px;
-25:     margin-top: -130px;
-26:   }
-27:   @include md {
-28:     &__container {
-29:       // margin-top: 50px;
-30:       padding: 0 20px;
-31:     }
-32:   }
+4:     display: flex;
+5:     justify-content: space-between;
+6:   }
+7:   &__link {
+8:     margin: 0 5px;
+9:     color: $color-gray;
+10:     text-decoration: none;
+11:     &--active {
+12:       color: $color-purple;
+13:     }
+14:   }
 
 Backtrace:
-src/styles/scss/pages/event-details.scss:27:in `md'
-src/styles/scss/pages/event-details.scss:27
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
+src/styles/scss/components/filter.scss:9
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `with_mixin'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -71,4 +78,4 @@ src/styles/scss/pages/event-details.scss:27
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 27 of src/styles/scss/pages/event-details.scss, in `md'\A         from line 27 of src/styles/scss/pages/event-details.scss\A \A 22:   }\A 23:   &__form {\A 24:     padding-top: 130px;\A 25:     margin-top: -130px;\A 26:   }\A 27:   @include md {\A 28:     &__container {\A 29:       // margin-top: 50px;\A 30:       padding: 0 20px;\A 31:     }\A 32:   }"; }
+  content: "Error: Undefined variable: \"$color-gray\".\A         on line 9 of src/styles/scss/components/filter.scss\A \A 4:     display: flex;\A 5:     justify-content: space-between;\A 6:   }\A 7:   &__link {\A 8:     margin: 0 5px;\A 9:     color: $color-gray;\A 10:     text-decoration: none;\A 11:     &--active {\A 12:       color: $color-purple;\A 13:     }\A 14:   }"; }

@@ -5,6 +5,8 @@ const initialState = {
   activeEvent: null,
   message: null,
   recentlyDeleted: [],
+  statusFilter: 'ALL',
+  typeFilter: 'ALL',
 }
 
 export function eventReducer(state = initialState, action) {
@@ -97,6 +99,16 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.RestoreEventRejected:
         return {
         ...state,
+      }
+    case ActionTypes.SetEventStatusFilter:
+      return {
+          ...state,
+          statusFilter: action.filter
+      }
+    case ActionTypes.SetEventTypeFilter:
+      return {
+          ...state,
+          typeFilter: action.filter
       }
 
   }

@@ -1,23 +1,15 @@
 .table {
   display: flex;
   flex-direction: column;
-  padding: 3rem 2rem;
   user-select: none;
   width: 100%;
-  // overflow-x: scroll;
   &__container {
     width: 100%;
-    // width: 90%;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     overflow-x: scroll;
-    // @include md {
-      // width: 50rem;
-    // }
-    @include lg {
-      // width: 60rem;
-      // width: 100%;
-    }
+    padding-bottom: 7px;
   }
   &__header {
     display: flex;
@@ -28,13 +20,6 @@
       margin: 0 2rem;
       margin-top: 4rem;
       padding: 0 3rem;
-      // @include md {
-      //   // padding: 0 1rem;
-      //   // width: 50rem;
-      // }
-      // @include lg {
-      //   // width: 60rem;
-      // }
     }
     &__text {
       margin: 0;
@@ -141,11 +126,8 @@ tbody:hover>tr:hover td {
 
 @include md {
   .table {
-    margin: 100px 0;
-    // width: 80%;
-    // float: right;
     &__container {
-      width: 90%;
+      width: 100%;
     }
     td {
       width: auto;
@@ -168,17 +150,16 @@ tbody:hover>tr:hover td {
       display: table-row;
     }
     tr {
-      // position: relative;
       display: table-row;
       box-shadow: none;
       padding: 0;
       margin-bottom: 0;
-      td {
-        &:nth-last-of-type(1) {
-          // text-align: right;
-          // padding: 0 1rem;
-        }
-      }
+      // td {
+      //   &:nth-last-of-type(1) {
+      //     // text-align: right;
+      //     // padding: 0 1rem;
+      //   }
+      // }
     }
   }
 }

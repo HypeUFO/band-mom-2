@@ -1,0 +1,15 @@
+.filter {
+  &__section {
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__link {
+    margin: 0 5px;
+    color: $color-gray;
+    text-decoration: none;
+    &--active {
+      color: $color-purple;
+    }
+  }
+}

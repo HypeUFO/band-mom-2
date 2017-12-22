@@ -337,13 +337,13 @@ class EventDetails extends Component {
           className="drawer__sidebar"
           // toggle={ this.toggleDrawer }
         />
-        <div className='page__content--two-col'>
-        <Subheader breadcrumbs={ breadcrumbs }
+         <Subheader breadcrumbs={ breadcrumbs }
           // buttonHide={ !this.state.disabled }
           buttonLabel={ this.state.disabled ? 'Edit' : 'Save'}
           buttonIcon={ this.state.disabled ? 'edit' : 'save' }
           buttonOnClick={ this.state.disabled ? this.handleFormEdit : this.onSubmit }
         />
+        <div className='page__content page__content--two-col'>
         <div className={ classes }>
           {/* <div className="form__top">
             <h3 className="clr-purple">Edit Event</h3>

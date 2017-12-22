@@ -33,12 +33,17 @@ export default class Table extends Component {
 
     let self = this;
     let labels = columnLabels.map((columnLabel, index) => {
-      let arrowIcon = 'arrow_drop_up';
+      let arrowIcon = 'arrow_drop_down';
       let arrowStyle = { opacity: 0 };
-      if(sortIndex === index) {
+      // if(sortIndex === index && sortIndex !== 0) {
+        if(sortIndex === index) {
         arrowStyle.opacity = 1;
-        arrowIcon = (asc) ? 'arrow_drop_up' : 'arrow_drop_down';
+        arrowIcon = (!asc) ? 'arrow_drop_up' : 'arrow_drop_down';
       }
+      // else if (sortIndex === index && sortIndex === 0) {
+      //   arrowStyle.opacity = 1;
+      //   arrowIcon = (!asc) ? 'arrow_drop_up' : 'arrow_drop_down';
+      // }
       let arrowHtml = (
         <i className="material-icons" style={arrowStyle}>{ arrowIcon }</i>
       );
@@ -54,7 +59,7 @@ export default class Table extends Component {
       );
     } else {
       return (
-        <th key={ index } onClick={ () => alert("Add Show Modal/View") }>
+        <th key={ index }>
           <span>
             { columnLabel }
           </span>
@@ -87,9 +92,9 @@ export default class Table extends Component {
       let valueA = a.props.columns[sortIndex].value;
       let valueB = b.props.columns[sortIndex].value;
       // Handle currency value
-      if(valueA[0] === '$' && valueB[0] === '$') {
-        valueA = parseInt(valueA.split("$")[1], 10);
-        valueB = parseInt(valueB.split("$")[1], 10);
+      if(sortIndex === 0) {
+        valueA = new Date(valueA);
+        valueB = new Date(valueB);
       }
       if(asc) {
         return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;

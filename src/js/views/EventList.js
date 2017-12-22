@@ -11,6 +11,8 @@ import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
 import CreateEventModal from '../modals/CreateEventModal';
+import FilterLink from '../components/Global/FilterLink';
+import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
 
@@ -193,50 +195,40 @@ class EventList extends Component {
   }
 
   // sortData(docs) {
-  //   let bands, bids;
-
+  //   let events;
   //   // Sort data
-  //   bands = docs.filter((doc) => {
-  //     return doc.key[1] === 0;
-  //   });
-  //   shows = docs.filter((doc) => {
-  //     return doc.key[1] === 1;
-  //   });
-
-  //   // Calculate total cost
-  //   bands = bands.map((doc) => {
-  //     doc.doc.estimateCost = shows.reduce((a, b) => {
-  //       return (b.key[0] == doc.doc._id) ? a + parseInt(b.doc.estimateCost) : a;
-  //     }, 0);
-  //     return doc;
-  //   });
+  //   events = Object.keys(docs)
 
   //   return {
-  //     bands: bands,
-  //     shows: shows
+  //     events,
   //   };
   // }
 
   renderTable() {
     const { events } = this.props;
-      // docs = docs.filter((doc) => {
-      //   if(doc.doc.type === "event") {
-      //     return doc.doc.type === 'event';
-      //   }
-      //   else if(doc.doc.status === "past") {
-      //     return true;
-      //   }
-      // });
       if(events) {
         // let results = this.sortData(events);
+        // console.log(results);
 
         let rows = Object.keys(events).map((key) => {
+          // console.log('rendering row')
           events[key].id = key;
-          return this.renderRow(events[key], key)
+
+          const status = this.props.statusFilter === 'ALL';
+          const type = this.props.typeFilter === 'ALL';
+
+          if ((events[key].status === this.props.statusFilter.toLowerCase() || status) &&
+            (events[key].type === this.props.typeFilter.toLowerCase() || type)) {
+            return this.renderRow(events[key], key)
+          } else {
+            return null;
+          }
         });
 
         return (
-          <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Type", "Status", "+"]}>
+          <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Type", "Status", ""]}
+          // filter={<FilterSection onFilterClick={ this.onFilterClick } />}
+          >
             { rows }
           </Table>
         );
@@ -273,13 +265,13 @@ class EventList extends Component {
           className="drawer__sidebar"
           // toggle={ this.toggleDrawer }
         />
-        <div className='page__content--two-col'>
         <Subheader breadcrumbs={ breadcrumbs }
           // buttonHide={ buttonHide }
           buttonLabel="Add Show"
           buttonIcon="add"
           buttonOnClick={ this.toggleCreateEventModal }
         />
+        <div className='page__content page__content--two-col'>
         <CreateEventModal
           show={ this.state.showCreateEventModal }
           onSubmit={ this.onCreateEventSubmit }
@@ -287,8 +279,60 @@ class EventList extends Component {
           onSuccess={ this.onCreateEventSuccess }
           onError={ this.onCreateEventError }
         />
+        <div className="event__list__container">
         {this.props.notification.display ? this.renderNotification() : null}
+        <div className="filter__section">
+        <p>
+        Filter by status:
+          <FilterLink
+              filter="ALL"
+              currentFilter={this.props.statusFilter}
+              action={this.props.filterEventsByStatus}
+              >
+              All
+          </FilterLink>
+          <FilterLink
+              filter="UPCOMING"
+              currentFilter={this.props.statusFilter}
+              action={this.props.filterEventsByStatus}
+              >
+              Upcoming
+          </FilterLink>
+          <FilterLink
+              filter="PAST"
+              currentFilter={this.props.statusFilter}
+              action={this.props.filterEventsByStatus}
+              >
+              Past
+          </FilterLink>
+        </p>
+        <p>
+          Filter by type:
+          <FilterLink
+              filter="ALL"
+              currentFilter={this.props.typeFilter}
+              action={this.props.filterEventsByType}
+              >
+              All
+          </FilterLink>
+          <FilterLink
+              filter="SHOW"
+              currentFilter={this.props.typeFilter}
+              action={this.props.filterEventsByType}
+              >
+              Show
+          </FilterLink>
+          <FilterLink
+              filter="REHEARSAL"
+              currentFilter={this.props.typeFilter}
+              action={this.props.filterEventsByType}
+              >
+              Rehearsal
+          </FilterLink>
+        </p>
+        </div>
         { this.renderTable() }
+      </div>
       </div>
       </div>
     );
@@ -300,6 +344,8 @@ class EventList extends Component {
 function mapStateToProps(state) {
   return {
     events: state.events.events,
+    statusFilter: state.events.statusFilter,
+    typeFilter: state.events.typeFilter,
     recentlyDeleted: state.events.recentlyDeleted,
     notification: state.notification,
   };
@@ -313,6 +359,8 @@ function mapDispatchToProps(dispatch) {
     onDeleteEvent: actions.deleteEvent,
     onRestoreEvent: actions.restoreEvent,
     dismissNotification: dismissNotification,
+    filterEventsByStatus: actions.filterEventsByStatus,
+    filterEventsByType: actions.filterEventsByType,
     },
   dispatch);
 }

@@ -1,23 +1,23 @@
 /*
 Error: Undefined mixin 'md'.
-        on line 20 of src/styles/scss/layouts/layout.scss, in `md'
-        from line 20 of src/styles/scss/layouts/layout.scss
+        on line 23 of src/styles/scss/layouts/layout.scss, in `md'
+        from line 23 of src/styles/scss/layouts/layout.scss
 
-15:     &--two-col {
-16:       margin-top: 135px;
-17:       width: 100%;
-18:     }
-19:   }
-20:   @include md {
-21:     &__content {
-22:       margin-top: 0;
-23:       &--two-col {
-24:         margin-top: 0;
-25:         width: 80%;
+18:     &--two-col {
+19:       margin-top: 135px;
+20:       width: 100%;
+21:     }
+22:   }
+23:   @include md {
+24:     &__content {
+25:       margin-top: 0;
+26:       // padding: 100px 3rem;
+27:       &--two-col {
+28:         margin-top: 60px;
 
 Backtrace:
-src/styles/scss/layouts/layout.scss:20:in `md'
-src/styles/scss/layouts/layout.scss:20
+src/styles/scss/layouts/layout.scss:23:in `md'
+src/styles/scss/layouts/layout.scss:23
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
@@ -71,4 +71,4 @@ src/styles/scss/layouts/layout.scss:20
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 20 of src/styles/scss/layouts/layout.scss, in `md'\A         from line 20 of src/styles/scss/layouts/layout.scss\A \A 15:     &--two-col {\A 16:       margin-top: 135px;\A 17:       width: 100%;\A 18:     }\A 19:   }\A 20:   @include md {\A 21:     &__content {\A 22:       margin-top: 0;\A 23:       &--two-col {\A 24:         margin-top: 0;\A 25:         width: 80%;"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 23 of src/styles/scss/layouts/layout.scss, in `md'\A         from line 23 of src/styles/scss/layouts/layout.scss\A \A 18:     &--two-col {\A 19:       margin-top: 135px;\A 20:       width: 100%;\A 21:     }\A 22:   }\A 23:   @include md {\A 24:     &__content {\A 25:       margin-top: 0;\A 26:       // padding: 100px 3rem;\A 27:       &--two-col {\A 28:         margin-top: 60px;"; }
