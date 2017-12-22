@@ -101,7 +101,7 @@ class Map extends Component {
               <div class="iw-title">${event.venue} - ${moment(event.date).format('MM/DD/YY')}</div>
               <div class="iw-content">
                 <div><span>Address: </span><a href="http://maps.google.com/?q=${event.address}" target="_blank">${event.address}</a></div>
-                <div><span>Phone: </span>${event.phone || ''}</div>
+                <div><span>Phone: </span><a href="tel:${event.phone}">${event.phone}</a></div>
               </div>
             </div>
           `)

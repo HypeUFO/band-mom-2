@@ -244,7 +244,7 @@ class EventDetails extends Component {
                     name="venue"
                     placeholder="Venue Name"
                     label="Venue Name"
-                    value={ event.venue }
+                    value={ this.props.eventEdit ? this.state.venue : event.venue }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -252,7 +252,7 @@ class EventDetails extends Component {
                     name="address"
                     placeholder="Venue Address"
                     label="Venue Address"
-                    value={ event.address }
+                    value={ this.props.eventEdit ? this.state.address : event.address }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -262,7 +262,7 @@ class EventDetails extends Component {
                     name="phone"
                     placeholder="Venue Phone"
                     label="Venue Phone"
-                    value={ event.phone }
+                    value={ this.props.eventEdit ? this.state.phone : event.phone }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -270,7 +270,7 @@ class EventDetails extends Component {
                     name="date"
                     placeholder="Date"
                     label="Event Date"
-                    value={ moment(event.date).format('MM/DD/YYYY') }
+                    value={ this.props.eventEdit ? moment(this.state.date).format('MM/DD/YYYY') : moment(event.date).format('MM/DD/YYYY') }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -280,7 +280,7 @@ class EventDetails extends Component {
                     name="showTime"
                     placeholder="Show Time"
                     label="Show Time"
-                    value={ event.showTime }
+                    value={ this.props.eventEdit ? this.state.showTime : event.showTime }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -288,7 +288,7 @@ class EventDetails extends Component {
                     name="loadIn"
                     placeholder="Load In Time"
                     label="Load In Time"
-                    value={ event.loadIn }
+                    value={ this.props.eventEdit ? this.state.loadIn : event.loadIn }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -299,7 +299,7 @@ class EventDetails extends Component {
                     placeholder="Show/Rehearsal"
                     label="Event Type"
                     options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
-                    value={ event.type }
+                    value={ this.props.eventEdit ? this.state.type : event.type }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -307,7 +307,7 @@ class EventDetails extends Component {
                     name="notes"
                     placeholder="Notes"
                     label="Notes"
-                    value={ event.notes }
+                    value={ this.props.eventEdit ? this.state.notes : event.notes }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
