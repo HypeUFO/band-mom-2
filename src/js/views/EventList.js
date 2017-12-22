@@ -136,13 +136,14 @@ class EventList extends Component {
     }
 
     let columns = [
-      { value: moment(doc.date).format('MM/DD/YYYY') || '' },
+      { value: moment(doc.date).format('MM/DD/YYYY') || '' , colorClass: statusColorClass},
       { value: doc.venue || '' },
       { value: doc.address || '' },
+      { value: doc.phone || '' },
       { value: doc.loadIn || '' },
       { value: doc.showTime || '' },
       { value: doc.type || '' },
-      { value: doc.status.toUpperCase() || '', colorClass: statusColorClass },
+      // { value: doc.status.toUpperCase() || '', colorClass: statusColorClass },
     ];
 
     let menu = (
@@ -226,8 +227,17 @@ class EventList extends Component {
         });
 
         return (
-          <Table columnLabels={["Date", "Venue", "Address", "Load In", "Show Time", "Type", "Status", ""]}
-          // filter={<FilterSection onFilterClick={ this.onFilterClick } />}
+          <Table columnLabels={[
+            "Date",
+            "Venue",
+            "Address",
+            "Phone",
+            "Load In",
+            "Show Time",
+            "Type",
+            // "Status",
+            ""
+          ]}
           >
             { rows }
           </Table>

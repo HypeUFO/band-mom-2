@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
     overflow-x: scroll;
     padding-bottom: 7px;
   }
@@ -75,12 +76,12 @@ td {
   border-bottom: none;
   width: 100%;
   text-align: center;
-  &:nth-child(4) {
+  &:nth-child(5) {
     &:before {
       content: "Load In: "
     }
   }
-  &:nth-child(5) {
+  &:nth-child(6) {
     &:before {
       content: "Show Time: "
     }
@@ -128,6 +129,7 @@ tbody:hover>tr:hover td {
   .table {
     &__container {
       width: 100%;
+      align-items: flex-start;
     }
     td {
       width: auto;

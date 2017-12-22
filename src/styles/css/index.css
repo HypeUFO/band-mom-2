@@ -232,7 +232,10 @@ input {
   user-select: text; }
 
 .event__list__container {
-  padding: 100px 3rem; }
+  padding: 0 1rem; }
+@media (min-width: 768px) {
+  .event__list__container {
+    padding: 100px 3rem; } }
 
 .event-details__container {
   padding: 0 10px; }
@@ -692,6 +695,7 @@ input[type="submit"] {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
     overflow-x: scroll;
     padding-bottom: 7px; }
   .table__header {
@@ -747,9 +751,9 @@ td {
   border-bottom: none;
   width: 100%;
   text-align: center; }
-  td:nth-child(4):before {
-    content: "Load In: "; }
   td:nth-child(5):before {
+    content: "Load In: "; }
+  td:nth-child(6):before {
     content: "Show Time: "; }
 
 tr {
@@ -778,7 +782,8 @@ tbody:hover > tr:hover td {
 
 @media (min-width: 768px) {
   .table__container {
-    width: 100%; }
+    width: 100%;
+    align-items: flex-start; }
   .table td {
     width: auto;
     text-align: left;
@@ -1294,12 +1299,28 @@ tbody:hover > tr:hover td {
 .filter__section {
   padding-left: 10px;
   display: flex;
-  justify-content: space-between; }
+  flex-direction: row;
+  justify-content: center;
+  flex-direction: column; }
+  .filter__section p {
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column; }
 .filter__link {
   margin: 0 5px;
   color: #BBBBBB;
   text-decoration: none; }
   .filter__link--active {
     color: #7F4FFF; }
+@media (min-width: 768px) {
+  .filter__section {
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row; }
+    .filter__section p {
+      display: inline-flex;
+      justify-content: center;
+      flex-direction: row; } }
 
 /*# sourceMappingURL=index.css.map */

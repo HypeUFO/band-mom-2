@@ -1,5 +1,10 @@
 .event__list {
   &__container {
-    padding: 100px 3rem;
+    padding: 0 1rem;
+  }
+  @include md {
+    &__container {
+      padding: 100px 3rem;
+    }
   }
 }
