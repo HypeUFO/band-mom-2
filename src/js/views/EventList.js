@@ -16,6 +16,8 @@ import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
 
+import $ from 'jquery';
+
 import database from '../config/fire'
 
 
@@ -38,6 +40,9 @@ class EventList extends Component {
     this.onDeleteEventError = this.onDeleteEventError.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
     this.restoreEvent = this.restoreEvent.bind(this);
+    this.setFilterWidth = this.setFilterWidth.bind(this);
+    this.handleFilterWidth = this.handleFilterWidth.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
 
   }
 
@@ -46,6 +51,44 @@ class EventList extends Component {
       this.props.onGetEventMany()
     })
     this.props.onClearEvent()
+  }
+
+  componentDidMount() {
+    this.handleFilterWidth()
+    window.addEventListener('resize', this.handleFilterWidth);
+  }
+
+  // Resize filter widths based on selected menu item
+
+setFilterWidth(id) {
+  const filterDiv = $(`#${id}`);
+  // const select = filterDiv.find('.event__filter');
+  $('#templateOption').text(filterDiv.find('option:selected').text());
+  console.log(filterDiv.find('option:selected').text())
+  filterDiv.width($('#template').width());
+}
+
+handleFilterWidth() {
+  console.log('handling filter width');
+  const selectList = document.querySelectorAll('.event__filter');
+
+  selectList.forEach((sel) => {
+    const mq = window.matchMedia('(min-width: 769px)');
+    if (mq.matches) {
+      // the width of browser is more than 769px
+      console.log(sel.getAttribute('id'))
+      this.setFilterWidth(sel.getAttribute('id'));
+    } else {
+      // the width of browser is less than 769px
+      const filterDiv = $(`#${sel.getAttribute('id')}`);
+      // filterDiv.width('100%');
+    }
+  });
+}
+
+  handleFilterChange(filter, action) {
+    this.handleFilterWidth();
+    action(filter);
   }
 
   handleRowClick(row) {
@@ -295,13 +338,15 @@ class EventList extends Component {
         <div className="event__list__container">
         {this.props.notification.display ? this.renderNotification() : null}
         <div className="filter__section">
+        <p className="filter__label">Filter: </p>
         <p className="filter__link">
-          Filter by status:
+          {/* Filter by status: */}
           <select
-            // className="filter__link"
+            className="event__filter"
+            id="statusFilter"
             defaultValue={this.props.statusFilter}
             ref="statusFilter"
-            onChange={ () => this.props.filterEventsByStatus(this.refs.statusFilter.value) }
+            onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
           >
             <option value="ALL" currentFilter={this.props.statusFilter} key={ 0 }>
               All
@@ -313,36 +358,17 @@ class EventList extends Component {
               Past
             </option>
           </select>
-        {/* Filter by status:
-          <FilterLink
-              filter="ALL"
-              currentFilter={this.props.statusFilter}
-              action={this.props.filterEventsByStatus}
-              >
-              All
-          </FilterLink>
-          <FilterLink
-              filter="UPCOMING"
-              currentFilter={this.props.statusFilter}
-              action={this.props.filterEventsByStatus}
-              >
-              Upcoming
-          </FilterLink>
-          <FilterLink
-              filter="PAST"
-              currentFilter={this.props.statusFilter}
-              action={this.props.filterEventsByStatus}
-              >
-              Past
-          </FilterLink> */}
+          <i class="material-icons">chevron_right</i>
         </p>
         <p className="filter__link">
-          Filter by type:
+          {/* Filter by type: */}
           <select
-            // className="filter__link"
+            className="event__filter"
+            id="typeFilter"
             defaultValue={this.props.typeFilter}
             ref="typeFilter"
-            onChange={ () => this.props.filterEventsByType(this.refs.typeFilter.value) }
+            // onChange={ () => this.props.filterEventsByType(this.refs.typeFilter.value) }
+            onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
           >
             <option value="ALL" currentFilter={this.props.typeFilter} key={ 0 }>
               All
@@ -354,6 +380,7 @@ class EventList extends Component {
               Rehearsal
             </option>
           </select>
+          <i class="material-icons">chevron_right</i>
           {/* <FilterLink
               filter="ALL"
               currentFilter={this.props.typeFilter}
@@ -379,6 +406,9 @@ class EventList extends Component {
         </div>
         { this.renderTable() }
       </div>
+      <select id="template" style={{display:'none'}}>
+        <option id="templateOption" />
+      </select>
       </div>
       </div>
     );

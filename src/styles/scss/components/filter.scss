@@ -3,35 +3,64 @@
     padding-left: 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    // justify-content: space-between;
+    justify-content: flex-start;
     margin: 20px 0;
   }
   &__link {
     margin: 0 10px;
     color: $color-purple;
     text-decoration: none;
+    display: flex;
+    // flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    > .material-icons {
+      transform: rotate(90deg);
+      margin-right: 10px
+    }
     &--active {
       color: $color-purple;
     }
-    > select {
-      margin-top: 10px;
+    >select {
+      // margin-top: 10px;
       height: 2.5rem;
     }
   }
+  &__label {
+    color: $color-gray-dark;
+  }
   @include md {
     &__section {
-    justify-content: flex-end;
-    padding-left: 10px;
-      margin: 10px 0;
-      justify-content: flex-end;
-      margin: 10px 0 20px;
+      // justify-content: flex-start;
+      padding-left: 10px;
+      // margin: 10px 0;
+      // margin: 10px 0 20px;
       &__link {
         margin: 10px 0;
-        > select {
+        >select {
           margin: 0;
         }
       }
     }
   }
+}
+
+.event__filter,
+#template {
+  color: $color-purple;
+  border: none;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  height: auto;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+  width: auto;
+  padding: 0;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

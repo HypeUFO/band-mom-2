@@ -1309,28 +1309,47 @@ tbody:hover > tr:hover td {
   padding-left: 0;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 20px 0; }
 .filter__link {
   margin: 0 10px;
   color: #7F4FFF;
   text-decoration: none;
-  align-items: center; }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; }
+  .filter__link > .material-icons {
+    transform: rotate(90deg);
+    margin-right: 10px; }
   .filter__link--active {
     color: #7F4FFF; }
   .filter__link > select {
-    margin-top: 10px;
     height: 2.5rem; }
+.filter__label {
+  color: #999999; }
 @media (min-width: 768px) {
   .filter__section {
-    justify-content: flex-end;
-    padding-left: 10px;
-    margin: 10px 0;
-    justify-content: flex-end;
-    margin: 10px 0 20px; }
+    padding-left: 10px; }
     .filter__section__link {
       margin: 10px 0; }
       .filter__section__link > select {
         margin: 0; } }
+
+.event__filter,
+#template {
+  color: #7F4FFF;
+  border: none;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  height: auto;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+  width: auto;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none; }
 
 /*# sourceMappingURL=index.css.map */

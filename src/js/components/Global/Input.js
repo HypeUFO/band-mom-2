@@ -205,7 +205,10 @@ export default class Input extends Component {
         <div className="input">
           <label className="input__label">{ label }</label>
           <select
-            className="input__input"
+            className={"input__input " + this.props.className}
+            id={ this.props.id }
+            ref={ this.props.ref }
+            defaultValue={ this.props.defaultValue }
             name={ name }
             value={ value }
             onChange={ onChange }
