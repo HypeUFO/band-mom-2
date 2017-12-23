@@ -1,3 +1,5 @@
+@import url(~slick-carousel/slick/slick.css);
+@import url(~slick-carousel/slick/slick-theme.css);
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -636,65 +638,8 @@ input[type="submit"] {
   .btn-calendar--light {
     color: #7F4FFF; }
 
-.carousel {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; }
-  .carousel [class^=carousel__controller__nav--] {
-    color: white;
-    cursor: pointer;
-    width: auto;
-    font-size: 30px;
-    height: 100%; }
-    .carousel [class^=carousel__controller__nav--]:hover {
-      color: #000; }
-  .carousel__slide {
-    left: 0;
-    position: relative;
-    background: transparent;
-    height: 100%;
-    transition: left 1s linear; }
-    .carousel__slide-item {
-      height: 100%;
-      float: left;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center; }
-      .carousel__slide-item__text {
-        width: 66.66%;
-        font-size: 3.5em;
-        color: #b79cff;
-        text-align: center;
-        text-shadow: 2px 2px #121F27; }
-      .carousel__slide-item--1 {
-        background-image: url("/assets/img/gear.jpeg"); }
-      .carousel__slide-item--2 {
-        background-image: url("/assets/img/music-planning.jpeg"); }
-      .carousel__slide-item--3 {
-        background-image: url("/assets/img/stage-plot.jpeg"); }
-  .carousel__controller, .carousel__controller__nav {
-    box-sizing: border-box;
-    height: auto;
-    left: 0;
-    width: 100%;
-    padding: 0 20px;
-    position: absolute;
-    top: 50%; }
-  .carousel__controller__nav--right {
-    float: right; }
-  .carousel__controller__nav--left {
-    float: left; }
-  @media (min-width: 1025px) {
-    .carousel [class^=carousel__controller__nav--] {
-      visibility: hidden; }
-    .carousel:hover [class^=carousel__controller__nav--] {
-      visibility: visible; }
-      .carousel:hover [class^=carousel__controller__nav--]:hover {
-        color: #000; } }
+.slick-prev:before, .slick-next:before {
+  color: black; }
 
 .table {
   display: flex;
@@ -1362,5 +1307,26 @@ tbody:hover > tr:hover td {
   -moz-appearance: none;
   padding-right: 20px;
   box-sizing: content-box; }
+
+.card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 20px;
+  margin: 25px;
+  width: 100%;
+  height: 100%;
+  height: 200px !important; }
+  .card__type {
+    color: #7F4FFF; }
+  .card > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
 
 /*# sourceMappingURL=index.css.map */

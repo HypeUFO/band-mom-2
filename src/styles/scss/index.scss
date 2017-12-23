@@ -11,6 +11,11 @@ body {
   font-family: sans-serif;
   width: 100%;
 }
+
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+
 @import './variables/_colors';
 @import './variables/_breakpoints';
 @import './variables/_animations';
@@ -39,3 +44,4 @@ body {
 @import './components/form';
 @import './components/map';
 @import './components/filter';
+@import './components/card';

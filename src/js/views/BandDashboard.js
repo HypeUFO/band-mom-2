@@ -10,6 +10,10 @@ import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
+
+import Carousel from '../components/Carousel';
+
+
 import CreateEventModal from '../modals/CreateEventModal';
 import FilterLink from '../components/Global/FilterLink';
 import Input from '../components/Global/Input';
@@ -147,7 +151,7 @@ class EventList extends Component {
     );
   }
 
-  renderRow(doc, index) {
+  renderEventCard(doc, index) {
 
     let statusColorClass = '';
     switch(doc.status) {
@@ -161,47 +165,23 @@ class EventList extends Component {
         // statusColorClass = 'clr-purple';
     }
 
-    let columns = [
-      { value: moment(doc.date).format('MM/DD/YYYY') || '' , colorClass: statusColorClass},
-      { value: doc.venue || '' },
-      { value: doc.address || '' },
-      { value: doc.phone || '' },
-      { value: doc.loadIn || '' },
-      { value: doc.showTime || '' },
-      { value: doc.type || '' },
-      // { value: doc.status.toUpperCase() || '', colorClass: statusColorClass },
-    ];
 
-    let menu = (
-      doc.status === 'upcoming' ?
-      <TableRowMenu>
-        <TableRowMenuItem
-          label="Delete"
-          onClick={ () => this.deleteEvent(doc) }
-        />
-      </TableRowMenu>
-      :
-      <TableRowMenu>
-      <TableRowMenuItem
-        label="Delete"
-        onClick={ () => this.deleteEvent(doc) }
-      />
-      <TableRowMenuItem
-        label="Archive"
-        // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_ARCHIVE) }
-      />
-    </TableRowMenu>
+    let card = (
+      <div>
+        <p><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</p>
+        <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
+        <p>Set Time: { doc.showTime }</p>
+      </div>
 
     );
 
     return (
-      <TableRow
-        key={ index }
-        columns={ columns }
+      <div className="card"
+        key={ doc.date }
         onClick={ this.handleRowClick.bind(this, doc) }
       >
-      { menu }
-      </TableRow>
+      { card }
+      </div>
     );
   }
 
@@ -215,7 +195,7 @@ class EventList extends Component {
   //   };
   // }
 
-  renderTable() {
+  renderEventPreview() {
     const { events } = this.props;
       if(events) {
         // let results = this.sortData(events);
@@ -225,32 +205,20 @@ class EventList extends Component {
           // console.log('rendering row')
           events[key].id = key;
 
-          const status = this.props.statusFilter === 'ALL';
-          const type = this.props.typeFilter === 'ALL';
-
-          if ((events[key].status === this.props.statusFilter.toLowerCase() || status) &&
-            (events[key].type === this.props.typeFilter.toLowerCase() || type)) {
-            return this.renderRow(events[key], key)
-          } else {
-            return null;
+          if (events[key].status === 'upcoming') {
+            return this.renderEventCard(events[key], key)
           }
-        });
+        })
+        .sort((a, b) => {
+          const valueA = new Date(a.key);
+          const valueB = new Date(b.key);
+          return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
+        })
 
         return (
-          <Table columnLabels={[
-            "Date",
-            "Venue",
-            "Address",
-            "Phone",
-            "Load In",
-            "Show Time",
-            "Type",
-            // "Status",
-            ""
-          ]}
-          >
+          <Carousel>
             { rows }
-          </Table>
+          </Carousel>
         );
       }
       else {
@@ -273,7 +241,7 @@ class EventList extends Component {
 
     let breadcrumbs = [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: 'Events' },
+      { link: null, name: 'Test Band' },
       // { link: null, name: gig.venue },
     ];
 
@@ -287,90 +255,17 @@ class EventList extends Component {
         />
         <Subheader breadcrumbs={ breadcrumbs }
           // buttonHide={ buttonHide }
-          buttonLabel="Add Show"
-          buttonIcon="add"
-          buttonOnClick={ this.toggleCreateEventModal }
+          buttonHide={ true }
+          // buttonLabel="Add Show"
+          // buttonIcon="add"
+          // buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
-          <CreateEventModal
-            show={ this.state.showCreateEventModal }
-            onSubmit={ this.onCreateEventSubmit }
-            onCancel={ this.onCreateEventCancel }
-            onSuccess={ this.onCreateEventSuccess }
-            onError={ this.onCreateEventError }
-          />
           <div className="event__list__container">
-            {this.props.notification.display ? this.renderNotification() : null}
-            <div className="filter__section">
-              <p className="filter__label">Filter: </p>
-              <p className="filter__link">
-                {/* Filter by status: */}
-                <select
-                  className="event__filter"
-                  id="statusFilter"
-                  defaultValue={this.props.statusFilter}
-                  ref="statusFilter"
-                  onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
-                >
-                  <option value="ALL" key={ 0 }>
-                    All
-                  </option>
-                  <option value="UPCOMING" key={ 1 }>
-                    Upcoming
-                  </option>
-                  <option value="PAST" key={ 2 }>
-                    Past
-                  </option>
-                </select>
-                <i className="material-icons">chevron_right</i>
-              </p>
-              <p className="filter__link">
-                {/* Filter by type: */}
-              <select
-                className="event__filter"
-                id="typeFilter"
-                defaultValue={this.props.typeFilter}
-                ref="typeFilter"
-                onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
-              >
-                <option value="ALL" key={ 0 }>
-                  All
-                </option>
-                <option value="SHOW" key={ 1 }>
-                  Show
-                </option>
-                <option value="REHEARSAL" key={ 2 }>
-                  Rehearsal
-                </option>
-              </select>
-              <i className="material-icons">chevron_right</i>
-              {/* <FilterLink
-                  filter="ALL"
-                  currentFilter={this.props.typeFilter}
-                  action={this.props.filterEventsByType}
-                  >
-                  All
-              </FilterLink>
-              <FilterLink
-                  filter="SHOW"
-                  currentFilter={this.props.typeFilter}
-                  action={this.props.filterEventsByType}
-                  >
-                  Show
-              </FilterLink>
-              <FilterLink
-                  filter="REHEARSAL"
-                  currentFilter={this.props.typeFilter}
-                  action={this.props.filterEventsByType}
-                  >
-                  Rehearsal
-              </FilterLink> */}
-            </p>
-            </div>
-            { this.renderTable() }
-            <select id="template" style={{visibility: 'hidden'}}>
-              <option id="templateOption" />
-            </select>
+          {/* <div className="event__preview__container"> */}
+          <h3>Upcoming Events</h3>
+            { this.renderEventPreview() }
+          <a href="/testUser/bands/testBand/events">View All</a>
           </div>
         </div>
       </div>
