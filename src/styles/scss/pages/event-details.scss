@@ -23,6 +23,13 @@
   &__form {
     padding-top: 130px;
     margin-top: -130px;
+
+    input,
+    textarea,
+    select,
+    .date {
+      width: 100%;
+    }
   }
   @include md {
     &__container {

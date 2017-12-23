@@ -16,8 +16,6 @@ import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
 
-import $ from 'jquery';
-
 import database from '../config/fire'
 
 
@@ -59,10 +57,11 @@ class EventList extends Component {
   }
 
   setFilterWidth(id) {
-    const filterDiv = $(`#${id}`);
-    $('#templateOption').text(filterDiv.find('option:selected').text());
-    console.log(filterDiv.find('option:selected').text())
-    filterDiv.width($('#template').width());
+    const filterDiv = document.querySelector(`#${id}`);
+    const template = document.querySelector('#template');
+    template.options[0].innerHTML = filterDiv.options[filterDiv.selectedIndex].textContent;
+
+    filterDiv.style.width = `${template.getBoundingClientRect().width}px`;
   }
 
   handleFilterWidth() {
@@ -293,87 +292,87 @@ class EventList extends Component {
           buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
-        <CreateEventModal
-          show={ this.state.showCreateEventModal }
-          onSubmit={ this.onCreateEventSubmit }
-          onCancel={ this.onCreateEventCancel }
-          onSuccess={ this.onCreateEventSuccess }
-          onError={ this.onCreateEventError }
-        />
-        <div className="event__list__container">
-        {this.props.notification.display ? this.renderNotification() : null}
-        <div className="filter__section">
-        <p className="filter__label">Filter: </p>
-        <p className="filter__link">
-          {/* Filter by status: */}
-          <select
-            className="event__filter"
-            id="statusFilter"
-            defaultValue={this.props.statusFilter}
-            ref="statusFilter"
-            onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
-          >
-            <option value="ALL" key={ 0 }>
-              All
-            </option>
-            <option value="UPCOMING" key={ 1 }>
-              Upcoming
-            </option>
-            <option value="PAST" key={ 2 }>
-              Past
-            </option>
-          </select>
-          <i className="material-icons">chevron_right</i>
-        </p>
-        <p className="filter__link">
-          {/* Filter by type: */}
-          <select
-            className="event__filter"
-            id="typeFilter"
-            defaultValue={this.props.typeFilter}
-            ref="typeFilter"
-            onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
-          >
-            <option value="ALL" key={ 0 }>
-              All
-            </option>
-            <option value="SHOW" key={ 1 }>
-              Show
-            </option>
-            <option value="REHEARSAL" key={ 2 }>
-              Rehearsal
-            </option>
-          </select>
-          <i className="material-icons">chevron_right</i>
-          {/* <FilterLink
-              filter="ALL"
-              currentFilter={this.props.typeFilter}
-              action={this.props.filterEventsByType}
+          <CreateEventModal
+            show={ this.state.showCreateEventModal }
+            onSubmit={ this.onCreateEventSubmit }
+            onCancel={ this.onCreateEventCancel }
+            onSuccess={ this.onCreateEventSuccess }
+            onError={ this.onCreateEventError }
+          />
+          <div className="event__list__container">
+            {this.props.notification.display ? this.renderNotification() : null}
+            <div className="filter__section">
+              <p className="filter__label">Filter: </p>
+              <p className="filter__link">
+                {/* Filter by status: */}
+                <select
+                  className="event__filter"
+                  id="statusFilter"
+                  defaultValue={this.props.statusFilter}
+                  ref="statusFilter"
+                  onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
+                >
+                  <option value="ALL" key={ 0 }>
+                    All
+                  </option>
+                  <option value="UPCOMING" key={ 1 }>
+                    Upcoming
+                  </option>
+                  <option value="PAST" key={ 2 }>
+                    Past
+                  </option>
+                </select>
+                <i className="material-icons">chevron_right</i>
+              </p>
+              <p className="filter__link">
+                {/* Filter by type: */}
+              <select
+                className="event__filter"
+                id="typeFilter"
+                defaultValue={this.props.typeFilter}
+                ref="typeFilter"
+                onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
               >
-              All
-          </FilterLink>
-          <FilterLink
-              filter="SHOW"
-              currentFilter={this.props.typeFilter}
-              action={this.props.filterEventsByType}
-              >
-              Show
-          </FilterLink>
-          <FilterLink
-              filter="REHEARSAL"
-              currentFilter={this.props.typeFilter}
-              action={this.props.filterEventsByType}
-              >
-              Rehearsal
-          </FilterLink> */}
-        </p>
+                <option value="ALL" key={ 0 }>
+                  All
+                </option>
+                <option value="SHOW" key={ 1 }>
+                  Show
+                </option>
+                <option value="REHEARSAL" key={ 2 }>
+                  Rehearsal
+                </option>
+              </select>
+              <i className="material-icons">chevron_right</i>
+              {/* <FilterLink
+                  filter="ALL"
+                  currentFilter={this.props.typeFilter}
+                  action={this.props.filterEventsByType}
+                  >
+                  All
+              </FilterLink>
+              <FilterLink
+                  filter="SHOW"
+                  currentFilter={this.props.typeFilter}
+                  action={this.props.filterEventsByType}
+                  >
+                  Show
+              </FilterLink>
+              <FilterLink
+                  filter="REHEARSAL"
+                  currentFilter={this.props.typeFilter}
+                  action={this.props.filterEventsByType}
+                  >
+                  Rehearsal
+              </FilterLink> */}
+            </p>
+            </div>
+            { this.renderTable() }
+            <select id="template" style={{visibility: 'hidden'}}>
+              <option id="templateOption" />
+            </select>
+          </div>
         </div>
-        { this.renderTable() }
-      </div>
-      <select id="template" style={{display:'none'}}>
-        <option id="templateOption" />
-      </select>
-      </div>
       </div>
     );
   }

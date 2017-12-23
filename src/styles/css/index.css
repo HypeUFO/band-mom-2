@@ -242,6 +242,11 @@ input {
 .event-details__form {
   padding-top: 130px;
   margin-top: -130px; }
+  .event-details__form input,
+  .event-details__form textarea,
+  .event-details__form select,
+  .event-details__form .date {
+    width: 100%; }
 @media (min-width: 768px) {
   .event-details__container {
     padding: 0 20px; } }
@@ -1323,15 +1328,12 @@ tbody:hover > tr:hover td {
     transform: rotate(90deg);
     margin-right: 10px;
     position: relative;
-    right: 20px;
+    right: 38px;
     pointer-events: none; }
   .filter__link--active {
     color: #7F4FFF; }
   .filter__link > select {
     height: 2.5rem; }
-    .filter__link > select:after {
-      font-family: "Material Icons";
-      content: "chevron_right"; }
 .filter__label {
   color: #999999;
   margin-right: 10px; }

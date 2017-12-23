@@ -2,7 +2,7 @@
   &__section {
     padding-left: 0;
     display: flex;
-    flex-direction: row; // justify-content: space-between;
+    flex-direction: row;
     justify-content: flex-start;
     margin: 20px 0;
   }
@@ -10,7 +10,7 @@
     margin: 0 10px;
     color: $color-purple;
     text-decoration: none;
-    display: flex; // flex-direction: column;
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -18,7 +18,7 @@
       transform: rotate(90deg);
       margin-right: 10px;
       position: relative;
-      right: 20px;
+      right: 38px;
       pointer-events: none;
     }
     &--active {
@@ -26,10 +26,6 @@
     }
     >select {
       height: 2.5rem;
-      &:after {
-        font-family: "Material Icons";
-        content: "chevron_right";
-      }
     }
   }
   &__label {

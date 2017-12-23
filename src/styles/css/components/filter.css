@@ -9,7 +9,7 @@ Error: Undefined variable: "$color-purple".
 10:     margin: 0 10px;
 11:     color: $color-purple;
 12:     text-decoration: none;
-13:     display: flex; // flex-direction: column;
+13:     display: flex;
 14:     flex-direction: row;
 15:     align-items: center;
 16:     justify-content: center;
@@ -78,4 +78,4 @@ src/styles/scss/components/filter.scss:11
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 11 of src/styles/scss/components/filter.scss\A \A 6:     justify-content: flex-start;\A 7:     margin: 20px 0;\A 8:   }\A 9:   &__link {\A 10:     margin: 0 10px;\A 11:     color: $color-purple;\A 12:     text-decoration: none;\A 13:     display: flex; // flex-direction: column;\A 14:     flex-direction: row;\A 15:     align-items: center;\A 16:     justify-content: center;"; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 11 of src/styles/scss/components/filter.scss\A \A 6:     justify-content: flex-start;\A 7:     margin: 20px 0;\A 8:   }\A 9:   &__link {\A 10:     margin: 0 10px;\A 11:     color: $color-purple;\A 12:     text-decoration: none;\A 13:     display: flex;\A 14:     flex-direction: row;\A 15:     align-items: center;\A 16:     justify-content: center;"; }

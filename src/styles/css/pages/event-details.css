@@ -1,23 +1,23 @@
 /*
 Error: Undefined mixin 'md'.
-        on line 27 of src/styles/scss/pages/event-details.scss, in `md'
-        from line 27 of src/styles/scss/pages/event-details.scss
+        on line 34 of src/styles/scss/pages/event-details.scss, in `md'
+        from line 34 of src/styles/scss/pages/event-details.scss
 
-22:   }
-23:   &__form {
-24:     padding-top: 130px;
-25:     margin-top: -130px;
-26:   }
-27:   @include md {
-28:     &__container {
-29:       // margin-top: 50px;
-30:       padding: 0 20px;
-31:     }
-32:   }
+29:     select,
+30:     .date {
+31:       width: 100%;
+32:     }
+33:   }
+34:   @include md {
+35:     &__container {
+36:       // margin-top: 50px;
+37:       padding: 0 20px;
+38:     }
+39:   }
 
 Backtrace:
-src/styles/scss/pages/event-details.scss:27:in `md'
-src/styles/scss/pages/event-details.scss:27
+src/styles/scss/pages/event-details.scss:34:in `md'
+src/styles/scss/pages/event-details.scss:34
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
@@ -71,4 +71,4 @@ src/styles/scss/pages/event-details.scss:27
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 27 of src/styles/scss/pages/event-details.scss, in `md'\A         from line 27 of src/styles/scss/pages/event-details.scss\A \A 22:   }\A 23:   &__form {\A 24:     padding-top: 130px;\A 25:     margin-top: -130px;\A 26:   }\A 27:   @include md {\A 28:     &__container {\A 29:       // margin-top: 50px;\A 30:       padding: 0 20px;\A 31:     }\A 32:   }"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 34 of src/styles/scss/pages/event-details.scss, in `md'\A         from line 34 of src/styles/scss/pages/event-details.scss\A \A 29:     select,\A 30:     .date {\A 31:       width: 100%;\A 32:     }\A 33:   }\A 34:   @include md {\A 35:     &__container {\A 36:       // margin-top: 50px;\A 37:       padding: 0 20px;\A 38:     }\A 39:   }"; }
