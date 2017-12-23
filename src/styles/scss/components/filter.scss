@@ -30,6 +30,7 @@
   }
   &__label {
     color: $color-gray-dark;
+    margin-right: 10px;
   }
   @include md {
     &__section {

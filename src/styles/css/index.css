@@ -1327,7 +1327,8 @@ tbody:hover > tr:hover td {
   .filter__link > select {
     height: 2.5rem; }
 .filter__label {
-  color: #999999; }
+  color: #999999;
+  margin-right: 10px; }
 @media (min-width: 768px) {
   .filter__section {
     padding-left: 10px; }
