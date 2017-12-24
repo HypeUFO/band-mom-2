@@ -16,7 +16,7 @@ import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
 
-import database from '../config/fire'
+import { database } from '../config/fire'
 
 
 export const initialState = {

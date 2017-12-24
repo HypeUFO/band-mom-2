@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { auth } from '../../config/fire';
+
 export default class Drawer extends Component {
   static propTypes = {
     // userName: PropTypes.string,
@@ -41,7 +43,13 @@ export default class Drawer extends Component {
               <Link to={ profileUrl } onClick={ this.props.toggle }>Messages</Link>
           </li>
           <li className="drawer__item">
-              <Link to={ profileUrl } onClick={ this.props.toggle }>Sign Out</Link>
+              <Link to='#' onClick={ () => {
+                auth.signOut().then(function() {
+                  // Sign-out successful.
+                }).catch(function(error) {
+                  // An error happened.
+                });
+              }}>Sign Out</Link>
           </li>
         </ul>
 			</div>

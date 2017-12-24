@@ -32,6 +32,13 @@ const actionTypes = {
   UpdateEventEditFulfilled: 'UPDATE_EVENT_EDIT_FULFILLED',
   UpdateEventEditRejected: 'UPDATE_EVENT_EDIT_REJECTED',
 
+  CreateUserRequested: 'CREATE_USER_REQUESTED',
+  CreateUserFulfilled: 'CREATE_USER_FULFILLED',
+  CreateUserRejected: 'CREATE_USER_REJECTED',
+
+  GetUserRequested: 'GET_USER_REQUESTED',
+  GetUserFulfilled: 'GET_USER_FULFILLED',
+  GetUserRejected: 'GET_USER_REJECTED',
 };
 
 export default actionTypes;

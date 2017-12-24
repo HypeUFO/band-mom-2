@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 
 import smoothScroll from '../helpers/smoothScroll';
 
-import database from '../config/fire'
+import { database } from '../config/fire'
 
 export const initialState = {
   venue: '',

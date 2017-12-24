@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/action_types';
-import database from '../config/fire';
+import { database } from '../config/fire';
 
 export function getEvent(id) {
   return dispatch => {

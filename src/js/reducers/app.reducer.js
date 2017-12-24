@@ -1,6 +1,11 @@
 import ActionTypes from '../constants/action_types';
 
-export function appReducer(state = {}, action) {
+const initialState = {
+  // user: null,
+  loading: false,
+}
+
+export function appReducer(state = initialState, action) {
   switch (action.type) {
     default: return state;
 
@@ -70,6 +75,54 @@ export function appReducer(state = {}, action) {
       ...state,
       // message: action.message,
       loading: false
+    }
+
+
+  case ActionTypes.CreateUserRequested:
+    return {
+      ...state,
+      // message: action.message,
+      loading: true
+    }
+
+  case ActionTypes.CreateUserFulfilled:
+    return {
+      ...state,
+      // message: action.message,
+      loading: false,
+      // user: action.user,
+    }
+
+  case ActionTypes.CreateUserRejected:
+    return {
+      ...state,
+      // message: action.message,
+      loading: false,
+      error: action.error,
+    }
+
+
+  case ActionTypes.GetUserRequested:
+    return {
+      ...state,
+      // message: action.message,
+      loading: true
+    }
+
+  case ActionTypes.GetUserFulfilled:
+    return {
+      ...state,
+      // message: action.message,
+      loading: false,
+      user: action.user,
+    }
+
+  case ActionTypes.GetUserRejected:
+    return {
+      ...state,
+      // message: action.message,
+      loading: false,
+      error: action.error,
     }
 
   }

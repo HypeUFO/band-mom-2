@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../actions/auth.actions';
 // import PropTypes from 'prop-types';
-// import {Provider} from 'react-redux';
+
 import history from '../history';
 import {Router, Switch, Route, Redirect} from 'react-router-dom';
 import Landing from './Landing';
@@ -19,7 +21,20 @@ import Loader from '../components/Global/Loader';
 
 import {routeCodes} from '../route-codes';
 
+import { auth } from '../config/fire';
+
+
+
 class App extends Component {
+
+    componentDidMount() {
+      auth.onAuthStateChanged((user) => {
+        // if (user) {
+          this.props.onGetUser({ user });
+        // }
+      });
+  }
+
   render() {
     // Clean path
     let pathname = history.location.pathname;
@@ -39,7 +54,14 @@ class App extends Component {
     } else {
       header = <Header />;
     }
+    // const {
+    //   user,
+    // } = this.props;
 
+    const user  = auth.currentUser;
+
+    if(user) {
+      const userId = user.uid;
     return (
       <Router history={history}>
         <div className="app">
@@ -47,29 +69,55 @@ class App extends Component {
           <div className='page'>
           { this.props.loading ? <Loader /> : null }
             <Switch>
-              <Route exact path={routeCodes.LANDING} component={Landing}/>
-              <Route exact path={routeCodes.LOGIN} component={Login}/>
-              <Route path={routeCodes.REGISTER} component={Register}/>
               <Route path={routeCodes.EVENT_DETAILS} component={EventDetails}/>
               <Route path={routeCodes.EVENT_LIST} component={EventList}/>
               <Route path={routeCodes.BAND_DASHBOARD} component={BandDashboard}/>
               <Route path={routeCodes.USER_DASHBOARD} component={UserDashboard}/>
-              {/* <Route path={routeCodes.ABOUT} component={About}/> */}
-              <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
-              <Redirect path="*" to={routeCodes.LOGIN}/>
+              {/* <Redirect path="*" to={routeCodes.USER_DASHBOARD}/> */}
+              <Redirect path="*" to={ `/${userId}/dashboard` } />
             </Switch>
           </div>
           {/* <Footer/> */}
         </div>
       </Router>
     );
-  }
+  } else {
+  return (
+    <Router history={history}>
+      <div className="app">
+        { header }
+        <div className='page'>
+        { this.props.loading ? <Loader /> : null }
+          <Switch>
+            <Route exact path={routeCodes.LANDING} component={Landing}/>
+            <Route exact path={routeCodes.LOGIN} component={Login}/>
+            <Route path={routeCodes.REGISTER} component={Register}/>
+            <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
+            <Redirect path="*" to={routeCodes.LOGIN}/>
+          </Switch>
+        </div>
+        {/* <Footer/> */}
+      </div>
+    </Router>
+  );
+}
+}
 }
 
 function mapStateToProps(state) {
   return {
-    loading: state.app.loading
+    loading: state.app.loading,
+    user: state.app.user,
   };
 }
 
-export default connect(mapStateToProps)(App);
+// export default connect(mapStateToProps)(App);
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    onGetUser: actions.getUser,
+    },
+  dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../actions/auth.actions';
+
+import PropTypes from 'prop-types';
 import history from '../history';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 
-export default class Login extends Component {
+import { auth } from '../config/fire';
+class Login extends Component {
   static propTypes = {
-    // dispatch: PropTypes.func,
+    onGetUser: PropTypes.func,
   }
 
   constructor() {
@@ -36,10 +41,29 @@ export default class Login extends Component {
   handleAsyncLoginButtonClick() {
     // const { dispatch } = this.props;
     // let params = {
-    //   name: this.state.username,
-    //   password: this.state.password,
+      let email = this.state.email;
+      let password = this.state.password;
     // };
-      history.push(`testUser/bands/testBand/events`);
+      // history.push(`testUser/bands/testBand/events`);
+
+      const promise = auth.signInWithEmailAndPassword(email, password);
+      promise.catch((err) => console.log(err));
+
+      auth.onAuthStateChanged(firebaseUser => {
+        if (firebaseUser) {
+          console.log(firebaseUser)
+          Promise.resolve()
+          // .then(() => {
+          //   // return this.props.onGetUser(firebaseUser);
+          // })
+          // .then(() => {
+          //   console.log(firebaseUser.uid)
+          //   // return history.push(`${firebaseUser.uid}/bands/testBand/events`);
+          // })
+        } else {
+          console.log('not logged in');
+        }
+      })
   }
 
   render() {
@@ -93,3 +117,17 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    onGetUser: actions.getUser,
+    },
+  dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

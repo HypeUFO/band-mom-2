@@ -6,7 +6,7 @@ import { createEvent } from '../actions/event.actions';
 import classNames from 'classnames';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
-import database from '../config/fire';
+import { database } from '../config/fire';
 
 export const initialState = {
   venue: '',

@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../actions/auth.actions';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 
-export default class Register extends Component {
-  // static propTypes = {
-  //   asyncRegisterData: PropTypes.object,
-  //   asyncRegisterError: PropTypes.object,
-  //   asyncRegisterLoading: PropTypes.bool,
-  //   asyncRegisterSuccess: PropTypes.bool,
-  //   // from react-redux connect
-  //   dispatch: PropTypes.func,
-  // }
+import { auth } from '../config/fire';
+
+class Register extends Component {
+  static propTypes = {
+    onCreateUser: PropTypes.func,
+  }
 
   constructor() {
     super();
@@ -39,23 +38,24 @@ export default class Register extends Component {
   }
 
   handleAsyncRegisterButtonClick() {
-    // const { dispatch } = this.props;
-    let params = {
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
-    };
-    console.log(params);
-        this.props.history.push('/login');
+    let email = this.state.email;
+    let password = this.state.password;
+
+    const promise = auth.createUserWithEmailAndPassword(email, password);
+    promise
+    .catch((err) => console.log(err));
+
+    auth.onAuthStateChanged(firebaseUser => {
+      if (firebaseUser) {
+        console.log(firebaseUser)
+        this.props.onCreateUser(firebaseUser);
+      } else {
+        console.log('not logged in');
+      }
+    })
   }
 
   render() {
-    // const {
-    //   // asyncRegisterData,
-    //   // asyncRegisterError,
-    //   // asyncRegisterLoading,
-    // } = this.props;
-
     const {
       email,
       password,
@@ -124,3 +124,17 @@ export default class Register extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    onCreateUser: actions.createUser,
+    },
+  dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

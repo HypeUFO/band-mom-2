@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
 
-import database from '../config/fire'
+import { database } from '../config/fire'
 
 const testBands = {
   1: {
@@ -49,6 +49,8 @@ class UserDashboard extends Component {
 
     if (type === 'band') {
         card = (
+          // history.push(`/${this.props.match.params.userId}/bands/${band.id}/dashboard`);
+          // history.push(`/${this.props.match.params.userId}/bands/testBand/dashboard`)
           <a href={`/testUser/bands/testBand/dashboard`} className="card__link">
           <div>
             <h3>{ doc.name }</h3>
