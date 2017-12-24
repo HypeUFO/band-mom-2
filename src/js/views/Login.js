@@ -52,13 +52,13 @@ class Login extends Component {
       auth.onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
           console.log(firebaseUser)
-          Promise.resolve()
+          // Promise.resolve()
           // .then(() => {
-          //   // return this.props.onGetUser(firebaseUser);
+          //   return this.props.onGetUser(firebaseUser);
           // })
-          // .then(() => {
+          // .then((user) => {
           //   console.log(firebaseUser.uid)
-          //   // return history.push(`${firebaseUser.uid}/bands/testBand/events`);
+            return history.push(`${firebaseUser.uid}/dashboard`);
           // })
         } else {
           console.log('not logged in');

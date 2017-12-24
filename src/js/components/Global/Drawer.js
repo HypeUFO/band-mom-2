@@ -44,10 +44,10 @@ export default class Drawer extends Component {
           </li>
           <li className="drawer__item">
               <Link to='#' onClick={ () => {
-                auth.signOut().then(function() {
-                  // Sign-out successful.
-                }).catch(function(error) {
-                  // An error happened.
+                auth.signOut().then(() => {
+                  console.log('Sign-out successful');
+                }).catch((err) => {
+                  console.log(err);
                 });
               }}>Sign Out</Link>
           </li>

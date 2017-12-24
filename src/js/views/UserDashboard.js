@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
 
-import { database } from '../config/fire'
+import { database, auth } from '../config/fire';
+
+import { Link } from 'react-router-dom';
 
 const testBands = {
   1: {
@@ -52,6 +54,7 @@ class UserDashboard extends Component {
           // history.push(`/${this.props.match.params.userId}/bands/${band.id}/dashboard`);
           // history.push(`/${this.props.match.params.userId}/bands/testBand/dashboard`)
           <a href={`/testUser/bands/testBand/dashboard`} className="card__link">
+          
           <div>
             <h3>{ doc.name }</h3>
             <p>{ doc.genre }</p>
@@ -160,10 +163,13 @@ class UserDashboard extends Component {
           <h1>User Dashboard</h1>
 
           <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3>
-          <a href="/testUser/bands/testBand/dashboard"><h3>Bands</h3></a>
+          <Link to={`/${auth.currentUser.uid}}/bands/testBand/dashboard`}><h3>Bands</h3></Link>
+          {/* <a href="/testUser/bands/testBand/dashboard"><h3>Bands</h3></a> */}
           { this.renderPreviewList(testBands, 'band') }
 
-          <a href="/testUser/bands/testBand/events"><h3>Events</h3></a>
+          {/* <Link to={`/${this.props.user.uid}/bands/testBand/events`}><h3>Events</h3></Link> */}
+          <Link to={`/${auth.currentUser.uid}/bands/testBand/events`}><h3>Events</h3></Link>
+          {/* <a href="/testUser/bands/testBand/events"><h3>Events</h3></a> */}
           { this.renderPreviewList(this.props.events, 'event') }
         </div>
       </div>
@@ -175,6 +181,7 @@ class UserDashboard extends Component {
 
 function mapStateToProps(state) {
   return {
+    // user: state.app.user,
     events: state.events.events,
     statusFilter: state.events.statusFilter,
     typeFilter: state.events.typeFilter,

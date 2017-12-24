@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import history from '../history';
 import {Router, Switch, Route, Redirect} from 'react-router-dom';
@@ -25,17 +25,26 @@ import { auth } from '../config/fire';
 
 
 
-class App extends Component {
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import CookieStorage from 'redux-persist-cookie-storage';
 
-    componentDidMount() {
-      auth.onAuthStateChanged((user) => {
-        // if (user) {
-          this.props.onGetUser({ user });
-        // }
-      });
+
+
+export class App extends Component {
+
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      // if (user) {
+        this.props.onGetUser(user);
+      // }
+    });
   }
 
   render() {
+
+    const user  = auth.currentUser;
+
     // Clean path
     let pathname = history.location.pathname;
     if (pathname[pathname.length - 1] === '/') {
@@ -54,54 +63,49 @@ class App extends Component {
     } else {
       header = <Header />;
     }
-    // const {
-    //   user,
-    // } = this.props;
 
-    const user  = auth.currentUser;
-
-    if(user) {
-      const userId = user.uid;
-    return (
-      <Router history={history}>
-        <div className="app">
-          { header }
-          <div className='page'>
-          { this.props.loading ? <Loader /> : null }
-            <Switch>
-              <Route path={routeCodes.EVENT_DETAILS} component={EventDetails}/>
-              <Route path={routeCodes.EVENT_LIST} component={EventList}/>
-              <Route path={routeCodes.BAND_DASHBOARD} component={BandDashboard}/>
-              <Route path={routeCodes.USER_DASHBOARD} component={UserDashboard}/>
-              {/* <Redirect path="*" to={routeCodes.USER_DASHBOARD}/> */}
-              <Redirect path="*" to={ `/${userId}/dashboard` } />
-            </Switch>
+    if (!user) {
+      return (
+        <Router history={history}>
+          <div className="app">
+            { header }
+            <div className='page'>
+            { this.props.loading ? <Loader /> : null }
+              <Switch>
+                <Route exact path={routeCodes.LANDING} component={Landing}/>
+                <Route exact path={routeCodes.LOGIN} component={Login}/>
+                <Route path={routeCodes.REGISTER} component={Register}/>
+                <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
+                <Redirect path="*" to={routeCodes.LOGIN}/>
+              </Switch>
+            </div>
+            {/* <Footer/> */}
           </div>
-          {/* <Footer/> */}
-        </div>
-      </Router>
-    );
-  } else {
-  return (
-    <Router history={history}>
-      <div className="app">
-        { header }
-        <div className='page'>
-        { this.props.loading ? <Loader /> : null }
-          <Switch>
-            <Route exact path={routeCodes.LANDING} component={Landing}/>
-            <Route exact path={routeCodes.LOGIN} component={Login}/>
-            <Route path={routeCodes.REGISTER} component={Register}/>
-            <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
-            <Redirect path="*" to={routeCodes.LOGIN}/>
-          </Switch>
-        </div>
-        {/* <Footer/> */}
-      </div>
-    </Router>
-  );
-}
-}
+        </Router>
+      );
+    } else {
+      const userId = user.uid;
+      return (
+        <Router history={history}>
+          <div className="app">
+            { header }
+            <div className='page'>
+            { this.props.loading ? <Loader /> : null }
+              <Switch>
+                <Route path={routeCodes.EVENT_DETAILS} component={EventDetails}/>
+                <Route path={routeCodes.EVENT_LIST} component={EventList}/>
+                <Route path={routeCodes.BAND_DASHBOARD} component={BandDashboard}/>
+                <Route path={routeCodes.USER_DASHBOARD} component={UserDashboard}/>
+                {/* <Redirect path="*" to={routeCodes.USER_DASHBOARD}/> */}
+                <Redirect path="*" to={ `/${userId}/dashboard` } />
+              </Switch>
+            </div>
+            {/* <Footer/> */}
+          </div>
+        </Router>
+      );
+    }
+  }
 }
 
 function mapStateToProps(state) {
@@ -121,3 +125,49 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+// export default class AppProvider extends Component {
+//   static propTypes = {
+//     store: PropTypes.object,
+//   }
+
+//   constructor() {
+//     super()
+//     this.state = {
+//       rehydrated: false
+//     };
+//     this.persistor = null;
+//   }
+
+//   componentWillMount(){
+//     // Persist Cookie Storage
+//     // Expiration time can be set via options
+//     this.persistor = persistStore(this.props.store, {
+//       whitelist: ['auth'],
+//       storage: new CookieStorage({
+//         expiration: {
+//           'default': 365 * 86400 // Cookies expire after one year
+//         }
+//       })
+//     }, () => {
+//       this.setState({ rehydrated: true })
+//     });
+//   }
+
+//   render() {
+//     const {
+//       store,
+//     } = this.props;
+//     const {
+//       rehydrated,
+//     } = this.state;
+//     return (
+//       <Provider store={ store }>
+//         <App persistor={ this.persistor } rehydrated={ rehydrated } />
+//       </Provider>
+//     );
+//   }
+// }
