@@ -17,6 +17,11 @@
     color: $color-purple;
   }
 
+  &__link {
+    text-decoration: none;
+    color: $color-purple;
+  }
+
   >div {
     height: 100%;
     display: flex;

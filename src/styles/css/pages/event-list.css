@@ -9,7 +9,7 @@ Error: Undefined mixin 'md'.
 4:   }
 5:   @include md {
 6:     &__container {
-7:       padding: 30px 3rem;
+7:       // padding: 30px 3rem;
 8:     }
 9:   }
 10: }
@@ -70,4 +70,4 @@ src/styles/scss/pages/event-list.scss:5
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 5 of src/styles/scss/pages/event-list.scss, in `md'\A         from line 5 of src/styles/scss/pages/event-list.scss\A \A 1: .event__list {\A 2:   &__container {\A 3:     padding: 0 1rem;\A 4:   }\A 5:   @include md {\A 6:     &__container {\A 7:       padding: 30px 3rem;\A 8:     }\A 9:   }\A 10: }"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 5 of src/styles/scss/pages/event-list.scss, in `md'\A         from line 5 of src/styles/scss/pages/event-list.scss\A \A 1: .event__list {\A 2:   &__container {\A 3:     padding: 0 1rem;\A 4:   }\A 5:   @include md {\A 6:     &__container {\A 7:       // padding: 30px 3rem;\A 8:     }\A 9:   }\A 10: }"; }

@@ -38,6 +38,9 @@ export default class Header extends Component {
   }
 
   render() {
+    const {
+      children
+    } = this.props;
     return (
       <header className="header">
         <i className="material-icons show-drawer" onClick={this.toggleDrawer}>&#xE8EE;</i>
@@ -49,6 +52,7 @@ export default class Header extends Component {
           toggle={ this.toggleDrawer }
         />
         </div>
+        { children }
       </header>
     )
   }

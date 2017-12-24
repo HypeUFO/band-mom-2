@@ -11,7 +11,7 @@ Error: Undefined mixin 'md'.
 34:   @include md {
 35:     &__container {
 36:       // margin-top: 50px;
-37:       padding: 0 20px;
+37:       // padding: 0 20px;
 38:     }
 39:   }
 
@@ -71,4 +71,4 @@ src/styles/scss/pages/event-details.scss:34
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 34 of src/styles/scss/pages/event-details.scss, in `md'\A         from line 34 of src/styles/scss/pages/event-details.scss\A \A 29:     select,\A 30:     .date {\A 31:       width: 100%;\A 32:     }\A 33:   }\A 34:   @include md {\A 35:     &__container {\A 36:       // margin-top: 50px;\A 37:       padding: 0 20px;\A 38:     }\A 39:   }"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 34 of src/styles/scss/pages/event-details.scss, in `md'\A         from line 34 of src/styles/scss/pages/event-details.scss\A \A 29:     select,\A 30:     .date {\A 31:       width: 100%;\A 32:     }\A 33:   }\A 34:   @include md {\A 35:     &__container {\A 36:       // margin-top: 50px;\A 37:       // padding: 0 20px;\A 38:     }\A 39:   }"; }

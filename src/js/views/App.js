@@ -11,6 +11,7 @@ import ForgotPassword from './ForgotPassword';
 import EventList from './EventList';
 import EventDetails from './EventDetails';
 import BandDashboard from './BandDashboard';
+import UserDashboard from './UserDashboard';
 // import NotFound from './NotFound';
 import Header from '../components/Global/Header';
 // import Footer from '../components/Global/Footer';
@@ -52,6 +53,7 @@ class App extends Component {
               <Route path={routeCodes.EVENT_DETAILS} component={EventDetails}/>
               <Route path={routeCodes.EVENT_LIST} component={EventList}/>
               <Route path={routeCodes.BAND_DASHBOARD} component={BandDashboard}/>
+              <Route path={routeCodes.USER_DASHBOARD} component={UserDashboard}/>
               {/* <Route path={routeCodes.ABOUT} component={About}/> */}
               <Route path={routeCodes.FORGOT_PASSWORD} component={ForgotPassword}/>
               <Redirect path="*" to={routeCodes.LOGIN}/>

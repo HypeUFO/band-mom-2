@@ -168,7 +168,7 @@ class EventList extends Component {
 
     let card = (
       <div>
-        <p><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</p>
+        <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
         <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
         <p>Set Time: { doc.showTime }</p>
       </div>
