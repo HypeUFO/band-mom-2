@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/action_types';
-import { database } from '../config/fire';
+import { database, auth } from '../config/fire';
 
 export function createUser(user) {
   console.log(database.ref().child('users'))
@@ -45,12 +45,6 @@ export function getUser(user) {
     .then(() => {
       return dispatch(getUserFulfilledAction(user))
     })
-
-    // database.ref('/').once('value', snap => {
-    //   const user = snap.val().user;
-    //   console.log(user);
-      //  return dispatch(getUserFulfilledAction(user))
-    // })
     .catch((err) => {
       dispatch(getUserRejectedAction(err));
     });
@@ -74,6 +68,33 @@ function getUserRejectedAction(error) {
 function getUserFulfilledAction(user) {
   return {
     type: ActionTypes.GetUserFulfilled,
-    user
+    user,
+    authenticated: !!user,
   };
 }
+
+
+
+
+export function signOut() {
+  return dispatch => {
+    return auth.signOut()
+      .then(() => dispatch(signOutSuccess()))
+      .catch(err => dispatch(signOutError(err)));
+  };
+}
+
+
+function signOutSuccess() {
+  return {
+    type: ActionTypes.SIGN_OUT_SUCCESS
+  };
+}
+
+function signOutError(err) {
+  return {
+    type: ActionTypes.SIGN_OUT_ERROR,
+    err
+  };
+}
+

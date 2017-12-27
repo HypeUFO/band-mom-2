@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
+
 import Carousel from '../components/Carousel';
 import moment from 'moment';
 
@@ -54,7 +55,7 @@ class UserDashboard extends Component {
           // history.push(`/${this.props.match.params.userId}/bands/${band.id}/dashboard`);
           // history.push(`/${this.props.match.params.userId}/bands/testBand/dashboard`)
           <a href={`/testUser/bands/testBand/dashboard`} className="card__link">
-          
+
           <div>
             <h3>{ doc.name }</h3>
             <p>{ doc.genre }</p>
@@ -163,12 +164,15 @@ class UserDashboard extends Component {
           <h1>User Dashboard</h1>
 
           <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3>
-          <Link to={`/${auth.currentUser.uid}}/bands/testBand/dashboard`}><h3>Bands</h3></Link>
+          {/* <Link to={`/${auth.currentUser.uid}}/bands/testBand/dashboard`}> */}
+          <Link to={`/${this.props.user.uid}}/bands/testBand/dashboard`}>
+            <h3>Bands</h3>
+          </Link>
           {/* <a href="/testUser/bands/testBand/dashboard"><h3>Bands</h3></a> */}
           { this.renderPreviewList(testBands, 'band') }
 
-          {/* <Link to={`/${this.props.user.uid}/bands/testBand/events`}><h3>Events</h3></Link> */}
-          <Link to={`/${auth.currentUser.uid}/bands/testBand/events`}><h3>Events</h3></Link>
+          <Link to={`/${this.props.user.uid}/bands/testBand/events`}><h3>Events</h3></Link>
+          {/* <Link to={`/${auth.currentUser.uid}/bands/testBand/events`}><h3>Events</h3></Link> */}
           {/* <a href="/testUser/bands/testBand/events"><h3>Events</h3></a> */}
           { this.renderPreviewList(this.props.events, 'event') }
         </div>
@@ -181,7 +185,7 @@ class UserDashboard extends Component {
 
 function mapStateToProps(state) {
   return {
-    // user: state.app.user,
+    user: state.app.user,
     events: state.events.events,
     statusFilter: state.events.statusFilter,
     typeFilter: state.events.typeFilter,

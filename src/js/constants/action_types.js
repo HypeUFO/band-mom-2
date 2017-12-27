@@ -39,6 +39,11 @@ const actionTypes = {
   GetUserRequested: 'GET_USER_REQUESTED',
   GetUserFulfilled: 'GET_USER_FULFILLED',
   GetUserRejected: 'GET_USER_REJECTED',
+
+  SIGN_IN_ERROR: 'SIGN_IN_ERROR',
+  SIGN_IN_SUCCESS: 'SIGN_IN_SUCCESS',
+  SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS',
+  SIGN_OUT_ERROR: 'SIGN_OUT_ERROR',
 };
 
 export default actionTypes;

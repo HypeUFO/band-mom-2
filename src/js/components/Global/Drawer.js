@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 
 import { auth } from '../../config/fire';
 
-export default class Drawer extends Component {
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { signOut } from '../../actions/auth.actions';
+
+class Drawer extends Component {
   static propTypes = {
     // userName: PropTypes.string,
     show: PropTypes.bool,
@@ -43,16 +47,40 @@ export default class Drawer extends Component {
               <Link to={ profileUrl } onClick={ this.props.toggle }>Messages</Link>
           </li>
           <li className="drawer__item">
-              <Link to='#' onClick={ () => {
-                auth.signOut().then(() => {
-                  console.log('Sign-out successful');
-                }).catch((err) => {
-                  console.log(err);
-                });
-              }}>Sign Out</Link>
+              <Link to='#'
+              //   onClick={ () => {
+              //   auth.signOut().then(() => {
+              //     console.log('Sign-out successful');
+              //   }).catch((err) => {
+              //     console.log(err);
+              //   });
+              // }}
+                onClick={ this.props.signOut }
+              >
+                Sign Out
+              </Link>
           </li>
         </ul>
 			</div>
   	);
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    loading: state.app.loading,
+    user: state.app.user,
+    auth: state.app.authenticated,
+  };
+}
+
+// export default connect(mapStateToProps)(App);
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    signOut: signOut,
+    },
+  dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Drawer);

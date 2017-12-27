@@ -955,12 +955,11 @@ tbody:hover > tr:hover td {
           margin-left: 2rem; } }
 
 .no-content__wrapper {
-  height: 100vh;
+  height: 100%;
   width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   top: 0; }
 
 .calendar {
