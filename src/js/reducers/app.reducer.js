@@ -12,91 +12,70 @@ export function appReducer(state = initialState, action) {
   switch (action.type) {
     default: return state;
 
-    case ActionTypes.GetEventRequested:
+    case ActionTypes.GET_EVENT_REQUESTED:
         return {
         ...state,
         loading: true
       }
-    case ActionTypes.GetEventFulfilled:
+    case ActionTypes.GET_EVENT_FULFILLED:
         return {
         ...state,
         loading: false
       }
-    case ActionTypes.GetEventRejected:
+    case ActionTypes.GET_EVENT_REJECTED:
         return {
         ...state,
-        // message: action.message,
-        loading: false
+        loading: false,
+        error: action.error,
       }
 
-    case ActionTypes.CreateEventRequested:
+    case ActionTypes.CREATE_EVENT_REQUESTED:
         return {
         ...state,
         loading: true
       }
-    case ActionTypes.CreateEventFulfilled:
+    case ActionTypes.CREATE_EVENT_FULFILLED:
         return {
         ...state,
         loading: false
       }
-    case ActionTypes.CreateEventRejected:
-        return {
-        ...state,
-        // message: action.message,
-        loading: false
-      }
-
-    case ActionTypes.DeleteEventRequested:
-        return {
-        ...state,
-        loading: true
-      }
-    case ActionTypes.DeleteEventFulfilled:
-        return {
-        ...state,
-        loading: false
-      }
-    case ActionTypes.DeleteEventRejected:
-        return {
-        ...state,
-        // message: action.message,
-        loading: false
-      }
-
-    case ActionTypes.RestoreEventRequested:
-        return {
-        ...state,
-        loading: true
-      }
-    case ActionTypes.RestoreEventFulfilled:
-        return {
-        ...state,
-        loading: false
-      }
-    case ActionTypes.RestoreEventRejected:
-        return {
-        ...state,
-        // message: action.message,
-        loading: false
-      }
-
-
-    case ActionTypes.CreateUserRequested:
-        return {
-        ...state,
-        // message: action.message,
-        loading: true
-      }
-
-    case ActionTypes.CreateUserFulfilled:
+    case ActionTypes.CREATE_EVENT_REJECTED:
         return {
         ...state,
         // message: action.message,
         loading: false,
-        // user: action.user,
+        error: action.error,
       }
 
-    case ActionTypes.CreateUserRejected:
+    case ActionTypes.DELETE_EVENT_REQUESTED:
+        return {
+        ...state,
+        loading: true
+      }
+    case ActionTypes.DELETE_EVENT_FULFILLED:
+        return {
+        ...state,
+        loading: false
+      }
+    case ActionTypes.DELETE_EVENT_REJECTED:
+        return {
+        ...state,
+        // message: action.message,
+        loading: false,
+        error: action.error,
+      }
+
+    case ActionTypes.RESTORE_EVENT_REQUESTED:
+        return {
+        ...state,
+        loading: true
+      }
+    case ActionTypes.RESTORE_EVENT_FULFILLED:
+        return {
+        ...state,
+        loading: false
+      }
+    case ActionTypes.RESTORE_EVENT_REJECTED:
         return {
         ...state,
         // message: action.message,
@@ -105,14 +84,38 @@ export function appReducer(state = initialState, action) {
       }
 
 
-    case ActionTypes.GetUserRequested:
+    case ActionTypes.CREATE_USER_REQUESTED:
         return {
         ...state,
         // message: action.message,
         loading: true
       }
 
-    case ActionTypes.GetUserFulfilled:
+    case ActionTypes.CREATE_USER_FULFILLED:
+        return {
+        ...state,
+        // message: action.message,
+        loading: false,
+        // user: action.user,
+      }
+
+    case ActionTypes.CREATE_USER_REJECTED:
+        return {
+        ...state,
+        // message: action.message,
+        loading: false,
+        error: action.error,
+      }
+
+
+    case ActionTypes.GET_USER_REQUESTED:
+        return {
+        ...state,
+        // message: action.message,
+        loading: true
+      }
+
+    case ActionTypes.GET_USER_FULFILLED:
         return {
         ...state,
         // message: action.message,
@@ -121,7 +124,7 @@ export function appReducer(state = initialState, action) {
         loading: false,
       }
 
-    case ActionTypes.GetUserRejected:
+    case ActionTypes.GET_USER_REJECTED:
         return {
         ...state,
         // message: action.message,
@@ -153,5 +156,26 @@ export function appReducer(state = initialState, action) {
         loading: false,
         error: action.error,
       }
+
+    case ActionTypes.SET_NEXT_ROUTE_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+      }
+
+    case ActionTypes.SET_NEXT_ROUTE_FULFILLED:
+      return {
+        ...state,
+        nextRoute: action.nextRoute,
+        loading: false,
+      }
+
+    case ActionTypes.SET_NEXT_ROUTE_REJECTED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      }
+
   }
 }

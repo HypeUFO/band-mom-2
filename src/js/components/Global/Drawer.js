@@ -20,19 +20,20 @@ class Drawer extends Component {
   }
 
   render() {
-    // const {
-    //   userName,
-    // } = this.props;
+    const {
+      user,
+    } = this.props;
 
   	let activeClass = (this.props.show) ? 'drawer--active' : '';
     // let bandsUrl = `/${userName}/bands`;
-    let bandsUrl = `/bands`;
-    let profileUrl = `/profile`;
+    let bandsUrl = `/${user.uid}/bands`;
+    let profileUrl = `/${user.uid}/profile`;
+    let dashboardUrl = `/${user.uid}/dashboard`;
     // let messagesUrl = `/messages`;
     // let logOutUrl = `/logout`;
   	return (
 	    <div className={`drawer ${activeClass} ${this.props.className}`} style={this.props.style}>
-	    	<Link to="/dashboard" style={{textDecoration: 'none'}}>
+	    	<Link to={dashboardUrl} style={{textDecoration: 'none'}}>
 	  			<h2 className="drawer__logo">BandMom</h2>
 	  		</Link>
 	  		<i className="drawer__close material-icons clr-light" onClick={ this.props.toggle }>close</i>

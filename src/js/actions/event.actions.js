@@ -33,19 +33,19 @@ export function clearEvent() {
 
 function getEventRequestedAction() {
   return {
-    type: ActionTypes.GetEventRequested
+    type: ActionTypes.GET_EVENT_REQUESTED
   };
 }
 
 function getEventRejectedAction() {
   return {
-    type: ActionTypes.GetEventRejected
+    type: ActionTypes.GET_EVENT_REJECTED
   }
 }
 
 function getEventFulfilledAction(event) {
   return {
-    type: ActionTypes.GetEventFulfilled,
+    type: ActionTypes.GET_EVENT_FULFILLED,
     event
   };
 }
@@ -69,19 +69,19 @@ export function getEventMany() {
 
 function getEventManyRequestedAction() {
   return {
-    type: ActionTypes.GetEventManyRequested
+    type: ActionTypes.GET_EVENTS_MANY_REQUESTED
   };
 }
 
 function getEventManyRejectedAction() {
   return {
-    type: ActionTypes.GetEventManyRejected
+    type: ActionTypes.GET_EVENTS_MANY_REJECTED
   }
 }
 
 function getEventManyFulfilledAction(events) {
   return {
-    type: ActionTypes.GetEventManyFulfilled,
+    type: ActionTypes.GET_EVENTS_MANY_FULFILLED,
     events
   };
 }
@@ -103,19 +103,19 @@ export function createEvent(event) {
 
 function createEventRequestedAction() {
   return {
-    type: ActionTypes.CreateEventRequested
+    type: ActionTypes.CREATE_EVENT_REQUESTED
   };
 }
 
 function createEventRejectedAction() {
   return {
-    type: ActionTypes.CreateEventRejected
+    type: ActionTypes.CREATE_EVENT_REJECTED
   }
 }
 
 function createEventFulfilledAction(events) {
   return {
-    type: ActionTypes.CreateEventFulfilled,
+    type: ActionTypes.CREATE_EVENT_FULFILLED,
     events
   };
 }
@@ -142,20 +142,20 @@ export function deleteEvent(event) {
 
 function deleteEventRequestedAction(event) {
   return {
-    type: ActionTypes.DeleteEventRequested,
+    type: ActionTypes.DELETE_EVENT_REQUESTED,
     event,
   };
 }
 
 function deleteEventRejectedAction() {
   return {
-    type: ActionTypes.DeleteEventRejected,
+    type: ActionTypes.DELETE_EVENT_REJECTED,
   }
 }
 
 function deleteEventFulfilledAction() {
   return {
-    type: ActionTypes.DeleteEventFulfilled,
+    type: ActionTypes.DELETE_EVENT_FULFILLED,
     // events
   };
 }
@@ -176,19 +176,19 @@ export function restoreEvent(event) {
 
 function restoreEventRequestedAction() {
   return {
-    type: ActionTypes.RestoreEventRequested
+    type: ActionTypes.RESTORE_EVENT_REQUESTED
   };
 }
 
 function restoreEventRejectedAction() {
   return {
-    type: ActionTypes.RestoreEventRejected
+    type: ActionTypes.RESTORE_EVENT_REJECTED
   }
 }
 
 function restoreEventFulfilledAction(event) {
   return {
-    type: ActionTypes.RestoreEventFulfilled,
+    type: ActionTypes.RESTORE_EVENT_FULFILLED,
     event
   };
 }
@@ -215,33 +215,33 @@ export function updateEvent(event) {
 
 function updateEventRequestedAction() {
   return {
-    type: ActionTypes.UpdateEventRequested
+    type: ActionTypes.UPDATE_EVENT_REQUESTED
   };
 }
 
 function updateEventRejectedAction() {
   return {
-    type: ActionTypes.UpdateEventRejected
+    type: ActionTypes.UPDATE_EVENT_REJECTED
   }
 }
 
 function updateEventFulfilledAction(event) {
   return {
-    type: ActionTypes.UpdateEventFulfilled,
+    type: ActionTypes.UPDATE_EVENT_FULFILLED,
     event
   };
 }
 
 export function filterEventsByStatus(filter) {
   return {
-        type: ActionTypes.SetEventStatusFilter,
+        type: ActionTypes.SET_EVENT_STATUS_FILTER,
         filter,
   }
 }
 
 export function filterEventsByType(filter) {
   return {
-        type: ActionTypes.SetEventTypeFilter,
+        type: ActionTypes.SET_EVENT_TYPE_FILTER,
         filter,
   }
 }
@@ -261,19 +261,19 @@ export function updateEventEdit() {
 
 function updateEventEditRequestedAction() {
   return {
-    type: ActionTypes.UpdateEventEditRequested
+    type: ActionTypes.UPDATE_EVENT_EDIT_REQUESTED
   }
 }
 
 function updateEventEditFulfilledAction() {
   return {
-    type: ActionTypes.UpdateEventEditFulfilled
+    type: ActionTypes.UPDATE_EVENT_EDIT_FULFILLED
   };
 }
 
 function updateEventEditRejectedAction(error) {
   return {
-    type: ActionTypes.UpdateEventEditRejected,
+    type: ActionTypes.UPDATE_EVENT_EDIT_REJECTED,
     error
   }
 }

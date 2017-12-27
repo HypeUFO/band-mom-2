@@ -1,24 +1,3 @@
-// import React, {Component} from 'react';
-// import {connect} from 'react-redux';
-// import { bindActionCreators } from 'redux';
-// import * as actions from '../actions/auth.actions';
-// import PropTypes from 'prop-types';
-
-// import history from '../history';
-// import {Router, Switch, Route, Redirect} from 'react-router-dom';
-// import Landing from './Landing';
-// import Login from './Login';
-// import Register from './Register';
-// import ForgotPassword from './ForgotPassword';
-// import EventList from './EventList';
-// import EventDetails from './EventDetails';
-// import BandDashboard from './BandDashboard';
-// import UserDashboard from './UserDashboard';
-// // import NotFound from './NotFound';
-// import Header from '../components/Global/Header';
-// // import Footer from '../components/Global/Footer';
-// import Loader from '../components/Global/Loader';
-
 import React, { Component } from 'react'
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
 import { auth, storageKey } from '../config/fire'
@@ -41,7 +20,7 @@ import EventDetails from './EventDetails';
 
 import store from '../store';
 
-import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore } from 'redux-persist';
 
 import CookieStorage from 'redux-persist-cookie-storage';
 import Cookies from 'universal-cookie';
@@ -54,18 +33,22 @@ function PrivateRoute ({component: Component, authenticated, ...rest}) {
       {...rest}
       render={(props) => authenticated === true
         ? <Component {...props} {...rest} />
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />
+      }
     />
   )
 }
 
-function PublicRoute ({component: Component, authenticated, user, ...rest}) {
+function PublicRoute ({component: Component, authenticated, user, from, ...rest}) {
   return (
     <Route
       {...rest}
-      render={(props) => !authenticated
+      render={(props) => {
+        return !authenticated
         ? <Component {...props} />
-        : <Redirect to={props.from || `/${user.uid}/dashboard`} />}
+        : <Redirect to={ from || `/${user.uid}/dashboard` } />
+        }
+      }
     />
   )
 }
@@ -74,12 +57,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      authenticated: false,
-      currentUser: null,
-      loading: true,
       rehydrated: false,
     }
-    // this.setCurrentUser = this.setCurrentUser.bind(this);
   }
 
   componentWillMount() {
@@ -114,40 +93,16 @@ class App extends Component {
       }
     })
   }
+
   componentWillUnmount () {
     this.removeListener()
   }
 
-  setCurrentUser(user) {
-    if (user) {
-      this.setState({
-        currentUser: user,
-        authenticated: true,
-      })
-    } else {
-      this.setState({
-        currentUser: null,
-        authenticated: false,
-      })
-    }
-  }
   render() {
     return this.state.rehydrated === false ? <Loader /> : (
       <BrowserRouter>
         <Switch>
-          <Route path='/' exact component={Landing} />
-          <PublicRoute
-            authenticated={this.props.auth}
-            path={routeCodes.LOGIN}
-            component={Login}
-            user={this.props.user}
-          />
-          <PublicRoute
-            authenticated={this.props.auth}
-            path={routeCodes.REGISTER}
-            component={Register}
-            user={this.props.user}
-          />
+          {/* <Route path='/' exact component={Landing} /> */}
           <PrivateRoute
             authenticated={this.props.auth}
             path={`/:userId/dashboard`}
@@ -169,8 +124,29 @@ class App extends Component {
             path={routeCodes.BAND_DASHBOARD}
             component={BandDashboard}
           />
-          <Route render={() => <h3>No Match</h3>}/>
-          <Redirect to={routeCodes.LOGIN} />
+          <PublicRoute
+            authenticated={this.props.auth}
+            path={routeCodes.LOGIN}
+            component={Login}
+            user={this.props.user}
+            from={this.props.from}
+          />
+          <PublicRoute
+            authenticated={this.props.auth}
+            path={routeCodes.REGISTER}
+            component={Register}
+            user={this.props.user}
+            from={this.props.from}
+          />
+          <PublicRoute
+            authenticated={this.props.auth}
+            path={routeCodes.LANDING}
+            component={Landing}
+            user={this.props.user}
+            from={this.props.from}
+          />
+          <Route path="/*" render={() => <h3>No Content</h3>}/>
+          {/* <Redirect to={routeCodes.LOGIN} /> */}
         </Switch>
       </BrowserRouter>
     );
@@ -183,6 +159,7 @@ function mapStateToProps(state) {
     loading: state.app.loading,
     user: state.app.user,
     auth: state.app.authenticated,
+    from: state.app.nextRoute,
   };
 }
 
@@ -191,6 +168,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     onGetUser: actions.getUser,
+    setNextRoute: actions.setNextRoute,
     },
   dispatch);
 }

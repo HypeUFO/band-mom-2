@@ -25,7 +25,6 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      redirect: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -38,39 +37,30 @@ class Login extends Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
+    let location;
+    if (this.props.history.location.state) {
+      location = this.props.history.location.state.from.pathname;
+    } else {
+      location = null;
+    }
+    this.props.setNextRoute(location);
+
     if(this.refs.form.validate()) {
       this.handleAsyncLoginButtonClick();
     }
   }
 
   handleAsyncLoginButtonClick() {
+
       let email = this.state.email;
       let password = this.state.password;
 
       const promise = auth.signInWithEmailAndPassword(email, password);
       promise
-      .then(() => this.setState({redirect: true}))
+      .then(() => {
+        this.setState({redirect: true})
+      })
       .catch((err) => console.log(err));
-
-      // auth.onAuthStateChanged(firebaseUser => {
-      //   if (firebaseUser) {
-      //     console.log(firebaseUser)
-      //     Promise.resolve()
-      //     .then(() => {
-      //       // this.props.setCurrentUser(firebaseUser);
-      //       return this.props.onGetUser(firebaseUser);
-      //     })
-      //     .then(() => {
-      //       return this.props.onGetEventMany()
-      //     })
-      //     .then(() => {
-      //       // console.log(this.props.user)
-            // return history.push(`${firebaseUser.uid}/dashboard`);
-      //     })
-      //   } else {
-      //     console.log('not logged in');
-      //   }
-      // })
   }
 
   render() {
@@ -79,16 +69,6 @@ class Login extends Component {
       email,
       password,
     } = this.state;
-
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-
-    // Error
-    // let loginError = (asyncLoginError) ? asyncLoginError.get('error')  : '';
-
-    if (this.state.redirect === true) {
-      console.log(from)
-      return <Redirect to={from} />
-    }
 
     return (
       <div className="page__content">
@@ -142,6 +122,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     onGetUser: actions.getUser,
     onGetEventMany: getEventMany,
+    setNextRoute: actions.setNextRoute,
     },
   dispatch);
 }

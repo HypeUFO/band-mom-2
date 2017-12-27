@@ -18,20 +18,20 @@ export function createUser(user) {
 
 function createUserRequestedAction() {
   return {
-    type: ActionTypes.CreateUserRequested
+    type: ActionTypes.CREATE_USER_REQUESTED
   };
 }
 
 function createUserRejectedAction(error) {
   return {
-    type: ActionTypes.CreateUserRejected,
+    type: ActionTypes.CREATE_USER_REJECTED,
     error
   }
 }
 
 function createUserFulfilledAction(user) {
   return {
-    type: ActionTypes.CreateUserFulfilled,
+    type: ActionTypes.CREATE_USER_FULFILLED,
     user
   };
 }
@@ -54,20 +54,20 @@ export function getUser(user) {
 
 function getUserRequestedAction() {
   return {
-    type: ActionTypes.GetUserRequested
+    type: ActionTypes.GET_USER_REQUESTED
   };
 }
 
 function getUserRejectedAction(error) {
   return {
-    type: ActionTypes.GetUserRejected,
+    type: ActionTypes.GET_USER_REJECTED,
     error,
   }
 }
 
 function getUserFulfilledAction(user) {
   return {
-    type: ActionTypes.GetUserFulfilled,
+    type: ActionTypes.GET_USER_FULFILLED,
     user,
     authenticated: !!user,
   };
@@ -98,3 +98,36 @@ function signOutError(err) {
   };
 }
 
+export function setNextRoute(route) {
+  return dispatch => {
+    Promise.resolve()
+    .then(() => {
+      return dispatch(setNextRouteRequestedAction())
+    })
+    .then(() => {
+      return dispatch(setNextRouteFulfilledAction(route))
+    })
+    .catch(err => dispatch(setNextRouteErrorAction(err)));
+  };
+}
+
+
+function setNextRouteRequestedAction() {
+  return {
+    type: ActionTypes.SET_NEXT_ROUTE_REQUESTED,
+  }
+}
+
+function setNextRouteFulfilledAction(nextRoute) {
+  return {
+    type: ActionTypes.SET_NEXT_ROUTE_FULFILLED,
+    nextRoute: nextRoute,
+  }
+}
+
+function setNextRouteErrorAction(error) {
+  return {
+    type: ActionTypes.SET_NEXT_ROUTE_ERROR,
+    error,
+  }
+}

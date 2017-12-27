@@ -14,81 +14,73 @@ export function eventReducer(state = initialState, action) {
   switch (action.type) {
     default: return state;
 
-    case ActionTypes.GetEventRequested:
+    case ActionTypes.GET_EVENT_REQUESTED:
         return {
         ...state,
-        // loading: true
       }
-    case ActionTypes.GetEventFulfilled:
+    case ActionTypes.GET_EVENT_FULFILLED:
         return {
         ...state,
         activeEvent: action.event ? action.event : null,
-        // loading: false
       }
-    case ActionTypes.GetEventRejected:
+    case ActionTypes.GET_EVENT_REJECTED:
         return {
         ...state,
         error: action.error,
-        // loading: false
       }
 
-    case ActionTypes.GetEventManyRequested:
+    case ActionTypes.GET_EVENTS_MANY_REQUESTED:
         return {
         ...state,
-        // loading: true
       }
-    case ActionTypes.GetEventManyFulfilled:
+    case ActionTypes.GET_EVENTS_MANY_FULFILLED:
         return {
         ...state,
         events: action.events ? action.events.events : null,
-        // loading: false
       }
-    case ActionTypes.GetEventManyRejected:
+    case ActionTypes.GET_EVENTS_MANY_REJECTED:
         return {
         ...state,
         error: action.error,
-        // loading: false
       }
 
 
-    case ActionTypes.CreateEventRequested:
+    case ActionTypes.CREATE_EVENT_REQUESTED:
         return {
         ...state,
-        // loading: true
       }
-    case ActionTypes.CreateEventFulfilled:
+    case ActionTypes.CREATE_EVENT_FULFILLED:
         return {
         ...state,
         events: action.events.events,
-        // loading: false
       }
-    case ActionTypes.CreateEventRejected:
+    case ActionTypes.CREATE_EVENT_REJECTED:
         return {
         ...state,
         error: action.error,
-        // loading: false
       }
 
-    case ActionTypes.DeleteEventRequested:
-      return {...state, recentlyDeleted: [...state.recentlyDeleted, action.event]}
-    case ActionTypes.DeleteEventFulfilled:
+    case ActionTypes.DELETE_EVENT_REQUESTED:
         return {
         ...state,
-        // gigs: action.gigs.gigs,
-        // loading: false
       }
-    case ActionTypes.DeleteEventRejected:
-        return {
+    case ActionTypes.DELETE_EVENT_FULFILLED:
+      return {
         ...state,
-        // error: action.error,
-        // loading: false
+        recentlyDeleted: [...state.recentlyDeleted, action.event],
       }
 
-      case ActionTypes.RestoreEventRequested:
+    case ActionTypes.DELETE_EVENT_REJECTED:
+        return {
+        ...state,
+        error: action.error,
+      }
+
+      case ActionTypes.RESTORE_EVENT_REQUESTED:
       return {
       ...state,
       }
-    case ActionTypes.RestoreEventFulfilled:
+    case ActionTypes.RESTORE_EVENT_FULFILLED:
       const prunedIds = state.recentlyDeleted.filter(item => {
         console.log('itemId = ' + item.id)
         console.log('eventId = ' + action.event)
@@ -97,30 +89,30 @@ export function eventReducer(state = initialState, action) {
       return {
         ...state, recentlyDeleted: prunedIds,
       }
-    case ActionTypes.RestoreEventRejected:
+    case ActionTypes.RESTORE_EVENT_REJECTED:
         return {
         ...state,
       }
-    case ActionTypes.SetEventStatusFilter:
+    case ActionTypes.SET_EVENT_STATUS_FILTER:
       return {
           ...state,
           statusFilter: action.filter
       }
-    case ActionTypes.SetEventTypeFilter:
+    case ActionTypes.SET_EVENT_TYPE_FILTER:
       return {
           ...state,
           typeFilter: action.filter
       }
-    case ActionTypes.UpdateEventEditRequested:
+    case ActionTypes.UPDATE_EVENT_EDIT_REQUESTED:
       return {
           ...state,
       }
-    case ActionTypes.UpdateEventEditFulfilled:
+    case ActionTypes.UPDATE_EVENT_EDIT_FULFILLED:
       return {
           ...state,
           edit: !state.edit
       }
-    case ActionTypes.UpdateEventEditRejected:
+    case ActionTypes.UPDATE_EVENT_EDIT_REJECTED:
       return {
           ...state,
           error: action.error
