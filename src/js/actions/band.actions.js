@@ -96,7 +96,7 @@ export function createBand(band) {
     })
     .catch((error) => {
       console.log(error);
-      dispatch(createBandRejectedAction());
+      dispatch(createBandRejectedAction(error));
     });
   }
 }
@@ -107,9 +107,10 @@ function createBandRequestedAction() {
   };
 }
 
-function createBandRejectedAction() {
+function createBandRejectedAction(error) {
   return {
-    type: ActionTypes.CREATE_BAND_REJECTED
+    type: ActionTypes.CREATE_BAND_REJECTED,
+    error
   }
 }
 

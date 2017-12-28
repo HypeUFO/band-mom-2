@@ -68,14 +68,14 @@ class BandDetails extends Component {
     })
     .then(() => {
       this.setState({
-        // disabled: !!this.props.bandEdit,
+        // disabled: !!bandEdit,
         name: this.props.band.name || '',
         location: this.props.band.location || '',
         genre1: this.props.band.genre1 || '',
         genre2: this.props.band.genre2 || '',
         bio: this.props.band.bio || '',
         stageplots: this.props.band.stageplots || '',
-        logo: this.props.band.logo,
+        logo: this.props.band.logo || '',
       })
     })
     .catch((err) => console.log(err));
@@ -100,7 +100,7 @@ class BandDetails extends Component {
       genre2: this.props.band.genre2 || '',
       bio: this.props.band.bio || '',
       stageplots: this.props.band.stageplots || '',
-      logo: this.props.band.logo,
+      logo: this.props.band.logo || '',
       id: this.props.band.id,
     })
     this.props.updateBandEdit();
@@ -124,7 +124,6 @@ class BandDetails extends Component {
 
   onCancel() {
     this.handleFormEdit();
-    // this.props.updateEventEdit();
   }
 
   onSuccess() {
@@ -157,7 +156,7 @@ class BandDetails extends Component {
       logo: this.state.logo,
       id: this.state.id,
     }
-    this.props.onUpdateEvent(band)
+    this.props.onUpdateBand(band)
   }
 
   handleInputChange(event) {
@@ -213,29 +212,47 @@ class BandDetails extends Component {
   }
 
   renderForm() {
-    const { band } = this.props;
+    const {
+      band,
+      bandEdit,
+    } = this.props;
     if (band) {
-      let formBottomClasses = classNames('form__bottom', 'band-details__form__bottom', { 'form__bottom--hidden': !this.props.bandEdit });
+      let formBottomClasses = classNames('form__bottom', 'band-details__form__bottom', { 'form__bottom--hidden': !bandEdit });
       return (
         <Form
             // className="form__container"
-            className="band-details__form"
+            className="band__details__form"
             id="band-details__form"
             onSubmit={ this.onSubmit }
             onCancel={ this.onCancel }
-            disabled={ !this.props.bandEdit }
+            disabled={ !bandEdit }
             ref="form"
             // error={ createError || uploadError }
           >
-            <div className="form__middle">
+            <div className="form__middle form__middle__band">
+              <div className="form__column">
+                <div className="form__row">
+                  <div className="band__details__image__wrapper">
+                  { !bandEdit ?
+                    <img
+                      src={band.logo || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+                      alt="Logo"
+                      className="band__logo"
+                    />
+                   : null
+                    }
+                  {/* : null } */}
+                  </div>
+                </div>
+              </div>
               <div className="form__column">
                 <div className="form__row">
                   <Input type="text"
                     name="name"
                     placeholder="Band Name"
                     label="Band Name"
-                    disabled={ !this.props.bandEdit }
-                    value={ this.props.bandEdit ? this.state.name : band.name }
+                    disabled={ !bandEdit }
+                    value={ bandEdit ? this.state.name : band.name }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -243,8 +260,8 @@ class BandDetails extends Component {
                     name="location"
                     placeholder="Location"
                     label="Location"
-                    disabled={ !this.props.bandEdit }
-                    value={ this.props.bandEdit ? this.state.location : band.location }
+                    disabled={ !bandEdit }
+                    value={ bandEdit ? this.state.location : band.location }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -254,9 +271,9 @@ class BandDetails extends Component {
                     name="genre1"
                     placeholder="Genre 1"
                     label="Genre 1"
-                    disabled={ !this.props.bandEdit }
+                    disabled={ !bandEdit }
                     options={genres}
-                    value={ this.props.bandEdit ? this.state.genre1 : band.genre1 }
+                    value={ bandEdit ? this.state.genre1 : band.genre1 }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -264,20 +281,30 @@ class BandDetails extends Component {
                     name="genre2"
                     placeholder="Genre 2"
                     label="Genre 2"
-                    disabled={ !this.props.bandEdit }
+                    disabled={ !bandEdit }
                     options={genres}
-                    value={ this.props.bandEdit ? this.state.genre2 : band.genre2 }
+                    value={ bandEdit ? this.state.genre2 : band.genre2 }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                 </div>
                 <div className="form__row">
+                  <Input
+                    type="file"
+                    name="logo"
+                    placeholder="Band logo"
+                    label="Band logo"
+                    disabled={ !bandEdit }
+                    value={ bandEdit ? this.state.logo : band.logo }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
                   <Input type="textarea"
                     name="bio"
                     placeholder="Bio"
                     label="Bio"
-                    disabled={ !this.props.bandEdit }
-                    value={ this.props.bandEdit ? this.state.bio : band.bio }
+                    disabled={ !bandEdit }
+                    value={ bandEdit ? this.state.bio : band.bio }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -286,6 +313,7 @@ class BandDetails extends Component {
                   {/* { this.renderFiles() } */}
                 </div>
               </div>
+            </div>
             <div
             // className="form__bottom"
             className={ formBottomClasses }
@@ -293,7 +321,6 @@ class BandDetails extends Component {
               <Input type="button-thin-cancel" value="Cancel" />
               <Input type="button-thin-submit" value="Save" />
               {/* { formBottom } */}
-            </div>
             </div>
           </Form>
       )
@@ -306,26 +333,37 @@ class BandDetails extends Component {
 
   render() {
 
+    // const {
+    //   user,
+    //   band
+    // } = this.props;
+
+    // const userId = user.uid;
+    // const bandId = band.id;
+
     // Subheader
     // let breadcrumbs = [
     //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
     //   { link: null, name: project.name },
     // ];
 
-    let breadcrumbs = this.props.band ? [
-      // { link: `/${match.params.userId}/bands` : null, name: 'bands' },
-      // { link: `/testUser/bands/testBand/bands`, name: '<' },
-      { link: `/testUser/bands/testBand/bands`, name: <i className="icon material-icons">chevron_left</i> },
-      { link: null, name: this.props.band.name },
-      { link: null, name: this.props.band.location },
+    const {
+      event,
+      bandEdit,
+      band,
+      match,
+    } = this.props;
+
+
+    let breadcrumbs = band ? [
+      // { link: `/${match.params.userId}/bands/${match.params.bandId}/events`, name: <i className="icon material-icons">chevron_left</i> },
+      { link: `/${match.params.userId}/bands/${match.params.bandId}/dashboard`, name: band.name },
     ] :
     [
-      // { link: `/${match.params.userId}/bands` : null, name: 'bands' },
-      // { link: `/testUser/bands/testBand/bands`, name: '<' },
-      { link: `/testUser/bands/testBand/bands`, name: 'band:' },
+      { link: `/${match.params.userId}/bands/${match.params.bandId}/dashboard`, name: 'Band:' },
     ];
 
-    let classes = classNames("band-details__container", {"band-details__container--hidden": !!this.props.bandEdit})
+    let classes = classNames("band-details__container", {"band-details__container--hidden": !!bandEdit})
 
     return (
       <div className='page__container'>
@@ -336,10 +374,10 @@ class BandDetails extends Component {
           // toggle={ this.toggleDrawer }
         />
          <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ !!this.props.bandEdit }
-          buttonLabel={ !this.props.bandEdit ? 'Edit' : 'Save'}
-          buttonIcon={ !this.props.bandEdit ? 'edit' : 'save' }
-          buttonOnClick={ !this.props.bandEdit ? this.handleFormEdit : this.onSubmit }
+          // buttonHide={ !!bandEdit }
+          buttonLabel={ !bandEdit ? 'Edit' : 'Save'}
+          buttonIcon={ !bandEdit ? 'edit' : 'save' }
+          buttonOnClick={ !bandEdit ? this.handleFormEdit : this.onSubmit }
         />
         <div className='page__content page__content--two-col'>
         <div className={ classes }>

@@ -198,7 +198,7 @@ input[type=checkbox]:checked~#menu {
   // padding: 0 2rem;
   // height: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 3;
+  z-index: 2;
   &__breadcrumbs {
     display: flex;
     flex-direction: row;
@@ -230,6 +230,7 @@ input[type=checkbox]:checked~#menu {
     }
     a {
       color: $color-gray;
+      text-decoration: none;
       > i {
         font-size: 36px;
         line-height: 1.5;

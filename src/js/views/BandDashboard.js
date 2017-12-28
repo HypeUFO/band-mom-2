@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
+import { getBand } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
 import TableRowMenu from '../components/Global/TableRowMenu';
 import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
+import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
+
+import genres from '../constants/genre_list';
+
+import Form from '../components/Global/Form';
 
 import Carousel from '../components/Carousel';
 
@@ -20,20 +26,32 @@ import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
 
+import classNames from 'classnames';
+
 import { database } from '../config/fire'
 
 
-export const initialState = {
+const initialState = {
   showCreateEventModal: false,
   showShareModal: false,
   selected: '',
+
+  name: '',
+  location: '',
+  genre1: '',
+  genre2: '',
+  bio: '',
+  logo: '',
+  id: '',
 };
+
 class BandDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
 
-    this.db = database.ref().child('events');
+    // this.db = database.ref().child('bands');
+    this.id = window.location.pathname.split('/')[3];
 
     this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
@@ -46,8 +64,29 @@ class BandDashboard extends Component {
   }
 
   componentWillMount() {
-    this.db.on('child_added', () => {
-      this.props.onGetEventMany()
+    console.log(this.id);
+    Promise.resolve()
+    .then(() => {
+      this.props.onGetBand(this.id)
+    })
+    .then(() => {
+      console.log(this.props.band);
+      this.setState({
+        // disabled: !!this.props.bandEdit,
+        name: this.props.band.name || '',
+        location: this.props.band.location || '',
+        genre1: this.props.band.genre1 || '',
+        genre2: this.props.band.genre2 || '',
+        bio: this.props.band.bio || '',
+        stageplots: this.props.band.stageplots || '',
+        logo: this.props.band.logo,
+      })
+    })
+    .catch((err) => console.log(err));
+
+    database.ref(`bands/${this.id}/events`).on('child_added', () => {
+    // database.ref(`bands/${this.id}/`).child('events').on('child_added', () => {
+      this.props.onGetEventMany((this.id))
     })
     this.props.onClearEvent()
     // if (!this.props.events) {
@@ -150,7 +189,7 @@ class BandDashboard extends Component {
 
     return (
       <a
-        href={`/testUser/bands/testBand/events/${doc.id}/details`}
+        href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events/${doc.id}/details`}
         className="card__link"
         key={ index }
       >
@@ -218,11 +257,22 @@ class BandDashboard extends Component {
     //   { link: null, name: project.name },
     // ];
 
+    const {
+      user,
+      band
+    } = this.props;
+    // const userId = user.uid;
+    // const bandId = band.id;
+
+
     let breadcrumbs = [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
       { link: null, name: 'Test Band' },
       // { link: null, name: gig.venue },
     ];
+
+    if (band) {
+    let formBottomClasses = classNames('form__bottom', 'band-details__form__bottom', { 'form__bottom--hidden': !this.props.bandEdit });
 
     return (
       <div className='page__container'>
@@ -242,24 +292,124 @@ class BandDashboard extends Component {
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
           {/* <div className="event__preview__container"> */}
-          <h3>Upcoming Events</h3>
+          <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/details`}><h3>Edit Band Details</h3></a>
+          <div className="band__details__container">
+          <div className="band__details__image__wrapper">
+            <img
+              src={band.logo || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+              alt="Logo"
+              className="band__logo"
+            />
+          </div>
+          <Form
+            // className="form__container"
+            className="band__details__form"
+            id="band-details__form"
+            onSubmit={ this.onSubmit }
+            onCancel={ this.onCancel }
+            disabled={ !this.props.bandEdit }
+            ref="form"
+            // error={ createError || uploadError }
+          >
+            <div className="form__middle form__middle__band-dashboard">
+              <div className="form__column">
+                <div className="form__row">
+                  <Input type="text"
+                    name="name"
+                    placeholder="Band Name"
+                    label="Band Name"
+                    disabled={ !this.props.bandEdit }
+                    value={ this.props.bandEdit ? this.state.name : band.name }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                  <Input type="text"
+                    name="location"
+                    placeholder="Location"
+                    label="Location"
+                    disabled={ !this.props.bandEdit }
+                    value={ this.props.bandEdit ? this.state.location : band.location }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                  </div>
+                  <div className="form__row">
+                  <Input type="select"
+                    name="genre1"
+                    placeholder="Genre 1"
+                    label="Genre 1"
+                    disabled={ !this.props.bandEdit }
+                    options={genres}
+                    value={ this.props.bandEdit ? this.state.genre1 : band.genre1 }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                  <Input type="select"
+                    name="genre2"
+                    placeholder="Genre 2"
+                    label="Genre 2"
+                    disabled={ !this.props.bandEdit }
+                    options={genres}
+                    value={ this.props.bandEdit ? this.state.genre2 : band.genre2 }
+                    onChange={ this.handleInputChange }
+                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                </div>
+                <div className="form__row">
+                  <Input type="textarea"
+                    name="bio"
+                    placeholder="Bio"
+                    label="Bio"
+                    disabled={ !this.props.bandEdit }
+                    value={ this.props.bandEdit ? this.state.bio : band.bio }
+                    onChange={ this.handleInputChange }
+                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                </div>
+                <div className="form__column">
+                  {/* { this.renderFiles() } */}
+                </div>
+              </div>
+            </div>
+            <div
+            // className="form__bottom"
+              className={ formBottomClasses }
+            >
+              <Input type="button-thin-cancel" value="Cancel" />
+              <Input type="button-thin-submit" value="Save" />
+              {/* { formBottom } */}
+            </div>
+          </Form>
+          </div>
+          <div className="slide-header">
+            <h3>Upcoming Events</h3>
+            <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`}>View All</a>
+          </div>
             { this.renderEventPreview() }
-          <a href="/testUser/bands/testBand/events">View All</a>
+          
           </div>
         </div>
       </div>
     );
+  } else {
+    return (
+      <Loader />
+    )
+  }
   }
 }
 
 function mapStateToProps(state) {
   return {
     events: state.events.events,
+    band: state.bands.activeBand,
+    user: state.app.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    onGetBand: getBand,
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,

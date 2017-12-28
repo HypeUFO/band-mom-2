@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
+import { getBandMany } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
@@ -23,8 +24,9 @@ export const initialState = {
   showCreateEventModal: false,
   showShareModal: false,
   selected: '',
+  userEvents: null,
 };
-class EventList extends Component {
+class UserEventList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
@@ -42,12 +44,38 @@ class EventList extends Component {
   }
 
   componentWillMount() {
-    database.ref(`bands/${this.props.match.params.bandId}/events`).on('child_added', () => {
-    // this.db.on('child_added', () => {
-      this.props.onGetEventMany(this.props.band.id)
+    if (!this.state.userEvents) {
+    database.ref().child('bands').on('child_added', () => {
+      Promise.resolve()
+      .then(() => this.props.onGetBandMany(this.id))
+      .then(() => {
+        let userEvents = {};
+        // let userEvents =
+        Object.keys(this.props.bands).map((key) => {
+          // console.log('rendering row')
+          let bandId = this.props.bands[key].id;
+          let bandName = this.props.bands[key].name;
+          console.log(JSON.stringify(this.props.bands[key]))
+          Object.keys(this.props.bands[key].events).map(key2 => {
+            console.log(JSON.stringify(this.props.bands[key].events[key2]))
+            // this.props.bands[key].events[key2].id = key2;
+            // this.props.bands[key].events[key2].bandId = bandId;
+            console.log(key2)
+            this.props.bands[key].events[key2].id = key2;
+            this.props.bands[key].events[key2].bandId = bandId;
+            this.props.bands[key].events[key2].bandName = bandName;
+            return userEvents[key] = this.props.bands[key].events[key2];
+          })
+          // return this.props.bands[key].events
+          // return userEvents[key] = this.props.bands[key].events
+        });
+        console.log(userEvents);
+        this.setState({userEvents});
+      })
     })
-    // this.props.onGetBand(this.props.match.params.bandId)
-    this.props.onClearEvent()
+    // this.props.onClearEvent()
+    // this.props.onClearBand()
+    }
   }
 
   componentDidMount() {
@@ -77,7 +105,7 @@ class EventList extends Component {
   }
 
   handleRowClick(row) {
-    window.location = `/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events/${row.id}/details`;
+    window.location = `/${this.props.match.params.userId}/bands/${row.bandId}/events/${row.id}/details`;
     // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row.id}/details`);
     // history.push(`/testUser/bands/testBand/events/${row.id}/details`);
   }
@@ -165,6 +193,7 @@ class EventList extends Component {
 
     let columns = [
       { value: moment(doc.date).format('MM/DD/YYYY') || '' , colorClass: statusColorClass},
+      { value: doc.bandName.toUpperCase(), colorClass: 'clr-purple' || '' },
       { value: doc.venue || '' },
       { value: doc.address || '' },
       { value: doc.phone || '' },
@@ -217,15 +246,14 @@ class EventList extends Component {
   //   };
   // }
 
-  renderTable() {
-    const { events } = this.props;
+  renderTable(events) {
       if(events) {
         // let results = this.sortData(events);
         // console.log(results);
 
         let rows = Object.keys(events).map((key) => {
           // console.log('rendering row')
-          events[key].id = key;
+          // events[key].id = key;
 
           const status = this.props.statusFilter === 'ALL';
           const type = this.props.typeFilter === 'ALL';
@@ -241,6 +269,7 @@ class EventList extends Component {
         return (
           <Table columnLabels={[
             "Date",
+            "Band",
             "Venue",
             "Address",
             "Phone",
@@ -348,7 +377,7 @@ class EventList extends Component {
               <i className="material-icons">chevron_right</i>
             </p>
             </div>
-            { this.renderTable() }
+            { this.renderTable(this.state.userEvents) }
             <select id="template" style={{visibility: 'hidden'}}>
               <option id="templateOption" />
             </select>
@@ -363,7 +392,8 @@ class EventList extends Component {
 
 function mapStateToProps(state) {
   return {
-    events: state.events.events,
+    // events: state.user.events,
+    bands: state.bands.bands,
     band: state.bands.activeBand,
     statusFilter: state.events.statusFilter,
     typeFilter: state.events.typeFilter,
@@ -374,6 +404,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    onGetBandMany: getBandMany,
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
@@ -387,4 +418,4 @@ function mapDispatchToProps(dispatch) {
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventList);
+export default connect(mapStateToProps, mapDispatchToProps)(UserEventList);

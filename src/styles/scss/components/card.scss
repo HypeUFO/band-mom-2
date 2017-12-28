@@ -19,13 +19,18 @@
       // white-space: nowrap;
       // overflow: hidden;
     }
+    >img {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+    }
   } // position: relative;
   &__type {
     color: $color-purple;
   }
   &__link {
     text-decoration: none;
-    padding: 20px;
+    padding: 10px;
     margin: 10px 0;
     margin-right: 20px;
     width: 100%;

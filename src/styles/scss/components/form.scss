@@ -85,6 +85,12 @@
     &__middle {
       display: flex;
       flex-direction: column;
+      // &__band-dashboard {
+      //   flex-direction: row;
+      // }
+      &__band {
+        // flex-direction: row;
+      }
     }
     &__column {
       display: flex;
@@ -96,6 +102,7 @@
     &__row {
       // padding: 15px;
       flex-direction: row;
+      justify-content: center;
     }
   }
 }

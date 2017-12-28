@@ -1,19 +1,19 @@
 import ActionTypes from '../constants/action_types';
 import { database } from '../config/fire';
 
-export function getEvent(id) {
+export function getEvent(eventId, bandId, ) {
   return dispatch => {
     dispatch(getEventRequestedAction());
-    database.ref('/').once('value', snap => {
-      const events = snap.val().events;
-      let event;
-      Object.keys(events).map((key) => {
-        if (key === id) {
-          events[key].id = id;
-          return event = events[key];
-        }
-        return null;
-      });
+    database.ref(`bands/${bandId}/events/${eventId}`).once('value', snap => {
+      // const events = snap.val().events;
+      let event = snap.val()
+      // Object.keys(events).map((key) => {
+      //   if (key === id) {
+      //     events[key].id = id;
+      //     return event = events[key];
+      //   }
+      //   return null;
+      // });
        return dispatch(getEventFulfilledAction(event))
     })
     .catch((err) => {
@@ -52,12 +52,12 @@ function getEventFulfilledAction(event) {
 
 
 
-export function getEventMany() {
-  // return {type: ActionTypes.getEventManyFulfilled,};
+export function getEventMany(bandId) {
   return dispatch => {
     dispatch(getEventManyRequestedAction());
-    database.ref('/').once('value', snap => {
+    database.ref(`bands/${bandId}/events`).once('value', snap => {
       const events = snap.val();
+      console.log('events = '+ JSON.stringify(events))
        return dispatch(getEventManyFulfilledAction(events))
     })
     .catch((error) => {
@@ -86,11 +86,11 @@ function getEventManyFulfilledAction(events) {
   };
 }
 
-export function createEvent(event) {
-  console.log(database.ref().child('events'))
+export function createEvent(event, bandId) {
+  console.log(database.ref().child(`bands/${bandId}/events`))
   return dispatch => {
     dispatch(createEventRequestedAction());
-    return database.ref().child('events').push().set(event)
+    return database.ref().child(`bands/${bandId}/events`).push().set(event)
     .then(() => {
       dispatch(createEventFulfilledAction());
     })
@@ -124,14 +124,15 @@ function createEventFulfilledAction(events) {
 
 
 
-export function deleteEvent(event) {
+export function deleteEvent(event, bandId) {
   // return {type: ActionTypes.deleteEventFulfilled,};
   console.log('event to delete: ' + event)
   return dispatch => {
-    dispatch(deleteEventRequestedAction(event));
-    return database.ref('events').child(event.id).remove()
+    dispatch(deleteEventRequestedAction());
+    return database.ref(`bands/${bandId}/events/`).child(event.id).remove()
+    // return database.ref('events').child(event.id).remove()
     .then(() => {
-      return dispatch(deleteEventFulfilledAction());
+      return dispatch(deleteEventFulfilledAction(event));
     })
     .catch((error) => {
       console.log(error);
@@ -140,10 +141,10 @@ export function deleteEvent(event) {
   }
 }
 
-function deleteEventRequestedAction(event) {
+function deleteEventRequestedAction() {
   return {
     type: ActionTypes.DELETE_EVENT_REQUESTED,
-    event,
+    // event,
   };
 }
 
@@ -153,17 +154,17 @@ function deleteEventRejectedAction() {
   }
 }
 
-function deleteEventFulfilledAction() {
+function deleteEventFulfilledAction(event) {
   return {
     type: ActionTypes.DELETE_EVENT_FULFILLED,
-    // events
+    event,
   };
 }
 
-export function restoreEvent(event) {
+export function restoreEvent(event, bandId) {
   return dispatch => {
     dispatch(restoreEventRequestedAction());
-    return database.ref().child('events').push().set(event)
+    return database.ref(`bands/${bandId}/events/${event.id}`).push().set(event)
     .then(() => {
       dispatch(restoreEventFulfilledAction(event));
     })
@@ -199,10 +200,10 @@ function restoreEventFulfilledAction(event) {
 
 
 
-export function updateEvent(event) {
+export function updateEvent(event, bandId) {
   return dispatch => {
     dispatch(updateEventRequestedAction());
-    database.ref().child('events/' + event.id).update(event)
+    database.ref(`bands/${bandId}/events/${event.id}`).update(event)
     .then(() => {
       dispatch(updateEventFulfilledAction());
     })

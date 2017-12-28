@@ -6,6 +6,7 @@ export const routeCodes = {
   LOGIN: `${publicPath}login`,
   USER_DASHBOARD: `${publicPath}:userId/dashboard`,
   USER_PROFILE: `${publicPath}:userId/profile`,
+  USER_EVENT_LIST: `${publicPath}:userId/events`,
   BAND_LIST: `${publicPath}:userId/bands`,
   BAND_PROFILE: `${publicPath}:userId/bands/:bandId`,
   BAND_DASHBOARD: `${publicPath}:userId/bands/:bandId/dashboard`,

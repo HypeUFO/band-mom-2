@@ -25,15 +25,39 @@ const testBands = {
 class UserDashboard extends Component {
   constructor(props) {
     super(props)
+    this.state = {userEvents: null}
     this.db = database.ref();
   }
 
   componentWillMount() {
-    this.db.child('events').on('child_added', () => {
-      this.props.onGetEventMany()
-    })
+    // this.db.child('events').on('child_added', () => {
+    //   this.props.onGetEventMany()
+    // })
     this.db.child('bands').on('child_added', () => {
-      this.props.onGetBandMany()
+      Promise.resolve()
+      .then(() => this.props.onGetBandMany(this.id))
+      .then(() => {
+        let userEvents = {};
+        // let userEvents = 
+        Object.keys(this.props.bands).map((key) => {
+          // console.log('rendering row')
+          let bandId = this.props.bands[key].id;
+          console.log(JSON.stringify(this.props.bands[key]))
+          Object.keys(this.props.bands[key].events).map(key2 => {
+            console.log(JSON.stringify(this.props.bands[key].events[key2]))
+            // this.props.bands[key].events[key2].id = key2;
+            // this.props.bands[key].events[key2].bandId = bandId;
+            console.log(key2)
+            this.props.bands[key].events[key2].id = key2;
+            this.props.bands[key].events[key2].bandId = bandId;
+            return userEvents[key] = this.props.bands[key].events[key2];
+          })
+          // return this.props.bands[key].events
+          // return userEvents[key] = this.props.bands[key].events
+        });
+        console.log(userEvents);
+        this.setState({userEvents});
+      })
     })
     this.props.onClearEvent()
     this.props.onClearBand()
@@ -57,33 +81,40 @@ class UserDashboard extends Component {
 
     if (type === 'band') {
         card = (
-          <div>
-            <h3>{ doc.name }</h3>
-            <p>{ doc.genre }</p>
-            <p>{ doc.location }</p>
-          </div>
+          <a
+            href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`}
+            className="card__link"
+            key={ index }
+          >
+            <div className="card">
+              <div>
+                { doc.logo ? <img src={ doc.logo } alt="logo" /> : null }
+                <h3>{ doc.name }</h3>
+                <p>{ doc.genre1 } / { doc.genre2 }</p>
+                <p>{ doc.location }</p>
+              </div>
+            </div>
+          </a>
         );
     } else if (type === 'event') {
       card = (
-          <div>
-            <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
-            <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
-            <p>Set Time: { doc.showTime }</p>
+        <a
+          href={`/${this.props.match.params.userId}/bands/${doc.bandId}/events/${doc.id}/details`}
+          className="card__link"
+          key={ index }
+        >
+          <div className="card">
+            <div>
+              <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
+              <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
+              <p>Set Time: { doc.showTime }</p>
+            </div>
           </div>
+        </a>
       );
     }
 
-    return (
-      <a
-        href={`/testUser/bands/testBand/events/${doc.id}/details`}
-        className="card__link"
-        key={ index }
-      >
-        <div className="card">
-          { card }
-        </div>
-      </a>
-    );
+    return card;
   }
 
   // sortData(docs) {
@@ -103,7 +134,7 @@ class UserDashboard extends Component {
 
         let rows = Object.keys(list).map((key) => {
           // console.log('rendering row')
-          list[key].id = key;
+          // list[key].id = key;
 
           // if (list[key].status === 'upcoming') {
             return this.renderCard(list[key], key, type)
@@ -197,8 +228,9 @@ class UserDashboard extends Component {
           </Link>
           { this.renderPreviewList(this.props.bands, 'band') }
 
-          <Link to={`/${this.props.user.uid}/bands/testBand/events`}><h3>Events</h3></Link>
-          { this.renderPreviewList(this.props.events, 'event') }
+          <Link to={`/${this.props.user.uid}/events`}><h3>Events</h3></Link>
+          {/* { this.renderPreviewList(this.props.events, 'event') } */}
+          { this.renderPreviewList(this.state.userEvents, 'event') }
         </div>
         </div>
       </div>

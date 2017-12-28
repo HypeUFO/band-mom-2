@@ -36,7 +36,7 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.GET_EVENTS_MANY_FULFILLED:
         return {
         ...state,
-        events: action.events ? action.events.events : null,
+        events: action.events ? action.events : null,
       }
     case ActionTypes.GET_EVENTS_MANY_REJECTED:
         return {
@@ -52,7 +52,7 @@ export function eventReducer(state = initialState, action) {
     case ActionTypes.CREATE_EVENT_FULFILLED:
         return {
         ...state,
-        events: action.events.events,
+        // events: action.events.events,
       }
     case ActionTypes.CREATE_EVENT_REJECTED:
         return {

@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
+import { getBand } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Form from '../components/Global/Form';
+import Loader from '../components/Global/Loader';
 import Input from '../components/Global/Input';
 import Notification from '../components/Global/Notification';
 import Map from '../components/Map';
@@ -34,13 +36,7 @@ class EventDetails extends Component {
     super(props);
     this.state = initialState;
 
-    // this.props.onGetGig(this.id)
-
-
-    this.db = database.ref().child('events');
     this.id = window.location.pathname.split('/')[5];
-
-    console.log(this.id);
 
     this.toggleCreateEventform = this.toggleCreateEventform.bind(this);
     // this.onUpdateEventSubmit = this.onUpdateEventSubmit.bind(this);
@@ -63,14 +59,15 @@ class EventDetails extends Component {
   }
 
   componentWillMount() {
-    // this.db.on('child_changed', () => {
-      // this.props.onGetEvent(this.id)
+    // database.ref(`bands/${this.props.band.id}/`).child('events').on('child_changed', () => {
+    //   this.props.onGetEvent(this.id, this.props.band.id)
     // })
     Promise.resolve()
     .then(() => {
-      this.props.onGetEvent(this.id)
+      this.props.onGetEvent(this.props.match.params.eventId, this.props.match.params.bandId)
     })
     .then(() => {
+      this.props.onGetBand(this.props.match.params.bandId)
       this.setState({
         // disabled: !!this.props.eventEdit,
         venue: this.props.event.venue || '',
@@ -140,7 +137,7 @@ class EventDetails extends Component {
     // })
     this.props.updateEventEdit();
     smoothScroll(document.body, 500);
-    this.props.onGetEvent(this.id);
+    this.props.onGetEvent(this.id, this.props.band.id);
   }
 
   onError(err) {
@@ -155,6 +152,7 @@ class EventDetails extends Component {
   }
 
   updateEvent() {
+    const bandId = this.props.band.id;
     const event = {
       venue: this.state.venue,
       address: this.state.address,
@@ -167,7 +165,7 @@ class EventDetails extends Component {
       status: new Date(this.state.date) > new Date() ? 'upcoming' : 'past',
       id: this.state.id,
     }
-    this.props.onUpdateEvent(event)
+    this.props.onUpdateEvent(event, bandId)
   }
 
   handleInputChange(event) {
@@ -202,7 +200,7 @@ class EventDetails extends Component {
 
   restoreEvent() {
     if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
+      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1], this.props.band.id)
     } else {
       console.log('no Events to restore');
       this.props.dismissNotification();
@@ -343,6 +341,12 @@ class EventDetails extends Component {
   }
 
   render() {
+    const {
+      event,
+      eventEdit,
+      band,
+      match,
+    } = this.props;
 
     // Subheader
     // let breadcrumbs = [
@@ -350,21 +354,17 @@ class EventDetails extends Component {
     //   { link: null, name: project.name },
     // ];
 
-    let breadcrumbs = this.props.event ? [
-      // { link: `/${match.params.userId}/events` : null, name: 'events' },
-      // { link: `/testUser/bands/testBand/events`, name: '<' },
-      { link: `/testUser/bands/testBand/events`, name: <i className="icon material-icons">chevron_left</i> },
-      { link: null, name: this.props.event.venue },
-      { link: null, name: moment(this.props.event.date).format('MM/DD/YY') },
+    let breadcrumbs = event  && band ? [
+      // { link: `/${match.params.userId}/bands/${match.params.bandId}/events`, name: <i className="icon material-icons">chevron_left</i> },
+      { link: `/${match.params.userId}/bands/${match.params.bandId}/dashboard`, name: band.name },
+      { link: `/${match.params.userId}/bands/${match.params.bandId}/events`, name: 'Events' },
+      { link: null, name: `${event.venue}: ${moment(event.date).format('MM/DD/YY')}` },
     ] :
     [
-      // { link: `/${match.params.userId}/events` : null, name: 'events' },
-      // { link: `/testUser/bands/testBand/events`, name: '<' },
-      { link: `/testUser/bands/testBand/events`, name: 'Event:' },
+      { link: `/${match.params.userId}/bands/${match.params.bandId}/events`, name: 'Event:' },
     ];
 
-    let classes = classNames("event-details__container", {"event-details__container--hidden": !!this.props.eventEdit})
-
+    let classes = classNames("event-details__container", {"event-details__container--hidden": !!eventEdit})
     return (
       <div className='page__container'>
         <Drawer
@@ -374,27 +374,27 @@ class EventDetails extends Component {
           // toggle={ this.toggleDrawer }
         />
          <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ !!this.props.eventEdit }
-          buttonLabel={ !this.props.eventEdit ? 'Edit' : 'Save'}
-          buttonIcon={ !this.props.eventEdit ? 'edit' : 'save' }
-          buttonOnClick={ !this.props.eventEdit ? this.handleFormEdit : this.onSubmit }
+          // buttonHide={ eventEdit }
+          buttonLabel={ !eventEdit ? 'Edit' : 'Save'}
+          buttonIcon={ !eventEdit ? 'edit' : 'save' }
+          buttonOnClick={ !eventEdit ? this.handleFormEdit : this.onSubmit }
         />
         <div className='page__content page__content--two-col'>
-        <div className={ classes }>
-          {/* <div className="form__top">
-            <h3 className="clr-purple">Edit Event</h3>
-          </div> */}
-          { this.props.event ?
-          <Map
-            isMarkerShown
-            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&v=3.exp&libraries=geometry,drawing,places"
-            // center={ this.props.event.address }
-          /> : null
-          }
-        { this.props.isLoading ? null : this.renderForm() }
-        <div id="bottom" style={{width: '100%', height: 80}}></div>
-      </div>
-      </div>
+          <div className={ classes }>
+            {/* <div className="form__top">
+              <h3 className="clr-purple">Edit Event</h3>
+            </div> */}
+            { event ?
+            <Map
+              isMarkerShown
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGaFX5PzypU4uZ2RT-l-OU9A6-6aIxmBk&v=3.exp&libraries=geometry,drawing,places"
+              // center={ this.props.event.address }
+            /> : null
+            }
+          { this.props.isLoading ? <Loader /> : this.renderForm() }
+            <div id="bottom" style={{width: '100%', height: 80}}></div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -404,7 +404,9 @@ class EventDetails extends Component {
 
 function mapStateToProps(state) {
   return {
+    user: state.app.user,
     event: state.events.activeEvent,
+    band: state.bands.activeBand,
     isLoading: state.app.loading,
     notification: state.notification,
     eventEdit: state.events.edit,
@@ -414,6 +416,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     onGetEvent: actions.getEvent,
+    onGetBand: getBand,
     onDeleteEvent: actions.deleteEvent,
     onRestoreEvent: actions.restoreEvent,
     onUpdateEvent: actions.updateEvent,

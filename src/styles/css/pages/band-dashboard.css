@@ -1,24 +1,39 @@
 /*
-Error: Undefined variable: "$color-purple-dark-gradient-vertical".
-        on line 14 of src/styles/scss/components/drawer.scss
+Error: Undefined mixin 'md'.
+        on line 25 of src/styles/scss/pages/band-dashboard.scss, in `md'
+        from line 25 of src/styles/scss/pages/band-dashboard.scss
 
-9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow
-10:   width: 70vw;
-11:   // min-width: 180px;
-12:   // width: 100%;
-13:   height: 100vh;
-14:   background: $color-purple-dark-gradient-vertical;
-15:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-16:   z-index: 4;
-17:   overflow: auto;
-18:   transform: translateX(-100%);
-19:   transition: transform 0.3s $ease-in-out-cubic;
+20:         width: 200px;
+21:         border-radius: 50%;
+22:         margin: 0;
+23:       }
+24:     }
+25:     @include md {
+26:       flex-direction: row;
+27:       align-items: flex-start;
+28:       justify-content: space-around;
+29:       >div {
+30:         margin: 30px 10% 0 0; //   >img {
 
 Backtrace:
-src/styles/scss/components/drawer.scss:14
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
-/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
+src/styles/scss/pages/band-dashboard.scss:25:in `md'
+src/styles/scss/pages/band-dashboard.scss:25
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `with_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -67,4 +82,4 @@ src/styles/scss/components/drawer.scss:14
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple-dark-gradient-vertical\".\A         on line 14 of src/styles/scss/components/drawer.scss\A \A 9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow\A 10:   width: 70vw;\A 11:   // min-width: 180px;\A 12:   // width: 100%;\A 13:   height: 100vh;\A 14:   background: $color-purple-dark-gradient-vertical;\A 15:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\A 16:   z-index: 4;\A 17:   overflow: auto;\A 18:   transform: translateX(-100%);\A 19:   transition: transform 0.3s $ease-in-out-cubic;"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 25 of src/styles/scss/pages/band-dashboard.scss, in `md'\A         from line 25 of src/styles/scss/pages/band-dashboard.scss\A \A 20:         width: 200px;\A 21:         border-radius: 50%;\A 22:         margin: 0;\A 23:       }\A 24:     }\A 25:     @include md {\A 26:       flex-direction: row;\A 27:       align-items: flex-start;\A 28:       justify-content: space-around;\A 29:       >div {\A 30:         margin: 30px 10% 0 0; //   >img {"; }

@@ -20,6 +20,7 @@ import Loader from '../components/Global/Loader';
 import Login from './Login';
 import Register from './Register';
 import UserDashboard from './UserDashboard';
+import UserEventList from './UserEventList';
 import store from '../store';
 
 import { auth, storageKey } from '../config/fire'
@@ -70,7 +71,7 @@ class App extends Component {
     this.persistor = persistStore(
       store,
       {
-      whitelist: ['app'],
+      whitelist: ['app', 'bands'],
       storage: new CookieStorage({
         expiration: {
           'default': 365 * 86400 // Cookies expire after one year
@@ -128,6 +129,12 @@ class App extends Component {
           { header }
           <div className='page'>
             <Switch>
+              <PrivateRoute
+                authenticated={this.props.auth}
+                path={`/:userId/events`}
+                // path={routeCodes.USER_DASHBOARD}
+                component={UserEventList}
+              />
               <PrivateRoute
                 authenticated={this.props.auth}
                 path={`/:userId/dashboard`}

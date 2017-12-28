@@ -71,6 +71,7 @@ class CreateEventModal extends Component {
   }
 
    addEvent() {
+     const bandId = this.props.band.id;
     const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
     const event = {
       venue: this.state.venue,
@@ -83,7 +84,7 @@ class CreateEventModal extends Component {
       type: this.state.type,
       status: status,
     }
-    this.props.onCreateEvent(event);
+    this.props.onCreateEvent(event, bandId);
   }
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
@@ -237,6 +238,7 @@ class CreateEventModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    band: state.bands.activeBand,
   }
 }
 

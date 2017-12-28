@@ -29,7 +29,7 @@ class BandList extends Component {
     super(props);
     this.state = initialState;
 
-    this.db = database.ref().child('events');
+    this.db = database.ref().child('bands');
 
     this.toggleCreateBandModal = this.toggleCreateBandModal.bind(this);
     this.onCreateBandSubmit = this.onCreateBandSubmit.bind(this);
@@ -50,7 +50,7 @@ class BandList extends Component {
 
   handleRowClick(e, row) {
     e.preventDefault();
-    window.location = `/${this.props.match.params.userId}/bands/${row.id}/details`;
+    window.location = `/${this.props.match.params.userId}/bands/${row.id}/dashboard`;
     // history.push(`/${this.props.match.params.userId}/bands/testBand/bands/${row.id}/details`);
     // history.push(`/testUser/bands/testBand/bands/${row.id}/details`);
   }
@@ -132,7 +132,7 @@ class BandList extends Component {
         );
 
     return (
-      <a href={`/${this.props.match.params.userId}/bands/${doc.id}/details`} className="card__link card__link__bandlist" key={ index }>
+      <a href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`} className="card__link card__link__bandlist" key={ index }>
         <div className="card"
           // onClick={ this.handleRowClick.bind(this, doc) }
         >
@@ -160,12 +160,12 @@ class BandList extends Component {
           return this.renderCard(list[key], key)
         }).sort()
 
-        rows.sort((a, b) => {
-          const valueA = a.name;
-          const valueB = b.name;
-          return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-          // return 1;
-        })
+        // rows.sort((a, b) => {
+        //   const valueA = a.name;
+        //   const valueB = b.name;
+        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
+        //   // return 1;
+        // })
 
 
         // .sort((a, b) => {

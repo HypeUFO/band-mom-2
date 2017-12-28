@@ -17,6 +17,7 @@ export const initialState = {
   genre2: '',
   bio: '',
   stageplots: [],
+  type: 'band',
 };
 
 class CreateBandModal extends Component {
@@ -70,7 +71,10 @@ class CreateBandModal extends Component {
   }
 
    addBand() {
-    const band = {
+     const userId = this.props.user.uid;
+     const roles = {}
+     roles[userId] = 'owner';
+      const band = {
       name: this.state.name,
       location: this.state.location,
       email: this.state.email,
@@ -78,6 +82,9 @@ class CreateBandModal extends Component {
       genre2: this.state.genre2,
       bio: this.state.bio,
       stageplots: this.state.stageplots,
+      type: this.state.type,
+      roles,
+      events: {},
     }
     this.props.onCreateBand(band);
   }
@@ -127,6 +134,7 @@ class CreateBandModal extends Component {
       genre2,
       bio,
       stageplots,
+      type,
       // files,
     } = this.state;
 
@@ -147,65 +155,77 @@ class CreateBandModal extends Component {
           error={ createError || uploadError }
         >
           <div className="modal__top">
-            <h3 className="clr-purple">Add New Show</h3>
+            <h3 className="clr-purple">Start A Band</h3>
           </div>
           <div className="modal__middle">
             {/* <div className="modal__column"> */}
-              <div className="modal__row">
-                <Input type="text"
-                  name="name"
-                  placeholder="Band Name"
-                  value={ name }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-                <Input type="text"
-                  name="location"
-                  placeholder="Location"
-                  value={ location }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-              </div>
 
-              <div className="modal__row">
-                <Input type="select"
-                  name="genre1"
-                  placeholder="Genre 1"
-                  options={genres}
-                  value={ genre1 }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-                <Input type="select"
-                  name="genre2"
-                  placeholder="Genre 2"
-                  options={genres}
-                  value={ genre2 }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-              </div>
-              <div className="modal__row">
-                <Input type="text"
-                    name="email"
-                    placeholder="Band Email"
-                    value={ email }
-                    onChange={ this.handleInputChange }
-                    // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                <Input type="textarea"
-                  name="bio"
-                  placeholder="Bio"
-                  value={ bio }
-                  onChange={ this.handleInputChange }
-                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-              </div>
-              {/* <div className="modal__column">
-                {/* { this.renderFiles() } */}
-              {/* </div> */}
+            {/* Add this back when users can create venues */}
+            {/* <div className="modal__row">
+              <Input type="select"
+                name="type"
+                placeholder="Type"
+                options={[{value: 'band', label: 'Band'}, {value: 'venue', label: 'Venue'}]}
+                value={ this.state.type }
+                onChange={ this.handleInputChange }
+                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
+            </div> */}
+            <div className="modal__row">
+              <Input type="text"
+                name="name"
+                placeholder="Band Name"
+                value={ name }
+                onChange={ this.handleInputChange }
+                validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
+              <Input type="text"
+                name="location"
+                placeholder="Location"
+                value={ location }
+                onChange={ this.handleInputChange }
+                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
             </div>
+
+            <div className="modal__row">
+              <Input type="select"
+                name="genre1"
+                placeholder="Genre 1"
+                options={genres}
+                value={ genre1 }
+                onChange={ this.handleInputChange }
+                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
+              <Input type="select"
+                name="genre2"
+                placeholder="Genre 2"
+                options={genres}
+                value={ genre2 }
+                onChange={ this.handleInputChange }
+                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
+            </div>
+            <div className="modal__row">
+              <Input type="text"
+                  name="email"
+                  placeholder="Band Email"
+                  value={ email }
+                  onChange={ this.handleInputChange }
+                  // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+              <Input type="textarea"
+                name="bio"
+                placeholder="Bio"
+                value={ bio }
+                onChange={ this.handleInputChange }
+                // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
+            </div>
+            {/* <div className="modal__column">
+              {/* { this.renderFiles() } */}
+            {/* </div> */}
+          </div>
           <div className="modal__bottom">
             <Input type="button-thin-cancel" value="Cancel" />
             <Input type="button-thin-submit" value="Create" />
@@ -218,6 +238,7 @@ class CreateBandModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.app.user,
   }
 }
 
