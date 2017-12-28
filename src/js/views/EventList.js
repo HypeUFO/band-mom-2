@@ -299,7 +299,7 @@ class EventList extends Component {
             onSuccess={ this.onCreateEventSuccess }
             onError={ this.onCreateEventError }
           />
-          <div className="event__list__container">
+          <div className="page__content__container">
             {this.props.notification.display ? this.renderNotification() : null}
             <div className="filter__section">
               <p className="filter__label">Filter: </p>

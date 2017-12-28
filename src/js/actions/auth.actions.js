@@ -73,7 +73,33 @@ function getUserFulfilledAction(user) {
   };
 }
 
+export function signIn(params) {
+  return dispatch => {
+    dispatch(signInRequested())
+    return auth.signInWithEmailAndPassword(params.email, params.password)
+    .then(() => dispatch(signInSuccess()))
+    .catch(err => dispatch(signInError(err)));
+  };
+}
 
+function signInRequested() {
+  return {
+    type: ActionTypes.SIGN_IN_REQUESTED,
+  };
+}
+
+function signInSuccess() {
+  return {
+    type: ActionTypes.SIGN_IN_SUCCESS,
+  };
+}
+
+function signInError(error) {
+  return {
+    type: ActionTypes.SIGN_IN_ERROR,
+    error
+  };
+}
 
 
 export function signOut() {
@@ -130,4 +156,8 @@ function setNextRouteErrorAction(error) {
     type: ActionTypes.SET_NEXT_ROUTE_ERROR,
     error,
   }
+}
+
+export function resetPassword(email) {
+  return console.log(`Resetting PW for ${email}`)
 }

@@ -167,11 +167,13 @@ class EventList extends Component {
 
 
     let card = (
-      <div>
-        <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
-        <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
-        <p>Set Time: { doc.showTime }</p>
-      </div>
+      <a href={`/testUser/bands/testBand/events/${doc.id}/details`} className="card__link">
+        <div>
+          <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
+          <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
+          <p>Set Time: { doc.showTime }</p>
+        </div>
+      </a>
 
     );
 
@@ -261,7 +263,7 @@ class EventList extends Component {
           // buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
-          <div className="event__list__container">
+          <div className="page__content__container">
           {/* <div className="event__preview__container"> */}
           <h3>Upcoming Events</h3>
             { this.renderEventPreview() }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,16 +8,12 @@ import * as actions from '../actions/auth.actions';
 import { getEventMany } from '../actions/event.actions';
 
 import PropTypes from 'prop-types';
-import history from '../history';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 
-import { auth } from '../config/fire';
-
 class Login extends Component {
   static propTypes = {
-    onGetUser: PropTypes.func,
-    setCurrentUser: PropTypes.func,
+    setNextRoute: PropTypes.func,
   }
 
   constructor() {
@@ -52,15 +48,12 @@ class Login extends Component {
 
   handleAsyncLoginButtonClick() {
 
-      let email = this.state.email;
-      let password = this.state.password;
+      const params = {
+        email: this.state.email,
+        password: this.state.password,
+      }
 
-      const promise = auth.signInWithEmailAndPassword(email, password);
-      promise
-      .then(() => {
-        this.setState({redirect: true})
-      })
-      .catch((err) => console.log(err));
+      this.props.signIn(params);
   }
 
   render() {
@@ -70,6 +63,8 @@ class Login extends Component {
       password,
     } = this.state;
 
+    const loginError = this.props.error
+
     return (
       <div className="page__content">
         <section className="form-page">
@@ -78,8 +73,8 @@ class Login extends Component {
             <Form className="form-page__form"
               onSubmit={ this.handleFormSubmit }
               ref="form"
-              // disabled={ asyncLoginLoading }
-              // error={ loginError }
+              // disabled={ this.props.loading }
+              error={ loginError }
             >
               <Input type="text"
                 name="email"
@@ -115,6 +110,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.app.user,
+    error: state.app.error,
   }
 }
 
@@ -123,6 +119,7 @@ function mapDispatchToProps(dispatch) {
     onGetUser: actions.getUser,
     onGetEventMany: getEventMany,
     setNextRoute: actions.setNextRoute,
+    signIn: actions.signIn,
     },
   dispatch);
 }

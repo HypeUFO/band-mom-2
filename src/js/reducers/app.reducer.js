@@ -6,6 +6,7 @@ import {
 const initialState = {
   user: null,
   loading: false,
+  error: null,
 }
 
 export function appReducer(state = initialState, action) {
@@ -127,11 +128,16 @@ export function appReducer(state = initialState, action) {
     case ActionTypes.GET_USER_REJECTED:
         return {
         ...state,
-        // message: action.message,
         authenticated: false,
         loading: false,
         error: action.error,
       }
+
+    case ActionTypes.SIGN_IN_REQUESTED:
+      return {
+      ...state,
+      loading: true,
+    }
 
     case ActionTypes.SIGN_IN_SUCCESS:
         return {
@@ -140,6 +146,13 @@ export function appReducer(state = initialState, action) {
         loading: false,
         user: action.user,
       }
+    case ActionTypes.SIGN_IN_ERROR:
+      return {
+      ...state,
+      authenticated: false,
+      loading: false,
+      error: action.error.code,
+    }
 
     case ActionTypes.SIGN_OUT_REQUESTED:
         return {

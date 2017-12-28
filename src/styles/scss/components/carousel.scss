@@ -1,3 +1,25 @@
 .slick-prev:before, .slick-next:before {
   color: black;
 }
+
+.slick-track {
+  padding: 0 20px !important;
+}
+
+.slick-slider {
+  margin-bottom: 20px;
+}
+
+
+@include sm-only {
+  .slick-next {
+    right: 0;
+  }
+
+  .slick-prev {
+    left: 0;
+  }
+  .slick-slide {
+    min-width: 150px;
+  }
+}

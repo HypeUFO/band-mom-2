@@ -10,9 +10,9 @@ Error: Undefined variable: "$card-shadow-1".
 8:   box-shadow: $card-shadow-1;
 9:   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 10:   padding: 20px;
-11:   margin: 25px;
-12:   width: 100%;
-13:   height: 100%;
+11:   // margin: 25px;
+12:   margin: 10px;
+13:   width: 100%;
 
 Backtrace:
 src/styles/scss/components/card.scss:8
@@ -67,4 +67,4 @@ src/styles/scss/components/card.scss:8
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$card-shadow-1\".\A         on line 8 of src/styles/scss/components/card.scss\A \A 3:   cursor: pointer;\A 4:   display: flex;\A 5:   flex-direction: column;\A 6:   align-items: center;\A 7:   justify-content: center;\A 8:   box-shadow: $card-shadow-1;\A 9:   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);\A 10:   padding: 20px;\A 11:   margin: 25px;\A 12:   width: 100%;\A 13:   height: 100%;"; }
+  content: "Error: Undefined variable: \"$card-shadow-1\".\A         on line 8 of src/styles/scss/components/card.scss\A \A 3:   cursor: pointer;\A 4:   display: flex;\A 5:   flex-direction: column;\A 6:   align-items: center;\A 7:   justify-content: center;\A 8:   box-shadow: $card-shadow-1;\A 9:   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);\A 10:   padding: 20px;\A 11:   // margin: 25px;\A 12:   margin: 10px;\A 13:   width: 100%;"; }

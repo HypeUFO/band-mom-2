@@ -9,6 +9,12 @@ $breakpoint-xl: 2000px !default;
   }
 }
 
+@mixin sm-only() {
+  @media (max-width: $breakpoint-md) {
+    @content;
+  }
+}
+
 @mixin md() {
   @media (min-width: $breakpoint-md) {
     @content;

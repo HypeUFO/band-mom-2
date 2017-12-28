@@ -1,29 +1,32 @@
-import React, { Component } from 'react'
-import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
-import { auth, storageKey } from '../config/fire'
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/auth.actions';
+import { persistStore } from 'redux-persist';
+import CookieStorage from 'redux-persist-cookie-storage';
+import Cookies from 'universal-cookie';
 
+import * as actions from '../actions/auth.actions';
+import BandDashboard from './BandDashboard';
+import EventDetails from './EventDetails';
+import EventList from './EventList';
+import ForgotPassword from './ForgotPassword';
+import Header from '../components/Global/Header';
+import history from '../history';
 import Landing from './Landing';
+import Loader from '../components/Global/Loader';
 import Login from './Login';
 import Register from './Register';
 import UserDashboard from './UserDashboard';
-import BandDashboard from './BandDashboard';
-// import NotFound from './NotFound';
-import Header from '../components/Global/Header';
-// import Footer from '../components/Global/Footer';
-import Loader from '../components/Global/Loader';
-import { routeCodes } from '../route-codes';
-import EventList from './EventList';
-import EventDetails from './EventDetails';
-
 import store from '../store';
 
-import { persistStore } from 'redux-persist';
+import { auth, storageKey } from '../config/fire'
 
-import CookieStorage from 'redux-persist-cookie-storage';
-import Cookies from 'universal-cookie';
+import { routeCodes } from '../route-codes';
+
+// import Footer from '../components/Global/Footer';
+// import NotFound from './NotFound';
+
 const cookies = new Cookies();
 
 
@@ -99,55 +102,85 @@ class App extends Component {
   }
 
   render() {
+    // Clean path
+    let pathname = history.location.pathname;
+    if (pathname[pathname.length - 1] === '/') {
+      pathname = pathname.slice(0, pathname.length - 1)
+    }
+
+    // Display or hide header
+    let header;
+    if ((pathname || pathname + '/') === (routeCodes.LANDING)) {
+      header = null;
+      // console.log(header);
+    } else if ((pathname || pathname + '/') === (routeCodes.LOGIN)) {
+      header = null;
+    } else if ((pathname || pathname + '/') === (routeCodes.REGISTER)) {
+      header = null;
+    } else {
+      header = <Header />;
+    }
     return this.state.rehydrated === false ? <Loader /> : (
       <BrowserRouter>
-        <Switch>
-          {/* <Route path='/' exact component={Landing} /> */}
-          <PrivateRoute
-            authenticated={this.props.auth}
-            path={`/:userId/dashboard`}
-            // path={routeCodes.USER_DASHBOARD}
-            component={UserDashboard}
-          />
-          <PrivateRoute
-            authenticated={this.props.auth}
-            path={routeCodes.EVENT_DETAILS}
-            component={EventDetails}
-          />
-          <PrivateRoute
-            authenticated={this.props.auth}
-            path={routeCodes.EVENT_LIST}
-            component={EventList}
-          />
-          <PrivateRoute
-            authenticated={this.props.auth}
-            path={routeCodes.BAND_DASHBOARD}
-            component={BandDashboard}
-          />
-          <PublicRoute
-            authenticated={this.props.auth}
-            path={routeCodes.LOGIN}
-            component={Login}
-            user={this.props.user}
-            from={this.props.from}
-          />
-          <PublicRoute
-            authenticated={this.props.auth}
-            path={routeCodes.REGISTER}
-            component={Register}
-            user={this.props.user}
-            from={this.props.from}
-          />
-          <PublicRoute
-            authenticated={this.props.auth}
-            path={routeCodes.LANDING}
-            component={Landing}
-            user={this.props.user}
-            from={this.props.from}
-          />
-          <Route path="/*" render={() => <h3>No Content</h3>}/>
-          {/* <Redirect to={routeCodes.LOGIN} /> */}
-        </Switch>
+        <div className="app">
+          { header }
+          <div className='page'>
+            <Switch>
+              <PrivateRoute
+                authenticated={this.props.auth}
+                path={`/:userId/dashboard`}
+                // path={routeCodes.USER_DASHBOARD}
+                component={UserDashboard}
+              />
+              <PrivateRoute
+                authenticated={this.props.auth}
+                path={routeCodes.EVENT_DETAILS}
+                component={EventDetails}
+              />
+              <PrivateRoute
+                authenticated={this.props.auth}
+                path={routeCodes.EVENT_LIST}
+                component={EventList}
+              />
+              <PrivateRoute
+                authenticated={this.props.auth}
+                path={routeCodes.BAND_DASHBOARD}
+                component={BandDashboard}
+              />
+              <PublicRoute
+                authenticated={this.props.auth}
+                path={routeCodes.LOGIN}
+                component={Login}
+                user={this.props.user}
+                from={this.props.from}
+              />
+              <PublicRoute
+                authenticated={this.props.auth}
+                path={routeCodes.REGISTER}
+                component={Register}
+                user={this.props.user}
+                from={this.props.from}
+              />
+              <PublicRoute
+                authenticated={this.props.auth}
+                path={routeCodes.FORGOT_PASSWORD}
+                component={ForgotPassword}
+                user={this.props.user}
+                from={this.props.from}
+              />
+              <PublicRoute
+                authenticated={this.props.auth}
+                path={routeCodes.LANDING}
+                component={Landing}
+                user={this.props.user}
+                from={this.props.from}
+              />
+              <Route path="*" render={() => <h3>No Content</h3>}/>
+              {/* <Redirect to={routeCodes.LOGIN} /> */}
+            </Switch>
+          </div>
+          {/* <Footer/> */}
+        </div>
       </BrowserRouter>
     );
   }

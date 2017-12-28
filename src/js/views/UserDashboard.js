@@ -65,10 +65,12 @@ class UserDashboard extends Component {
         );
     } else if (type === 'event') {
       card = (
-        <a href={`testUser/bands/testBand/events/${doc.id}`} className="card__link">
-          <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
-          <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
-          <p>Set Time: { doc.showTime }</p>
+        <a href={`/testUser/bands/testBand/events/${doc.id}/details`} className="card__link">
+          <div>
+            <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
+            <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
+            <p>Set Time: { doc.showTime }</p>
+          </div>
         </a>
       );
     }
@@ -161,11 +163,12 @@ class UserDashboard extends Component {
           // buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
+        <div className="page__content__container">
           <h1>User Dashboard</h1>
 
           <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3>
           {/* <Link to={`/${auth.currentUser.uid}}/bands/testBand/dashboard`}> */}
-          <Link to={`/${this.props.user.uid}}/bands/testBand/dashboard`}>
+          <Link to={`/${this.props.user.uid}}/bands`}>
             <h3>Bands</h3>
           </Link>
           {/* <a href="/testUser/bands/testBand/dashboard"><h3>Bands</h3></a> */}
@@ -175,6 +178,7 @@ class UserDashboard extends Component {
           {/* <Link to={`/${auth.currentUser.uid}/bands/testBand/events`}><h3>Events</h3></Link> */}
           {/* <a href="/testUser/bands/testBand/events"><h3>Events</h3></a> */}
           { this.renderPreviewList(this.props.events, 'event') }
+        </div>
         </div>
       </div>
     )
