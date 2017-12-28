@@ -104,12 +104,18 @@ function signInError(error) {
 
 export function signOut() {
   return dispatch => {
+    dispatch(signOutRequested())
     return auth.signOut()
       .then(() => dispatch(signOutSuccess()))
       .catch(err => dispatch(signOutError(err)));
   };
 }
 
+function signOutRequested() {
+  return {
+    type: ActionTypes.SIGN_OUT_REQUESTED
+  };
+}
 
 function signOutSuccess() {
   return {

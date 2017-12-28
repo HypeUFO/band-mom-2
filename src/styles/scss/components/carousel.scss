@@ -1,25 +1,44 @@
-.slick-prev:before, .slick-next:before {
-  color: black;
-}
-
-.slick-track {
-  padding: 0 20px !important;
-}
-
-.slick-slider {
-  margin-bottom: 20px;
-}
-
-
-@include sm-only {
-  .slick-next {
-    right: 0;
+.slick {
+  &-slider {
+    margin-bottom: 20px;
   }
-
-  .slick-prev {
-    left: 0;
+  &-track {
+    padding: 0 20px !important;
   }
-  .slick-slide {
-    min-width: 150px;
+  &-prev:before,
+  &-next:before {
+    color: black;
+  }
+  @include sm-only {
+    &-next {
+      right: 0;
+    }
+    &-prev {
+      left: 0;
+    }
+    &-slide {
+      min-width: 150px;
+    }
   }
 }
+
+// .slick-prev:before, .slick-next:before {
+//   color: black;
+// }
+// .slick-track {
+//   padding: 0 20px !important;
+// }
+// .slick-slider {
+//   margin-bottom: 20px;
+// }
+// @include sm-only {
+//   .slick-next {
+//     right: 0;
+//   }
+//   .slick-prev {
+//     left: 0;
+//   }
+//   .slick-slide {
+//     min-width: 150px;
+//   }
+// }

@@ -8,6 +8,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
+import { clearBand, getBandMany } from '../actions/band.actions';
 
 import { database, auth } from '../config/fire';
 
@@ -31,7 +32,11 @@ class UserDashboard extends Component {
     this.db.child('events').on('child_added', () => {
       this.props.onGetEventMany()
     })
+    this.db.child('bands').on('child_added', () => {
+      this.props.onGetBandMany()
+    })
     this.props.onClearEvent()
+    this.props.onClearBand()
   }
 
   renderCard(doc, index, type) {
@@ -52,36 +57,32 @@ class UserDashboard extends Component {
 
     if (type === 'band') {
         card = (
-          // history.push(`/${this.props.match.params.userId}/bands/${band.id}/dashboard`);
-          // history.push(`/${this.props.match.params.userId}/bands/testBand/dashboard`)
-          <a href={`/testUser/bands/testBand/dashboard`} className="card__link">
-
           <div>
             <h3>{ doc.name }</h3>
             <p>{ doc.genre }</p>
             <p>{ doc.location }</p>
-            </div>
-          </a>
+          </div>
         );
     } else if (type === 'event') {
       card = (
-        <a href={`/testUser/bands/testBand/events/${doc.id}/details`} className="card__link">
           <div>
             <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
             <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
             <p>Set Time: { doc.showTime }</p>
           </div>
-        </a>
       );
     }
 
     return (
-      <div className="card"
+      <a
+        href={`/testUser/bands/testBand/events/${doc.id}/details`}
+        className="card__link"
         key={ index }
-        // onClick={ this.handleRowClick.bind(this, doc) }
       >
-      { card }
-      </div>
+        <div className="card">
+          { card }
+        </div>
+      </a>
     );
   }
 
@@ -128,14 +129,29 @@ class UserDashboard extends Component {
             { rows }
           </Carousel>
         );
-      }
-      else {
-        return (
-          // <NoContent text="No Shows" />
-          <div className="no-content__wrapper">
-            <div>No Shows</div>
-          </div>
-        );
+      } else {
+          if (type === 'event') {
+            return (
+              // <NoContent text="No Shows" />
+              <div className="no-content__wrapper">
+                <div>No Events</div>
+              </div>
+            );
+          } else if (type === 'band') {
+            return (
+              // <NoContent text="No Shows" />
+              <div className="no-content__wrapper">
+                <div>No Events</div>
+              </div>
+            );
+          } else {
+            return (
+              // <NoContent text="No Shows" />
+              <div className="no-content__wrapper">
+                <div>No Content</div>
+              </div>
+            );
+          }
       }
   }
 
@@ -143,7 +159,7 @@ class UserDashboard extends Component {
 
     let breadcrumbs = [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: 'Test User' },
+      { link: null, name: this.props.user.displayName || this.props.user.email },
       // { link: null, name: gig.venue },
     ];
 
@@ -156,27 +172,32 @@ class UserDashboard extends Component {
           // toggle={ this.toggleDrawer }
         />
         <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ buttonHide }
-          buttonHide={ true }
-          // buttonLabel="Add Show"
+          buttonHide={ this.props.user.emailVerified }
+          // buttonHide={ true }
+          buttonLabel="Verify Email"
           // buttonIcon="add"
-          // buttonOnClick={ this.toggleCreateEventModal }
+          buttonOnClick={ () => {
+            auth.currentUser.sendEmailVerification()
+            .then(() => {
+              // Email sent.
+              console.log('Email sent')
+            }).catch((error) =>{
+              // An error happened.
+              console.log('An error occurred' + error)
+            });
+          } }
         />
         <div className='page__content page__content--two-col'>
         <div className="page__content__container">
           <h1>User Dashboard</h1>
 
           <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3>
-          {/* <Link to={`/${auth.currentUser.uid}}/bands/testBand/dashboard`}> */}
           <Link to={`/${this.props.user.uid}}/bands`}>
             <h3>Bands</h3>
           </Link>
-          {/* <a href="/testUser/bands/testBand/dashboard"><h3>Bands</h3></a> */}
-          { this.renderPreviewList(testBands, 'band') }
+          { this.renderPreviewList(this.props.bands, 'band') }
 
           <Link to={`/${this.props.user.uid}/bands/testBand/events`}><h3>Events</h3></Link>
-          {/* <Link to={`/${auth.currentUser.uid}/bands/testBand/events`}><h3>Events</h3></Link> */}
-          {/* <a href="/testUser/bands/testBand/events"><h3>Events</h3></a> */}
           { this.renderPreviewList(this.props.events, 'event') }
         </div>
         </div>
@@ -185,16 +206,11 @@ class UserDashboard extends Component {
   }
 }
 
-// export default UserDashboard;
-
 function mapStateToProps(state) {
   return {
     user: state.app.user,
     events: state.events.events,
-    statusFilter: state.events.statusFilter,
-    typeFilter: state.events.typeFilter,
-    recentlyDeleted: state.events.recentlyDeleted,
-    notification: state.notification,
+    bands: state.bands.bands,
   };
 }
 
@@ -204,10 +220,12 @@ function mapDispatchToProps(dispatch) {
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
     onDeleteEvent: actions.deleteEvent,
-    onRestoreEvent: actions.restoreEvent,
-    filterEventsByStatus: actions.filterEventsByStatus,
-    filterEventsByType: actions.filterEventsByType,
-    updateEventEdit: actions.updateEventEdit,
+    onGetBandMany: getBandMany,
+    onClearBand: clearBand,
+    // onRestoreEvent: actions.restoreEvent,
+    // filterEventsByStatus: actions.filterEventsByStatus,
+    // filterEventsByType: actions.filterEventsByType,
+    // updateEventEdit: actions.updateEventEdit,
     },
   dispatch);
 }

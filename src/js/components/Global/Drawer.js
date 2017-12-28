@@ -24,19 +24,35 @@ class Drawer extends Component {
       user,
     } = this.props;
 
-  	let activeClass = (this.props.show) ? 'drawer--active' : '';
-    // let bandsUrl = `/${userName}/bands`;
-    let bandsUrl = `/${user.uid}/bands`;
-    let profileUrl = `/${user.uid}/profile`;
-    let dashboardUrl = `/${user.uid}/dashboard`;
-    let eventsUrl = `/${user.uid}/events`;
-    let settingsUrl = `/${user.uid}/settings`;
-    // let messagesUrl = `/messages`;
-    // let logOutUrl = `/logout`;
+    let activeClass = (this.props.show) ? 'drawer--active' : '';
+
+    let bandsUrl;
+    let profileUrl;
+    let dashboardUrl;
+    let eventsUrl;
+    let settingsUrl;
+    let messagesUrl
+
+    if (user) {
+      // let bandsUrl = `/${userName}/bands`;
+      bandsUrl = `/${user.uid}/bands`;
+      profileUrl = `/${user.uid}/profile`;
+      dashboardUrl = `/${user.uid}/dashboard`;
+      eventsUrl = `/${user.uid}/events`;
+      settingsUrl = `/${user.uid}/settings`;
+      messagesUrl = `/${user.uid}/messages`;
+    } else {
+      bandsUrl = '';
+      profileUrl = '';
+      dashboardUrl = '';
+      eventsUrl = '';
+      settingsUrl = '';
+      messagesUrl= '';
+    }
   	return (
 	    <div className={`drawer ${activeClass} ${this.props.className}`} style={this.props.style}>
       <div className="drawer__header" style={{height: 60}}>
-	    	<Link to={dashboardUrl} style={{textDecoration: 'none'}}>
+	    	<Link to={ dashboardUrl }  style={{textDecoration: 'none'}}>
 	  			<h2 className="drawer__logo">BandMom</h2>
 	  		</Link>
         </div>
@@ -55,22 +71,13 @@ class Drawer extends Component {
               <Link to={ eventsUrl } onClick={ this.props.toggle }>Events</Link>
           </li>
           <li className="drawer__item">
-              <Link to={ profileUrl } onClick={ this.props.toggle }>Messages</Link>
+              <Link to={ messagesUrl } onClick={ this.props.toggle }>Messages</Link>
           </li>
           <li className="drawer__item">
-              <Link to={ profileUrl } onClick={ this.props.toggle }>Settings</Link>
+              <Link to={ settingsUrl } onClick={ this.props.toggle }>Settings</Link>
           </li>
           <li className="drawer__item">
-              <Link to='#'
-              //   onClick={ () => {
-              //   auth.signOut().then(() => {
-              //     console.log('Sign-out successful');
-              //   }).catch((err) => {
-              //     console.log(err);
-              //   });
-              // }}
-                onClick={ this.props.signOut }
-              >
+              <Link to='#' onClick={ this.props.signOut }>
                 Sign Out
               </Link>
           </li>
@@ -82,13 +89,11 @@ class Drawer extends Component {
 
 function mapStateToProps(state) {
   return {
-    loading: state.app.loading,
+    // loading: state.app.loading,
     user: state.app.user,
-    auth: state.app.authenticated,
+    // auth: state.app.authenticated,
   };
 }
-
-// export default connect(mapStateToProps)(App);
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({

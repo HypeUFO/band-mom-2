@@ -78,7 +78,9 @@ class EventList extends Component {
   }
 
   handleRowClick(row) {
-    history.push(`/testUser/bands/testBand/events/${row.id}/details`);
+    window.location = `/${this.props.match.params.userId}/bands/testBand/events/${row.id}/details`;
+    // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row.id}/details`);
+    // history.push(`/testUser/bands/testBand/events/${row.id}/details`);
   }
 
   handleRowMenuItemClick(doc, action, event) {
@@ -257,7 +259,7 @@ class EventList extends Component {
         return (
           // <NoContent text="No Shows" />
           <div className="no-content__wrapper">
-            <div>No Shows</div>
+            <div>No Events</div>
           </div>
         );
       }
@@ -344,27 +346,6 @@ class EventList extends Component {
                 </option>
               </select>
               <i className="material-icons">chevron_right</i>
-              {/* <FilterLink
-                  filter="ALL"
-                  currentFilter={this.props.typeFilter}
-                  action={this.props.filterEventsByType}
-                  >
-                  All
-              </FilterLink>
-              <FilterLink
-                  filter="SHOW"
-                  currentFilter={this.props.typeFilter}
-                  action={this.props.filterEventsByType}
-                  >
-                  Show
-              </FilterLink>
-              <FilterLink
-                  filter="REHEARSAL"
-                  currentFilter={this.props.typeFilter}
-                  action={this.props.filterEventsByType}
-                  >
-                  Rehearsal
-              </FilterLink> */}
             </p>
             </div>
             { this.renderTable() }

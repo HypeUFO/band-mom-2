@@ -2,25 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { createEvent } from '../actions/event.actions';
+import { createBand } from '../actions/band.actions';
 import classNames from 'classnames';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
 import { database } from '../config/fire';
+import genres from '../constants/genre_list';
 
 export const initialState = {
-  venue: '',
-  address: '',
-  phone: '',
-  date: '',
-  showTime: '',
-  loadIn: '',
-  notes: '',
-  type: 'show',
-  // files: [],
+  name: '',
+  location: '',
+  email: '',
+  genre1: '',
+  genre2: '',
+  bio: '',
+  stageplots: [],
 };
 
-class CreateEventModal extends Component {
+class CreateBandModal extends Component {
   static propTypes = {
     show: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -39,9 +38,9 @@ class CreateEventModal extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     // this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
     this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(this);
-    this.addEvent = this.addEvent.bind(this);
+    this.addBand = this.addBand.bind(this);
 
-    this.db = database.ref().child('events');
+    this.db = database.ref().child('bands');
   }
 
   onSubmit(event) {
@@ -70,25 +69,22 @@ class CreateEventModal extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-   addEvent() {
-    const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
-    const event = {
-      venue: this.state.venue,
-      address: this.state.address,
-      phone: this.state.phone,
-      date: new Date(this.state.date).toISOString(),
-      showTime: this.state.showTime,
-      loadIn: this.state.loadIn,
-      notes: this.state.notes,
-      type: this.state.type,
-      status: status,
+   addBand() {
+    const band = {
+      name: this.state.name,
+      location: this.state.location,
+      email: this.state.email,
+      genre1: this.state.genre1,
+      genre2: this.state.genre2,
+      bio: this.state.bio,
+      stageplots: this.state.stageplots,
     }
-    this.props.onCreateEvent(event);
+    this.props.onCreateBand(band);
   }
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
     Promise.resolve()
-    .then(this.addEvent())
+    .then(this.addBand())
     .then(() => this.onSuccess())
     .catch(err => this.onError(err));
   }
@@ -124,14 +120,13 @@ class CreateEventModal extends Component {
     } = this.props;
 
     const {
-      venue,
-      address,
-      phone,
-      date,
-      showTime,
-      loadIn,
-      notes,
-      type,
+      name,
+      location,
+      email,
+      genre1,
+      genre2,
+      bio,
+      stageplots,
       // files,
     } = this.state;
 
@@ -158,65 +153,51 @@ class CreateEventModal extends Component {
             {/* <div className="modal__column"> */}
               <div className="modal__row">
                 <Input type="text"
-                  name="venue"
-                  placeholder="Venue Name"
-                  value={ venue }
+                  name="name"
+                  placeholder="Band Name"
+                  value={ name }
                   onChange={ this.handleInputChange }
                   validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
                 <Input type="text"
-                  name="address"
-                  placeholder="Venue Address"
-                  value={ address }
+                  name="location"
+                  placeholder="Location"
+                  value={ location }
                   onChange={ this.handleInputChange }
                   validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
               </div>
-               <div className="modal__row">
-               <Input type="text"
-                  name="phone"
-                  placeholder="Venue Phone"
-                  value={ phone }
+
+              <div className="modal__row">
+                <Input type="select"
+                  name="genre1"
+                  placeholder="Genre 1"
+                  options={genres}
+                  value={ genre1 }
                   onChange={ this.handleInputChange }
-                  // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
-                <Input type="date"
-                  name="date"
-                  placeholder="Date"
-                  value={ date }
+                <Input type="select"
+                  name="genre2"
+                  placeholder="Genre 2"
+                  options={genres}
+                  value={ genre2 }
                   onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-                </div>
-                <div className="modal__row">
-                <Input type="text"
-                  name="showTime"
-                  placeholder="Show Time"
-                  value={ showTime }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-                <Input type="text"
-                  name="loadIn"
-                  placeholder="Load In Time"
-                  value={ loadIn }
-                  onChange={ this.handleInputChange }
-                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
               </div>
               <div className="modal__row">
-                <Input type="select"
-                  name="type"
-                  placeholder="Show/Rehearsal"
-                  options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
-                  value={ type }
-                  onChange={ this.handleInputChange }
-                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
+                <Input type="text"
+                    name="email"
+                    placeholder="Band Email"
+                    value={ email }
+                    onChange={ this.handleInputChange }
+                    // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
                 <Input type="textarea"
-                  name="notes"
-                  placeholder="Notes"
-                  value={ notes }
+                  name="bio"
+                  placeholder="Bio"
+                  value={ bio }
                   onChange={ this.handleInputChange }
                   // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
@@ -242,9 +223,9 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    onCreateEvent: createEvent,
+    onCreateBand: createBand,
     },
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateEventModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBandModal);

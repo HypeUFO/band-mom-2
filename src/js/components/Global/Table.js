@@ -91,7 +91,7 @@ export default class Table extends Component {
       // Get column values
       let valueA = a.props.columns[sortIndex].value;
       let valueB = b.props.columns[sortIndex].value;
-      // Handle currency value
+
       if(sortIndex === 0) {
         valueA = new Date(valueA);
         valueB = new Date(valueB);

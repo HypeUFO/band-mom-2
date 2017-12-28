@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   user: null,
+  authenticated: false,
   loading: false,
   error: null,
 }
@@ -21,7 +22,8 @@ export function appReducer(state = initialState, action) {
     case ActionTypes.GET_EVENT_FULFILLED:
         return {
         ...state,
-        loading: false
+        loading: false,
+        error: null,
       }
     case ActionTypes.GET_EVENT_REJECTED:
         return {
@@ -38,7 +40,8 @@ export function appReducer(state = initialState, action) {
     case ActionTypes.CREATE_EVENT_FULFILLED:
         return {
         ...state,
-        loading: false
+        loading: false,
+        error: null,
       }
     case ActionTypes.CREATE_EVENT_REJECTED:
         return {
@@ -56,7 +59,8 @@ export function appReducer(state = initialState, action) {
     case ActionTypes.DELETE_EVENT_FULFILLED:
         return {
         ...state,
-        loading: false
+        loading: false,
+        error: null,
       }
     case ActionTypes.DELETE_EVENT_REJECTED:
         return {
@@ -74,7 +78,8 @@ export function appReducer(state = initialState, action) {
     case ActionTypes.RESTORE_EVENT_FULFILLED:
         return {
         ...state,
-        loading: false
+        loading: false,
+        error: null,
       }
     case ActionTypes.RESTORE_EVENT_REJECTED:
         return {
@@ -97,6 +102,7 @@ export function appReducer(state = initialState, action) {
         ...state,
         // message: action.message,
         loading: false,
+        error: null,
         // user: action.user,
       }
 
@@ -123,6 +129,7 @@ export function appReducer(state = initialState, action) {
         user: action.user,
         authenticated: action.authenticated,
         loading: false,
+        error: null,
       }
 
     case ActionTypes.GET_USER_REJECTED:
@@ -145,6 +152,7 @@ export function appReducer(state = initialState, action) {
         authenticated: !!action.user,
         loading: false,
         user: action.user,
+        error: null,
       }
     case ActionTypes.SIGN_IN_ERROR:
       return {
@@ -181,6 +189,7 @@ export function appReducer(state = initialState, action) {
         ...state,
         nextRoute: action.nextRoute,
         loading: false,
+        error: null,
       }
 
     case ActionTypes.SET_NEXT_ROUTE_REJECTED:

@@ -1,28 +1,39 @@
 /*
 Error: Undefined mixin 'sm-only'.
-        on line 14 of src/styles/scss/components/carousel.scss, in `sm-only'
-        from line 14 of src/styles/scss/components/carousel.scss
+        on line 12 of src/styles/scss/components/carousel.scss, in `sm-only'
+        from line 12 of src/styles/scss/components/carousel.scss
 
-9: .slick-slider {
-10:   margin-bottom: 20px;
-11: }
-12: 
-13: 
-14: @include sm-only {
-15:   .slick-next {
-16:     right: 0;
-17:   }
-18: 
-19:   .slick-prev {
+7:   }
+8:   &-prev:before,
+9:   &-next:before {
+10:     color: black;
+11:   }
+12:   @include sm-only {
+13:     &-next {
+14:       right: 0;
+15:     }
+16:     &-prev {
+17:       left: 0;
 
 Backtrace:
-src/styles/scss/components/carousel.scss:14:in `sm-only'
-src/styles/scss/components/carousel.scss:14
+src/styles/scss/components/carousel.scss:12:in `sm-only'
+src/styles/scss/components/carousel.scss:12
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:350:in `visit_mixin'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `with_base'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block (2 levels) in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `map'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:434:in `block in visit_rule'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:432:in `visit_rule'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/base.rb:36:in `visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:79:in `block in with_base'
@@ -60,4 +71,4 @@ src/styles/scss/components/carousel.scss:14
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'sm-only'.\A         on line 14 of src/styles/scss/components/carousel.scss, in `sm-only'\A         from line 14 of src/styles/scss/components/carousel.scss\A \A 9: .slick-slider {\A 10:   margin-bottom: 20px;\A 11: }\A 12: \A 13: \A 14: @include sm-only {\A 15:   .slick-next {\A 16:     right: 0;\A 17:   }\A 18: \A 19:   .slick-prev {"; }
+  content: "Error: Undefined mixin 'sm-only'.\A         on line 12 of src/styles/scss/components/carousel.scss, in `sm-only'\A         from line 12 of src/styles/scss/components/carousel.scss\A \A 7:   }\A 8:   &-prev:before,\A 9:   &-next:before {\A 10:     color: black;\A 11:   }\A 12:   @include sm-only {\A 13:     &-next {\A 14:       right: 0;\A 15:     }\A 16:     &-prev {\A 17:       left: 0;"; }

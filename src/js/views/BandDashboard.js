@@ -28,7 +28,7 @@ export const initialState = {
   showShareModal: false,
   selected: '',
 };
-class EventList extends Component {
+class BandDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
@@ -38,13 +38,10 @@ class EventList extends Component {
     this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
-    this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
-    this.onDeleteEventError = this.onDeleteEventError.bind(this);
-    this.deleteEvent = this.deleteEvent.bind(this);
-    this.restoreEvent = this.restoreEvent.bind(this);
-    this.setFilterWidth = this.setFilterWidth.bind(this);
-    this.handleFilterWidth = this.handleFilterWidth.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
+    // this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
+    // this.onDeleteEventError = this.onDeleteEventError.bind(this);
+    // this.deleteEvent = this.deleteEvent.bind(this);
+    // this.restoreEvent = this.restoreEvent.bind(this);
 
   }
 
@@ -53,32 +50,9 @@ class EventList extends Component {
       this.props.onGetEventMany()
     })
     this.props.onClearEvent()
-  }
-
-  componentDidMount() {
-    this.handleFilterWidth()
-    window.addEventListener('resize', this.handleFilterWidth);
-  }
-
-  setFilterWidth(id) {
-    const filterDiv = document.querySelector(`#${id}`);
-    const template = document.querySelector('#template');
-    template.options[0].innerHTML = filterDiv.options[filterDiv.selectedIndex].textContent;
-
-    filterDiv.style.width = `${template.getBoundingClientRect().width}px`;
-  }
-
-  handleFilterWidth() {
-    const selectList = document.querySelectorAll('.event__filter');
-
-    selectList.forEach((sel) => {
-        this.setFilterWidth(sel.getAttribute('id'));
-    });
-  }
-
-  handleFilterChange(filter, action) {
-    this.handleFilterWidth();
-    action(filter);
+    // if (!this.props.events) {
+    //   this.props.onGetEventMany()
+    // }
   }
 
   handleRowClick(row) {
@@ -112,44 +86,44 @@ class EventList extends Component {
     console.log('An error occured:' + err);
   }
 
-  deleteEvent(event) {
-    this.props.onDeleteEvent(event)
-    // this.db.child(gigId).remove()
-    .then(() => this.onDeleteEventSuccess())
-    .catch(err => this.onDeleteEventError())
-  }
+  // deleteEvent(event) {
+  //   this.props.onDeleteEvent(event)
+  //   // this.db.child(gigId).remove()
+  //   .then(() => this.onDeleteEventSuccess())
+  //   .catch(err => this.onDeleteEventError())
+  // }
 
-  onDeleteEventSuccess() {
-    this.props.onGetEventMany();
-    // alert('Show successfully deleted');
-  }
+  // onDeleteEventSuccess() {
+  //   this.props.onGetEventMany();
+  //   // alert('Show successfully deleted');
+  // }
 
-  onDeleteEventError() {
-    this.props.onGetEventMany();
-    alert('An error occured :(');
-  }
+  // onDeleteEventError() {
+  //   this.props.onGetEventMany();
+  //   alert('An error occured :(');
+  // }
 
-  restoreEvent() {
-    if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
-    } else {
-      console.log('no Events to restore');
-      this.props.dismissNotification();
-    }
-  }
+  // restoreEvent() {
+  //   if (this.props.recentlyDeleted.length > 0) {
+  //     this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
+  //   } else {
+  //     console.log('no Events to restore');
+  //     this.props.dismissNotification();
+  //   }
+  // }
 
-  renderNotification() {
-    const { notification } = this.props;
-    return (
-      <Notification
-        action={this.restoreEvent}
-        actionLabel={notification.actionLabel}
-        dismiss={this.props.dismissNotification}
-        display={notification.display}
-        message={notification.message}
-      />
-    );
-  }
+  // renderNotification() {
+  //   const { notification } = this.props;
+  //   return (
+  //     <Notification
+  //       action={this.restoreEvent}
+  //       actionLabel={notification.actionLabel}
+  //       dismiss={this.props.dismissNotification}
+  //       display={notification.display}
+  //       message={notification.message}
+  //     />
+  //   );
+  // }
 
   renderEventCard(doc, index) {
 
@@ -167,23 +141,26 @@ class EventList extends Component {
 
 
     let card = (
-      <a href={`/testUser/bands/testBand/events/${doc.id}/details`} className="card__link">
         <div>
           <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
           <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
           <p>Set Time: { doc.showTime }</p>
         </div>
-      </a>
-
     );
 
     return (
-      <div className="card"
-        key={ doc.date }
-        onClick={ this.handleRowClick.bind(this, doc) }
+      <a
+        href={`/testUser/bands/testBand/events/${doc.id}/details`}
+        className="card__link"
+        key={ index }
       >
-      { card }
-      </div>
+        <div className="card"
+          key={ doc.date }
+          onClick={ this.handleRowClick.bind(this, doc) }
+        >
+          { card }
+        </div>
+      </a>
     );
   }
 
@@ -227,7 +204,7 @@ class EventList extends Component {
         return (
           // <NoContent text="No Shows" />
           <div className="no-content__wrapper">
-            <div>No Shows</div>
+            <div>No Events</div>
           </div>
         );
       }
@@ -275,15 +252,9 @@ class EventList extends Component {
   }
 }
 
-// export default EventList;
-
 function mapStateToProps(state) {
   return {
     events: state.events.events,
-    statusFilter: state.events.statusFilter,
-    typeFilter: state.events.typeFilter,
-    recentlyDeleted: state.events.recentlyDeleted,
-    notification: state.notification,
   };
 }
 
@@ -292,14 +263,8 @@ function mapDispatchToProps(dispatch) {
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
-    onDeleteEvent: actions.deleteEvent,
-    onRestoreEvent: actions.restoreEvent,
-    dismissNotification: dismissNotification,
-    filterEventsByStatus: actions.filterEventsByStatus,
-    filterEventsByType: actions.filterEventsByType,
-    updateEventEdit: actions.updateEventEdit,
     },
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventList);
+export default connect(mapStateToProps, mapDispatchToProps)(BandDashboard);
