@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/action_types';
-import { database } from '../config/fire';
+import { database, storage } from '../config/fire';
 
 export function getBand(id) {
   return dispatch => {
@@ -260,6 +260,89 @@ function updateBandEditFulfilledAction() {
 function updateBandEditRejectedAction(error) {
   return {
     type: ActionTypes.UPDATE_BAND_EDIT_REJECTED,
+    error
+  }
+}
+
+
+export function uploadBandLogo(file) {
+  const name = (+new Date()) + '-' + file.name;
+
+  var metadata = {
+    name,
+  };
+
+  return dispatch => {
+    dispatch(uploadBandLogoRequestedAction());
+    return storage.ref().child(name).put(file, metadata)
+    .then((snapshot) => {
+      const url = snapshot.downloadURL;
+      console.log(url);
+      return dispatch(uploadBandLogoFulfilledAction(url))
+    })
+    .catch((error) => {
+      console.error(error);
+      return dispatch(uploadBandLogoRejectedAction(error));
+    });
+  }
+}
+
+function uploadBandLogoRequestedAction() {
+  return {
+    type: ActionTypes.UPLOAD_BAND_LOGO_REQUESTED
+  }
+}
+
+function uploadBandLogoFulfilledAction(logoUrl) {
+  return {
+    type: ActionTypes.UPLOAD_BAND_LOGO_FULFILLED,
+    logoUrl
+  };
+}
+
+function uploadBandLogoRejectedAction(error) {
+  return {
+    type: ActionTypes.UPLOAD_BAND_LOGO_REJECTED,
+    error
+  }
+}
+
+export function uploadStagePlot(file) {
+  const name = (+new Date()) + '-' + file.name;
+  var metadata = {
+    name,
+  };
+  return dispatch => {
+    dispatch(uploadStagePlotRequestedAction());
+    return storage.ref().child(name).put(file, metadata)
+    .then((snapshot) => {
+      const url = snapshot.downloadURL;
+      console.log(url);
+      return dispatch(uploadStagePlotFulfilledAction(url))
+    })
+    .catch((error) => {
+      console.error(error);
+      return dispatch(uploadStagePlotRejectedAction(error));
+    });
+  }
+}
+
+function uploadStagePlotRequestedAction() {
+  return {
+    type: ActionTypes.UPLOAD_STAGE_PLOT_REQUESTED
+  }
+}
+
+function uploadStagePlotFulfilledAction(stagePlotUrl) {
+  return {
+    type: ActionTypes.UPLOAD_STAGE_PLOT_FULFILLED,
+    stagePlotUrl
+  };
+}
+
+function uploadStagePlotRejectedAction(error) {
+  return {
+    type: ActionTypes.UPLOAD_STAGE_PLOT_REJECTED,
     error
   }
 }

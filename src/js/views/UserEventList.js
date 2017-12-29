@@ -11,7 +11,7 @@ import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
-import CreateEventModal from '../modals/CreateEventModal';
+import CreateUserEventModal from '../modals/CreateUserEventModal';
 import FilterLink from '../components/Global/FilterLink';
 import Input from '../components/Global/Input';
 import moment from 'moment';
@@ -21,7 +21,7 @@ import { database } from '../config/fire'
 
 
 export const initialState = {
-  showCreateEventModal: false,
+  showCreateUserEventModal: false,
   showShareModal: false,
   selected: '',
   userEvents: null,
@@ -30,7 +30,7 @@ class UserEventList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
+    this.toggleCreateUserEventModal = this.toggleCreateUserEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
     this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
@@ -44,38 +44,36 @@ class UserEventList extends Component {
   }
 
   componentWillMount() {
-    if (!this.state.userEvents) {
+    // if (!this.state.userEvents) {
     database.ref().child('bands').on('child_added', () => {
-      Promise.resolve()
+      Promise.resolve() 
       .then(() => this.props.onGetBandMany(this.id))
       .then(() => {
         let userEvents = {};
-        // let userEvents =
+
+        if (this.props.bands) {
         Object.keys(this.props.bands).map((key) => {
-          // console.log('rendering row')
-          let bandId = this.props.bands[key].id;
+          let bandId = key;
           let bandName = this.props.bands[key].name;
-          console.log(JSON.stringify(this.props.bands[key]))
+          if (this.props.bands[key].events) {
           Object.keys(this.props.bands[key].events).map(key2 => {
-            console.log(JSON.stringify(this.props.bands[key].events[key2]))
-            // this.props.bands[key].events[key2].id = key2;
-            // this.props.bands[key].events[key2].bandId = bandId;
-            console.log(key2)
             this.props.bands[key].events[key2].id = key2;
-            this.props.bands[key].events[key2].bandId = bandId;
-            this.props.bands[key].events[key2].bandName = bandName;
+            // this.props.bands[key].events[key2].bandId = bandId;
+            // this.props.bands[key].events[key2].bandName = bandName;
             return userEvents[key] = this.props.bands[key].events[key2];
           })
+        }
           // return this.props.bands[key].events
           // return userEvents[key] = this.props.bands[key].events
         });
+      }
         console.log(userEvents);
         this.setState({userEvents});
       })
     })
     // this.props.onClearEvent()
     // this.props.onClearBand()
-    }
+    // }
   }
 
   componentDidMount() {
@@ -114,19 +112,19 @@ class UserEventList extends Component {
     event.stopPropagation();
   }
 
-  toggleCreateEventModal() {
+  toggleCreateUserEventModal() {
     this.setState(prevState => ({
-      showCreateEventModal: !prevState.showCreateEventModal
+      showCreateUserEventModal: !prevState.showCreateUserEventModal
     }));
   }
 
   onCreateEventSubmit() {
     console.log('Event submitted');
-    this.toggleCreateEventModal();
+    this.toggleCreateUserEventModal();
   }
 
   onCreateEventCancel() {
-    this.toggleCreateEventModal();
+    this.toggleCreateUserEventModal();
   }
 
   onCreateEventSuccess() {
@@ -247,10 +245,9 @@ class UserEventList extends Component {
   // }
 
   renderTable(events) {
-      if(events) {
+      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
         // let results = this.sortData(events);
         // console.log(results);
-
         let rows = Object.keys(events).map((key) => {
           // console.log('rendering row')
           // events[key].id = key;
@@ -320,11 +317,11 @@ class UserEventList extends Component {
           // buttonHide={ buttonHide }
           buttonLabel="Add Show"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateEventModal }
+          buttonOnClick={ this.toggleCreateUserEventModal }
         />
         <div className='page__content page__content--two-col'>
-          <CreateEventModal
-            show={ this.state.showCreateEventModal }
+          <CreateUserEventModal
+            show={ this.state.showCreateUserEventModal }
             onSubmit={ this.onCreateEventSubmit }
             onCancel={ this.onCreateEventCancel }
             onSuccess={ this.onCreateEventSuccess }

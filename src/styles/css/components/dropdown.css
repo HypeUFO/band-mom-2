@@ -12,7 +12,7 @@ Error: Undefined variable: "$color-purple".
 17:     top: 0;
 18:     right: 11.75rem;
 19:     // padding: 3rem 2rem;
-20:     padding: 2rem 1rem;
+20:     padding: 1rem 1rem;
 
 Backtrace:
 src/styles/scss/components/dropdown.scss:15
@@ -82,4 +82,4 @@ src/styles/scss/components/dropdown.scss:15
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 15 of src/styles/scss/components/dropdown.scss\A \A 10:   // transition: transform 0.1s $ease-in-out-cubic, opacity 0.1s $ease-in-out-cubic;\A 11:   &__container {\A 12:     background: #FFFFFF;\A 13:     opacity: 1.00;\A 14:     box-shadow: 0px 16px 20px rgba(0, 0, 0, 0.15);\A 15:     border-top: 8px solid $color-purple;\A 16:     position: relative;\A 17:     top: 0;\A 18:     right: 11.75rem;\A 19:     // padding: 3rem 2rem;\A 20:     padding: 2rem 1rem;"; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 15 of src/styles/scss/components/dropdown.scss\A \A 10:   // transition: transform 0.1s $ease-in-out-cubic, opacity 0.1s $ease-in-out-cubic;\A 11:   &__container {\A 12:     background: #FFFFFF;\A 13:     opacity: 1.00;\A 14:     box-shadow: 0px 16px 20px rgba(0, 0, 0, 0.15);\A 15:     border-top: 8px solid $color-purple;\A 16:     position: relative;\A 17:     top: 0;\A 18:     right: 11.75rem;\A 19:     // padding: 3rem 2rem;\A 20:     padding: 1rem 1rem;"; }

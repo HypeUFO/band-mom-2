@@ -17,16 +17,18 @@
     top: 0;
     right: 11.75rem;
     // padding: 3rem 2rem;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
     width: 18rem;
     text-align: left;
   }
   &__item {
     display: block;
-    padding: 0.25rem 0;
+    padding: 0.5rem 0;
     // color: #ccc;
     color: #777;
     font-size: 14px;
+    width: 100%;
+    text-align: left;
     &:hover {
       color: $color-dark;
     }

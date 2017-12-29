@@ -296,7 +296,7 @@ class BandDashboard extends Component {
           <div className="band__details__container">
           <div className="band__details__image__wrapper">
             <img
-              src={band.logo || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+              src={band.logoUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
               alt="Logo"
               className="band__logo"
             />

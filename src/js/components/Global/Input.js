@@ -155,6 +155,8 @@ export default class Input extends Component {
       onChange,
       onCancel,
       disabled,
+      ref,
+      id,
     } = this.props;
 
     const {
@@ -269,6 +271,7 @@ export default class Input extends Component {
           <label className="input__label">{ label }</label>
           <input
             className="input__input"
+            id={ id }
             type={ type }
             name={ name }
             placeholder={ placeholder }

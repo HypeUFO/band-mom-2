@@ -35,9 +35,6 @@ class EventDetails extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-
-    this.id = window.location.pathname.split('/')[5];
-
     this.toggleCreateEventform = this.toggleCreateEventform.bind(this);
     // this.onUpdateEventSubmit = this.onUpdateEventSubmit.bind(this);
     // this.onUpdateEventCancel = this.onUpdateEventCancel.bind(this);
@@ -60,7 +57,7 @@ class EventDetails extends Component {
 
   componentWillMount() {
     // database.ref(`bands/${this.props.band.id}/`).child('events').on('child_changed', () => {
-    //   this.props.onGetEvent(this.id, this.props.band.id)
+    //   this.props.onGetEvent(this.props.match.params.eventId, this.props.band.id)
     // })
     Promise.resolve()
     .then(() => {
@@ -78,7 +75,7 @@ class EventDetails extends Component {
         loadIn: this.props.event.loadIn || '',
         type: this.props.event.type,
         notes: this.props.event.notes || '',
-        id: this.id
+        id: this.props.match.params.eventId
       })
     })
     .catch((err) => console.log(err));
@@ -105,7 +102,7 @@ class EventDetails extends Component {
       loadIn: this.props.event.loadIn || '',
       type: this.props.event.type,
       notes: this.props.event.notes || '',
-      id: this.id
+      id: this.props.match.params.eventId
     })
     this.props.updateEventEdit();
     if (!this.props.eventEdit) {
@@ -137,7 +134,7 @@ class EventDetails extends Component {
     // })
     this.props.updateEventEdit();
     smoothScroll(document.body, 500);
-    this.props.onGetEvent(this.id, this.props.band.id);
+    this.props.onGetEvent(this.props.match.params.eventId, this.props.band.id);
   }
 
   onError(err) {

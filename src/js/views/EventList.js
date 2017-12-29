@@ -43,10 +43,8 @@ class EventList extends Component {
 
   componentWillMount() {
     database.ref(`bands/${this.props.match.params.bandId}/events`).on('child_added', () => {
-    // this.db.on('child_added', () => {
       this.props.onGetEventMany(this.props.band.id)
     })
-    // this.props.onGetBand(this.props.match.params.bandId)
     this.props.onClearEvent()
   }
 
@@ -78,8 +76,6 @@ class EventList extends Component {
 
   handleRowClick(row) {
     window.location = `/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events/${row.id}/details`;
-    // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row.id}/details`);
-    // history.push(`/testUser/bands/testBand/events/${row.id}/details`);
   }
 
   handleRowMenuItemClick(doc, action, event) {

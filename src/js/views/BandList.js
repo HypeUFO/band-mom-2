@@ -124,7 +124,15 @@ class BandList extends Component {
   renderCard(doc, index) {
     let card = (
           <div>
-            { doc.logo ? <img src={doc.logo} alt="Logo"/> : null }
+            { doc.logoUrl
+              ? <div>
+                  <img src={doc.logoUrl} alt="Logo" style={{    height: '100px',
+                    width: '100px',
+                    borderRadius: '50%'}}
+                  />
+                </div>
+              : null
+            }
             <h3>{ doc.name }</h3>
             <p>{ doc.location }</p>
             <p>{ doc.genre1 } / { doc.genre2 }</p>

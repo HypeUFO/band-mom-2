@@ -91,6 +91,24 @@ export function bandReducer(state = initialState, action) {
         return {
         ...state,
       }
+
+    case ActionTypes.UPDATE_BAND_REQUESTED:
+      return {
+          ...state,
+      }
+    case ActionTypes.UPDATE_BAND_FULFILLED:
+      return {
+          ...state,
+          activeBandLogoUrl: null,
+      }
+    case ActionTypes.UPDATE_BAND_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          activeBandLogoUrl: null
+      }
+
+
     case ActionTypes.UPDATE_BAND_EDIT_REQUESTED:
       return {
           ...state,
@@ -104,6 +122,36 @@ export function bandReducer(state = initialState, action) {
       return {
           ...state,
           error: action.error
+      }
+
+    case ActionTypes.UPLOAD_BAND_LOGO_REQUESTED:
+      return {
+          ...state,
+      }
+    case ActionTypes.UPLOAD_BAND_LOGO_FULFILLED:
+      return {
+          ...state,
+          activeBandLogoUrl: action.logoUrl,
+      }
+    case ActionTypes.UPLOAD_BAND_LOGO_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+      }
+
+    case ActionTypes.UPLOAD_STAGE_PLOT_REQUESTED:
+      return {
+          ...state,
+      }
+    case ActionTypes.UPLOAD_STAGE_PLOT_FULFILLED:
+      return {
+          ...state,
+          activeBandStagePlotUrl: action.stagePlotUrl,
+      }
+    case ActionTypes.UPLOAD_STAGE_PLOT_REJECTED:
+      return {
+          ...state,
+          error: action.error,
       }
 
   }

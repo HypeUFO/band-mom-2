@@ -833,14 +833,16 @@ tbody:hover > tr:hover td {
     position: relative;
     top: 0;
     right: 11.75rem;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
     width: 18rem;
     text-align: left; }
   .dropdown__item {
     display: block;
-    padding: 0.25rem 0;
+    padding: 0.5rem 0;
     color: #777;
-    font-size: 14px; }
+    font-size: 14px;
+    width: 100%;
+    text-align: left; }
     .dropdown__item:hover {
       color: #121F27; }
   .dropdown--show {
@@ -1414,7 +1416,7 @@ tbody:hover > tr:hover td {
     height: 200px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-    .card__link__bandlist > div {
+    .card__link__bandlist > div > div {
       height: 100%;
       width: 100%;
       display: flex;
@@ -1422,7 +1424,7 @@ tbody:hover > tr:hover td {
       justify-content: center;
       align-items: center;
       text-align: center; }
-      .card__link__bandlist > div > * {
+      .card__link__bandlist > div > div > * {
         margin: 0;
         height: 100%;
         width: 100%;

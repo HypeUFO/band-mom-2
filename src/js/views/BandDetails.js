@@ -22,8 +22,11 @@ export const initialState = {
   genre1: '',
   genre2: '',
   bio: '',
-  logo: '',
+  logoUrl: '',
+  logoName: '',
   id: '',
+  stagePlotUrl: '',
+  stagePlotName: '',
 };
 class BandDetails extends Component {
   constructor(props) {
@@ -47,6 +50,8 @@ class BandDetails extends Component {
     this.restoreBand = this.restoreBand.bind(this);
     this.renderForm = this.renderForm.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
+    this.handleStageplotUpload = this.handleStageplotUpload.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
@@ -74,8 +79,10 @@ class BandDetails extends Component {
         genre1: this.props.band.genre1 || '',
         genre2: this.props.band.genre2 || '',
         bio: this.props.band.bio || '',
-        stageplots: this.props.band.stageplots || '',
-        logo: this.props.band.logo || '',
+        logoUrl: this.props.band.logoUrl || '',
+        logoName: this.props.band.logoName || '',
+        stagePlotUrl: this.props.stagPlotUrl || '',
+        stagePlotName: this.props.stagePlotName || '',
       })
     })
     .catch((err) => console.log(err));
@@ -99,8 +106,10 @@ class BandDetails extends Component {
       genre1: this.props.band.genre1 || '',
       genre2: this.props.band.genre2 || '',
       bio: this.props.band.bio || '',
-      stageplots: this.props.band.stageplots || '',
-      logo: this.props.band.logo || '',
+      logoUrl: this.props.band.logoUrl || '',
+      logoName: this.props.band.logoName || '',
+      stagePlotUrl: this.state.stagePlotUrl,
+      stagePlotName: this.state.stagePlotName,
       id: this.props.band.id,
     })
     this.props.updateBandEdit();
@@ -147,20 +156,71 @@ class BandDetails extends Component {
   }
 
   updateBand() {
+    console.log(this.props.band)
     const band = {
       name: this.state.name,
       location: this.state.location,
       genre1: this.state.genre1,
       genre2: this.state.genre2,
       bio: this.state.bio,
-      logo: this.state.logo,
+      logoUrl: this.state.logoUrl,
+      logoName: this.state.logoName,
+      stagePlotUrl: this.props.activeBandStagePlotUrl,
+      stagePlotName: this.state.stagePlotName,
       id: this.state.id,
     }
-    this.props.onUpdateBand(band)
+    console.log(band);
+    // this.props.onUpdateBand(band)
   }
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleFileChange() {
+    let logo = document.querySelector('#logoUpload').files[0];
+    // this.setState({
+    //   logo,
+    //   logoName: logo.name
+    // });
+    // console.log(this.state);
+    Promise.resolve()
+    .then(() => {
+      return this.props.uploadBandLogo(logo);
+    })
+    .then(() => {
+      return (
+        this.setState({
+          logoUrl: this.props.activeBandLogo,
+          logoName: logo.name,
+        })
+      )
+    })
+    console.log(this.state)
+  }
+
+  handleStageplotUpload() {
+    let stageplot = document.querySelector('#stageplot').files[0];
+    console.log(stageplot);
+    console.log(stageplot.name);
+    // this.setState({
+    //   logo,
+    //   logoName: logo.name
+    // });
+    // console.log(this.state);
+    Promise.resolve()
+    .then(() => {
+      return this.props.uploadStagePlot(stageplot);
+    })
+    .then(() => {
+      return (
+        this.setState({
+          stagePlotUrl: this.props.activeBandStagePlotUrl || '',
+          stagePlotName: stageplot.name,
+        })
+      )
+    })
+    console.log(this.state)
   }
 
   handleRowClick(row) {
@@ -208,7 +268,7 @@ class BandDetails extends Component {
         display={notification.display}
         message={notification.message}
       />
-    );
+    );  
   }
 
   renderForm() {
@@ -235,7 +295,7 @@ class BandDetails extends Component {
                   <div className="band__details__image__wrapper">
                   { !bandEdit ?
                     <img
-                      src={band.logo || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+                      src={band.logoUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
                       alt="Logo"
                       className="band__logo"
                     />
@@ -292,12 +352,13 @@ class BandDetails extends Component {
                   <Input
                     type="file"
                     name="logo"
+                    id="logoUpload"
                     placeholder="Band logo"
                     label="Band logo"
                     disabled={ !bandEdit }
-                    value={ bandEdit ? this.state.logo : band.logo }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                    // value={ bandEdit ? this.state.logoName : band.logoName }
+                    onChange={ this.handleFileChange }
+                    // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                   <Input type="textarea"
                     name="bio"
@@ -307,6 +368,19 @@ class BandDetails extends Component {
                     value={ bandEdit ? this.state.bio : band.bio }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                  />
+                </div>
+                <div className="form__row">
+                  <Input
+                    type="file"
+                    name="stageplot"
+                    id="stageplot"
+                    placeholder="Stageplot"
+                    label="Stageplot"
+                    disabled={ !bandEdit }
+                    // value={ bandEdit ? this.state.logoName : band.logoName }
+                    onChange={ this.handleStageplotUpload }
+                    // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                 </div>
                 <div className="form__column">
@@ -395,6 +469,8 @@ class BandDetails extends Component {
 function mapStateToProps(state) {
   return {
     band: state.bands.activeBand,
+    activeBandLogo: state.bands.activeBandLogoUrl,
+    activeStagePlotUrl: state.bands.activeStagePlotUrl,
     isLoading: state.app.loading,
     notification: state.notification,
     bandEdit: state.bands.edit,
@@ -409,6 +485,8 @@ function mapDispatchToProps(dispatch) {
     onUpdateBand: actions.updateBand,
     dismissNotification: dismissNotification,
     updateBandEdit: actions.updateBandEdit,
+    uploadBandLogo: actions.uploadBandLogo,
+    uploadStagePlot: actions.uploadStagePlot,
     },
   dispatch);
 }

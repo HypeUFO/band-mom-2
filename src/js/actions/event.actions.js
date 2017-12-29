@@ -90,7 +90,8 @@ export function createEvent(event, bandId) {
   console.log(database.ref().child(`bands/${bandId}/events`))
   return dispatch => {
     dispatch(createEventRequestedAction());
-    return database.ref().child(`bands/${bandId}/events`).push().set(event)
+    return database.ref(`bands/${bandId}/events`).push().set(event)
+    // return database.ref(`bands/${bandId}/events`).push().set(event)
     .then(() => {
       dispatch(createEventFulfilledAction());
     })

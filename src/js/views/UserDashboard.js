@@ -30,31 +30,23 @@ class UserDashboard extends Component {
   }
 
   componentWillMount() {
-    // this.db.child('events').on('child_added', () => {
-    //   this.props.onGetEventMany()
-    // })
     this.db.child('bands').on('child_added', () => {
       Promise.resolve()
-      .then(() => this.props.onGetBandMany(this.id))
+      .then(() => this.props.onGetBandMany())
       .then(() => {
         let userEvents = {};
-        // let userEvents = 
+        if(this.props.bands) {
         Object.keys(this.props.bands).map((key) => {
-          // console.log('rendering row')
           let bandId = this.props.bands[key].id;
-          console.log(JSON.stringify(this.props.bands[key]))
+          if (this.props.bands[key].events) {
           Object.keys(this.props.bands[key].events).map(key2 => {
-            console.log(JSON.stringify(this.props.bands[key].events[key2]))
-            // this.props.bands[key].events[key2].id = key2;
-            // this.props.bands[key].events[key2].bandId = bandId;
-            console.log(key2)
             this.props.bands[key].events[key2].id = key2;
             this.props.bands[key].events[key2].bandId = bandId;
             return userEvents[key] = this.props.bands[key].events[key2];
           })
-          // return this.props.bands[key].events
-          // return userEvents[key] = this.props.bands[key].events
+        }
         });
+      }
         console.log(userEvents);
         this.setState({userEvents});
       })
