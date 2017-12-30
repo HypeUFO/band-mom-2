@@ -16,6 +16,7 @@ import FilterLink from '../components/Global/FilterLink';
 import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
+import UserEventList from './UserEventList'
 
 import { database } from '../config/fire'
 
@@ -26,7 +27,7 @@ export const initialState = {
   selected: '',
   userEvents: null,
 };
-class UserEventList extends Component {
+class UserEventListContainer extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
@@ -43,51 +44,43 @@ class UserEventList extends Component {
 
   }
 
-  // componentWillMount() {
-  //   // if (!this.state.userEvents) {
-  //   database.ref().child('bands').on('child_added', () => {
-  //     Promise.resolve()
-  //     .then(() => this.props.onGetBandMany(this.id))
-  //     .then(() => {
-  //       let userEvents = {};
+  componentDidMount() {
+    // if (!this.state.userEvents) {
+    database.ref().child('bands').on('child_added', () => {
+      Promise.resolve()
+      .then(() => this.props.onGetBandMany(this.id))
+      .then(() => {
+        let userEvents = {};
 
-  //       if (this.props.bands) {
-  //       Object.keys(this.props.bands).map((key) => {
-  //         let bandId = key;
-  //         let bandName = this.props.bands[key].name;
-  //         if (this.props.bands[key].events) {
-  //         Object.keys(this.props.bands[key].events).map(key2 => {
-  //           this.props.bands[key].events[key2].id = key2;
-  //           // this.props.bands[key].events[key2].bandId = bandId;
-  //           // this.props.bands[key].events[key2].bandName = bandName;
-  //           return userEvents[key] = this.props.bands[key].events[key2];
-  //         })
-  //       }
-  //         // return this.props.bands[key].events
-  //         // return userEvents[key] = this.props.bands[key].events
-  //       });
-  //     }
-  //       console.log(userEvents);
-  //       this.setState({userEvents});
-  //     })
-  //   })
-  //   // this.props.onClearEvent()
-  //   // this.props.onClearBand()
-  //   // }
-  // }
-
-  componentWillMount() {
-    database.ref(`bands`).on('value', (snapshot) => {
-      this.props.onGetBandMany(this.props.match.params.userId)
-      // console.log(snapshot.val())
+        if (this.props.bands) {
+        Object.keys(this.props.bands).map((key) => {
+          let bandId = key;
+          let bandName = this.props.bands[key].name;
+          if (this.props.bands[key].events) {
+          Object.keys(this.props.bands[key].events).map(key2 => {
+            this.props.bands[key].events[key2].id = key2;
+            // this.props.bands[key].events[key2].bandId = bandId;
+            // this.props.bands[key].events[key2].bandName = bandName;
+            return userEvents[key] = this.props.bands[key].events[key2];
+          })
+        }
+          // return this.props.bands[key].events
+          // return userEvents[key] = this.props.bands[key].events
+        });
+      }
+        console.log(userEvents);
+        this.setState({userEvents});
+      })
     })
     // this.props.onClearEvent()
+    // this.props.onClearBand()
+    // }
   }
 
-  componentDidMount() {
-    this.handleFilterWidth()
-    window.addEventListener('resize', this.handleFilterWidth);
-  }
+  // componentDidMount() {
+  //   this.handleFilterWidth()
+  //   window.addEventListener('resize', this.handleFilterWidth);
+  // }
 
   setFilterWidth(id) {
     const filterDiv = document.querySelector(`#${id}`);
@@ -137,7 +130,6 @@ class UserEventList extends Component {
 
   onCreateEventSuccess() {
     console.log('Show successfully created');
-    // this.props.onGetBandMany(this.props.match.params.userId);
   }
 
   onCreateEventError(err) {
@@ -145,7 +137,7 @@ class UserEventList extends Component {
   }
 
   deleteEvent(event,) {
-    const bandId = this.props.match.params.bandId;
+    const bandId = this.props.band.id;
     this.props.onDeleteEvent(event, bandId)
     // this.db.child(gigId).remove()
     .then(() => this.onDeleteEventSuccess())
@@ -153,7 +145,7 @@ class UserEventList extends Component {
   }
 
   onDeleteEventSuccess() {
-    this.props.onGetEventMany(this.props.match.params.bandId);
+    this.props.onGetEventMany(this.props.band.id);
     // alert('Show successfully deleted');
   }
 
@@ -253,35 +245,20 @@ class UserEventList extends Component {
   //   };
   // }
 
-  renderTable(bands) {
-      if(bands && Object.keys(bands).length > 0 && bands.constructor === Object) {
-        let userEvents = {};
-        Object.keys(bands).map((key) => {
-          let bandId = key;
-          let bandName = bands[key].name;
-          if (bands[key].events) {
-          Object.keys(bands[key].events).map(key2 => {
-            bands[key].events[key2].id = key2;
-            // bands[key].events[key2].bandId = bandId;
-            // bands[key].events[key2].bandName = bandName;
-            return userEvents[key2] = bands[key].events[key2];
-          })
-        }
-          // return this.props.bands[key].events
-          // return userEvents[key] = this.props.bands[key].events
-        });
+  renderTable(events) {
+      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
         // let results = this.sortData(events);
         // console.log(results);
-        let rows = Object.keys(userEvents).map((key) => {
+        let rows = Object.keys(events).map((key) => {
           // console.log('rendering row')
           // events[key].id = key;
 
           const status = this.props.statusFilter === 'ALL';
           const type = this.props.typeFilter === 'ALL';
 
-          if ((userEvents[key].status === this.props.statusFilter.toLowerCase() || status) &&
-            (userEvents[key].type === this.props.typeFilter.toLowerCase() || type)) {
-            return this.renderRow(userEvents[key], key)
+          if ((events[key].status === this.props.statusFilter.toLowerCase() || status) &&
+            (events[key].type === this.props.typeFilter.toLowerCase() || type)) {
+            return this.renderRow(events[key], key)
           } else {
             return null;
           }
@@ -330,82 +307,84 @@ class UserEventList extends Component {
     ];
 
     return (
-      <div className='page__container'>
-        <Drawer
-          // userName={ userName }
-          show={ true }
-          className="drawer__sidebar"
-          // toggle={ this.toggleDrawer }
-        />
-        <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ buttonHide }
-          buttonLabel="Add Show"
-          buttonIcon="add"
-          buttonOnClick={ this.toggleCreateUserEventModal }
-        />
-        <div className='page__content page__content--two-col'>
-          <CreateUserEventModal
-            show={ this.state.showCreateUserEventModal }
-            onSubmit={ this.onCreateEventSubmit }
-            onCancel={ this.onCreateEventCancel }
-            onSuccess={ this.onCreateEventSuccess }
-            onError={ this.onCreateEventError }
-            bands={ this.props.bands }
-          />
-          <div className="page__content__container">
-            {this.props.notification.display ? this.renderNotification() : null}
-            <div className="filter__section">
-              <p className="filter__label">Filter: </p>
-              <p className="filter__link">
-                {/* Filter by status: */}
-                <select
-                  className="event__filter"
-                  id="statusFilter"
-                  defaultValue={this.props.statusFilter}
-                  ref="statusFilter"
-                  onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
-                >
-                  <option value="ALL" key={ 0 }>
-                    All
-                  </option>
-                  <option value="UPCOMING" key={ 1 }>
-                    Upcoming
-                  </option>
-                  <option value="PAST" key={ 2 }>
-                    Past
-                  </option>
-                </select>
-                <i className="material-icons">chevron_right</i>
-              </p>
-              <p className="filter__link">
-                {/* Filter by type: */}
-              <select
-                className="event__filter"
-                id="typeFilter"
-                defaultValue={this.props.typeFilter}
-                ref="typeFilter"
-                onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
-              >
-                <option value="ALL" key={ 0 }>
-                  All
-                </option>
-                <option value="SHOW" key={ 1 }>
-                  Show
-                </option>
-                <option value="REHEARSAL" key={ 2 }>
-                  Rehearsal
-                </option>
-              </select>
-              <i className="material-icons">chevron_right</i>
-            </p>
-            </div>
-            { this.renderTable(this.props.bands) }
-            <select id="template" style={{visibility: 'hidden'}}>
-              <option id="templateOption" />
-            </select>
-          </div>
-        </div>
-      </div>
+      <UserEventList
+        userEvents={this.state.userEvents}
+      />
+      // <div className='page__container'>
+      //   <Drawer
+      //     // userName={ userName }
+      //     show={ true }
+      //     className="drawer__sidebar"
+      //     // toggle={ this.toggleDrawer }
+      //   />
+      //   <Subheader breadcrumbs={ breadcrumbs }
+      //     // buttonHide={ buttonHide }
+      //     buttonLabel="Add Show"
+      //     buttonIcon="add"
+      //     buttonOnClick={ this.toggleCreateUserEventModal }
+      //   />
+      //   <div className='page__content page__content--two-col'>
+      //     {/* <CreateUserEventModal
+      //       show={ this.state.showCreateUserEventModal }
+      //       onSubmit={ this.onCreateEventSubmit }
+      //       onCancel={ this.onCreateEventCancel }
+      //       onSuccess={ this.onCreateEventSuccess }
+      //       onError={ this.onCreateEventError }
+      //     /> */}
+      //     <div className="page__content__container">
+      //       {this.props.notification.display ? this.renderNotification() : null}
+      //       <div className="filter__section">
+      //         <p className="filter__label">Filter: </p>
+      //         <p className="filter__link">
+      //           {/* Filter by status: */}
+      //           <select
+      //             className="event__filter"
+      //             id="statusFilter"
+      //             defaultValue={this.props.statusFilter}
+      //             ref="statusFilter"
+      //             onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
+      //           >
+      //             <option value="ALL" key={ 0 }>
+      //               All
+      //             </option>
+      //             <option value="UPCOMING" key={ 1 }>
+      //               Upcoming
+      //             </option>
+      //             <option value="PAST" key={ 2 }>
+      //               Past
+      //             </option>
+      //           </select>
+      //           <i className="material-icons">chevron_right</i>
+      //         </p>
+      //         <p className="filter__link">
+      //           {/* Filter by type: */}
+      //         <select
+      //           className="event__filter"
+      //           id="typeFilter"
+      //           defaultValue={this.props.typeFilter}
+      //           ref="typeFilter"
+      //           onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
+      //         >
+      //           <option value="ALL" key={ 0 }>
+      //             All
+      //           </option>
+      //           <option value="SHOW" key={ 1 }>
+      //             Show
+      //           </option>
+      //           <option value="REHEARSAL" key={ 2 }>
+      //             Rehearsal
+      //           </option>
+      //         </select>
+      //         <i className="material-icons">chevron_right</i>
+      //       </p>
+      //       </div>
+      //       { this.renderTable(this.state.userEvents) }
+      //       <select id="template" style={{visibility: 'hidden'}}>
+      //         <option id="templateOption" />
+      //       </select>
+      //     </div>
+      //   </div>
+      // </div>
     );
   }
 }
@@ -440,4 +419,4 @@ function mapDispatchToProps(dispatch) {
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserEventList);
+export default connect(mapStateToProps, mapDispatchToProps)(UserEventListContainer);

@@ -18,7 +18,7 @@ const initialState = {
 
 export function notificationReducer(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.DeleteEventFulfilled:
+    case ActionTypes.DELETE_EVENT_FULFILLED:
       return {
         ...state,
         actionLabel: 'Undo',
@@ -26,7 +26,7 @@ export function notificationReducer(state = initialState, action) {
         message: 'Event deleted'
       }
 
-    case ActionTypes.DismissNotification:
+    case ActionTypes.DISMISS_NOTIFICATION:
       return {
         ...state,
         display: false,

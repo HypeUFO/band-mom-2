@@ -19,6 +19,7 @@ export const initialState = {
   type: 'show',
   bandId: '',
   bandName: '',
+  band: ''
   // files: [],
 };
 
@@ -43,8 +44,6 @@ class CreateUserEventModal extends Component {
     // this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
     this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(this);
     this.addEvent = this.addEvent.bind(this);
-
-    this.db = database.ref().child('events');
   }
 
   onSubmit(event) {
@@ -76,7 +75,8 @@ class CreateUserEventModal extends Component {
   handleBandChange(event) {
     this.setState({
       bandName: event.target.value.split('/')[0],
-      bandId: event.target.value.split('/')[1], 
+      bandId: event.target.value.split('/')[1],
+      band: event.target.value
     });
   }
 
@@ -95,6 +95,7 @@ class CreateUserEventModal extends Component {
       status: status,
       bandId: this.state.bandId,
       bandName: this.state.bandName,
+      band: this.state.band,
       // bandId: this.state.bandId,
     }
     console.log(event)
@@ -156,19 +157,20 @@ class CreateUserEventModal extends Component {
     // Errors
     let createError = (asyncCreateError) ? asyncCreateError.toJSON().reason : '';
     let uploadError = (asyncUploadError) ? asyncUploadError.toJSON().reason : '';
-    let bandList;
-    if (bands) {
-    bandList = Object.keys(bands).map(key => {
+    let bandList = [];
+    if (this.props.bands) {
+    Object.keys(bands).map(key => {
       let addBandInfo = {
         label: bands[key].name,
         value: bands[key].name + '/' + bands[key].id,
       }
-      return addBandInfo;
+      return bandList.push(addBandInfo);
     })
-    bandList.unshift({label: 'Select Band', value: ''})
+    // bandList.unshift({label: 'Select Band', value: ''})
     console.log(bandList);
   }
-
+  bandList.unshift({label: 'Select Band', value: ''})
+  // if(this.props.bands) {
     // Normal
     return (
       <div className={ classes }>
@@ -189,7 +191,7 @@ class CreateUserEventModal extends Component {
                 name="band"
                 placeholder="Band"
                 options={ bandList }
-                value={ this.state.band }
+                // value={ this.state.band }
                 onChange={ this.handleBandChange }
                 // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
               />
@@ -278,13 +280,16 @@ class CreateUserEventModal extends Component {
         </Form>
       </div>
     );
+  // } else {
+  //   return null;
+  // }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     band: state.bands.activeBand,
-    bands: state.bands.bands,
+    // bands: state.bands.bands,
   }
 }
 

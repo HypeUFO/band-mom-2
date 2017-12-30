@@ -57,12 +57,11 @@ export function getEventMany(bandId) {
     dispatch(getEventManyRequestedAction());
     database.ref(`bands/${bandId}/events`).once('value', snap => {
       const events = snap.val();
-      console.log('events = '+ JSON.stringify(events))
        return dispatch(getEventManyFulfilledAction(events))
     })
     .catch((error) => {
       console.log(error);
-      dispatch(getEventManyRejectedAction());
+      dispatch(getEventManyRejectedAction(error));
     });
   }
 }
@@ -73,9 +72,10 @@ function getEventManyRequestedAction() {
   };
 }
 
-function getEventManyRejectedAction() {
+function getEventManyRejectedAction(error) {
   return {
-    type: ActionTypes.GET_EVENTS_MANY_REJECTED
+    type: ActionTypes.GET_EVENTS_MANY_REJECTED,
+    error
   }
 }
 
@@ -165,7 +165,7 @@ function deleteEventFulfilledAction(event) {
 export function restoreEvent(event, bandId) {
   return dispatch => {
     dispatch(restoreEventRequestedAction());
-    return database.ref(`bands/${bandId}/events/${event.id}`).push().set(event)
+    return database.ref(`bands/${bandId}/events/`).push().set(event)
     .then(() => {
       dispatch(restoreEventFulfilledAction(event));
     })

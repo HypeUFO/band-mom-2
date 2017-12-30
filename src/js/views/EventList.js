@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
+import { getBand } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
@@ -42,8 +43,9 @@ class EventList extends Component {
   }
 
   componentWillMount() {
-    database.ref(`bands/${this.props.match.params.bandId}/events`).on('child_added', () => {
-      this.props.onGetEventMany(this.props.band.id)
+    this.props.onGetBand(this.props.match.params.bandId)
+    database.ref(`bands/${this.props.match.params.bandId}/events`).on('value', () => {
+      this.props.onGetEventMany(this.props.match.params.bandId)
     })
     this.props.onClearEvent()
   }
@@ -90,6 +92,7 @@ class EventList extends Component {
 
   onCreateEventSubmit() {
     console.log('Event submitted');
+    // this.props.onCreateEvent()
     this.toggleCreateEventModal();
   }
 
@@ -105,7 +108,7 @@ class EventList extends Component {
     console.log('An error occured:' + err);
   }
 
-  deleteEvent(event,) {
+  deleteEvent(event) {
     const bandId = this.props.band.id;
     this.props.onDeleteEvent(event, bandId)
     // this.db.child(gigId).remove()
@@ -290,13 +293,18 @@ class EventList extends Component {
           buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
+        {/* { this.props.band */}
           <CreateEventModal
             show={ this.state.showCreateEventModal }
             onSubmit={ this.onCreateEventSubmit }
             onCancel={ this.onCreateEventCancel }
             onSuccess={ this.onCreateEventSuccess }
             onError={ this.onCreateEventError }
+            // bandId={this.props.match.params.bandId}
+            activeBand={this.props.band || ''}
+            onCreateEvent={this.props.onCreateEvent}
           />
+        {/* : null } */}
           <div className="page__content__container">
             {this.props.notification.display ? this.renderNotification() : null}
             <div className="filter__section">
@@ -370,9 +378,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    onGetBand: getBand,
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
+    onCreateEvent: actions.createEvent,
     onDeleteEvent: actions.deleteEvent,
     onRestoreEvent: actions.restoreEvent,
     dismissNotification: dismissNotification,

@@ -681,9 +681,10 @@ input[type="submit"] {
     color: #7F4FFF; }
 
 .slick-slider {
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  padding: 0 10px; }
 .slick-track {
-  padding: 0 20px !important; }
+  padding: 0 10px !important; }
 .slick-prev:before, .slick-next:before {
   color: black; }
 @media (max-width: 768px) {

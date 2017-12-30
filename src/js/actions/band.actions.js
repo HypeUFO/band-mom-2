@@ -57,7 +57,9 @@ export function getBandMany() {
   return dispatch => {
     dispatch(getBandManyRequestedAction());
     database.ref('/').once('value', snap => {
+    // database.ref('/').on('value', snap => {
       const bands = snap.val();
+      console.log(bands);
        return dispatch(getBandManyFulfilledAction(bands))
     })
     .catch((error) => {

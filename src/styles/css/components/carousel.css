@@ -1,23 +1,23 @@
 /*
 Error: Undefined mixin 'sm-only'.
-        on line 12 of src/styles/scss/components/carousel.scss, in `sm-only'
-        from line 12 of src/styles/scss/components/carousel.scss
+        on line 13 of src/styles/scss/components/carousel.scss, in `sm-only'
+        from line 13 of src/styles/scss/components/carousel.scss
 
-7:   }
-8:   &-prev:before,
-9:   &-next:before {
-10:     color: black;
-11:   }
-12:   @include sm-only {
-13:     &-next {
-14:       right: 0;
-15:     }
-16:     &-prev {
-17:       left: 0;
+8:   }
+9:   &-prev:before,
+10:   &-next:before {
+11:     color: black;
+12:   }
+13:   @include sm-only {
+14:     &-next {
+15:       right: 0;
+16:     }
+17:     &-prev {
+18:       left: 0;
 
 Backtrace:
-src/styles/scss/components/carousel.scss:12:in `sm-only'
-src/styles/scss/components/carousel.scss:12
+src/styles/scss/components/carousel.scss:13:in `sm-only'
+src/styles/scss/components/carousel.scss:13
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:352:in `block in visit_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:98:in `block in with_mixin'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/stack.rb:115:in `with_frame'
@@ -71,4 +71,4 @@ src/styles/scss/components/carousel.scss:12
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'sm-only'.\A         on line 12 of src/styles/scss/components/carousel.scss, in `sm-only'\A         from line 12 of src/styles/scss/components/carousel.scss\A \A 7:   }\A 8:   &-prev:before,\A 9:   &-next:before {\A 10:     color: black;\A 11:   }\A 12:   @include sm-only {\A 13:     &-next {\A 14:       right: 0;\A 15:     }\A 16:     &-prev {\A 17:       left: 0;"; }
+  content: "Error: Undefined mixin 'sm-only'.\A         on line 13 of src/styles/scss/components/carousel.scss, in `sm-only'\A         from line 13 of src/styles/scss/components/carousel.scss\A \A 8:   }\A 9:   &-prev:before,\A 10:   &-next:before {\A 11:     color: black;\A 12:   }\A 13:   @include sm-only {\A 14:     &-next {\A 15:       right: 0;\A 16:     }\A 17:     &-prev {\A 18:       left: 0;"; }

@@ -71,7 +71,10 @@ class CreateEventModal extends Component {
   }
 
    addEvent() {
-     const bandId = this.props.band.id;
+    //  const bandId = this.props.bandId;
+    //  const bandName = this.props.bandName;
+    const bandId = this.props.activeBand.id;
+    const bandName = this.props.activeBand.name || '';
     const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
     const event = {
       venue: this.state.venue,
@@ -83,6 +86,8 @@ class CreateEventModal extends Component {
       notes: this.state.notes,
       type: this.state.type,
       status: status,
+      bandId,
+      bandName,
     }
     this.props.onCreateEvent(event, bandId);
   }
@@ -238,15 +243,17 @@ class CreateEventModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    band: state.bands.activeBand,
+    // band: state.bands.activeBand,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    onCreateEvent: createEvent,
+    // onCreateEvent: createEvent,
     },
   dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEventModal);
+
+// export default CreateEventModal;
