@@ -29,7 +29,7 @@ class BandList extends Component {
     super(props);
     this.state = initialState;
 
-    this.db = database.ref().child('bands');
+    this.db = database.ref().child('groups');
 
     this.toggleCreateBandModal = this.toggleCreateBandModal.bind(this);
     this.onCreateBandSubmit = this.onCreateBandSubmit.bind(this);
@@ -161,10 +161,12 @@ class BandList extends Component {
   // }
 
   renderPreviewList(list) {
-      if(list) {
+      if(list && Object.keys(list).length > 0 && list.constructor === Object) {
+        console.log(list);
         let rows = Object.keys(list).map((key) => {
           // console.log('rendering row')
-          list[key].id = key;
+          console.log(list[key])
+          // list[key].id = key;
           return this.renderCard(list[key], key)
         }).sort()
 

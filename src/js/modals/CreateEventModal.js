@@ -89,7 +89,7 @@ class CreateEventModal extends Component {
       bandId,
       bandName,
     }
-    this.props.onCreateEvent(event, bandId);
+    this.props.onCreateEvent(event, bandId, this.props.user.id);
   }
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
@@ -244,6 +244,7 @@ class CreateEventModal extends Component {
 const mapStateToProps = (state) => {
   return {
     // band: state.bands.activeBand,
+    user: state.app.user,
   }
 }
 

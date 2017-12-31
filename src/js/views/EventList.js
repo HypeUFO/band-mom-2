@@ -43,8 +43,8 @@ class EventList extends Component {
   }
 
   componentWillMount() {
-    this.props.onGetBand(this.props.match.params.bandId)
-    database.ref(`bands/${this.props.match.params.bandId}/events`).on('value', () => {
+    // this.props.onGetBand(this.props.match.params.bandId)
+    database.ref(`events`).on('value', () => {
       this.props.onGetEventMany(this.props.match.params.bandId)
     })
     this.props.onClearEvent()
@@ -110,19 +110,20 @@ class EventList extends Component {
 
   deleteEvent(event) {
     const bandId = this.props.band.id;
-    this.props.onDeleteEvent(event, bandId)
+    this.props.onDeleteEvent(event, bandId, this.props.match.params.userId)
     // this.db.child(gigId).remove()
     .then(() => this.onDeleteEventSuccess())
     .catch(err => this.onDeleteEventError())
   }
 
   onDeleteEventSuccess() {
-    this.props.onGetEventMany(this.props.band.id);
+    // this.props.onGetEventMany(this.props.band.id);
+    // this.props.onGetEventMany(this.props.match.params.bandId)
     // alert('Show successfully deleted');
   }
 
   onDeleteEventError() {
-    this.props.onGetEventMany();
+    this.props.onGetEventMany(this.props.match.params.bandId);
     alert('An error occured :(');
   }
 
@@ -218,18 +219,13 @@ class EventList extends Component {
 
   renderTable() {
     const { events } = this.props;
-      if(events) {
-        // let results = this.sortData(events);
-        // console.log(results);
+      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
 
         let rows = Object.keys(events).map((key) => {
-          // console.log('rendering row')
-          events[key].id = key;
-
           const status = this.props.statusFilter === 'ALL';
           const type = this.props.typeFilter === 'ALL';
 
-          if ((events[key].status === this.props.statusFilter.toLowerCase() || status) &&
+          if ((events[key] && events[key].status === this.props.statusFilter.toLowerCase() || status) &&
             (events[key].type === this.props.typeFilter.toLowerCase() || type)) {
             return this.renderRow(events[key], key)
           } else {

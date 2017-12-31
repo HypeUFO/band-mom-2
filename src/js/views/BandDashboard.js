@@ -84,7 +84,7 @@ class BandDashboard extends Component {
     })
     .catch((err) => console.log(err));
 
-    database.ref(`bands/${this.id}/events`).on('child_added', () => {
+    database.ref(`events`).on('child_added', () => {
     // database.ref(`bands/${this.id}/`).child('events').on('child_added', () => {
       this.props.onGetEventMany((this.id))
     })
@@ -215,7 +215,7 @@ class BandDashboard extends Component {
 
   renderEventPreview() {
     const { events } = this.props;
-      if(events) {
+      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
         // let results = this.sortData(events);
         // console.log(results);
 

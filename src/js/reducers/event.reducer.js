@@ -44,6 +44,21 @@ export function eventReducer(state = initialState, action) {
         error: action.error,
       }
 
+    case ActionTypes.GET_USER_EVENTS_MANY_REQUESTED:
+        return {
+        ...state,
+      }
+    case ActionTypes.GET_USER_EVENTS_MANY_FULFILLED:
+        return {
+        ...state,
+        userEvents: action.events ? action.events : null,
+      }
+    case ActionTypes.GET_USER_EVENTS_MANY_REJECTED:
+        return {
+        ...state,
+        error: action.error,
+      }
+
 
     case ActionTypes.CREATE_EVENT_REQUESTED:
         return {

@@ -44,8 +44,9 @@ class UserEventList extends Component {
   }
 
   componentWillMount() {
-    database.ref(`bands`).on('value', (snapshot) => {
-      this.props.onGetBandMany(this.props.match.params.userId)
+    database.ref(`userEvents`).on('value', (snapshot) => {
+      // this.props.onGetBandMany(this.props.match.params.userId)
+      this.props.onGetUserEventMany(this.props.match.params.userId)
       // console.log(snapshot.val())
     })
     // this.props.onClearEvent()
@@ -220,29 +221,29 @@ class UserEventList extends Component {
   //   };
   // }
 
-  renderTable(bands) {
-      if(bands && Object.keys(bands).length > 0 && bands.constructor === Object) {
-        let userEvents = {};
-        Object.keys(bands).map((key) => {
-          let bandId = key;
-          let bandName = bands[key].name;
-          if (bands[key].events) {
-            Object.keys(bands[key].events).map(key2 => {
-              bands[key].events[key2].id = key2;
-              // bands[key].events[key2].bandId = bandId;
-              // bands[key].events[key2].bandName = bandName;
-              return userEvents[key2] = bands[key].events[key2];
-            })
-          }
-        });
-        let rows = Object.keys(userEvents).map((key) => {
+  renderTable(events) {
+      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
+        // let userEvents = {};
+        // Object.keys(events).map((key) => {
+        //   let bandId = key;
+        //   let bandName = events[key].name;
+        //   // if (events[key].events) {
+        //   //   Object.keys(events[key].events).map(key2 => {
+        //   //     events[key].events[key2].id = key2;
+        //   //     // events[key].events[key2].bandId = bandId;
+        //   //     // events[key].events[key2].bandName = bandName;
+        //   //     return userEvents[key2] = events[key].events[key2];
+        //   //   })
+        //   // }
+        // });
+        let rows = Object.keys(events).map((key) => {
 
           const status = this.props.statusFilter === 'ALL';
           const type = this.props.typeFilter === 'ALL';
 
-          if ((userEvents[key].status === this.props.statusFilter.toLowerCase() || status) &&
-            (userEvents[key].type === this.props.typeFilter.toLowerCase() || type)) {
-            return this.renderRow(userEvents[key], key)
+          if ((events[key].status === this.props.statusFilter.toLowerCase() || status) &&
+            (events[key].type === this.props.typeFilter.toLowerCase() || type)) {
+            return this.renderRow(events[key], key)
           } else {
             return null;
           }
@@ -360,7 +361,7 @@ class UserEventList extends Component {
               <i className="material-icons">chevron_right</i>
             </p>
             </div>
-            { this.renderTable(this.props.bands) }
+            { this.renderTable(this.props.userEvents) }
             <select id="template" style={{visibility: 'hidden'}}>
               <option id="templateOption" />
             </select>
@@ -375,7 +376,9 @@ class UserEventList extends Component {
 
 function mapStateToProps(state) {
   return {
-    // events: state.user.events,
+    user: state.app.user,
+    events: state.events.events,
+    userEvents: state.events.userEvents,
     bands: state.bands.bands,
     band: state.bands.activeBand,
     statusFilter: state.events.statusFilter,
@@ -391,6 +394,7 @@ function mapDispatchToProps(dispatch) {
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
+    onGetUserEventMany: actions.getUserEventMany,
     onDeleteEvent: actions.deleteEvent,
     onRestoreEvent: actions.restoreEvent,
     dismissNotification: dismissNotification,

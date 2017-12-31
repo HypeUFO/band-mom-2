@@ -4,16 +4,8 @@ import { database, storage } from '../config/fire';
 export function getBand(id) {
   return dispatch => {
     dispatch(getBandRequestedAction());
-    database.ref('/').once('value', snap => {
-      const bands = snap.val().bands;
-      let band;
-      Object.keys(bands).map((key) => {
-        if (key === id) {
-          bands[key].id = id;
-          return band = bands[key];
-        }
-        return null;
-      });
+    database.ref('/groups/' + id).once('value', snap => {
+      const band = snap.val();
        return dispatch(getBandFulfilledAction(band))
     })
     .catch((err) => {
@@ -51,55 +43,23 @@ function getBandFulfilledAction(band) {
 }
 
 
-
-// export function getBandMany(user) {
-//   // return {type: ActionTypes.getBandManyFulfilled,};
-//   return dispatch => {
-//     dispatch(getBandManyRequestedAction());
-//     database.ref('/').once('value', snap => {
-//     database.ref('/').on('value', snap => {
-//       const bands = snap.val();
-//       console.log(bands);
-//        return dispatch(getBandManyFulfilledAction(bands))
-//     })
-
-
-//         const bands = snap.val();
-//         console.log(bands);
-//          return dispatch(getBandManyFulfilledAction(bands))
-//       })
-//     // })
-//     .catch((error) => {
-//       console.log(error);
-//       dispatch(getBandManyRejectedAction());
-//     });
-//   }
-// }
-
-
 export function getBandMany(user) {
-  // return {type: ActionTypes.getBandManyFulfilled,};
   return dispatch => {
     dispatch(getBandManyRequestedAction());
     database.ref().child("userGroups").child(user.id).once('value', snap => {
       const bands = {}
       snap.forEach(function(child) {
-      console.log(child.key+": "+child.val());
-      const bandKey = child.key
-      database.ref('bands').child(bandKey).on('value', snap => {
-        const band = snap.val();
-        console.log(band);
-        bands[bandKey] = band;
-        console.log(bands);
-        //  return dispatch(getBandManyFulfilledAction(bands))
+        console.log(child.key+": "+child.val());
+        const groupKey = child.key
+        database.ref('groups').child(groupKey).on('value', snap => {
+          const band = snap.val();
+          console.log(band);
+          bands[groupKey] = band;
+          console.log(bands);
+          //  return dispatch(getBandManyFulfilledAction(bands))
+        })
       })
-  })
-    // database.ref('bands').child(snap.key).on('value', snap => {
-      // const bands = snap.val();
-      // console.log(bands);
-       return dispatch(getBandManyFulfilledAction(bands))
-    // })
-      // })
+      return dispatch(getBandManyFulfilledAction(bands))
     })
     .catch((error) => {
       console.log(error);
@@ -132,30 +92,23 @@ export function createBand(band, user) {
 
   return dispatch => {
     dispatch(createBandRequestedAction());
-    // return database.ref().child('bands').push().set(band)
 
-    var newBandKey = database.ref().child('bands').push().key;
-    const newUserKey = user.id;
-
-    // A post entry.
-    var newGroup = {};
+    const newBandKey = database.ref().child('bands').push().key;
+    const userId = user.id;
 
     const userGroup = {}
-
     const bandMembers = {}
 
-
-    newGroup[newBandKey] = true
     userGroup[newBandKey] = true
-    bandMembers[newUserKey] = true
+    bandMembers[userId] = true
 
     band.id = newBandKey;
+
     var updates = {};
-    updates['/bands/' + newBandKey] = band;
-    updates['/users/' + user.id + '/groups'] = newGroup;
-    updates['/bandMembers/'+ newBandKey] = bandMembers;
-    // updates['/userGroups/'+ user.id] = userGroup;
-    updates['/userGroups/'+ user.id] = userGroup;
+    updates['/groups/' + newBandKey] = band;
+    updates['/users/' + user.id + '/groups'] = userGroup;
+    updates['/groupMembers/'+ newBandKey] = bandMembers;
+    updates[`/userGroups/${user.id}/${newBandKey}`] = true;
 
     return database.ref().update(updates)
     .then(() => {
@@ -195,11 +148,9 @@ function createBandFulfilledAction(bands) {
 
 
 export function deleteBand(band) {
-  // return {type: ActionTypes.deleteBandFulfilled,};
-  console.log('band to delete: ' + band)
   return dispatch => {
     dispatch(deleteBandRequestedAction(band));
-    return database.ref('bands').child(band.id).remove()
+    return database.ref('groups').child(band.id).remove()
     .then(() => {
       return dispatch(deleteBandFulfilledAction());
     })
@@ -232,7 +183,7 @@ function deleteBandFulfilledAction() {
 export function restoreBand(band) {
   return dispatch => {
     dispatch(restoreBandRequestedAction());
-    return database.ref().child('bands').push().set(band)
+    return database.ref().child('groups').push().set(band)
     .then(() => {
       dispatch(restoreBandFulfilledAction(band));
     })
@@ -264,14 +215,10 @@ function restoreBandFulfilledAction(band) {
 
 
 
-
-
-
-
 export function updateBand(band) {
   return dispatch => {
     dispatch(updateBandRequestedAction());
-    database.ref().child('bands/' + band.id).update(band)
+    database.ref().child('groups/' + band.id).update(band)
     .then(() => {
       dispatch(updateBandFulfilledAction());
     })

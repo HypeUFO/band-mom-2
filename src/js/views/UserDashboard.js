@@ -30,8 +30,10 @@ class UserDashboard extends Component {
   //       this.props.onGetBand(key);
   //     })
   // }
-    this.db.child('bands').on('value', () => {
+    this.db.on('value', () => {
       this.props.onGetBandMany(this.props.user);
+      this.props.onGetUserEventMany(this.props.user.id);
+      // this.props.onGetEventMany(this.props.user.id);
     })
     this.props.onClearEvent()
     this.props.onClearBand()
@@ -177,7 +179,8 @@ class UserDashboard extends Component {
 }
 
   renderPreviewList(list, type) {
-      if(list) {
+    console.log('LIST + ' + list)
+      if(list && Object.keys(list).length > 0 && list.constructor === Object) {
         // let results = this.sortData(events);
         // console.log(results);
 
@@ -278,8 +281,9 @@ class UserDashboard extends Component {
           { this.renderPreviewList(this.props.bands, 'band') }
 
           <Link to={`/${this.props.user.id}/events`}><h3>Events</h3></Link>
+          { this.renderPreviewList(this.props.userEvents, 'event') }
           {/* { this.renderPreviewList(this.props.events, 'event') } */}
-          { this.renderEventList(this.props.bands, 'event') }
+          {/* { this.renderEventList(this.props.bands, 'event') } */}
         </div>
         </div>
       </div>
@@ -291,6 +295,7 @@ function mapStateToProps(state) {
   return {
     user: state.app.user,
     events: state.events.events,
+    userEvents: state.events.userEvents,
     bands: state.bands.bands,
   };
 }
@@ -300,6 +305,7 @@ function mapDispatchToProps(dispatch) {
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
+    onGetUserEventMany: actions.getUserEventMany,
     onDeleteEvent: actions.deleteEvent,
     onGetBandMany: getBandMany,
     onGetBand: getBand,
