@@ -43,39 +43,6 @@ class UserEventList extends Component {
 
   }
 
-  // componentWillMount() {
-  //   // if (!this.state.userEvents) {
-  //   database.ref().child('bands').on('child_added', () => {
-  //     Promise.resolve()
-  //     .then(() => this.props.onGetBandMany(this.id))
-  //     .then(() => {
-  //       let userEvents = {};
-
-  //       if (this.props.bands) {
-  //       Object.keys(this.props.bands).map((key) => {
-  //         let bandId = key;
-  //         let bandName = this.props.bands[key].name;
-  //         if (this.props.bands[key].events) {
-  //         Object.keys(this.props.bands[key].events).map(key2 => {
-  //           this.props.bands[key].events[key2].id = key2;
-  //           // this.props.bands[key].events[key2].bandId = bandId;
-  //           // this.props.bands[key].events[key2].bandName = bandName;
-  //           return userEvents[key] = this.props.bands[key].events[key2];
-  //         })
-  //       }
-  //         // return this.props.bands[key].events
-  //         // return userEvents[key] = this.props.bands[key].events
-  //       });
-  //     }
-  //       console.log(userEvents);
-  //       this.setState({userEvents});
-  //     })
-  //   })
-  //   // this.props.onClearEvent()
-  //   // this.props.onClearBand()
-  //   // }
-  // }
-
   componentWillMount() {
     database.ref(`bands`).on('value', (snapshot) => {
       this.props.onGetBandMany(this.props.match.params.userId)
@@ -260,21 +227,15 @@ class UserEventList extends Component {
           let bandId = key;
           let bandName = bands[key].name;
           if (bands[key].events) {
-          Object.keys(bands[key].events).map(key2 => {
-            bands[key].events[key2].id = key2;
-            // bands[key].events[key2].bandId = bandId;
-            // bands[key].events[key2].bandName = bandName;
-            return userEvents[key2] = bands[key].events[key2];
-          })
-        }
-          // return this.props.bands[key].events
-          // return userEvents[key] = this.props.bands[key].events
+            Object.keys(bands[key].events).map(key2 => {
+              bands[key].events[key2].id = key2;
+              // bands[key].events[key2].bandId = bandId;
+              // bands[key].events[key2].bandName = bandName;
+              return userEvents[key2] = bands[key].events[key2];
+            })
+          }
         });
-        // let results = this.sortData(events);
-        // console.log(results);
         let rows = Object.keys(userEvents).map((key) => {
-          // console.log('rendering row')
-          // events[key].id = key;
 
           const status = this.props.statusFilter === 'ALL';
           const type = this.props.typeFilter === 'ALL';

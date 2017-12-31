@@ -1,7 +1,7 @@
 import ActionTypes from '../constants/action_types';
 
 const initialState = {
-  bands: null,
+  bands: {},
   activeBand: null,
   error: null,
   recentlyDeleted: [],
@@ -34,7 +34,7 @@ export function bandReducer(state = initialState, action) {
     case ActionTypes.GET_BANDS_MANY_FULFILLED:
         return {
         ...state,
-        bands: action.bands ? action.bands.bands : null,
+        bands: action.bands ? action.bands : null,
       }
     case ActionTypes.GET_BANDS_MANY_REJECTED:
         return {
@@ -50,7 +50,7 @@ export function bandReducer(state = initialState, action) {
     case ActionTypes.CREATE_BAND_FULFILLED:
         return {
         ...state,
-        bands: action.bands.bands,
+        // bands: action.bands.bands,
       }
     case ActionTypes.CREATE_BAND_REJECTED:
         return {

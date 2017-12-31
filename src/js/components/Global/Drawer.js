@@ -35,12 +35,12 @@ class Drawer extends Component {
 
     if (user) {
       // let bandsUrl = `/${userName}/bands`;
-      bandsUrl = `/${user.uid}/bands`;
-      profileUrl = `/${user.uid}/profile`;
-      dashboardUrl = `/${user.uid}/dashboard`;
-      eventsUrl = `/${user.uid}/events`;
-      settingsUrl = `/${user.uid}/settings`;
-      messagesUrl = `/${user.uid}/messages`;
+      bandsUrl = `/${user.id}/bands`;
+      profileUrl = `/${user.id}/profile`;
+      dashboardUrl = `/${user.id}/dashboard`;
+      eventsUrl = `/${user.id}/events`;
+      settingsUrl = `/${user.id}/settings`;
+      messagesUrl = `/${user.id}/messages`;
     } else {
       bandsUrl = '';
       profileUrl = '';

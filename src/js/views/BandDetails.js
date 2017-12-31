@@ -165,12 +165,12 @@ class BandDetails extends Component {
       bio: this.state.bio,
       logoUrl: this.state.logoUrl,
       logoName: this.state.logoName,
-      stagePlotUrl: this.props.activeBandStagePlotUrl,
-      stagePlotName: this.state.stagePlotName,
+      stagePlotUrl: this.props.activeBandStagePlotUrl || '',
+      stagePlotName: this.state.stagePlotName || '',
       id: this.state.id,
     }
     console.log(band);
-    // this.props.onUpdateBand(band)
+    this.props.onUpdateBand(band)
   }
 
   handleInputChange(event) {

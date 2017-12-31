@@ -8,19 +8,12 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
-import { clearBand, getBandMany } from '../actions/band.actions';
+import { clearBand, getBand, getBandMany } from '../actions/band.actions';
 
 import { database, auth } from '../config/fire';
 
 import { Link } from 'react-router-dom';
 
-const testBands = {
-  1: {
-    name: 'OLDSPORT',
-    genre: 'Penetentiary Surf Rock',
-    location: 'Los Angeles',
-  }
-}
 
 class UserDashboard extends Component {
   constructor(props) {
@@ -30,27 +23,15 @@ class UserDashboard extends Component {
   }
 
   componentWillMount() {
+  //   let userBands = this.props.user.groups;
+  //   if (userBands) {
+  //     Object.keys(userBands).map(key => {
+  //       console.log(key);
+  //       this.props.onGetBand(key);
+  //     })
+  // }
     this.db.child('bands').on('value', () => {
-      this.props.onGetBandMany();
-      // Promise.resolve()
-      // .then(() => this.props.onGetBandMany())
-    //   .then(() => {
-    //     let userEvents = {};
-    //     if(this.props.bands) {
-    //     Object.keys(this.props.bands).map((key) => {
-    //       let bandId = this.props.bands[key].id;
-    //       if (this.props.bands[key].events) {
-    //       Object.keys(this.props.bands[key].events).map(key2 => {
-    //         this.props.bands[key].events[key2].id = key2;
-    //         this.props.bands[key].events[key2].bandId = bandId;
-    //         return userEvents[key2] = this.props.bands[key].events[key2];
-    //       })
-    //     }
-    //     });
-    //   }
-    //     console.log(userEvents);
-    //     this.setState({userEvents});
-    //   })
+      this.props.onGetBandMany(this.props.user);
     })
     this.props.onClearEvent()
     this.props.onClearBand()
@@ -125,6 +106,7 @@ class UserDashboard extends Component {
       Object.keys(list).map((key) => {
         let bandId = key;
         let bandName = list[key].name;
+        list[key].id = key;
         if (list[key].events) {
         Object.keys(list[key].events).map(key2 => {
           list[key].events[key2].id = key2;
@@ -290,12 +272,12 @@ class UserDashboard extends Component {
           <h1>User Dashboard</h1>
 
           <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3>
-          <Link to={`/${this.props.user.uid}}/bands`}>
+          <Link to={`/${this.props.user.id}}/bands`}>
             <h3>Bands</h3>
           </Link>
           { this.renderPreviewList(this.props.bands, 'band') }
 
-          <Link to={`/${this.props.user.uid}/events`}><h3>Events</h3></Link>
+          <Link to={`/${this.props.user.id}/events`}><h3>Events</h3></Link>
           {/* { this.renderPreviewList(this.props.events, 'event') } */}
           { this.renderEventList(this.props.bands, 'event') }
         </div>
@@ -320,6 +302,7 @@ function mapDispatchToProps(dispatch) {
     onGetEventMany: actions.getEventMany,
     onDeleteEvent: actions.deleteEvent,
     onGetBandMany: getBandMany,
+    onGetBand: getBand,
     onClearBand: clearBand,
     // onRestoreEvent: actions.restoreEvent,
     // filterEventsByStatus: actions.filterEventsByStatus,

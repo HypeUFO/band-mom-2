@@ -2,10 +2,11 @@ import ActionTypes from '../constants/action_types';
 import { database, auth } from '../config/fire';
 
 export function createUser(user) {
-  console.log(database.ref().child('users'))
+  console.log('Creating user: ' + user);
   return dispatch => {
     dispatch(createUserRequestedAction());
-    return database.ref().child('users').push().set(user)
+    return database.ref(`/users/${user.id}`).set(user)
+    // return database.ref().child('users').push().set(user)
     .then(() => {
       dispatch(createUserFulfilledAction());
     })
@@ -36,18 +37,27 @@ function createUserFulfilledAction(user) {
   };
 }
 
-export function getUser(user) {
+export function getUser(firebaseUser) {
   return dispatch => {
-    Promise.resolve()
-    .then(() => {
-      return dispatch(getUserRequestedAction());
-    })
-    .then(() => {
+    getUserRequestedAction();
+    database.ref('/users/'+firebaseUser.uid).once('value', snap => {
+      const user = snap.val();
       return dispatch(getUserFulfilledAction(user))
     })
     .catch((err) => {
       dispatch(getUserRejectedAction(err));
     });
+
+  //   Promise.resolve()
+  //   .then(() => {
+  //     return dispatch(getUserRequestedAction());
+  //   })
+  //   .then(() => {
+  //     return dispatch(getUserFulfilledAction(user))
+  //   })
+  //   .catch((err) => {
+  //     dispatch(getUserRejectedAction(err));
+  //   });
   }
 }
 
@@ -167,3 +177,5 @@ function setNextRouteErrorAction(error) {
 export function resetPassword(email) {
   return console.log(`Resetting PW for ${email}`)
 }
+
+

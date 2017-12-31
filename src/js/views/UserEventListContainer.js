@@ -44,7 +44,7 @@ class UserEventListContainer extends Component {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // if (!this.state.userEvents) {
     database.ref().child('bands').on('child_added', () => {
       Promise.resolve()
@@ -77,10 +77,10 @@ class UserEventListContainer extends Component {
     // }
   }
 
-  // componentDidMount() {
-  //   this.handleFilterWidth()
-  //   window.addEventListener('resize', this.handleFilterWidth);
-  // }
+  componentDidMount() {
+    this.handleFilterWidth()
+    window.addEventListener('resize', this.handleFilterWidth);
+  }
 
   setFilterWidth(id) {
     const filterDiv = document.querySelector(`#${id}`);

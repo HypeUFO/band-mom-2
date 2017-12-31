@@ -43,7 +43,7 @@ class BandList extends Component {
 
   componentWillMount() {
     this.db.on('child_added', () => {
-      this.props.onGetBandMany()
+      this.props.onGetBandMany(this.props.user)
     })
     this.props.onClearBand()
   }
@@ -322,6 +322,7 @@ class BandList extends Component {
 
 function mapStateToProps(state) {
   return {
+    user: state.app.user,
     bands: state.bands.bands,
     recentlyDeleted: state.bands.recentlyDeleted,
     notification: state.notification,

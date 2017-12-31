@@ -47,8 +47,15 @@ class Register extends Component {
 
     auth.onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
-        console.log(firebaseUser)
-        this.props.onCreateUser(firebaseUser);
+        const user = {
+          email: firebaseUser.email,
+          phone: firebaseUser.phoneNumber || '',
+          displayName: firebaseUser.displayName || '',
+          id: firebaseUser.uid,
+          groups: {},
+        }
+        console.log('creating fireaseUser: ' + JSON.stringify(user))
+        this.props.onCreateUser(user);
       } else {
         console.log('not logged in');
       }

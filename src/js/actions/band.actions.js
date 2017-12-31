@@ -52,15 +52,54 @@ function getBandFulfilledAction(band) {
 
 
 
-export function getBandMany() {
+// export function getBandMany(user) {
+//   // return {type: ActionTypes.getBandManyFulfilled,};
+//   return dispatch => {
+//     dispatch(getBandManyRequestedAction());
+//     database.ref('/').once('value', snap => {
+//     database.ref('/').on('value', snap => {
+//       const bands = snap.val();
+//       console.log(bands);
+//        return dispatch(getBandManyFulfilledAction(bands))
+//     })
+
+
+//         const bands = snap.val();
+//         console.log(bands);
+//          return dispatch(getBandManyFulfilledAction(bands))
+//       })
+//     // })
+//     .catch((error) => {
+//       console.log(error);
+//       dispatch(getBandManyRejectedAction());
+//     });
+//   }
+// }
+
+
+export function getBandMany(user) {
   // return {type: ActionTypes.getBandManyFulfilled,};
   return dispatch => {
     dispatch(getBandManyRequestedAction());
-    database.ref('/').once('value', snap => {
-    // database.ref('/').on('value', snap => {
-      const bands = snap.val();
-      console.log(bands);
+    database.ref().child("userGroups").child(user.id).once('value', snap => {
+      const bands = {}
+      snap.forEach(function(child) {
+      console.log(child.key+": "+child.val());
+      const bandKey = child.key
+      database.ref('bands').child(bandKey).on('value', snap => {
+        const band = snap.val();
+        console.log(band);
+        bands[bandKey] = band;
+        console.log(bands);
+        //  return dispatch(getBandManyFulfilledAction(bands))
+      })
+  })
+    // database.ref('bands').child(snap.key).on('value', snap => {
+      // const bands = snap.val();
+      // console.log(bands);
        return dispatch(getBandManyFulfilledAction(bands))
+    // })
+      // })
     })
     .catch((error) => {
       console.log(error);
@@ -68,6 +107,7 @@ export function getBandMany() {
     });
   }
 }
+
 
 function getBandManyRequestedAction() {
   return {
@@ -88,11 +128,36 @@ function getBandManyFulfilledAction(bands) {
   };
 }
 
-export function createBand(band) {
-  console.log(database.ref().child('bands'))
+export function createBand(band, user) {
+
   return dispatch => {
     dispatch(createBandRequestedAction());
-    return database.ref().child('bands').push().set(band)
+    // return database.ref().child('bands').push().set(band)
+
+    var newBandKey = database.ref().child('bands').push().key;
+    const newUserKey = user.id;
+
+    // A post entry.
+    var newGroup = {};
+
+    const userGroup = {}
+
+    const bandMembers = {}
+
+
+    newGroup[newBandKey] = true
+    userGroup[newBandKey] = true
+    bandMembers[newUserKey] = true
+
+    band.id = newBandKey;
+    var updates = {};
+    updates['/bands/' + newBandKey] = band;
+    updates['/users/' + user.id + '/groups'] = newGroup;
+    updates['/bandMembers/'+ newBandKey] = bandMembers;
+    // updates['/userGroups/'+ user.id] = userGroup;
+    updates['/userGroups/'+ user.id] = userGroup;
+
+    return database.ref().update(updates)
     .then(() => {
       dispatch(createBandFulfilledAction());
     })
@@ -102,6 +167,8 @@ export function createBand(band) {
     });
   }
 }
+
+
 
 function createBandRequestedAction() {
   return {

@@ -71,10 +71,12 @@ class CreateBandModal extends Component {
   }
 
    addBand() {
-     const userId = this.props.user.uid;
-     const roles = {}
-     roles[userId] = 'owner';
-      const band = {
+    const members = {}
+    members[this.props.user.id] = true
+    const userId = this.props.user.id;
+    const roles = {}
+    roles[userId] = 'owner';
+    const band = {
       name: this.state.name,
       location: this.state.location,
       email: this.state.email,
@@ -85,8 +87,9 @@ class CreateBandModal extends Component {
       type: this.state.type,
       roles,
       events: {},
+      members,
     }
-    this.props.onCreateBand(band);
+    this.props.onCreateBand(band, this.props.user);
   }
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');

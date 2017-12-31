@@ -52,7 +52,7 @@ function PublicRoute ({component: Component, authenticated, user, from, ...rest}
       render={(props) => {
         return !authenticated
         ? <Component {...props} />
-        : <Redirect to={ from || `/${user.uid}/dashboard` } />
+        : <Redirect to={ from || `/${user.id}/dashboard` } />
         }
       }
     />
