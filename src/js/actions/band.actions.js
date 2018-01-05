@@ -53,16 +53,12 @@ export function getBandMany(user) {
         const groupKey = child.key
         database.ref('groups').child(groupKey).on('value', snap => {
           const band = snap.val();
-          console.log(band);
           bands[groupKey] = band;
-          console.log(bands);
-          //  return dispatch(getBandManyFulfilledAction(bands))
         })
       })
       return dispatch(getBandManyFulfilledAction(bands))
     })
     .catch((error) => {
-      console.log(error);
       dispatch(getBandManyRejectedAction());
     });
   }
@@ -216,6 +212,7 @@ function restoreBandFulfilledAction(band) {
 
 
 export function updateBand(band) {
+  console.log(band);
   return dispatch => {
     dispatch(updateBandRequestedAction());
     database.ref().child('groups/' + band.id).update(band)
@@ -294,7 +291,7 @@ export function uploadBandLogo(file, bandId) {
     return storage.ref().child('/groupLogos/' + bandId).child(file.name).put(file, metadata)
     .then((snapshot) => {
       const url = snapshot.downloadURL;
-      database.ref('groups').child(bandId).set({logoUrl: url, logoName: file.name});
+      database.ref('groups').child(bandId).update({logoUrl: url, logoName: file.name});
       return dispatch(uploadBandLogoFulfilledAction(url))
     })
     .catch((error) => {
@@ -339,6 +336,7 @@ export function uploadStagePlot(file, bandId) {
       newStageplot.url = stageplotUrl;
       newStageplot.name = file.name;
       const key = database.ref('groups').child(bandId).child('stageplots').push(newStageplot).key
+      newStageplot.id = key;
       console.log('key = ' + key);
       database.ref('groups').child(bandId).child('stageplots').child(key).update(newStageplot)
       return dispatch(uploadStagePlotFulfilledAction(stageplotUrl))
@@ -366,6 +364,42 @@ function uploadStagePlotFulfilledAction(stagePlotUrl) {
 function uploadStagePlotRejectedAction(error) {
   return {
     type: ActionTypes.UPLOAD_STAGE_PLOT_REJECTED,
+    error
+  }
+}
+
+
+export function deleteStagePlot(file, bandId) {
+  return dispatch => {
+    dispatch(deleteStagePlotRequestedAction());
+    return storage.ref('stageplots').child(bandId).child(file.name).delete()
+    .then(() => {
+      database.ref('groups').child(bandId).child('stageplots').child(file.id).remove();
+      return dispatch(deleteStagePlotFulfilledAction())
+    })
+    .catch((error) => {
+      console.error(error);
+      return dispatch(deleteStagePlotRejectedAction(error));
+    });
+  }
+}
+
+function deleteStagePlotRequestedAction() {
+  return {
+    type: ActionTypes.DELETE_STAGE_PLOT_REQUESTED
+  }
+}
+
+function deleteStagePlotFulfilledAction(stagePlotUrl) {
+  return {
+    type: ActionTypes.DELETE_STAGE_PLOT_FULFILLED,
+    stagePlotUrl
+  };
+}
+
+function deleteStagePlotRejectedAction(error) {
+  return {
+    type: ActionTypes.DELETE_STAGE_PLOT_REJECTED,
     error
   }
 }

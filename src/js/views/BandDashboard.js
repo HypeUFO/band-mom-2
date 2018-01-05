@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/event.actions';
-import { getBand } from '../actions/band.actions';
+import {
+  getBand,
+  updateBand,
+  updateBandEdit,
+  uploadBandLogo,
+  uploadStagePlot,
+  deleteBand,
+  deleteStagePlot,
+  restoreBand,
+} from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Table from '../components/Global/Table';
 import TableRow from '../components/Global/TableRow';
@@ -12,6 +21,7 @@ import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
+
 
 import genres from '../constants/genre_list';
 
@@ -29,20 +39,24 @@ import history from '../history';
 import classNames from 'classnames';
 
 import { database } from '../config/fire'
+import FileUploadModal from '../modals/FileUploadModal';
 
 
 const initialState = {
   showCreateEventModal: false,
   showShareModal: false,
   selected: '',
-
+  showStageplotModal: false,
   name: '',
   location: '',
   genre1: '',
   genre2: '',
   bio: '',
-  logo: '',
+  logoUrl: '',
+  logoName: '',
   id: '',
+  stagePlotUrl: '',
+  stagePlotName: '',
 };
 
 class BandDashboard extends Component {
@@ -56,10 +70,23 @@ class BandDashboard extends Component {
     this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
+    this.onCancelStageplotUpload = this.onCancelStageplotUpload.bind(this);
+    this.onCancelLogoUpload = this.onCancelLogoUpload.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     // this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
     // this.onDeleteEventError = this.onDeleteEventError.bind(this);
     // this.deleteEvent = this.deleteEvent.bind(this);
     // this.restoreEvent = this.restoreEvent.bind(this);
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
+    this.onError = this.onError.bind(this);
+
+    this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(this);
+
+    // this.handleFormEdit = this.handleFormEdit.bind(this);
 
   }
 
@@ -73,25 +100,88 @@ class BandDashboard extends Component {
       console.log(this.props.band);
       this.setState({
         // disabled: !!this.props.bandEdit,
+        // name: this.props.band.name || '',
+        // location: this.props.band.location || '',
+        // genre1: this.props.band.genre1 || '',
+        // genre2: this.props.band.genre2 || '',
+        // bio: this.props.band.bio || '',
+        // stageplots: this.props.band.stageplots || '',
+        // logo: this.props.band.logo,
+
         name: this.props.band.name || '',
         location: this.props.band.location || '',
         genre1: this.props.band.genre1 || '',
         genre2: this.props.band.genre2 || '',
         bio: this.props.band.bio || '',
-        stageplots: this.props.band.stageplots || '',
-        logo: this.props.band.logo,
+        logoUrl: this.props.band.logoUrl || '',
+        logoName: this.props.band.logoName || '',
+        stagePlotUrl: this.props.stagPlotUrl || '',
+        stagePlotName: this.props.stagePlotName || '',
       })
     })
     .catch((err) => console.log(err));
 
-    database.ref(`events`).on('child_added', () => {
-    // database.ref(`bands/${this.id}/`).child('events').on('child_added', () => {
+    database.ref(`events`).on('value', () => {
       this.props.onGetEventMany((this.id))
     })
-    this.props.onClearEvent()
-    // if (!this.props.events) {
-    //   this.props.onGetEventMany()
-    // }
+    database.ref(`groups/${this.props.match.params.bandId}`).on('value', () => {
+        this.props.onGetBand(this.props.match.params.bandId)
+      })
+  }
+
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    if(this.refs.form.validate()) {
+      this.handleAsyncUpdateButtonClick();
+      // this.props.onSubmit();
+    }
+  }
+
+  onCancel() {
+    // this.handleFormEdit();
+    this.props.updateBandEdit();
+  }
+
+  onSuccess() {
+    // this.setState({
+    //   disabled: true
+    // })
+    this.props.updateBandEdit();
+    // smoothScroll(document.body, 500);
+    this.props.onGetBand(this.id);
+  }
+
+  onError(err) {
+    console.log('An error occurred: ' + err)
+  }
+
+  handleAsyncUpdateButtonClick() {
+    Promise.resolve()
+    .then(this.updateBand())
+    .then(() => this.onSuccess())
+    .catch(err => this.onError(err));
+  }
+
+  updateBand() {
+    console.log(this.props.band)
+    const band = {
+      name: this.state.name,
+      location: this.state.location,
+      genre1: this.state.genre1,
+      genre2: this.state.genre2,
+      bio: this.state.bio,
+      // logoUrl: this.state.logoUrl,
+      // logoName: this.state.logoName,
+      // stagePlotUrl: this.props.activeBandStagePlotUrl || '',
+      // stagePlotName: this.state.stagePlotName || '',
+      id: this.props.match.params.bandId,
+    }
+    console.log(band);
+    this.props.onUpdateBand(band)
   }
 
   handleRowClick(row) {
@@ -125,44 +215,15 @@ class BandDashboard extends Component {
     console.log('An error occured:' + err);
   }
 
-  // deleteEvent(event) {
-  //   this.props.onDeleteEvent(event)
-  //   // this.db.child(gigId).remove()
-  //   .then(() => this.onDeleteEventSuccess())
-  //   .catch(err => this.onDeleteEventError())
-  // }
+  onCancelStageplotUpload() {
+    this.setState({showStageplotModal: false})
+  }
 
-  // onDeleteEventSuccess() {
-  //   this.props.onGetEventMany();
-  //   // alert('Show successfully deleted');
-  // }
+  onCancelLogoUpload() {
+    this.setState({showLogoModal: false})
+  }
 
-  // onDeleteEventError() {
-  //   this.props.onGetEventMany();
-  //   alert('An error occured :(');
-  // }
 
-  // restoreEvent() {
-  //   if (this.props.recentlyDeleted.length > 0) {
-  //     this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
-  //   } else {
-  //     console.log('no Events to restore');
-  //     this.props.dismissNotification();
-  //   }
-  // }
-
-  // renderNotification() {
-  //   const { notification } = this.props;
-  //   return (
-  //     <Notification
-  //       action={this.restoreEvent}
-  //       actionLabel={notification.actionLabel}
-  //       dismiss={this.props.dismissNotification}
-  //       display={notification.display}
-  //       message={notification.message}
-  //     />
-  //   );
-  // }
 
   renderEventCard(doc, index) {
 
@@ -214,10 +275,23 @@ class BandDashboard extends Component {
     return (
       <a
         href={doc.url}
-        className="card__link"
+        className="card__link card__link__stageplot"
         key={ index }
       >
-        <div className="card"
+        <a className="card__delete" href onClick={(event) => {
+          event.preventDefault();
+          Promise.resolve()
+          .then(() => {
+            this.props.deleteStagePlot(doc, this.props.band.id);
+          })
+          .then(() => {
+            this.props.onGetBand(this.props.band.id)
+          })
+          } }
+        >
+          <i className="material-icons">close</i>
+        </a>
+        <div className="card card__stageplot"
           key={ doc.id }
           onClick={ this.handleRowClick.bind(this, doc) }
         >
@@ -227,24 +301,11 @@ class BandDashboard extends Component {
     );
   }
 
-  // sortData(docs) {
-  //   let events;
-  //   // Sort data
-  //   events = Object.keys(docs)
-
-  //   return {
-  //     events,
-  //   };
-  // }
-
   renderEventPreview() {
     const { events } = this.props;
       if(events && Object.keys(events).length > 0 && events.constructor === Object) {
-        // let results = this.sortData(events);
-        // console.log(results);
 
         let rows = Object.keys(events).map((key) => {
-          // console.log('rendering row')
           events[key].id = key;
 
           if (events[key].status === 'upcoming') {
@@ -276,20 +337,10 @@ class BandDashboard extends Component {
   renderStagePlots() {
     const { stageplots } = this.props.band;
       if(stageplots && Object.keys(stageplots).length > 0 && stageplots.constructor === Object) {
-        // let results = this.sortData(stageplots);
-        // console.log(results);
-
         let rows = Object.keys(stageplots).map((key) => {
-          // console.log('rendering row')
           stageplots[key].id = key;
-
-            return this.renderStagePlotCard(stageplots[key], key)
+          return this.renderStagePlotCard(stageplots[key], key)
         })
-        // .sort((a, b) => {
-        //   const valueA = new Date(a.key);
-        //   const valueB = new Date(b.key);
-        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-        // })
 
         return (
           <Carousel>
@@ -310,12 +361,6 @@ class BandDashboard extends Component {
 
   render() {
 
-    // Subheader
-    // let breadcrumbs = [
-    //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
-    //   { link: null, name: project.name },
-    // ];
-
     const {
       user,
       band
@@ -326,8 +371,7 @@ class BandDashboard extends Component {
 
     let breadcrumbs = [
       // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: 'Test Band' },
-      // { link: null, name: gig.venue },
+      { link: null, name: band ? band.name : 'Band Name' },
     ];
 
     if (band) {
@@ -350,8 +394,36 @@ class BandDashboard extends Component {
         />
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
+          <FileUploadModal
+            show={ this.state.showStageplotModal }
+            // onSubmit={ this.onCreateBandSubmit }
+            onCancel={ this.onCancelStageplotUpload }
+            onUpload={this.props.uploadStagePlot}
+            pathId={this.props.band.id}
+            header="Upload Stageplot"
+            // onSuccess={ this.onCreateBandSuccess }
+            // onError={ this.onCreateBandError }
+          />
+          <FileUploadModal
+            show={ this.state.showLogoModal }
+            // onSubmit={ this.onCreateBandSubmit }
+            onCancel={ this.onCancelLogoUpload }
+            onUpload={this.props.uploadBandLogo}
+            pathId={this.props.band.id}
+            header="Upload Logo"
+            // onSuccess={ this.onCreateBandSuccess }
+            // onError={ this.onCreateBandError }
+          />
           {/* <div className="event__preview__container"> */}
-          <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/details`}><h3>Edit Band Details</h3></a>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <h3>Band Details</h3>
+            <a
+              // href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/details`}
+              onClick={this.props.updateBandEdit}
+            >
+              Edit
+            </a>
+          </div>
           <div className="band__details__container">
           <div className="band__details__image__wrapper">
             <img
@@ -359,6 +431,9 @@ class BandDashboard extends Component {
               alt="Logo"
               className="band__logo"
             />
+            <a className="modal__logo__link" href onClick={() => this.setState({showLogoModal: true})}>
+              { band.logoUrl ? 'Change logo' : 'Upload logo' }
+            </a>
           </div>
           <Form
             // className="form__container"
@@ -440,18 +515,24 @@ class BandDashboard extends Component {
             </div>
           </Form>
           </div>
+          <hr />
           <div className="slide-header">
             <h3>Upcoming Events</h3>
             <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`}>View All</a>
           </div>
             { this.renderEventPreview() }
-
+          <hr />
           <div className="slide-header">
             <h3>StagePlots</h3>
             {/* <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`}>View All</a> */}
+            <button className="btn-icon" onClick={() => this.setState({showStageplotModal: true})}>
+              <span className="btn-icon__text">Upload Stageplot</span>
+              <i className="material-icons btn-icon__icon">add</i>
+            </button>
           </div>
             { this.renderStagePlots() }
           </div>
+          <hr />
         </div>
       </div>
     );
@@ -467,18 +548,32 @@ function mapStateToProps(state) {
   return {
     events: state.events.events,
     band: state.bands.activeBand,
+    bandEdit: state.bands.edit,
     user: state.app.user,
+    activeBandLogo: state.bands.activeBandLogoUrl,
+    activeStagePlotUrl: state.bands.activeStagePlotUrl,
+    isLoading: state.app.loading,
+    notification: state.notification,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    updateBandEdit: updateBandEdit,
+    onUpdateBand: updateBand,
     onGetBand: getBand,
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
+    uploadBandLogo: uploadBandLogo,
+    uploadStagePlot: uploadStagePlot,
+    deleteStagePlot: deleteStagePlot,
+    onDeleteBand: deleteBand,
+    onRestoreBand: restoreBand,
+    dismissNotification: dismissNotification,
     },
   dispatch);
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(BandDashboard);

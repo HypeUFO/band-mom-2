@@ -12,6 +12,10 @@ body {
   width: 100%;
 }
 
+hr {
+  opacity: 0.2;
+}
+
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
@@ -46,3 +50,5 @@ body {
 @import './components/map';
 @import './components/filter';
 @import './components/card';
+@import './components/file_input';
+@import './components/spinner';

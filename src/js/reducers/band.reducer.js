@@ -142,13 +142,30 @@ export function bandReducer(state = initialState, action) {
     case ActionTypes.UPLOAD_STAGE_PLOT_REQUESTED:
       return {
           ...state,
+          loading: true,
       }
     case ActionTypes.UPLOAD_STAGE_PLOT_FULFILLED:
       return {
           ...state,
           activeBandStagePlotUrl: action.stagePlotUrl,
+          loading: false,
       }
     case ActionTypes.UPLOAD_STAGE_PLOT_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          loading: false,
+      }
+
+    case ActionTypes.DELETE_STAGE_PLOT_REQUESTED:
+      return {
+          ...state,
+      }
+    case ActionTypes.DELETE_STAGE_PLOT_FULFILLED:
+      return {
+          ...state,
+      }
+    case ActionTypes.DELETE_STAGE_PLOT_REJECTED:
       return {
           ...state,
           error: action.error,

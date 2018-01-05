@@ -8,13 +8,10 @@
   &__content {
     width: 100%;
     order: 1;
-    margin-top: 135px; // flex: 5;
-    // padding: .5rem;
+    margin-top: 135px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    // padding: 1rem 3rem;
-    // padding: 100px 3rem;
     &--two-col {
       margin-top: 135px;
       width: 100%;
@@ -26,13 +23,10 @@
   @include md {
     &__content {
       margin-top: 0;
-      // padding: 100px 3rem;
-      // padding: 0 3rem;
       &--two-col {
         margin-top: 60px;
-        padding: 0 3rem;
-        // margin-top: 80px;
-        // padding: 100px 3rem;
+        // padding: 0 3rem;
+        padding: 0 6rem 0 3rem;
         width: 80%;
       }
     }
