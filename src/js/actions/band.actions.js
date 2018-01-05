@@ -93,7 +93,7 @@ export function createBand(band, user) {
   return dispatch => {
     dispatch(createBandRequestedAction());
 
-    const newBandKey = database.ref().child('bands').push().key;
+    const newBandKey = database.ref().child('groups').push().key;
     const userId = user.id;
 
     const userGroup = {}
@@ -281,19 +281,20 @@ function updateBandEditRejectedAction(error) {
 }
 
 
-export function uploadBandLogo(file) {
+export function uploadBandLogo(file, bandId) {
   const name = (+new Date()) + '-' + file.name;
 
   var metadata = {
     name,
+    contentType: file.type,
   };
 
   return dispatch => {
     dispatch(uploadBandLogoRequestedAction());
-    return storage.ref().child(name).put(file, metadata)
+    return storage.ref().child('/groupLogos/' + bandId).child(file.name).put(file, metadata)
     .then((snapshot) => {
       const url = snapshot.downloadURL;
-      console.log(url);
+      database.ref('groups').child(bandId).set({logoUrl: url, logoName: file.name});
       return dispatch(uploadBandLogoFulfilledAction(url))
     })
     .catch((error) => {
@@ -323,18 +324,24 @@ function uploadBandLogoRejectedAction(error) {
   }
 }
 
-export function uploadStagePlot(file) {
+export function uploadStagePlot(file, bandId) {
   const name = (+new Date()) + '-' + file.name;
   var metadata = {
     name,
+    contentType: file.type,
   };
   return dispatch => {
     dispatch(uploadStagePlotRequestedAction());
-    return storage.ref().child(name).put(file, metadata)
+    return storage.ref('stageplots').child(bandId).child(file.name).put(file, metadata)
     .then((snapshot) => {
-      const url = snapshot.downloadURL;
-      console.log(url);
-      return dispatch(uploadStagePlotFulfilledAction(url))
+      const stageplotUrl = snapshot.downloadURL;
+      const newStageplot = {};
+      newStageplot.url = stageplotUrl;
+      newStageplot.name = file.name;
+      const key = database.ref('groups').child(bandId).child('stageplots').push(newStageplot).key
+      console.log('key = ' + key);
+      database.ref('groups').child(bandId).child('stageplots').child(key).update(newStageplot)
+      return dispatch(uploadStagePlotFulfilledAction(stageplotUrl))
     })
     .catch((error) => {
       console.error(error);

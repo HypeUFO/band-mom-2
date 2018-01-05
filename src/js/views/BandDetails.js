@@ -7,6 +7,7 @@ import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Form from '../components/Global/Form';
 import Input from '../components/Global/Input';
+import Carousel from '../components/Carousel';
 import Notification from '../components/Global/Notification';
 import moment from 'moment';
 import history from '../history';
@@ -106,10 +107,10 @@ class BandDetails extends Component {
       genre1: this.props.band.genre1 || '',
       genre2: this.props.band.genre2 || '',
       bio: this.props.band.bio || '',
-      logoUrl: this.props.band.logoUrl || '',
-      logoName: this.props.band.logoName || '',
-      stagePlotUrl: this.state.stagePlotUrl,
-      stagePlotName: this.state.stagePlotName,
+      // logoUrl: this.props.band.logoUrl || '',
+      // logoName: this.props.band.logoName || '',
+      // stagePlotUrl: this.state.stagePlotUrl,
+      // stagePlotName: this.state.stagePlotName,
       id: this.props.band.id,
     })
     this.props.updateBandEdit();
@@ -163,10 +164,10 @@ class BandDetails extends Component {
       genre1: this.state.genre1,
       genre2: this.state.genre2,
       bio: this.state.bio,
-      logoUrl: this.state.logoUrl,
-      logoName: this.state.logoName,
-      stagePlotUrl: this.props.activeBandStagePlotUrl || '',
-      stagePlotName: this.state.stagePlotName || '',
+      // logoUrl: this.state.logoUrl,
+      // logoName: this.state.logoName,
+      // stagePlotUrl: this.props.activeBandStagePlotUrl || '',
+      // stagePlotName: this.state.stagePlotName || '',
       id: this.state.id,
     }
     console.log(band);
@@ -186,17 +187,17 @@ class BandDetails extends Component {
     // console.log(this.state);
     Promise.resolve()
     .then(() => {
-      return this.props.uploadBandLogo(logo);
+      return this.props.uploadBandLogo(logo, this.props.match.params.bandId);
     })
-    .then(() => {
-      return (
-        this.setState({
-          logoUrl: this.props.activeBandLogo,
-          logoName: logo.name,
-        })
-      )
-    })
-    console.log(this.state)
+    // .then(() => {
+    //   // return (
+    //   //   this.setState({
+    //   //     logoUrl: this.props.activeBandLogo,
+    //   //     logoName: logo.name,
+    //   //   })
+    //   )
+    // })
+    // console.log(this.state)
   }
 
   handleStageplotUpload() {
@@ -210,7 +211,7 @@ class BandDetails extends Component {
     // console.log(this.state);
     Promise.resolve()
     .then(() => {
-      return this.props.uploadStagePlot(stageplot);
+      return this.props.uploadStagePlot(stageplot, this.props.match.params.bandId);
     })
     .then(() => {
       return (
@@ -268,13 +269,64 @@ class BandDetails extends Component {
         display={notification.display}
         message={notification.message}
       />
-    );  
+    );
+  }
+
+
+  renderStagePlotImage(doc, index) {
+
+    return (
+      <a
+        href={doc.url}
+        // className="card__link"
+        key={ index }
+        style={{width: 150, justifyContent: 'center', boxSizing: 'content-box'}}
+      >
+        <img src={ doc.url } alt={ doc.name } style={{width: 150, height: 150}}/>
+      </a>
+    );
+  }
+
+
+  renderStagePlots() {
+    const { stageplots } = this.props.band;
+      if(stageplots && Object.keys(stageplots).length > 0 && stageplots.constructor === Object) {
+        // let results = this.sortData(stageplots);
+        // console.log(results);
+        let rows = [];
+        Object.keys(stageplots).map((key) => {
+          // console.log('rendering row')
+          stageplots[key].id = key;
+
+            return rows.push(this.renderStagePlotImage(stageplots[key], key));
+        })
+        // .sort((a, b) => {
+        //   const valueA = new Date(a.key);
+        //   const valueB = new Date(b.key);
+        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
+        // })
+        console.log('rows = ' + rows)
+        return (
+          // <Carousel>
+            rows
+          // </Carousel>
+        );
+      }
+      else {
+        return (
+          // <NoContent text="No Shows" />
+          <div className="no-content__wrapper">
+            <div>No stageplots</div>
+          </div>
+        );
+      }
   }
 
   renderForm() {
     const {
       band,
       bandEdit,
+      isLoading
     } = this.props;
     if (band) {
       let formBottomClasses = classNames('form__bottom', 'band-details__form__bottom', { 'form__bottom--hidden': !bandEdit });
@@ -285,7 +337,7 @@ class BandDetails extends Component {
             id="band-details__form"
             onSubmit={ this.onSubmit }
             onCancel={ this.onCancel }
-            disabled={ !bandEdit }
+            disabled={ !bandEdit && !isLoading }
             ref="form"
             // error={ createError || uploadError }
           >
@@ -293,15 +345,11 @@ class BandDetails extends Component {
               <div className="form__column">
                 <div className="form__row">
                   <div className="band__details__image__wrapper">
-                  { !bandEdit ?
                     <img
                       src={band.logoUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
                       alt="Logo"
                       className="band__logo"
                     />
-                   : null
-                    }
-                  {/* : null } */}
                   </div>
                 </div>
               </div>
@@ -378,11 +426,19 @@ class BandDetails extends Component {
                     placeholder="Stageplot"
                     label="Stageplot"
                     disabled={ !bandEdit }
-                    // value={ bandEdit ? this.state.logoName : band.logoName }
+                    // value={ this.props.band.stageplots.name }
+                    // defaultValue={ this.props.band.stageplots.name }
                     onChange={ this.handleStageplotUpload }
                     // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
+                  </div>
+                  <div className="form__row" style={{justifyContent: 'flex-start'}}>
+                  { this.renderStagePlots() }
                 </div>
+                {/* <div className="form__row">
+                  <label for="inputId">file dialog</label>
+                  <input id="inputId" type="file" style={{position: 'fixed', top: '-100em'}} />
+                </div> */}
                 <div className="form__column">
                   {/* { this.renderFiles() } */}
                 </div>

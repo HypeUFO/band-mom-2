@@ -146,6 +146,7 @@ export default class Input extends Component {
       type,
       placeholder,
       value,
+      defaultValue,
       options,
       rows,
       cols,
@@ -276,6 +277,7 @@ export default class Input extends Component {
             name={ name }
             placeholder={ placeholder }
             value={ value }
+            defaultValue={ defaultValue }
             accept={ accept }
             onChange={ onChange }
             multiple

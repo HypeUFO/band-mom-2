@@ -203,6 +203,30 @@ class BandDashboard extends Component {
     );
   }
 
+  renderStagePlotCard(doc, index) {
+
+    let card = (
+        <div>
+          <img src={ doc.url } alt={ doc.name } />
+        </div>
+    );
+
+    return (
+      <a
+        href={doc.url}
+        className="card__link"
+        key={ index }
+      >
+        <div className="card"
+          key={ doc.id }
+          onClick={ this.handleRowClick.bind(this, doc) }
+        >
+          { card }
+        </div>
+      </a>
+    );
+  }
+
   // sortData(docs) {
   //   let events;
   //   // Sort data
@@ -248,6 +272,41 @@ class BandDashboard extends Component {
         );
       }
   }
+
+  renderStagePlots() {
+    const { stageplots } = this.props.band;
+      if(stageplots && Object.keys(stageplots).length > 0 && stageplots.constructor === Object) {
+        // let results = this.sortData(stageplots);
+        // console.log(results);
+
+        let rows = Object.keys(stageplots).map((key) => {
+          // console.log('rendering row')
+          stageplots[key].id = key;
+
+            return this.renderStagePlotCard(stageplots[key], key)
+        })
+        // .sort((a, b) => {
+        //   const valueA = new Date(a.key);
+        //   const valueB = new Date(b.key);
+        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
+        // })
+
+        return (
+          <Carousel>
+            { rows }
+          </Carousel>
+        );
+      }
+      else {
+        return (
+          // <NoContent text="No Shows" />
+          <div className="no-content__wrapper">
+            <div>No stageplots</div>
+          </div>
+        );
+      }
+  }
+
 
   render() {
 
@@ -386,7 +445,12 @@ class BandDashboard extends Component {
             <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`}>View All</a>
           </div>
             { this.renderEventPreview() }
-          
+
+          <div className="slide-header">
+            <h3>StagePlots</h3>
+            {/* <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`}>View All</a> */}
+          </div>
+            { this.renderStagePlots() }
           </div>
         </div>
       </div>
