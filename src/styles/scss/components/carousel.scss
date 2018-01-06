@@ -25,31 +25,8 @@
 
 .slide-header {
   display: flex;
-  // flex-direction: column;
   flex-direction: row;
   align-items: center;
-  // justify-content: center;
   justify-content: space-between;
   padding: 20px 0;
 }
-
-// .slick-prev:before, .slick-next:before {
-//   color: black;
-// }
-// .slick-track {
-//   padding: 0 20px !important;
-// }
-// .slick-slider {
-//   margin-bottom: 20px;
-// }
-// @include sm-only {
-//   .slick-next {
-//     right: 0;
-//   }
-//   .slick-prev {
-//     left: 0;
-//   }
-//   .slick-slide {
-//     min-width: 150px;
-//   }
-// }

@@ -644,6 +644,11 @@ input[type="submit"] {
   input[type="submit"]:hover {
     opacity: 0.8; }
 
+.btn-link {
+  color: #7F4FFF;
+  font-size: 1rem;
+  text-decoration: underline; }
+
 .btn-icon {
   display: flex;
   flex-direction: column;
@@ -1436,11 +1441,13 @@ tbody:hover > tr:hover td {
     padding: 10px;
     margin: 10px 0;
     margin-right: 20px;
-    width: 200px !important;
+    width: 100%;
     height: 200px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     transform: translateZ(0); }
+    .card__link__list {
+      width: 200px !important; }
     .card__link__bandlist > div > div {
       height: 100%;
       width: 100%;
@@ -1466,12 +1473,14 @@ tbody:hover > tr:hover td {
     top: 0;
     right: 0;
     margin: 0.25rem;
-    padding: 0.6rem;
+    padding: 0.5rem;
     background: rgba(0, 0, 0, 0.3);
     color: #FFFFFF;
     border-radius: 50%;
     -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+    .card__delete > .material-icons {
+      font-size: 1.2rem; }
     .card__delete:hover {
       background: #7F4FFF; }
   @media (min-width: 768px) {

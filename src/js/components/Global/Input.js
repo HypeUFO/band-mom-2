@@ -155,6 +155,7 @@ export default class Input extends Component {
       accept,
       onChange,
       onCancel,
+      onClick,
       disabled,
       ref,
       id,
@@ -190,6 +191,30 @@ export default class Input extends Component {
           className="btn-thin clr-grey"
           type="button"
           onClick={ onCancel }
+        >
+          { value }
+        </button>
+      );
+    }
+
+    else if (type === 'button-thin-button') {
+      return (
+        <button
+          className="btn-thin bg-clr-purple"
+          type="button"
+          onClick={ onClick }
+        >
+          { value }
+        </button>
+      );
+    }
+
+    else if (type === 'button-link') {
+      return (
+        <button
+          className="btn-link bg-clr-grey"
+          type="button"
+          onClick={ onClick }
         >
           { value }
         </button>

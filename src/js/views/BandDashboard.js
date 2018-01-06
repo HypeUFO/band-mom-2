@@ -13,14 +13,10 @@ import {
   restoreBand,
 } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
-import Table from '../components/Global/Table';
-import TableRow from '../components/Global/TableRow';
-import TableRowMenu from '../components/Global/TableRowMenu';
-import TableRowMenuItem from '../components/Global/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
-import Notification from '../components/Global/Notification';
+
 
 
 import genres from '../constants/genre_list';
@@ -28,10 +24,6 @@ import genres from '../constants/genre_list';
 import Form from '../components/Global/Form';
 
 import Carousel from '../components/Carousel';
-
-
-import CreateEventModal from '../modals/CreateEventModal';
-import FilterLink from '../components/Global/FilterLink';
 import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
@@ -40,10 +32,12 @@ import classNames from 'classnames';
 
 import { database } from '../config/fire'
 import FileUploadModal from '../modals/FileUploadModal';
+import AlertModal from '../modals/AlertModal';
 
 
 const initialState = {
   showCreateEventModal: false,
+  showAlert: false,
   showShareModal: false,
   selected: '',
   showStageplotModal: false,
@@ -57,6 +51,7 @@ const initialState = {
   id: '',
   stagePlotUrl: '',
   stagePlotName: '',
+  selectedStagePlot: '',
 };
 
 class BandDashboard extends Component {
@@ -83,6 +78,8 @@ class BandDashboard extends Component {
     this.onCancel = this.onCancel.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
+    this.onCancelDeleteStagePlot = this.onCancelDeleteStagePlot.bind(this);
+    this.onDeleteStagePlot = this.onDeleteStagePlot.bind(this);
 
     this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(this);
 
@@ -91,7 +88,6 @@ class BandDashboard extends Component {
   }
 
   componentWillMount() {
-    console.log(this.id);
     Promise.resolve()
     .then(() => {
       this.props.onGetBand(this.id)
@@ -100,14 +96,6 @@ class BandDashboard extends Component {
       console.log(this.props.band);
       this.setState({
         // disabled: !!this.props.bandEdit,
-        // name: this.props.band.name || '',
-        // location: this.props.band.location || '',
-        // genre1: this.props.band.genre1 || '',
-        // genre2: this.props.band.genre2 || '',
-        // bio: this.props.band.bio || '',
-        // stageplots: this.props.band.stageplots || '',
-        // logo: this.props.band.logo,
-
         name: this.props.band.name || '',
         location: this.props.band.location || '',
         genre1: this.props.band.genre1 || '',
@@ -147,11 +135,7 @@ class BandDashboard extends Component {
   }
 
   onSuccess() {
-    // this.setState({
-    //   disabled: true
-    // })
     this.props.updateBandEdit();
-    // smoothScroll(document.body, 500);
     this.props.onGetBand(this.id);
   }
 
@@ -167,20 +151,14 @@ class BandDashboard extends Component {
   }
 
   updateBand() {
-    console.log(this.props.band)
     const band = {
       name: this.state.name,
       location: this.state.location,
       genre1: this.state.genre1,
       genre2: this.state.genre2,
       bio: this.state.bio,
-      // logoUrl: this.state.logoUrl,
-      // logoName: this.state.logoName,
-      // stagePlotUrl: this.props.activeBandStagePlotUrl || '',
-      // stagePlotName: this.state.stagePlotName || '',
       id: this.props.match.params.bandId,
     }
-    console.log(band);
     this.props.onUpdateBand(band)
   }
 
@@ -223,20 +201,35 @@ class BandDashboard extends Component {
     this.setState({showLogoModal: false})
   }
 
+  onDeleteStagePlot() {
+    Promise.resolve()
+    .then(() => this.props.deleteStagePlot(this.state.selectedStagePlot, this.props.band.id))
+    .then(() => {
+      if (!this.props.uploading) {
+        this.setState({showAlert: false})
+      }
+    })
+  }
+
+  onCancelDeleteStagePlot() {
+    this.setState({showAlert: false})
+  }
+
+  onSubmitDeleteStagePlot() {
+    this.setState({showAlert: false})
+  }
+
 
 
   renderEventCard(doc, index) {
 
     let statusColorClass = '';
     switch(doc.status) {
-      case 'upcoming':
-        // statusColorClass = 'clr-purple';
-        break;
       case 'past':
         statusColorClass = 'clr-red';
         break;
       default:
-        // statusColorClass = 'clr-purple';
+        statusColorClass = 'clr-purple';
     }
 
 
@@ -251,7 +244,7 @@ class BandDashboard extends Component {
     return (
       <a
         href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events/${doc.id}/details`}
-        className="card__link"
+        className="card__link card__link__list"
         key={ index }
       >
         <div className="card"
@@ -275,14 +268,15 @@ class BandDashboard extends Component {
     return (
       <a
         href={doc.url}
-        className="card__link card__link__stageplot"
+        className="card__link card__link__stageplot card__link__list"
         key={ index }
       >
-        <a className="card__delete" href onClick={(event) => {
+        <button className="card__delete" href onClick={(event) => {
           event.preventDefault();
           Promise.resolve()
           .then(() => {
-            this.props.deleteStagePlot(doc, this.props.band.id);
+            this.setState({showAlert: true, selectedStagePlot: doc});
+            console.log(doc);
           })
           .then(() => {
             this.props.onGetBand(this.props.band.id)
@@ -290,7 +284,7 @@ class BandDashboard extends Component {
           } }
         >
           <i className="material-icons">close</i>
-        </a>
+        </button>
         <div className="card card__stageplot"
           key={ doc.id }
           onClick={ this.handleRowClick.bind(this, doc) }
@@ -365,12 +359,9 @@ class BandDashboard extends Component {
       user,
       band
     } = this.props;
-    // const userId = user.uid;
-    // const bandId = band.id;
 
 
     let breadcrumbs = [
-      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
       { link: null, name: band ? band.name : 'Band Name' },
     ];
 
@@ -396,33 +387,37 @@ class BandDashboard extends Component {
           <div className="page__content__container">
           <FileUploadModal
             show={ this.state.showStageplotModal }
-            // onSubmit={ this.onCreateBandSubmit }
             onCancel={ this.onCancelStageplotUpload }
             onUpload={this.props.uploadStagePlot}
             pathId={this.props.band.id}
             header="Upload Stageplot"
-            // onSuccess={ this.onCreateBandSuccess }
-            // onError={ this.onCreateBandError }
           />
           <FileUploadModal
             show={ this.state.showLogoModal }
-            // onSubmit={ this.onCreateBandSubmit }
             onCancel={ this.onCancelLogoUpload }
             onUpload={this.props.uploadBandLogo}
             pathId={this.props.band.id}
             header="Upload Logo"
-            // onSuccess={ this.onCreateBandSuccess }
-            // onError={ this.onCreateBandError }
           />
-          {/* <div className="event__preview__container"> */}
+          <AlertModal
+            show={ this.state.showAlert }
+            title="Are you sure you want to delete this stageplot?"
+            actionType="Delete"
+            action={this.onDeleteStagePlot}
+            onCancel={this.onCancelDeleteStagePlot}
+            isLoading={ this.props.uploading }
+          >
+            <p>This action can not be undone</p>
+          </AlertModal>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h3>Band Details</h3>
-            <a
-              // href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/details`}
+            <Input
+              type="button-link"
+              value="Edit"
               onClick={this.props.updateBandEdit}
-            >
-              Edit
-            </a>
+              onSubmit={ this.onSubmitDeleteStagePlot }
+              onCancel={ this.onCancelDeleteStagePlot }
+            />
           </div>
           <div className="band__details__container">
           <div className="band__details__image__wrapper">
@@ -430,10 +425,16 @@ class BandDashboard extends Component {
               src={band.logoUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
               alt="Logo"
               className="band__logo"
+              style={{marginBottom: 24}}
             />
-            <a className="modal__logo__link" href onClick={() => this.setState({showLogoModal: true})}>
+            {/* <button className="modal__logo__link" href onClick={() => this.setState({showLogoModal: true})}>
               { band.logoUrl ? 'Change logo' : 'Upload logo' }
-            </a>
+            </button> */}
+            <Input
+              type="button-link"
+              value={ band.logoUrl ? 'Change logo' : 'Upload logo' }
+              onClick={() => this.setState({showLogoModal: true})}
+            />
           </div>
           <Form
             // className="form__container"
@@ -524,11 +525,15 @@ class BandDashboard extends Component {
           <hr />
           <div className="slide-header">
             <h3>StagePlots</h3>
-            {/* <a href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`}>View All</a> */}
-            <button className="btn-icon" onClick={() => this.setState({showStageplotModal: true})}>
+            {/* <button className="btn-icon" onClick={() => this.setState({showStageplotModal: true})}>
               <span className="btn-icon__text">Upload Stageplot</span>
               <i className="material-icons btn-icon__icon">add</i>
-            </button>
+            </button> */}
+            <Input
+              type="button-link"
+              value="Upload Stageplot"
+              onClick={() => this.setState({showStageplotModal: true})}
+            />
           </div>
             { this.renderStagePlots() }
           </div>
@@ -553,6 +558,7 @@ function mapStateToProps(state) {
     activeBandLogo: state.bands.activeBandLogoUrl,
     activeStagePlotUrl: state.bands.activeStagePlotUrl,
     isLoading: state.app.loading,
+    uploading: state.bands.loading,
     notification: state.notification,
   };
 }

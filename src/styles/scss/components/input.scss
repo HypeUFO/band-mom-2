@@ -137,6 +137,12 @@ input[type="submit"] {
   }
 }
 
+.btn-link {
+  color: $color-purple;
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
 .btn-icon {
   display: flex;
   flex-direction: column;

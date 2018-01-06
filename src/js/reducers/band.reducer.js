@@ -160,15 +160,18 @@ export function bandReducer(state = initialState, action) {
     case ActionTypes.DELETE_STAGE_PLOT_REQUESTED:
       return {
           ...state,
+          loading: true,
       }
     case ActionTypes.DELETE_STAGE_PLOT_FULFILLED:
       return {
           ...state,
+          loading: false,
       }
     case ActionTypes.DELETE_STAGE_PLOT_REJECTED:
       return {
           ...state,
           error: action.error,
+          loading: false,
       }
 
   }
