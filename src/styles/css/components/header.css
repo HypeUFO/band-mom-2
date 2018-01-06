@@ -10,9 +10,9 @@ Error: Undefined variable: "$color-purple-dark-gradient-diagonal".
 19:   background: $color-purple-dark-gradient-diagonal;
 20:   justify-content: flex-start;
 21: }
-22:   .logo,
-23:   .header__menu,
-24:   .show-drawer {
+22: 
+23: .logo,
+24: .header__menu,
 
 Backtrace:
 src/styles/scss/components/header.scss:19
@@ -67,4 +67,4 @@ src/styles/scss/components/header.scss:19
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple-dark-gradient-diagonal\".\A         on line 19 of src/styles/scss/components/header.scss\A \A 14:   align-items: center;\A 15:   background-color: rgba(150, 150, 150, 0.5);\A 16: }\A 17: \A 18: .header {\A 19:   background: $color-purple-dark-gradient-diagonal;\A 20:   justify-content: flex-start;\A 21: }\A 22:   .logo,\A 23:   .header__menu,\A 24:   .show-drawer {"; }
+  content: "Error: Undefined variable: \"$color-purple-dark-gradient-diagonal\".\A         on line 19 of src/styles/scss/components/header.scss\A \A 14:   align-items: center;\A 15:   background-color: rgba(150, 150, 150, 0.5);\A 16: }\A 17: \A 18: .header {\A 19:   background: $color-purple-dark-gradient-diagonal;\A 20:   justify-content: flex-start;\A 21: }\A 22: \A 23: .logo,\A 24: .header__menu,"; }

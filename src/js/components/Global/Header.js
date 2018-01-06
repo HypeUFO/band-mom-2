@@ -44,7 +44,7 @@ export default class Header extends Component {
     return (
       <header className="header">
         <i className="material-icons show-drawer" onClick={this.toggleDrawer}>&#xE8EE;</i>
-        <a href="/"><h1 className="logo">BandMom</h1></a>
+        {/* <a href="/"><h1 className="logo">BandMom</h1></a> */}
         <div ref={this.setWrapperRef}>
         <Drawer
           // userName={ userName }

@@ -21,6 +21,7 @@ import Login from './Login';
 import Register from './Register';
 import UserDashboard from './UserDashboard';
 import UserEventList from './UserEventList';
+import Search from '../components/Global/Search'
 import store from '../store';
 
 import { auth, storageKey } from '../config/fire'
@@ -121,7 +122,7 @@ class App extends Component {
     } else if ((pathname || pathname + '/') === (routeCodes.REGISTER)) {
       header = null;
     } else {
-      header = <Header />;
+      header = <Header><Search /></Header>;
     }
     return this.state.rehydrated === false ? <Loader /> : (
       <BrowserRouter>

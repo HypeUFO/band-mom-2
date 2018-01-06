@@ -2,6 +2,11 @@
   &-slider {
     margin-bottom: 20px;
     padding: 0 10px;
+    &--no-arrows {
+      .slick-arrow {
+        display: none !important;
+      }
+    }
   }
   &-track {
     padding: 0 10px !important;
