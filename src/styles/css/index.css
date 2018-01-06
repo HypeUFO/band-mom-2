@@ -1530,6 +1530,9 @@ tbody:hover > tr:hover td {
     position: absolute;
     top: 10px;
     left: 0; }
+  .spinner--small {
+    width: 30px !important;
+    height: 30px !important; }
 
 @keyframes rotator {
   0% {
@@ -1607,6 +1610,9 @@ tbody:hover > tr:hover td {
     border-top: none;
     width: 25%;
     min-width: 200px; }
+    .search__results > .spinner__wrapper {
+      position: static;
+      padding: 10px; }
     .search__results > ul {
       display: flex;
       flex-direction: column;
@@ -1614,6 +1620,7 @@ tbody:hover > tr:hover td {
       padding: 0;
       margin: 0; }
       .search__results > ul > li {
+        text-shadow: none;
         padding: 1rem;
         margin: 0; }
 

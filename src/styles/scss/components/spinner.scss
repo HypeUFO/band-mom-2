@@ -15,6 +15,10 @@ $duration: 1.4s;
     top: 10px;
     left: 0;
   }
+  &--small {
+    width: 30px !important;
+    height: 30px !important;
+  }
 }
 
 @keyframes rotator {

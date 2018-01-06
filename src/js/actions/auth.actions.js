@@ -39,7 +39,7 @@ function createUserFulfilledAction(user) {
 
 export function getUser(firebaseUser) {
   return dispatch => {
-    getUserRequestedAction();
+    dispatch(getUserRequestedAction());
     database.ref('/users/'+firebaseUser.uid).once('value', snap => {
       const user = snap.val();
       return dispatch(getUserFulfilledAction(user))
@@ -47,17 +47,6 @@ export function getUser(firebaseUser) {
     .catch((err) => {
       dispatch(getUserRejectedAction(err));
     });
-
-  //   Promise.resolve()
-  //   .then(() => {
-  //     return dispatch(getUserRequestedAction());
-  //   })
-  //   .then(() => {
-  //     return dispatch(getUserFulfilledAction(user))
-  //   })
-  //   .catch((err) => {
-  //     dispatch(getUserRejectedAction(err));
-  //   });
   }
 }
 

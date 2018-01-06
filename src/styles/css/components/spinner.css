@@ -9,6 +9,9 @@
     position: absolute;
     top: 10px;
     left: 0; }
+  .spinner--small {
+    width: 30px !important;
+    height: 30px !important; }
 
 @keyframes rotator {
   0% {

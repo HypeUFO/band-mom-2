@@ -16,7 +16,7 @@ export function searchReducer(state = initialState, action) {
     case ActionTypes.SEARCH_USERS_REQUESTED:
         return {
         ...state,
-        loading: true
+        loading: true,
       }
     case ActionTypes.SEARCH_USERS_FULFILLED:
         return {

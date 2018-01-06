@@ -1,21 +1,21 @@
 import React from 'react';
 
 const CardSection = (props) => (
-    <div style={styles.sectionStyle}>
+    <div style={styles.sectionStyle} className={props.className}>
       {props.children}
     </div>
 );
 
 const styles = {
   sectionStyle: {
-    borderBottomWidth: 1,
-    padding: 5,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    borderColor: '#ddd',
-    position: 'relative',
-    width: '100%',
+    // borderBottomWidth: 1,
+    // padding: 5,
+    // backgroundColor: '#fff',
+    // justifyContent: 'flex-start',
+    // flexDirection: 'row',
+    // borderColor: '#ddd',
+    // position: 'relative',
+    // width: '100%',
   }
 };
 

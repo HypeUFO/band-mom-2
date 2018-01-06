@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../actions/search.actions';
 
+// import Card from './Card/Card';
+// import CardSection from './Card/CardSection';
+import Spinner from './Spinner';
+
 
 const searchResults = {
   user1: {
@@ -36,21 +40,32 @@ class Search extends Component {
   }
 
   renderResults() {
-    const { searchResults } = this.props;
-    if (searchResults.users) {
+    const { searchResults, loading } = this.props;
+    if (loading) {
       return (
         <div className="search__results">
-          <ul>
-            {Object.keys(searchResults.users).map(key => {
-            return(
-              <li>
-                { searchResults.users[key].imageUrl ? <img src={searchResults.users[key].imageUrl} alt="Profile Pic" /> : null }
-                {searchResults.users[key].displayName}
-              </li>
-            )
-            })}
-          </ul>
+          <Spinner size="small"/>
         </div>
+      )
+    }
+    else if (searchResults.users) {
+      return (
+         // <Card className="search__results">
+        <div className="search__results">
+          {/* <CardSection> */}
+            <ul>
+              {Object.keys(searchResults.users).map(key => {
+              return(
+                <li>
+                  { searchResults.users[key].imageUrl ? <img src={searchResults.users[key].imageUrl} alt="Profile Pic" /> : null }
+                  {searchResults.users[key].displayName}
+                </li>
+              )
+              })}
+            </ul>
+          {/* </CardSection> */}
+          </div>
+        // </Card>
       )
     } else {
       return null;
@@ -81,6 +96,7 @@ class Search extends Component {
 function mapStateToProps(state) {
   return {
     searchResults: state.search,
+    loading: state.search.loading,
   };
 }
 

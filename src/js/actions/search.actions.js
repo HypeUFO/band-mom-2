@@ -3,7 +3,7 @@ import ActionTypes from '../constants/action_types';
 
 export function searchUsers(input) {
   return dispatch => {
-    searchUsersRequestedAction();
+    dispatch(searchUsersRequestedAction());
     console.log(input)
     database.ref('users').once('value', snap => {
       let users = {};
