@@ -8,6 +8,7 @@ const initialState = {
   authenticated: false,
   loading: false,
   error: null,
+  edit: false,
 }
 
 export function appReducer(state = initialState, action) {
@@ -197,6 +198,41 @@ export function appReducer(state = initialState, action) {
         ...state,
         error: action.error,
         loading: false,
+      }
+
+
+    case ActionTypes.UPDATE_USER_EDIT_REQUESTED:
+      return {
+          ...state,
+      }
+    case ActionTypes.UPDATE_USER_EDIT_FULFILLED:
+      return {
+          ...state,
+          edit: !state.edit
+      }
+    case ActionTypes.UPDATE_USER_EDIT_REJECTED:
+      return {
+          ...state,
+          error: action.error
+      }
+
+    case ActionTypes.UPDATE_USER_REQUESTED:
+      return {
+          ...state,
+          loading: true,
+      }
+    case ActionTypes.UPDATE_USER_FULFILLED:
+      return {
+          ...state,
+          // edit: !state.edit
+          user: action.user,
+          loading: false,
+      }
+    case ActionTypes.UPDATE_USER_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          loading: false,
       }
 
 

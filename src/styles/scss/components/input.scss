@@ -14,6 +14,54 @@ textarea,
   box-sizing: border-box;
 }
 
+input[type="checkbox"] {
+  box-shadow: none; // width: 5%;
+  width: auto;
+  height: auto;
+  margin-right: 20px;
+}
+
+.input__checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center; // justify-content: space-evenly;
+  // margin-right: 20px;
+  width: 30%;
+  margin: 10px 0;
+}
+
+.checkbox__group {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 15px;
+  font-size: 1rem;
+  background: #F4FAF6;
+  -webkit-box-shadow: 0px 0.15rem 0px #7F4FFF;
+  box-shadow: 0px 0.15rem 0px #7F4FFF;
+  &--disabled {
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 0;
+    >ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 0;
+      list-style: circle !important;
+      margin-left: 20px;
+      >li {
+        display: list-item;
+        width: 30%; // margin-right: 40px;
+        padding: 5px 0;
+      }
+    }
+  }
+}
+
 input,
 select,
 .btn {
@@ -36,8 +84,7 @@ select,
   width: 100%;
   font-size: 1rem;
   background: #F4FAF6;
-  box-shadow: 0px 0.15rem 0px $color-purple;
-  // border-radius: 0.25rem; // border-radius: 0;
+  box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;
   label {
     line-height: 1.5;
   }
@@ -147,8 +194,7 @@ input[type="submit"] {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  // width: 3rem;
+  align-items: center; // width: 3rem;
   &__text {
     display: none;
   }
@@ -180,8 +226,7 @@ input[type="submit"] {
   width: 100%;
   font-size: 1rem;
   background: #F4FAF6;
-  box-shadow: 0px 0.15rem 0px $color-purple;
-  // border-radius: 0.25rem;
+  box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem;
   padding: 14px; // border-radius: 0;
   label {
     // line-height: 1.5;

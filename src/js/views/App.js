@@ -21,6 +21,7 @@ import Login from './Login';
 import Register from './Register';
 import UserDashboard from './UserDashboard';
 import UserEventList from './UserEventList';
+import UserProfile from './UserProfile';
 import Search from '../components/Global/Search'
 import store from '../store';
 
@@ -114,12 +115,12 @@ class App extends Component {
 
     // Display or hide header
     let header;
-    if ((pathname || pathname + '/') === (routeCodes.LANDING)) {
+    if (!this.props.user || (pathname || pathname + '/') === (routeCodes.LANDING)) {
       header = null;
       // console.log(header);
-    } else if ((pathname || pathname + '/') === (routeCodes.LOGIN)) {
+    } else if (!this.props.user || (pathname || pathname + '/') === (routeCodes.LOGIN)) {
       header = null;
-    } else if ((pathname || pathname + '/') === (routeCodes.REGISTER)) {
+    } else if (!this.props.user || (pathname || pathname + '/') === (routeCodes.REGISTER)) {
       header = null;
     } else {
       header = <Header><Search /></Header>;
@@ -141,6 +142,12 @@ class App extends Component {
                 path={`/:userId/dashboard`}
                 // path={routeCodes.USER_DASHBOARD}
                 component={UserDashboard}
+              />
+              <PrivateRoute
+                authenticated={this.props.auth}
+                path={`/:userId/profile`}
+                // path={routeCodes.USER_DASHBOARD}
+                component={UserProfile}
               />
               <PrivateRoute
                 authenticated={this.props.auth}

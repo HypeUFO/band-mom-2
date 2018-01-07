@@ -247,6 +247,22 @@ export default class Input extends Component {
       );
     }
 
+    else if (type === 'checkbox') {
+      return (
+        <div className="input__checkbox">
+          <input
+            id={this.props.id}
+            name={ name }
+            type="checkbox"
+            ref={ this.props.ref }
+            onChange={this.props.onChange}
+            checked={this.props.isChecked}
+          />
+          <label htmlFor={this.props.id}>{this.props.label}</label>
+        </div>
+      );
+    }
+
     else if (type === 'textarea') {
       let errorLabel = this.renderErrorLabel();
       return (

@@ -385,9 +385,6 @@ ul li a:hover + .hidden,
   font-size: 2em; }
 
 /*Hide checkbox*/
-input[type=checkbox] {
-  display: none; }
-
 /*Show menu when invisible checkbox is checked*/
 input[type=checkbox]:checked ~ #menu {
   display: block; }
@@ -542,6 +539,47 @@ textarea,
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
+
+input[type="checkbox"] {
+  box-shadow: none;
+  width: auto;
+  height: auto;
+  margin-right: 20px; }
+
+.input__checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 30%;
+  margin: 10px 0; }
+
+.checkbox__group {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 15px;
+  font-size: 1rem;
+  background: #F4FAF6;
+  -webkit-box-shadow: 0px 0.15rem 0px #7F4FFF;
+  box-shadow: 0px 0.15rem 0px #7F4FFF; }
+  .checkbox__group--disabled {
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 0; }
+    .checkbox__group--disabled > ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 0;
+      list-style: circle !important;
+      margin-left: 20px; }
+      .checkbox__group--disabled > ul > li {
+        display: list-item;
+        width: 30%;
+        padding: 5px 0; }
 
 input,
 select,

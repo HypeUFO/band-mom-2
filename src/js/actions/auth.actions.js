@@ -37,10 +37,10 @@ function createUserFulfilledAction(user) {
   };
 }
 
-export function getUser(firebaseUser) {
+export function getUser(user) {
   return dispatch => {
     dispatch(getUserRequestedAction());
-    database.ref('/users/'+firebaseUser.uid).once('value', snap => {
+    database.ref(`/users/${user.uid}`).once('value', snap => {
       const user = snap.val();
       return dispatch(getUserFulfilledAction(user))
     })
@@ -167,4 +167,73 @@ export function resetPassword(email) {
   return console.log(`Resetting PW for ${email}`)
 }
 
+export function updateUserEdit() {
+  return dispatch => {
+    Promise.resolve()
+    .then(() => dispatch(updateUserEditRequestedAction()))
+    .then(() => {
+      dispatch(updateUserEditFulfilledAction());
+    })
+    .catch((err) => {
+      dispatch(updateUserEditRejectedAction(err));
+    });
+  }
+}
 
+function updateUserEditRequestedAction() {
+  return {
+    type: ActionTypes.UPDATE_USER_EDIT_REQUESTED
+  }
+}
+
+function updateUserEditFulfilledAction() {
+  return {
+    type: ActionTypes.UPDATE_USER_EDIT_FULFILLED
+  };
+}
+
+function updateUserEditRejectedAction(error) {
+  return {
+    type: ActionTypes.UPDATE_USER_EDIT_REJECTED,
+    error
+  }
+}
+
+export function updateUser(user) {
+  console.log(user);
+  return dispatch => {
+    dispatch(updateUserRequestedAction());
+    database.ref().child('users/' + user.id).update(user)
+    .then(() => {
+      database.ref(`/users/${user.id}`).once('value', snap => {
+        const updatedUser = snap.val();
+        console.log(updatedUser);
+        return dispatch(updateUserFulfilledAction(updatedUser))
+      })
+      // dispatch(updateUserFulfilledAction());
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(updateUserRejectedAction());
+    });
+  }
+}
+
+function updateUserRequestedAction() {
+  return {
+    type: ActionTypes.UPDATE_USER_REQUESTED
+  };
+}
+
+function updateUserRejectedAction() {
+  return {
+    type: ActionTypes.UPDATE_USER_REJECTED
+  }
+}
+
+function updateUserFulfilledAction(user) {
+  return {
+    type: ActionTypes.UPDATE_USER_FULFILLED,
+    user
+  };
+}
