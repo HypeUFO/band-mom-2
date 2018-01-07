@@ -150,16 +150,6 @@ class BandList extends Component {
     );
   }
 
-  // sortData(docs) {
-  //   let events;
-  //   // Sort data
-  //   events = Object.keys(docs)
-
-  //   return {
-  //     events,
-  //   };
-  // }
-
   renderPreviewList(list) {
       if(list && Object.keys(list).length > 0 && list.constructor === Object) {
         console.log(list);
@@ -169,20 +159,6 @@ class BandList extends Component {
           // list[key].id = key;
           return this.renderCard(list[key], key)
         }).sort()
-
-        // rows.sort((a, b) => {
-        //   const valueA = a.name;
-        //   const valueB = b.name;
-        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-        //   // return 1;
-        // })
-
-
-        // .sort((a, b) => {
-        //   const valueA = new Date(a.key);
-        //   const valueB = new Date(b.key);
-        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-        // })
 
         return (
           <div className="band__list">
@@ -229,22 +205,8 @@ class BandList extends Component {
     );
   }
 
-  // sortData(docs) {
-  //   let events;
-  //   // Sort data
-  //   events = Object.keys(docs)
-
-  //   return {
-  //     events,
-  //   };
-  // }
-
   renderTable(bands) {
-    // const { bands } = this.props;
       if(bands) {
-        // let results = this.sortData(bands);
-        // console.log(results);
-
         let rows = Object.keys(bands).map((key) => {
           console.log('rendering row: ' + bands[key])
           bands[key].id = key;
@@ -278,15 +240,9 @@ class BandList extends Component {
   render() {
 
     // Subheader
-    // let breadcrumbs = [
-    //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
-    //   { link: null, name: project.name },
-    // ];
-
     let breadcrumbs = [
-      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: 'Bands' },
-      // { link: null, name: gig.venue },
+      { link:  `/${this.props.match.params.userId}/dashboard`, name: this.props.user.displayName ||  this.props.user.email},
+      { link: `/${this.props.match.params.userId}/bands`, name: 'Bands' },
     ];
 
     return (

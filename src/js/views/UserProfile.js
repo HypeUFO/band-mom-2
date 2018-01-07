@@ -20,7 +20,7 @@ import Subheader from '../components/Global/Subheader';
 
 
 
-import instruments from '../constants/instrument_list';
+import instrumentList from '../constants/instrument_list';
 
 import Form from '../components/Global/Form';
 
@@ -126,6 +126,10 @@ class BandDashboard extends Component {
       console.log(JSON.stringify(this.state))
       console.log(JSON.stringify(activeProfile))
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearActiveProfile();
   }
 
   handleInputChange(event) {
@@ -255,183 +259,185 @@ class BandDashboard extends Component {
       userEdit,
       band,
       bands,
+      match,
     } = this.props;
 
 
-    let breadcrumbs = [
-      { link: null, name: activeProfile ? activeProfile.displayName || activeProfile.email : '' },
-    ];
-
     if (activeProfile) {
-    let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !this.props.userEdit });
+      let breadcrumbs;
+      if (user.id === activeProfile.id ) {
+        breadcrumbs = [
+          { link: `/${match.params.userId}/dashboard`, name: user.displayName || user.email },
+          { link: `/${match.params.userId}/profile`, name: 'Profile' },
+        ];
+      } else {
+        breadcrumbs = [
+          { link: `/${user.id}/dashboard`, name: user.displayName || user.email },
+          { link: `/${match.params.userId}/profile`, name: `${activeProfile.displayName || activeProfile.email}'s Profile` },
+        ];
+      }
 
-    let checkboxGroupClasses = classNames('checkbox__group', { 'checkbox__group--disabled': !this.props.userEdit });
+      let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !this.props.userEdit });
+      let checkboxGroupClasses = classNames('checkbox__group', { 'checkbox__group--disabled': !this.props.userEdit });
 
-    let bandList = [];
-    if (this.props.bands) {
-      Object.keys(bands).map(key => {
-        let addBandInfo = {
-          label: bands[key].name,
-          value: bands[key].name + '/' + bands[key].id,
-        }
-        return bandList.push(addBandInfo);
-      })
-      // bandList.unshift({label: 'Select Band', value: ''})
-      console.log(bandList);
-    }
-    bandList.unshift({label: 'Select Band', value: ''})
+      let bandList = [];
+      if (this.props.bands) {
+        Object.keys(bands).map(key => {
+          let addBandInfo = {
+            label: bands[key].name,
+            value: bands[key].name + '/' + bands[key].id,
+          }
+          return bandList.push(addBandInfo);
+        })
+        // bandList.unshift({label: 'Select Band', value: ''})
+        console.log(bandList);
+      }
+      bandList.unshift({label: 'Select Band', value: ''})
 
-    return (
-      <div className='page__container'>
-        <Drawer
-          // userName={ userName }
-          show={ true }
-          className="drawer__sidebar"
-          // toggle={ this.toggleDrawer }
-        />
-        <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ buttonHide }
-          buttonHide={ user.id === activeProfile.id }
-          buttonLabel="Invite to Group"
-          // buttonIcon="add"
-          buttonOnClick={ () => this.setState({showInviteModal: true}) }
-        />
-        <div className='page__content page__content--two-col'>
-          <div className="page__content__container">
-          <FileUploadModal
-            show={ this.state.showImageModal }
-            onCancel={ this.uploadImageCancel }
-            onUpload={ this.props.uploadProfileImage }
-            pathId={this.props.activeProfile.id}
-            header="Upload Profile Picture"
+      return (
+        <div className='page__container'>
+          <Drawer
+            // userName={ userName }
+            show={ true }
+            className="drawer__sidebar"
+            // toggle={ this.toggleDrawer }
           />
-          <AlertModal
-            show={ this.state.showInviteModal }
-            title={`Invite ${activeProfile.displayName} to band`}
-            actionType="Invite"
-            action={this.inviteUser}
-            onCancel={this.inviteUserCancel}
-            // isLoading={ this.props.uploading }
-          >
-            <Input type="select"
-                name="band"
-                placeholder="Band"
-                options={ bandList }
-                // value={ this.state.band }
-                onChange={ this.handleBandSelect }
-                // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+          <Subheader breadcrumbs={ breadcrumbs }
+            // buttonHide={ buttonHide }
+            buttonHide={ user.id === activeProfile.id }
+            buttonLabel="Invite to Group"
+            // buttonIcon="add"
+            buttonOnClick={ () => this.setState({showInviteModal: true}) }
+          />
+          <div className='page__content page__content--two-col'>
+            <div className="page__content__container">
+            <FileUploadModal
+              show={ this.state.showImageModal }
+              onCancel={ this.uploadImageCancel }
+              onUpload={ this.props.uploadProfileImage }
+              pathId={this.props.activeProfile.id}
+              header="Upload Profile Picture"
+            />
+            <AlertModal
+              show={ this.state.showInviteModal }
+              title={`Invite ${activeProfile.displayName} to band`}
+              actionType="Invite"
+              action={this.inviteUser}
+              onCancel={this.inviteUserCancel}
+              // isLoading={ this.props.uploading }
+            >
+              <Input type="select"
+                  name="band"
+                  placeholder="Band"
+                  options={ bandList }
+                  // value={ this.state.band }
+                  onChange={ this.handleBandSelect }
+                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+            </AlertModal>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <h3>{activeProfile.displayName}</h3>
+              { user.id === this.props.match.params.userId
+              ? <Input
+                type="button-link"
+                value="Edit"
+                onClick={this.props.updateUserEdit}
+                onSubmit={ this.onSubmitDeleteStagePlot }
+                onCancel={ this.onCancelDeleteStagePlot }
               />
-          </AlertModal>
-          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <h3>{activeProfile.displayName}</h3>
-            { user.id === this.props.match.params.userId
-            ? <Input
-              type="button-link"
-              value="Edit"
-              onClick={this.props.updateUserEdit}
-              onSubmit={ this.onSubmitDeleteStagePlot }
-              onCancel={ this.onCancelDeleteStagePlot }
-            />
-            : null
-            }
-          </div>
-          <div className="user__profile__container">
-          <div className="user__profile__image__wrapper">
-            <img
-              src={activeProfile.imageUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
-              alt="profile pic"
-              className="user__logo"
-              style={{marginBottom: 24}}
-            />
-            {/* <button className="modal__logo__link" href onClick={() => this.setState({showImageModal: true})}>
-              { user.logoUrl ? 'Change logo' : 'Upload logo' }
-            </button> */}
-            <Input
-              type="button-link"
-              style={{fontSize: '0.8rem'}}
-              value={ activeProfile.imageUrl ? 'Change Profile Picture' : 'Upload Profile Picture' }
-              onClick={() => this.setState({showImageModal: true})}
-            />
-          </div>
-          <Form
-            // className="form__container"
-            className="user__profile__form"
-            id="user-details__form"
-            onSubmit={ this.onSubmit }
-            onCancel={ this.onCancel }
-            // disabled={ !this.props.userEdit }
-            disabled={ !userEdit }
-            ref="form"
-            // error={ createError || uploadError }
-          >
-            <div className="form__middle form__middle__user-dashboard">
-              <div className="form__column">
-                <div className="form__row">
-                  <Input type="text"
-                    name="displayName"
-                    placeholder="Display Name"
-                    label="Display Name"
-                    // disabled={ !this.props.userEdit }
-                    disabled={ !userEdit }
-                    value={ this.props.userEdit ? this.state.displayName : activeProfile.displayName }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="text"
-                    name="location"
-                    placeholder="Location"
-                    label="Location"
-                    // disabled={ !this.props.userEdit }
-                    disabled={ !userEdit }
-                    value={ this.props.userEdit ? this.state.location : activeProfile.location }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  </div>
-                  <div className="form__row">
-                  {/* checkbox */}
-                </div>
-                <div className="form__row">
-                  <Input type="textarea"
-                    name="about"
-                    placeholder="About"
-                    label="About"
-                    // disabled={ !this.props.userEdit }
-                    disabled={ !userEdit }
-                    value={ this.props.userEdit ? this.state.about : activeProfile.about }
-                    onChange={ this.handleInputChange }
-                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                </div>
-                <div className="form__column">
-                  <label className="input__label">Instruments</label>
-                  <div className="form__row">
-                    <div className={checkboxGroupClasses}>
-                      { this.props.userEdit
-                        ? this.renderCheckboxes(instruments)
-                        : <ul>{this.renderInstrumentList(this.state.instruments)}</ul>
-                      }
+              : null
+              }
+            </div>
+            <div className="user__profile__container">
+              <div className="user__profile__image__wrapper">
+                <img
+                  src={activeProfile.imageUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+                  alt="profile pic"
+                  className="user__logo"
+                  style={{marginBottom: 24}}
+                />
+                <Input
+                  type="button-link"
+                  style={{fontSize: '0.8rem'}}
+                  value={ activeProfile.imageUrl ? 'Change Profile Picture' : 'Upload Profile Picture' }
+                  onClick={() => this.setState({showImageModal: true})}
+                />
+              </div>
+              <Form
+                // className="form__container"
+                className="user__profile__form"
+                id="user-details__form"
+                onSubmit={ this.onSubmit }
+                onCancel={ this.onCancel }
+                // disabled={ !this.props.userEdit }
+                disabled={ !userEdit }
+                ref="form"
+                // error={ createError || uploadError }
+              >
+                <div className="form__middle form__middle__user-dashboard">
+                  <div className="form__column">
+                    <div className="form__row">
+                      <Input type="text"
+                        name="displayName"
+                        placeholder="Display Name"
+                        label="Display Name"
+                        // disabled={ !this.props.userEdit }
+                        disabled={ !userEdit }
+                        value={ this.props.userEdit ? this.state.displayName : activeProfile.displayName }
+                        onChange={ this.handleInputChange }
+                        validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                      />
+                      <Input type="text"
+                        name="location"
+                        placeholder="Location"
+                        label="Location"
+                        // disabled={ !this.props.userEdit }
+                        disabled={ !userEdit }
+                        value={ this.props.userEdit ? this.state.location : activeProfile.location }
+                        onChange={ this.handleInputChange }
+                        validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                      />
+                    </div>
+                    <div className="form__row">
+                      <Input type="textarea"
+                        name="about"
+                        placeholder="About"
+                        label="About"
+                        // disabled={ !this.props.userEdit }
+                        disabled={ !userEdit }
+                        value={ this.props.userEdit ? this.state.about : activeProfile.about }
+                        onChange={ this.handleInputChange }
+                        // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                      />
+                    </div>
+                    <div className="form__column">
+                      <label className="input__label">Instruments</label>
+                      <div className="form__row">
+                        <div className={checkboxGroupClasses}>
+                          { this.props.userEdit
+                            ? this.renderCheckboxes(instrumentList)
+                            : <ul>{this.renderInstrumentList(this.state.instruments)}</ul>
+                          }
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div className={ formBottomClasses }>
+                  <Input type="button-thin-cancel" value="Cancel" />
+                  <Input type="button-thin-submit" value="Save" />
+                </div>
+              </Form>
             </div>
-            <div className={ formBottomClasses }>
-              <Input type="button-thin-cancel" value="Cancel" />
-              <Input type="button-thin-submit" value="Save" />
-            </div>
-          </Form>
-          </div>
+            <h3>SoundCloud Widgets to come...</h3>
           </div>
           <hr />
         </div>
       </div>
-    );
-  } else {
-    return (
-      <Loader />
-    )
-  }
+      );
+    } else {
+      return <Loader />
+    }
   }
 }
 

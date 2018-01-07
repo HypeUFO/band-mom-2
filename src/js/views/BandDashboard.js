@@ -16,6 +16,7 @@ import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
+import CreateEventModal from '../modals/CreateEventModal';
 
 
 
@@ -219,8 +220,6 @@ class BandDashboard extends Component {
     this.setState({showAlert: false})
   }
 
-
-
   renderEventCard(doc, index) {
 
     let statusColorClass = '';
@@ -357,12 +356,15 @@ class BandDashboard extends Component {
 
     const {
       user,
-      band
+      band,
+      match,
     } = this.props;
 
 
     let breadcrumbs = [
-      { link: null, name: band ? band.name : 'Band Name' },
+      { link: `/${match.params.userId}/dashboard`, name: user ? user.displayName : 'Dashboard' },
+      { link: `/${match.params.userId}/bands`, name: 'Bands' },
+      { link: `/${match.params.userId}/bands/${match.params.bandId}`, name: band ? band.name : 'Band Name' },
     ];
 
     if (band) {
@@ -378,10 +380,9 @@ class BandDashboard extends Component {
         />
         <Subheader breadcrumbs={ breadcrumbs }
           // buttonHide={ buttonHide }
-          buttonHide={ true }
-          // buttonLabel="Add Show"
-          // buttonIcon="add"
-          // buttonOnClick={ this.toggleCreateEventModal }
+          buttonLabel="Add Show"
+          buttonIcon="add"
+          buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
@@ -409,6 +410,16 @@ class BandDashboard extends Component {
           >
             <p>This action can not be undone</p>
           </AlertModal>
+          <CreateEventModal
+            show={ this.state.showCreateEventModal }
+            onSubmit={ this.onCreateEventSubmit }
+            onCancel={ this.onCreateEventCancel }
+            onSuccess={ this.onCreateEventSuccess }
+            onError={ this.onCreateEventError }
+            // bandId={this.props.match.params.bandId}
+            activeBand={this.props.band || ''}
+            onCreateEvent={this.props.onCreateEvent}
+          />
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h3>Band Details</h3>
             <Input
@@ -570,6 +581,7 @@ function mapDispatchToProps(dispatch) {
     onGetBand: getBand,
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
+    onCreateEvent: actions.createEvent,
     onGetEventMany: actions.getEventMany,
     uploadBandLogo: uploadBandLogo,
     uploadStagePlot: uploadStagePlot,

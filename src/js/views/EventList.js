@@ -44,8 +44,9 @@ class EventList extends Component {
 
   componentWillMount() {
     // this.props.onGetBand(this.props.match.params.bandId)
-    database.ref(`events`).on('value', () => {
+    database.ref().on('value', () => {
       this.props.onGetEventMany(this.props.match.params.bandId)
+      this.props.onGetBand(this.props.match.params.bandId)
     })
     this.props.onClearEvent()
   }
@@ -263,15 +264,11 @@ class EventList extends Component {
   render() {
 
     // Subheader
-    // let breadcrumbs = [
-    //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
-    //   { link: null, name: project.name },
-    // ];
-
     let breadcrumbs = [
-      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: 'Events' },
-      // { link: null, name: gig.venue },
+      { link: `/${this.props.match.params.userId}/dashboard`, name: this.props.user ? this.props.user.displayName || this.props.user.email : ''},
+      { link: `/${this.props.match.params.userId}/bands`, name: 'Bands' },
+      { link: `/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/dashboard`, name: this.props.band ? this.props.band.name : '' },
+      { link: `/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events`, name: 'Events' },
     ];
 
     return (
@@ -379,6 +376,7 @@ function mapDispatchToProps(dispatch) {
     onClearEvent: actions.clearEvent,
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
+    onGetBand: getBand,
     onCreateEvent: actions.createEvent,
     onDeleteEvent: actions.deleteEvent,
     onRestoreEvent: actions.restoreEvent,
