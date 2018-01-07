@@ -63,7 +63,7 @@ class Login extends Component {
       password,
     } = this.state;
 
-    const loginError = this.props.error
+    const loginError = this.props.error ? this.props.error : null;
 
     return (
       <div className="page__content">

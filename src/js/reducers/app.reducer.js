@@ -160,7 +160,7 @@ export function appReducer(state = initialState, action) {
       ...state,
       authenticated: false,
       loading: false,
-      error: action.error.code,
+      error: action.error.message,
     }
 
     case ActionTypes.SIGN_OUT_REQUESTED:

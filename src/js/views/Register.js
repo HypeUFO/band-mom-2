@@ -20,6 +20,7 @@ class Register extends Component {
       email: '',
       password: '',
       confirmPassword: '',
+      registerError: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -43,7 +44,7 @@ class Register extends Component {
 
     const promise = auth.createUserWithEmailAndPassword(email, password);
     promise
-    .catch((err) => console.log(err));
+    .catch((err) => this.setState({registerError: err.message}));
 
     auth.onAuthStateChanged(firebaseUser => {
       if (firebaseUser) {
@@ -67,10 +68,11 @@ class Register extends Component {
       email,
       password,
       confirmPassword,
+      registerError,
     } = this.state;
 
     // Error
-    // const registerError = (asyncRegisterError) ? 'Server Error' : '';
+    const registerErrorMessage = registerError ? registerError : '';
 
     return (
       <div className="page__content">
@@ -82,7 +84,7 @@ class Register extends Component {
               onSubmit={ this.handleFormSubmit }
               ref="form"
               // disabled={ asyncRegisterLoading }
-              // error={ registerError }
+              error={ registerErrorMessage }
             >
               <Input
                 type="text"
