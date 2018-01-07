@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
-import { acceptInviteToGroup } from '../actions/band.actions';
+import { acceptInviteToGroup, declineInviteToGroup } from '../actions/band.actions';
 
 
 import Drawer from '../components/Global/Drawer';
@@ -15,7 +15,7 @@ import Card from '../components/Global/Card/Card';
 import CardSection from '../components/Global/Card/CardSection';
 
 const notificationList = {
-  1: {message: 'Someone has invited you to join their group', action: 'acceptInviteToGroup', actionType: 'Confirm', actionId: '-L2E1pGLKUSs3R8w0xMG'},
+  1: {message: 'Someone has invited you to join their group', action: 'acceptInviteToGroup', actionType: 'Confirm', actionId: '-L2HuFLpyDFfJVtfUMnA'},
   2: {message: 'Something has been updated'},
   3: {message: 'Something has been created'},
 }
@@ -39,7 +39,7 @@ class Notifications extends Component {
           </CardSection>
           <CardSection>
             <div className="form__row">
-              <Input type="button-thin-cancel" value="Dismiss" onCancel={() => console.log('notification dismissed!')}/>
+              <Input type="button-thin-cancel" value="Dismiss" onCancel={() => this.props.declineInviteToGroup(notificationList[key].actionId, this.props.user.id)}/>
               { notificationList[key].action
                 ? <Input
                     type="button-thin-button"
@@ -109,6 +109,7 @@ function mapDispatchToProps(dispatch) {
     // onGetActiveProfile: actions.getActiveProfile,
     // clearActiveProfile: actions.clearActiveProfile,
     acceptInviteToGroup: acceptInviteToGroup,
+    declineInviteToGroup: declineInviteToGroup,
     // uploadProfileImage: actions.uploadProfileImage,
     // onClearEvent: actions.clearEvent,
     // onGetEvent: actions.getEvent,

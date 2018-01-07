@@ -481,7 +481,7 @@ export function acceptInviteToGroup(bandId, userId) {
 
     var updates = {};
     updates['/users/' + userId + '/groups/' + bandId] = true;
-    updates[`/groupMembers/${bandId}/pending/${userId}`] = false;
+    updates[`/groupMembers/${bandId}/pending/${userId}`] = null;
     updates[`/groupMembers/${bandId}/${userId}`] = true;
     updates[`/userGroups/${userId}/${bandId}`] = true;
     updates[`/userEvents/${userId}`] = groupEvents;
@@ -528,7 +528,7 @@ export function declineInviteToGroup(bandId, userId) {
     Promise.resolve()
     .then(() => {
     var updates = {};
-    updates[`/groupMembers/${bandId}/pending/${userId}`] = false;
+    updates[`/groupMembers/${bandId}/pending/${userId}`] = null;
 
     return database.ref().update(updates)
     .then(() => {
