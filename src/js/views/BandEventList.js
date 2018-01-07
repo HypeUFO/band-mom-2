@@ -281,7 +281,7 @@ class EventList extends Component {
         />
         <Subheader breadcrumbs={ breadcrumbs }
           // buttonHide={ buttonHide }
-          buttonLabel="Add Show"
+          buttonLabel="Add Event"
           buttonIcon="add"
           buttonOnClick={ this.toggleCreateBandEventModal }
         />

@@ -182,7 +182,7 @@ class CreateUserEventModal extends Component {
           error={ createError || uploadError }
         >
           <div className="modal__top">
-            <h3 className="clr-purple">Add New Show</h3>
+            <h3 className="clr-purple">Add New Event</h3>
           </div>
           <div className="modal__middle">
             {/* <div className="modal__column"> */}
