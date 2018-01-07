@@ -11,7 +11,7 @@ import TableRowMenuItem from '../components/Global/Table/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
-import CreateEventModal from '../modals/CreateEventModal';
+import CreateBandEventModal from '../modals/CreateBandEventModal';
 import FilterLink from '../components/Global/FilterLink';
 import Input from '../components/Global/Input';
 import moment from 'moment';
@@ -21,7 +21,7 @@ import { database } from '../config/fire'
 
 
 export const initialState = {
-  showCreateEventModal: false,
+  showCreateBandEventModal: false,
   showShareModal: false,
   selected: '',
 };
@@ -29,7 +29,7 @@ class EventList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
+    this.toggleCreateBandEventModal = this.toggleCreateBandEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
     this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
@@ -85,20 +85,20 @@ class EventList extends Component {
     event.stopPropagation();
   }
 
-  toggleCreateEventModal() {
+  toggleCreateBandEventModal() {
     this.setState(prevState => ({
-      showCreateEventModal: !prevState.showCreateEventModal
+      showCreateBandEventModal: !prevState.showCreateBandEventModal
     }));
   }
 
   onCreateEventSubmit() {
     console.log('Event submitted');
     // this.props.onCreateEvent()
-    this.toggleCreateEventModal();
+    this.toggleCreateBandEventModal();
   }
 
   onCreateEventCancel() {
-    this.toggleCreateEventModal();
+    this.toggleCreateBandEventModal();
   }
 
   onCreateEventSuccess() {
@@ -283,12 +283,12 @@ class EventList extends Component {
           // buttonHide={ buttonHide }
           buttonLabel="Add Show"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateEventModal }
+          buttonOnClick={ this.toggleCreateBandEventModal }
         />
         <div className='page__content page__content--two-col'>
         {/* { this.props.band */}
-          <CreateEventModal
-            show={ this.state.showCreateEventModal }
+          <CreateBandEventModal
+            show={ this.state.showCreateBandEventModal }
             onSubmit={ this.onCreateEventSubmit }
             onCancel={ this.onCreateEventCancel }
             onSuccess={ this.onCreateEventSuccess }

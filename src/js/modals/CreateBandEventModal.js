@@ -20,7 +20,7 @@ export const initialState = {
   // files: [],
 };
 
-class CreateEventModal extends Component {
+class CreateBandEventModal extends Component {
   static propTypes = {
     show: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -214,7 +214,7 @@ class CreateEventModal extends Component {
                 <Input type="select"
                   name="type"
                   placeholder="Show/Rehearsal"
-                  options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
+                  options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}, {value: "studio session", label: 'Studio Session'}]}
                   value={ type }
                   onChange={ this.handleInputChange }
                   validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
@@ -255,6 +255,5 @@ function mapDispatchToProps(dispatch) {
   dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateEventModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBandEventModal);
 
-// export default CreateEventModal;

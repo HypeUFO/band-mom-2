@@ -16,7 +16,7 @@ import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
-import CreateEventModal from '../modals/CreateEventModal';
+import CreateBandEventModal from '../modals/CreateBandEventModal';
 
 
 
@@ -37,7 +37,7 @@ import AlertModal from '../modals/AlertModal';
 
 
 const initialState = {
-  showCreateEventModal: false,
+  showCreateBandEventModal: false,
   showAlert: false,
   showShareModal: false,
   selected: '',
@@ -63,7 +63,7 @@ class BandDashboard extends Component {
     // this.db = database.ref().child('bands');
     this.id = window.location.pathname.split('/')[3];
 
-    this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
+    this.toggleCreateBandEventModal = this.toggleCreateBandEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
     this.onCancelStageplotUpload = this.onCancelStageplotUpload.bind(this);
@@ -171,19 +171,19 @@ class BandDashboard extends Component {
     event.stopPropagation();
   }
 
-  toggleCreateEventModal() {
+  toggleCreateBandEventModal() {
     this.setState(prevState => ({
-      showCreateEventModal: !prevState.showCreateEventModal
+      showCreateBandEventModal: !prevState.showCreateBandEventModal
     }));
   }
 
   onCreateEventSubmit() {
     console.log('Event submitted');
-    this.toggleCreateEventModal();
+    this.toggleCreateBandEventModal();
   }
 
   onCreateEventCancel() {
-    this.toggleCreateEventModal();
+    this.toggleCreateBandEventModal();
   }
 
   onCreateEventSuccess() {
@@ -270,7 +270,7 @@ class BandDashboard extends Component {
         className="card__link card__link__stageplot card__link__list"
         key={ index }
       >
-        <button className="card__delete" href onClick={(event) => {
+        <button className="card__delete" onClick={(event) => {
           event.preventDefault();
           Promise.resolve()
           .then(() => {
@@ -382,7 +382,7 @@ class BandDashboard extends Component {
           // buttonHide={ buttonHide }
           buttonLabel="Add Show"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateEventModal }
+          buttonOnClick={ this.toggleCreateBandEventModal }
         />
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
@@ -410,8 +410,8 @@ class BandDashboard extends Component {
           >
             <p>This action can not be undone</p>
           </AlertModal>
-          <CreateEventModal
-            show={ this.state.showCreateEventModal }
+          <CreateBandEventModal
+            show={ this.state.showCreateBandEventModal }
             onSubmit={ this.onCreateEventSubmit }
             onCancel={ this.onCreateEventCancel }
             onSuccess={ this.onCreateEventSuccess }
