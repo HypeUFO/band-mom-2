@@ -113,7 +113,7 @@ render() {
           onDrop={this.onDrop}
           style={{outlineColor: borderColor}}
         >
-          <img src={state.imageSrc} alt="upload" className={state.loaded && 'loaded'}/>
+          <img src={state.imageSrc} alt="upload" />
           <i
             className="icon icon-upload"
             style={{ color: iconColor }}
@@ -121,7 +121,7 @@ render() {
           </i>
           <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" />
         </label>
-        <p>{this.props.error}</p>
+        <p>{this.props.error.message}</p>
       </div>
     );
   }

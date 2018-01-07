@@ -24,7 +24,7 @@ render() {
         >
           <div className="modal__top" style={{display: 'flex', justifyContent: 'space-between'}}>
             <h3 className="clr-purple">{ this.props.header }</h3>
-            <a className="modal__close" href onClick={ this.onCancel }><i className="material-icons">close</i></a>
+            <button className="modal__close" onClick={ this.onCancel }><i className="material-icons">close</i></button>
           </div>
           <div className="modal__middle">
             <FileUpload

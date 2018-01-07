@@ -300,9 +300,9 @@ class BandDashboard extends Component {
 
         let rows = Object.keys(events).map((key) => {
           events[key].id = key;
-
+          let index = events[key].date;
           if (events[key].status === 'upcoming') {
-            return this.renderEventCard(events[key], key)
+            return this.renderEventCard(events[key], index)
           }
         })
         .sort((a, b) => {

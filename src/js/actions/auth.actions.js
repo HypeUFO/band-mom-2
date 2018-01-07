@@ -2,7 +2,6 @@ import ActionTypes from '../constants/action_types';
 import { database, auth, storage } from '../config/fire';
 
 export function createUser(user) {
-  console.log('Creating user: ' + user);
   return dispatch => {
     dispatch(createUserRequestedAction());
     return database.ref(`/users/${user.id}`).set(user)
@@ -11,7 +10,6 @@ export function createUser(user) {
       dispatch(createUserFulfilledAction());
     })
     .catch((err) => {
-      console.log(err);
       dispatch(createUserRejectedAction(err));
     });
   }
@@ -200,21 +198,18 @@ function updateUserEditRejectedAction(error) {
 }
 
 export function updateUser(user) {
-  console.log(user);
   return dispatch => {
     dispatch(updateUserRequestedAction());
     database.ref().child('users/' + user.id).update(user)
     .then(() => {
       database.ref(`/users/${user.id}`).once('value', snap => {
         const updatedUser = snap.val();
-        console.log(updatedUser);
         return dispatch(updateUserFulfilledAction(updatedUser))
       })
       // dispatch(updateUserFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
-      dispatch(updateUserRejectedAction());
+      dispatch(updateUserRejectedAction(error));
     });
   }
 }
@@ -240,7 +235,6 @@ function updateUserFulfilledAction(user) {
 
 
 export function getActiveProfile(userId) {
-  console.log(userId);
   return dispatch => {
     Promise.resolve()
     .then(() => clearActiveProfile())
@@ -248,12 +242,10 @@ export function getActiveProfile(userId) {
       dispatch(getActiveProfileRequestedAction());
       database.ref(`/users/${userId}`).once('value', snap => {
         const user = snap.val();
-        console.log(user);
         return dispatch(getActiveProfileFulfilledAction(user))
       })
     })
     .catch((error) => {
-      console.log(error);
       dispatch(getActiveProfileRejectedAction());
     });
   }
@@ -284,7 +276,6 @@ export function clearActiveProfile() {
     .then(() => dispatch(clearActiveProfileRequestedAction()))
     .then(() => dispatch(clearActiveProfileFulfilledAction()))
     .catch((error) => {
-      console.log(error);
       dispatch(clearActiveProfileRejectedAction());
   });
   }
@@ -327,7 +318,6 @@ export function uploadProfileImage(file, userId) {
       return dispatch(uploadProfilePicFulfilledAction(url))
     })
     .catch((error) => {
-      console.error(error);
       return dispatch(uploadProfilePicRejectedAction(error));
     });
   }

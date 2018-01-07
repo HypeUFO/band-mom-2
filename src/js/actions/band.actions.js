@@ -49,7 +49,6 @@ export function getBandMany(user) {
     database.ref().child("userGroups").child(user.id).once('value', snap => {
       const bands = {}
       snap.forEach(function(child) {
-        console.log(child.key+": "+child.val());
         const groupKey = child.key
         database.ref('groups').child(groupKey).on('value', snap => {
           const band = snap.val();
@@ -111,7 +110,6 @@ export function createBand(band, user) {
       dispatch(createBandFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       dispatch(createBandRejectedAction(error));
     });
   }
@@ -151,7 +149,6 @@ export function deleteBand(band) {
       return dispatch(deleteBandFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       return dispatch(deleteBandRejectedAction());
     });
   }
@@ -184,7 +181,6 @@ export function restoreBand(band) {
       dispatch(restoreBandFulfilledAction(band));
     })
     .catch((error) => {
-      console.log(error);
       dispatch(restoreBandRejectedAction());
     });
   }
@@ -212,7 +208,6 @@ function restoreBandFulfilledAction(band) {
 
 
 export function updateBand(band) {
-  console.log(band);
   return dispatch => {
     dispatch(updateBandRequestedAction());
     database.ref().child('groups/' + band.id).update(band)
@@ -220,7 +215,6 @@ export function updateBand(band) {
       dispatch(updateBandFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       dispatch(updateBandRejectedAction());
     });
   }
@@ -337,7 +331,6 @@ export function uploadStagePlot(file, bandId) {
       newStageplot.name = file.name;
       const key = database.ref('groups').child(bandId).child('stageplots').push(newStageplot).key
       newStageplot.id = key;
-      console.log('key = ' + key);
       database.ref('groups').child(bandId).child('stageplots').child(key).update(newStageplot)
       return dispatch(uploadStagePlotFulfilledAction(stageplotUrl))
     })
@@ -411,7 +404,6 @@ export function inviteToGroup(bandId, userId) {
     dispatch(inviteToGroupRequestedAction());
     let groupEvents = {}
     return database.ref().child("groupEvents").child(bandId).once('value', snap => {
-      console.log(snap.val())
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
           return groupEvents[key] = true;
@@ -432,14 +424,12 @@ export function inviteToGroup(bandId, userId) {
     updates[`/userGroups/${userId}/${bandId}`] = true;
     updates[`/userEvents/${userId}`] = groupEvents;
 
-    console.log('groupEvents)= ' + JSON.stringify(groupEvents))
 
     return database.ref().update(updates)
     .then(() => {
       dispatch(inviteToGroupFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       dispatch(inviteToGroupRejectedAction(error));
     });
   })

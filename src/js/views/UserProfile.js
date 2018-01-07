@@ -3,16 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
 import { inviteToGroup } from '../actions/band.actions';
-import {
-  getBand,
-  updateUser,
-  updateUserEdit,
-  uploadBandLogo,
-  uploadStagePlot,
-  deleteBand,
-  deleteStagePlot,
-  restoreBand,
-} from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
@@ -24,10 +14,9 @@ import instrumentList from '../constants/instrument_list';
 
 import Form from '../components/Global/Form';
 
-import Carousel from '../components/Carousel';
 import Input from '../components/Global/Input';
 import moment from 'moment';
-import history from '../history';
+
 
 import classNames from 'classnames';
 
@@ -47,8 +36,6 @@ const initialState = {
   instruments: {},
 };
 
-// const userEdit = true;
-
 class BandDashboard extends Component {
   constructor(props) {
     super(props);
@@ -67,6 +54,8 @@ class BandDashboard extends Component {
     this.inviteUserCancel = this.inviteUserCancel.bind(this);
     this.uploadImage = this.uploadImage.bind(this);
     this.uploadImageCancel = this.uploadImageCancel.bind(this);
+
+    this.onUpdateUserEdit = this.onUpdateUserEdit.bind(this)
     // this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     // this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     // this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
@@ -93,39 +82,28 @@ class BandDashboard extends Component {
   }
 
   componentWillMount() {
-    console.log('initial state = ' + this.state);
-    console.log('component will mount')
     Promise.resolve()
+    .then(() => this.props.clearActiveProfile())
+    .then(() => this.setState(initialState))
     .then(() => {
-      // this.props.onGetBand(this.id)
-      console.log('getting profile')
-      this.props.onGetActiveProfile(this.props.match.params.userId)
+      return database.ref().on("value", () => this.props.onGetActiveProfile(this.props.match.params.userId))
+    })
+    .then(() => {
+      const { activeProfile } = this.props;
+      if (this.props.userEdit) {
+        this.props.updateUserEdit();
+      }
+      return (
+          this.setState({
+          displayName: activeProfile.displayName || '',
+          location: activeProfile.location || '',
+          about: activeProfile.about || '',
+          imageUrl: activeProfile.imageUrl || '',
+          instruments: activeProfile.instruments || {},
+        })
+      )
     })
     .catch((err) => console.log(err));
-
-    // database.ref(`users/${this.props.match.params.userId}`).on('value', (snap) => {
-    //   // this.props.onGetUser(this.props.match.params.userId);
-    //   console.log(snap.val())
-    // })
-  }
-
-  componentDidMount() {
-    const { activeProfile } = this.props;
-    if(activeProfile) {
-      console.log('setting profile (DID MOUNT)')
-      this.setState({
-        // disabled: !!this.props.bandEdit,
-        displayName: activeProfile.displayName || '',
-        location: activeProfile.location || '',
-        about: activeProfile.about || '',
-        imageUrl: activeProfile.imageUrl || '',
-        instruments: activeProfile.instruments || {},
-      })
-
-      // this.setState(activeProfile)
-      console.log(JSON.stringify(this.state))
-      console.log(JSON.stringify(activeProfile))
-    }
   }
 
   componentWillUnmount() {
@@ -146,11 +124,9 @@ class BandDashboard extends Component {
           [name]: value,
       }
     }))
-    console.log(this.state);
   }
 
   handleBandSelect(event) {
-    console.log(event.target.value);
     this.setState({
       bandName: event.target.value.split('/')[0],
       bandId: event.target.value.split('/')[1],
@@ -168,6 +144,7 @@ class BandDashboard extends Component {
 
   onCancel() {
     // this.handleFormEdit();
+    this.setState({disabled: true})
     this.props.updateUserEdit();
     this.props.onGetActiveProfile(this.props.match.params.userId);
   }
@@ -201,6 +178,21 @@ class BandDashboard extends Component {
     this.props.onUpdateUser(user)
   }
 
+  onUpdateUserEdit() {
+    Promise.resolve()
+    .then(() => {
+      const { activeProfile } = this.props;
+      this.setState({
+        displayName: activeProfile.displayName,
+        location: activeProfile.location,
+        about: activeProfile.about,
+        imageUrl: activeProfile.imageUrl,
+        instruments: activeProfile.instruments,
+      })
+    })
+    .then(() => this.props.updateUserEdit())
+  }
+
   inviteUser() {
     this.props.inviteToGroup(this.state.bandId, this.props.activeProfile.id);
   }
@@ -219,16 +211,16 @@ class BandDashboard extends Component {
 
   renderCheckboxes(list) {
     return (
-      list.map(item => {
+      list.map((item, index) => {
         return (
           <Input
             type="checkbox"
             name={item.value}
             label={item.label}
-            // disabled={ !this.props.userEdit }
+            key={index}
             disabled={ !this.props.userEdit }
             onChange={ this.handleCheckboxChange }
-            isChecked={ this.state.instruments[item.label] ? true : false }
+            isChecked={ this.state.instruments[item.label] || this.props.activeProfile.instruments[item.label] ? true : false }
           />
         );
       })
@@ -238,10 +230,9 @@ class BandDashboard extends Component {
   renderInstrumentList(list) {
     let listItems = []
     Object.keys(list).map(key => {
-      console.log(key);
       if (list[key]) {
         listItems.push(
-          <li>
+          <li key={key}>
             { key }
           </li>
         );
@@ -289,8 +280,6 @@ class BandDashboard extends Component {
           }
           return bandList.push(addBandInfo);
         })
-        // bandList.unshift({label: 'Select Band', value: ''})
-        console.log(bandList);
       }
       bandList.unshift({label: 'Select Band', value: ''})
 
@@ -337,16 +326,25 @@ class BandDashboard extends Component {
             </AlertModal>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <h3>{activeProfile.displayName}</h3>
-              { user.id === this.props.match.params.userId
+              {/* { user.id === this.props.match.params.userId
               ? <Input
                 type="button-link"
                 value="Edit"
-                onClick={this.props.updateUserEdit}
+                // onClick={this.props.updateUserEdit}
+                onClick={this.onUpdateUserEdit}
                 onSubmit={ this.onSubmitDeleteStagePlot }
                 onCancel={ this.onCancelDeleteStagePlot }
               />
               : null
-              }
+              } */}
+              <Input
+                type="button-link"
+                value="Edit"
+                // onClick={this.props.updateUserEdit}
+                onClick={this.onUpdateUserEdit}
+                onSubmit={ this.onSubmitDeleteStagePlot }
+                onCancel={ this.onCancelDeleteStagePlot }
+              />
             </div>
             <div className="user__profile__container">
               <div className="user__profile__image__wrapper">
@@ -416,7 +414,7 @@ class BandDashboard extends Component {
                         <div className={checkboxGroupClasses}>
                           { this.props.userEdit
                             ? this.renderCheckboxes(instrumentList)
-                            : <ul>{this.renderInstrumentList(this.state.instruments)}</ul>
+                            : <ul>{this.renderInstrumentList(this.props.activeProfile.instruments)}</ul>
                           }
                         </div>
                       </div>

@@ -58,7 +58,6 @@ export function getEventMany(bandId) {
       return dispatch(getEventManyFulfilledAction(events))
     })
     .catch((error) => {
-      console.log(error);
       dispatch(getEventManyRejectedAction());
     });
   }
@@ -91,7 +90,6 @@ export function getUserEventMany(userId) {
     dispatch(getUserEventManyRequestedAction());
     database.ref().child("userEvents").child(userId).once('value', snap => {
       const events = {}
-      console.log(snap.val())
       snap.forEach(function(child) {
       const eventKey = child.key
       database.ref('events').child(eventKey).on('value', snap => {
@@ -102,7 +100,6 @@ export function getUserEventMany(userId) {
       return dispatch(getUserEventManyFulfilledAction(events))
     })
     .catch((error) => {
-      console.log(error);
       dispatch(getUserEventManyRejectedAction());
     });
   }
@@ -137,7 +134,6 @@ export function createEvent(event, bandId, userId) {
     dispatch(createEventRequestedAction());
     let groupMembers = {}
     return database.ref().child("groupMembers").child(bandId).once('value', snap => {
-      console.log(snap.val())
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
           if (key !== userId) {
@@ -168,14 +164,12 @@ export function createEvent(event, bandId, userId) {
     Object.keys(groupMembers).map(key => {
       return updates[`/userEvents/${key}/${newEventKey}`] = true;
     })
-    console.log(groupMembers)
 
     return database.ref().update(updates)
     .then(() => {
       dispatch(createEventFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       dispatch(createEventRejectedAction());
     });
   })
@@ -209,7 +203,6 @@ export function deleteEvent(event, bandId, userId) {
 
     let groupMembers = {}
     return database.ref().child("groupMembers").child(bandId).once('value', snap => {
-      console.log(snap.val())
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
           if (key !== userId) {
@@ -230,7 +223,6 @@ export function deleteEvent(event, bandId, userId) {
       Object.keys(groupMembers).map(key => {
         return updates[`/userEvents/${key}/${event.id}`] = null;
       })
-      console.log(groupMembers)
 
       return database.ref().update(updates)
 
@@ -238,7 +230,6 @@ export function deleteEvent(event, bandId, userId) {
         dispatch(deleteEventFulfilledAction(event));
       })
       .catch((error) => {
-        console.log(error);
         dispatch(deleteEventRejectedAction());
       });
     })
@@ -272,7 +263,6 @@ export function restoreEvent(event, bandId, userId) {
     dispatch(restoreEventRequestedAction());
     let groupMembers = {}
     return database.ref().child("groupMembers").child(bandId).once('value', snap => {
-      console.log(snap.val())
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
           if (key !== userId) {
@@ -303,14 +293,12 @@ export function restoreEvent(event, bandId, userId) {
     Object.keys(groupMembers).map(key => {
       return updates[`/userEvents/${key}/${newEventKey}`] = true;
     })
-    console.log(groupMembers)
 
     return database.ref().update(updates)
     .then(() => {
       dispatch(restoreEventFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       dispatch(restoreEventRejectedAction());
     });
   })
@@ -345,7 +333,6 @@ export function updateEvent(event, bandId) {
       dispatch(updateEventFulfilledAction());
     })
     .catch((error) => {
-      console.log(error);
       dispatch(updateEventRejectedAction());
     });
   }

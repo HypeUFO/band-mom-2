@@ -89,14 +89,15 @@ class UserDashboard extends Component {
   renderPreviewList(list, type) {
       if (list && Object.keys(list).length > 0 && list.constructor === Object) {
         let rows = Object.keys(list).map((key) => {
-          return this.renderCard(list[key], key, type)
+          let index = list[key].date || key
+          return this.renderCard(list[key], index, type)
         })
         if (type === 'event') {
         rows.sort((a, b) => {
           const valueA = new Date(a.key);
           const valueB = new Date(b.key);
-          // return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-          return 1;
+          return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
+          // return 1;
         })
       }
 
