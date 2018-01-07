@@ -56,10 +56,12 @@ class Search extends Component {
             <ul>
               {Object.keys(searchResults.users).map(key => {
               return(
+                <a href={`/${searchResults.users[key].id}/profile`}>
                 <li>
                   { searchResults.users[key].imageUrl ? <img src={searchResults.users[key].imageUrl} alt="Profile Pic" /> : null }
                   {searchResults.users[key].displayName}
                 </li>
+                </a>
               )
               })}
             </ul>

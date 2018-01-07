@@ -403,3 +403,67 @@ function deleteStagePlotRejectedAction(error) {
     error
   }
 }
+
+
+export function inviteToGroup(bandId, userId) {
+
+  return dispatch => {
+    dispatch(inviteToGroupRequestedAction());
+    let groupEvents = {}
+    return database.ref().child("groupEvents").child(bandId).once('value', snap => {
+      console.log(snap.val())
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          return groupEvents[key] = true;
+        })
+      }
+    })
+    .then(() => {
+
+    const userGroup = {}
+    const bandMembers = {}
+
+    userGroup[bandId] = true
+    bandMembers[userId] = true
+
+    var updates = {};
+    updates['/users/' + userId + '/groups/' + bandId] = true;
+    updates[`/groupMembers/${bandId}/${userId}`] = true;
+    updates[`/userGroups/${userId}/${bandId}`] = true;
+    updates[`/userEvents/${userId}`] = groupEvents;
+
+    console.log('groupEvents)= ' + JSON.stringify(groupEvents))
+
+    return database.ref().update(updates)
+    .then(() => {
+      dispatch(inviteToGroupFulfilledAction());
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(inviteToGroupRejectedAction(error));
+    });
+  })
+  }
+}
+
+
+
+function inviteToGroupRequestedAction() {
+  return {
+    type: ActionTypes.INVITE_TO_GROUP_REQUESTED
+  };
+}
+
+function inviteToGroupRejectedAction(error) {
+  return {
+    type: ActionTypes.INVITE_TO_GROUP_REJECTED,
+    error
+  }
+}
+
+function inviteToGroupFulfilledAction(bands) {
+  return {
+    type: ActionTypes.INVITE_TO_GROUP_FULFILLED,
+    bands
+  };
+}

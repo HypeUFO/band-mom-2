@@ -48,6 +48,7 @@
     top: 50px;
     border: 1px solid $color-purple;
     border-top: none;
+    background: $color-light;
     width: 25%;
     min-width: 200px;
     > .spinner__wrapper {
@@ -60,11 +61,13 @@
       text-shadow: none;
       padding: 0;
       margin: 0;
-      > li {
+      > a > li {
         // width: 100%;
         text-shadow: none;
         padding: 1rem;
         margin: 0;
+        width: 100%;
+        padding: 10px;
       }
     }
   }

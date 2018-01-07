@@ -1258,7 +1258,7 @@ tbody:hover > tr:hover td {
 .notification {
   position: fixed;
   left: 50%;
-  top: 10%;
+  top: 15%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1646,6 +1646,7 @@ tbody:hover > tr:hover td {
     top: 50px;
     border: 1px solid #7F4FFF;
     border-top: none;
+    background: #FFFFFF;
     width: 25%;
     min-width: 200px; }
     .search__results > .spinner__wrapper {
@@ -1657,9 +1658,11 @@ tbody:hover > tr:hover td {
       text-shadow: none;
       padding: 0;
       margin: 0; }
-      .search__results > ul > li {
+      .search__results > ul > a > li {
         text-shadow: none;
         padding: 1rem;
-        margin: 0; }
+        margin: 0;
+        width: 100%;
+        padding: 10px; }
 
 /*# sourceMappingURL=index.css.map */

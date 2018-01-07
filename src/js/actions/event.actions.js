@@ -135,6 +135,18 @@ export function createEvent(event, bandId, userId) {
 
   return dispatch => {
     dispatch(createEventRequestedAction());
+    let groupMembers = {}
+    return database.ref().child("groupMembers").child(bandId).once('value', snap => {
+      console.log(snap.val())
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          if (key !== userId) {
+            return groupMembers[key] = true;
+          }
+        })
+      }
+    })
+    .then(() => {
     const newEventKey = database.ref().child('events').push().key;
 
     const eventGroup = {}
@@ -153,6 +165,11 @@ export function createEvent(event, bandId, userId) {
     updates[`/groupEvents/${bandId}/${newEventKey}`] = true;
     updates[`/userEvents/${userId}/${newEventKey}`] = true;
 
+    Object.keys(groupMembers).map(key => {
+      return updates[`/userEvents/${key}/${newEventKey}`] = true;
+    })
+    console.log(groupMembers)
+
     return database.ref().update(updates)
     .then(() => {
       dispatch(createEventFulfilledAction());
@@ -161,6 +178,7 @@ export function createEvent(event, bandId, userId) {
       console.log(error);
       dispatch(createEventRejectedAction());
     });
+  })
   }
 }
 
@@ -189,19 +207,41 @@ export function deleteEvent(event, bandId, userId) {
   return dispatch => {
     dispatch(deleteEventRequestedAction());
 
-    database.ref(`events/${event.id}`).remove()
-    database.ref(`/groups/${bandId}/events/${bandId}`).remove()
-    database.ref(`/eventGroups/${event.id}/${bandId}`).remove()
-    database.ref(`/groupEvents/${bandId}/${event.id}`).remove()
-    return database.ref(`/userEvents/${userId}//${event.id}`).remove()
-
-    .then(() => {
-      dispatch(deleteEventFulfilledAction(event));
+    let groupMembers = {}
+    return database.ref().child("groupMembers").child(bandId).once('value', snap => {
+      console.log(snap.val())
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          if (key !== userId) {
+            return groupMembers[key] = true;
+          }
+        })
+      }
     })
-    .catch((error) => {
-      console.log(error);
-      dispatch(deleteEventRejectedAction());
-    });
+    .then(() => {
+      var updates = {};
+
+      updates[`/events/${event.id}`] = null;
+      updates[`/groups/${bandId}/events/${bandId}`] = null;
+      updates[`/eventGroups//${event.id}/${bandId}`] = null;
+      updates[`/groupEvents/${bandId}/${event.id}`] = null;
+      updates[`/userEvents/${userId}/${event.id}`] = null;
+
+      Object.keys(groupMembers).map(key => {
+        return updates[`/userEvents/${key}/${event.id}`] = null;
+      })
+      console.log(groupMembers)
+
+      return database.ref().update(updates)
+
+      .then(() => {
+        dispatch(deleteEventFulfilledAction(event));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(deleteEventRejectedAction());
+      });
+    })
   }
 }
 
@@ -226,10 +266,22 @@ function deleteEventFulfilledAction(event) {
 }
 
 
-export function restoreEvent(event, bandId) {
+export function restoreEvent(event, bandId, userId) {
 
   return dispatch => {
     dispatch(restoreEventRequestedAction());
+    let groupMembers = {}
+    return database.ref().child("groupMembers").child(bandId).once('value', snap => {
+      console.log(snap.val())
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          if (key !== userId) {
+            return groupMembers[key] = true;
+          }
+        })
+      }
+    })
+    .then(() => {
     const newEventKey = database.ref().child('events').push().key;
 
     const eventGroup = {}
@@ -246,15 +298,22 @@ export function restoreEvent(event, bandId) {
     updates[`/groups/${bandId}/events`] = eventGroup;
     updates[`/eventGroups//${newEventKey}`] = eventGroup;
     updates[`/groupEvents/${bandId}/${newEventKey}`] = true;
+    updates[`/userEvents/${userId}/${newEventKey}`] = true;
+
+    Object.keys(groupMembers).map(key => {
+      return updates[`/userEvents/${key}/${newEventKey}`] = true;
+    })
+    console.log(groupMembers)
 
     return database.ref().update(updates)
     .then(() => {
-      dispatch(restoreEventFulfilledAction(event));
+      dispatch(restoreEventFulfilledAction());
     })
     .catch((error) => {
       console.log(error);
       dispatch(restoreEventRejectedAction());
     });
+  })
   }
 }
 

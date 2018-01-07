@@ -237,3 +237,73 @@ function updateUserFulfilledAction(user) {
     user
   };
 }
+
+
+export function getActiveProfile(userId) {
+  console.log(userId);
+  return dispatch => {
+    Promise.resolve()
+    .then(() => clearActiveProfile())
+    .then(() => {
+      dispatch(getActiveProfileRequestedAction());
+      database.ref(`/users/${userId}`).once('value', snap => {
+        const user = snap.val();
+        console.log(user);
+        return dispatch(getActiveProfileFulfilledAction(user))
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(getActiveProfileRejectedAction());
+    });
+  }
+}
+
+function getActiveProfileRequestedAction() {
+  return {
+    type: ActionTypes.GET_PROFILE_REQUESTED
+  };
+}
+
+function getActiveProfileRejectedAction() {
+  return {
+    type: ActionTypes.GET_PROFILE_REJECTED
+  }
+}
+
+function getActiveProfileFulfilledAction(activeProfile) {
+  return {
+    type: ActionTypes.GET_PROFILE_FULFILLED,
+    activeProfile
+  };
+}
+
+export function clearActiveProfile() {
+  return dispatch => {
+    Promise.resolve()
+    .then(() => dispatch(clearActiveProfileRequestedAction()))
+    .then(() => dispatch(clearActiveProfileFulfilledAction()))
+    .catch((error) => {
+      console.log(error);
+      dispatch(clearActiveProfileRejectedAction());
+  });
+  }
+}
+
+function clearActiveProfileRequestedAction() {
+  return {
+    type: ActionTypes.CLEAR_PROFILE_REQUESTED
+  };
+}
+
+function clearActiveProfileRejectedAction() {
+  return {
+    type: ActionTypes.CLEAR_PROFILE_REJECTED
+  }
+}
+
+function clearActiveProfileFulfilledAction() {
+  return {
+    type: ActionTypes.CLEAR_PROFILE_FULFILLED,
+  };
+}

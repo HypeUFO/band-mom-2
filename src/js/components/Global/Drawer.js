@@ -62,7 +62,8 @@ class Drawer extends Component {
               <Link to={ dashboardUrl } onClick={ this.props.toggle }>Dashboard</Link>
           </li>
           <li className="drawer__item">
-              <Link to={ profileUrl } onClick={ this.props.toggle }>Profile</Link>
+              {/* <Link to={ profileUrl } onClick={ this.props.toggle }>Profile</Link> */}
+              <a href={ profileUrl } onClick={ this.props.toggle }>Profile</a>
           </li>
           <li className="drawer__item">
               <Link to={ bandsUrl } onClick={ this.props.toggle }>Bands</Link>

@@ -235,7 +235,63 @@ export function appReducer(state = initialState, action) {
           loading: false,
       }
 
+    case ActionTypes.GET_PROFILE_REQUESTED:
+      return {
+          ...state,
+          activeProfile: null,
+          loading: true,
+      }
+    case ActionTypes.GET_PROFILE_FULFILLED:
+      return {
+          ...state,
+          // edit: !state.edit
+          activeProfile: action.activeProfile,
+          loading: false,
+      }
+    case ActionTypes.GET_PROFILE_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          loading: false,
+      }
+
+    case ActionTypes.CLEAR_PROFILE_REQUESTED:
+      return {
+          ...state,
+          activeProfile: null,
+          loading: true,
+      }
+    case ActionTypes.CLEAR_PROFILE_FULFILLED:
+      return {
+          ...state,
+          // edit: !state.edit
+          activeProfile: null,
+          loading: false,
+      }
+    case ActionTypes.CLEAR_PROFILE_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          loading: false,
+      }
 
 
+    case ActionTypes.INVITE_TO_GROUP_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.INVITE_TO_GROUP_FULFILLED:
+      return {
+      ...state,
+        loading: false,
+        // bands: action.bands.bands,
+      }
+    case ActionTypes.INVITE_TO_GROUP_REJECTED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      }
   }
 }

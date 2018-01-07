@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
+import { inviteToGroup } from '../actions/band.actions';
 import {
   getBand,
   updateUser,
@@ -37,11 +38,11 @@ import AlertModal from '../modals/AlertModal';
 
 const initialState = {
   showAlert: false,
+  showInviteModal: false,
   displayName: '',
   location: '',
   about: '',
   profilePic: '',
-  // id: '',
   instruments: {},
 };
 
@@ -59,6 +60,10 @@ class BandDashboard extends Component {
     this.renderInstrumentList = this.renderInstrumentList.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleBandSelect = this.handleBandSelect.bind(this);
+
+    this.inviteUser = this.inviteUser.bind(this);
+    this.inviteUserCancel = this.inviteUserCancel.bind(this);
     // this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     // this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     // this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
@@ -85,27 +90,39 @@ class BandDashboard extends Component {
   }
 
   componentWillMount() {
+    console.log('initial state = ' + this.state);
+    console.log('component will mount')
     Promise.resolve()
     .then(() => {
       // this.props.onGetBand(this.id)
-    })
-    .then(() => {
-      // console.log(this.props.band);
-      this.setState({
-        // disabled: !!this.props.bandEdit,
-        displayName: this.props.user.displayName || '',
-        location: this.props.user.location || '',
-        about: this.props.user.about || '',
-        profilePic: this.props.user.profilePic || '',
-        instruments: this.props.user.instruments || '',
-      })
+      console.log('getting profile')
+      this.props.onGetActiveProfile(this.props.match.params.userId)
     })
     .catch((err) => console.log(err));
 
-    database.ref(`users/${this.props.match.params.userId}`).on('value', (snap) => {
-      // this.props.onGetUser(this.props.match.params.userId)
-      console.log(snap.val())
-    })
+    // database.ref(`users/${this.props.match.params.userId}`).on('value', (snap) => {
+    //   // this.props.onGetUser(this.props.match.params.userId);
+    //   console.log(snap.val())
+    // })
+  }
+
+  componentDidMount() {
+    const { activeProfile } = this.props;
+    if(activeProfile) {
+      console.log('setting profile (DID MOUNT)')
+      this.setState({
+        // disabled: !!this.props.bandEdit,
+        displayName: activeProfile.displayName || '',
+        location: activeProfile.location || '',
+        about: activeProfile.about || '',
+        profilePic: activeProfile.profilePic || '',
+        instruments: activeProfile.instruments || {},
+      })
+
+      // this.setState(activeProfile)
+      console.log(JSON.stringify(this.state))
+      console.log(JSON.stringify(activeProfile))
+    }
   }
 
   handleInputChange(event) {
@@ -125,6 +142,15 @@ class BandDashboard extends Component {
     console.log(this.state);
   }
 
+  handleBandSelect(event) {
+    console.log(event.target.value);
+    this.setState({
+      bandName: event.target.value.split('/')[0],
+      bandId: event.target.value.split('/')[1],
+      band: event.target.value
+    });
+  }
+
   onSubmit(event) {
     event.preventDefault();
     if(this.refs.form.validate()) {
@@ -136,10 +162,12 @@ class BandDashboard extends Component {
   onCancel() {
     // this.handleFormEdit();
     this.props.updateUserEdit();
+    this.props.onGetActiveProfile(this.props.match.params.userId);
   }
 
   onSuccess() {
     this.props.updateUserEdit();
+    this.props.onGetActiveProfile(this.props.match.params.userId);
     // this.props.onGetUser(this.props.user.id);
   }
 
@@ -161,9 +189,17 @@ class BandDashboard extends Component {
       about: this.state.about,
       profilePic: this.state.profilePic || '',
       instruments: this.state.instruments || {},
-      id: this.props.user.id,
+      id: this.props.activeProfile.id,
     }
     this.props.onUpdateUser(user)
+  }
+
+  inviteUser() {
+    this.props.inviteToGroup(this.state.bandId, this.props.activeProfile.id);
+  }
+
+  inviteUserCancel() {
+    this.setState({showInviteModal: false});
   }
 
   renderCheckboxes(list) {
@@ -204,19 +240,35 @@ class BandDashboard extends Component {
 
     const {
       user,
+      activeProfile,
       userEdit,
-      band
+      band,
+      bands,
     } = this.props;
 
 
     let breadcrumbs = [
-      { link: null, name: user ? user.displayName || user.email : '' },
+      { link: null, name: activeProfile ? activeProfile.displayName || activeProfile.email : '' },
     ];
 
-    if (user) {
+    if (activeProfile) {
     let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !this.props.userEdit });
 
     let checkboxGroupClasses = classNames('checkbox__group', { 'checkbox__group--disabled': !this.props.userEdit });
+
+    let bandList = [];
+    if (this.props.bands) {
+      Object.keys(bands).map(key => {
+        let addBandInfo = {
+          label: bands[key].name,
+          value: bands[key].name + '/' + bands[key].id,
+        }
+        return bandList.push(addBandInfo);
+      })
+      // bandList.unshift({label: 'Select Band', value: ''})
+      console.log(bandList);
+    }
+    bandList.unshift({label: 'Select Band', value: ''})
 
     return (
       <div className='page__container'>
@@ -228,10 +280,10 @@ class BandDashboard extends Component {
         />
         <Subheader breadcrumbs={ breadcrumbs }
           // buttonHide={ buttonHide }
-          buttonHide={ true }
-          // buttonLabel="Add Show"
+          buttonHide={ user.id === activeProfile.id }
+          buttonLabel="Invite to Group"
           // buttonIcon="add"
-          // buttonOnClick={ this.toggleCreateEventModal }
+          buttonOnClick={ () => this.setState({showInviteModal: true}) }
         />
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
@@ -239,34 +291,44 @@ class BandDashboard extends Component {
             show={ this.state.showLogoModal }
             onCancel={ this.onCancelLogoUpload }
             onUpload={this.props.uploadBandLogo}
-            pathId={this.props.user.id}
+            pathId={this.props.activeProfile.id}
             header="Upload Logo"
           />
           <AlertModal
-            show={ this.state.showAlert }
-            title="Are you sure you want to delete this stageplot?"
-            actionType="Delete"
-            action={this.onDeleteStagePlot}
-            onCancel={this.onCancelDeleteStagePlot}
-            isLoading={ this.props.uploading }
+            show={ this.state.showInviteModal }
+            title={`Invite ${activeProfile.displayName} to band`}
+            actionType="Invite"
+            action={this.inviteUser}
+            onCancel={this.inviteUserCancel}
+            // isLoading={ this.props.uploading }
           >
-            <p>This action can not be undone</p>
+            <Input type="select"
+                name="band"
+                placeholder="Band"
+                options={ bandList }
+                // value={ this.state.band }
+                onChange={ this.handleBandSelect }
+                // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              />
           </AlertModal>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <h3>Band Details</h3>
-            <Input
+            <h3>{activeProfile.displayName}</h3>
+            { user.id === this.props.match.params.userId
+            ? <Input
               type="button-link"
               value="Edit"
               onClick={this.props.updateUserEdit}
               onSubmit={ this.onSubmitDeleteStagePlot }
               onCancel={ this.onCancelDeleteStagePlot }
             />
+            : null
+            }
           </div>
           <div className="band__details__container">
           <div className="band__details__image__wrapper">
             <img
-              src={user.logoUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
-              alt="Logo"
+              src={activeProfile.profilePic || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+              alt="profile pic"
               className="user__logo"
               style={{marginBottom: 24}}
             />
@@ -275,7 +337,7 @@ class BandDashboard extends Component {
             </button> */}
             <Input
               type="button-link"
-              value={ user.logoUrl ? 'Change logo' : 'Upload logo' }
+              value={ activeProfile.profilePic ? 'Change logo' : 'Upload logo' }
               onClick={() => this.setState({showLogoModal: true})}
             />
           </div>
@@ -299,7 +361,7 @@ class BandDashboard extends Component {
                     label="Display Name"
                     // disabled={ !this.props.userEdit }
                     disabled={ !userEdit }
-                    value={ this.props.userEdit ? this.state.displayName : user.displayName }
+                    value={ this.props.userEdit ? this.state.displayName : activeProfile.displayName }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -309,7 +371,7 @@ class BandDashboard extends Component {
                     label="Location"
                     // disabled={ !this.props.userEdit }
                     disabled={ !userEdit }
-                    value={ this.props.userEdit ? this.state.location : user.location }
+                    value={ this.props.userEdit ? this.state.location : activeProfile.location }
                     onChange={ this.handleInputChange }
                     validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -324,7 +386,7 @@ class BandDashboard extends Component {
                     label="About"
                     // disabled={ !this.props.userEdit }
                     disabled={ !userEdit }
-                    value={ this.props.userEdit ? this.state.about : user.about }
+                    value={ this.props.userEdit ? this.state.about : activeProfile.about }
                     onChange={ this.handleInputChange }
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
@@ -364,8 +426,10 @@ class BandDashboard extends Component {
 function mapStateToProps(state) {
   return {
     user: state.app.user,
+    activeProfile: state.app.activeProfile,
     userEdit: state.app.edit,
     isLoading: state.app.loading,
+    bands: state.bands.bands,
     uploading: state.bands.loading,
     notification: state.notification,
   };
@@ -376,6 +440,9 @@ function mapDispatchToProps(dispatch) {
     updateUserEdit: actions.updateUserEdit,
     onUpdateUser: actions.updateUser,
     onGetUser: actions.getUser,
+    onGetActiveProfile: actions.getActiveProfile,
+    clearActiveProfile: actions.clearActiveProfile,
+    inviteToGroup: inviteToGroup,
     // onClearEvent: actions.clearEvent,
     // onGetEvent: actions.getEvent,
     // onGetEventMany: actions.getEventMany,

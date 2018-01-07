@@ -129,7 +129,7 @@ class EventList extends Component {
 
   restoreEvent() {
     if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1], this.props.band.id)
+      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1], this.props.band.id, this.props.user.id)
     } else {
       console.log('no Events to restore');
       this.props.dismissNotification();
@@ -363,6 +363,7 @@ class EventList extends Component {
 
 function mapStateToProps(state) {
   return {
+    user: state.app.user,
     events: state.events.events,
     band: state.bands.activeBand,
     statusFilter: state.events.statusFilter,

@@ -40,57 +40,58 @@ class UserDashboard extends Component {
   }
 
   renderCard(doc, index, type) {
+    if (doc) {
+      let statusColorClass = '';
+      switch(doc.status) {
+        case 'upcoming':
+          // statusColorClass = 'clr-purple';
+          break;
+        case 'past':
+          statusColorClass = 'clr-red';
+          break;
+        default:
+          // statusColorClass = 'clr-purple';
+      }
 
-    let statusColorClass = '';
-    switch(doc.status) {
-      case 'upcoming':
-        // statusColorClass = 'clr-purple';
-        break;
-      case 'past':
-        statusColorClass = 'clr-red';
-        break;
-      default:
-        // statusColorClass = 'clr-purple';
-    }
+      let card;
 
-    let card;
-
-    if (type === 'band') {
+      if (type === 'band') {
+          card = (
+            <a
+              href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`}
+              className="card__link"
+              key={ index }
+            >
+              <div className="card">
+                <div>
+                  { doc.logo ? <img src={ doc.logo } alt="logo" /> : null }
+                  <h3>{ doc.name }</h3>
+                  <p>{ doc.genre1 } / { doc.genre2 }</p>
+                  <p>{ doc.location }</p>
+                </div>
+              </div>
+            </a>
+          );
+      } else if (type === 'event') {
         card = (
           <a
-            href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`}
+            href={`/${this.props.match.params.userId}/bands/${doc.bandId}/events/${doc.id}/details`}
             className="card__link"
             key={ index }
           >
             <div className="card">
               <div>
-                { doc.logo ? <img src={ doc.logo } alt="logo" /> : null }
-                <h3>{ doc.name }</h3>
-                <p>{ doc.genre1 } / { doc.genre2 }</p>
-                <p>{ doc.location }</p>
+                <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
+                <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
+                <p>Set Time: { doc.showTime }</p>
               </div>
             </div>
           </a>
         );
-    } else if (type === 'event') {
-      card = (
-        <a
-          href={`/${this.props.match.params.userId}/bands/${doc.bandId}/events/${doc.id}/details`}
-          className="card__link"
-          key={ index }
-        >
-          <div className="card">
-            <div>
-              <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
-              <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
-              <p>Set Time: { doc.showTime }</p>
-            </div>
-          </div>
-        </a>
-      );
-    }
+      }
 
-    return card;
+      return card;
+    }
   }
 
   // sortData(docs) {

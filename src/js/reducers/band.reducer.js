@@ -174,5 +174,21 @@ export function bandReducer(state = initialState, action) {
           loading: false,
       }
 
+
+    case ActionTypes.INVITE_TO_GROUP_REQUESTED:
+      return {
+        ...state,
+      }
+    case ActionTypes.INVITE_TO_GROUP_FULFILLED:
+      return {
+      ...state,
+      // bands: action.bands.bands,
+      }
+    case ActionTypes.INVITE_TO_GROUP_REJECTED:
+      return {
+      ...state,
+      error: action.error,
+      }
+
   }
 }
