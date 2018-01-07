@@ -401,28 +401,29 @@ function deleteStagePlotRejectedAction(error) {
 export function inviteToGroup(bandId, userId) {
 
   return dispatch => {
-    dispatch(inviteToGroupRequestedAction());
-    let groupEvents = {}
-    return database.ref().child("groupEvents").child(bandId).once('value', snap => {
-      if (snap.val()) {
-        Object.keys(snap.val()).map(key => {
-          return groupEvents[key] = true;
-        })
-      }
-    })
+    dispatch(inviteToGroupRequestedAction())
+    // let groupEvents = {}
+    // return database.ref().child("groupEvents").child(bandId).once('value', snap => {
+    //   if (snap.val()) {
+    //     Object.keys(snap.val()).map(key => {
+    //       return groupEvents[key] = true;
+    //     })
+    //   }
+    // })
+    Promise.resolve()
     .then(() => {
 
-    const userGroup = {}
-    const bandMembers = {}
+    // const userGroup = {}
+    // const bandMembers = {}
 
-    userGroup[bandId] = true
-    bandMembers[userId] = true
+    // userGroup[bandId] = true
+    // bandMembers[userId] = true
 
     var updates = {};
-    updates['/users/' + userId + '/groups/' + bandId] = true;
-    updates[`/groupMembers/${bandId}/${userId}`] = true;
-    updates[`/userGroups/${userId}/${bandId}`] = true;
-    updates[`/userEvents/${userId}`] = groupEvents;
+    // updates['/users/' + userId + '/groups/' + bandId] = true;
+    updates[`/groupMembers/${bandId}/pending/${userId}`] = true;
+    // updates[`/userGroups/${userId}/${bandId}`] = true;
+    // updates[`/userEvents/${userId}`] = groupEvents;
 
 
     return database.ref().update(updates)
@@ -454,6 +455,110 @@ function inviteToGroupRejectedAction(error) {
 function inviteToGroupFulfilledAction(bands) {
   return {
     type: ActionTypes.INVITE_TO_GROUP_FULFILLED,
+    bands
+  };
+}
+
+export function acceptInviteToGroup(bandId, userId) {
+
+  return dispatch => {
+    dispatch(acceptInviteToGroupRequestedAction());
+    let groupEvents = {}
+    return database.ref().child("groupEvents").child(bandId).once('value', snap => {
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          return groupEvents[key] = true;
+        })
+      }
+    })
+    .then(() => {
+
+    const userGroup = {}
+    const bandMembers = {}
+
+    userGroup[bandId] = true
+    bandMembers[userId] = true
+
+    var updates = {};
+    updates['/users/' + userId + '/groups/' + bandId] = true;
+    updates[`/groupMembers/${bandId}/pending/${userId}`] = false;
+    updates[`/groupMembers/${bandId}/${userId}`] = true;
+    updates[`/userGroups/${userId}/${bandId}`] = true;
+    updates[`/userEvents/${userId}`] = groupEvents;
+
+
+    return database.ref().update(updates)
+    .then(() => {
+      dispatch(acceptInviteToGroupFulfilledAction());
+    })
+    .catch((error) => {
+      dispatch(acceptInviteToGroupRejectedAction(error));
+    });
+  })
+  }
+}
+
+
+
+function acceptInviteToGroupRequestedAction() {
+  return {
+    type: ActionTypes.ACCEPT_INVITE_TO_GROUP_REQUESTED
+  };
+}
+
+function acceptInviteToGroupRejectedAction(error) {
+  return {
+    type: ActionTypes.ACCEPT_INVITE_TO_GROUP_REJECTED,
+    error
+  }
+}
+
+function acceptInviteToGroupFulfilledAction(bands) {
+  return {
+    type: ActionTypes.ACCEPT_INVITE_TO_GROUP_FULFILLED,
+    bands
+  };
+}
+
+
+export function declineInviteToGroup(bandId, userId) {
+
+  return dispatch => {
+    dispatch(declineInviteToGroupRequestedAction());
+    Promise.resolve()
+    .then(() => {
+    var updates = {};
+    updates[`/groupMembers/${bandId}/pending/${userId}`] = false;
+
+    return database.ref().update(updates)
+    .then(() => {
+      dispatch(declineInviteToGroupFulfilledAction());
+    })
+    .catch((error) => {
+      dispatch(declineInviteToGroupRejectedAction(error));
+    });
+  })
+  }
+}
+
+
+
+function declineInviteToGroupRequestedAction() {
+  return {
+    type: ActionTypes.DECLINE_INVITE_TO_GROUP_REQUESTED
+  };
+}
+
+function declineInviteToGroupRejectedAction(error) {
+  return {
+    type: ActionTypes.DECLINE_INVITE_TO_GROUP_REJECTED,
+    error
+  }
+}
+
+function declineInviteToGroupFulfilledAction(bands) {
+  return {
+    type: ActionTypes.DECLINE_INVITE_TO_GROUP_FULFILLED,
     bands
   };
 }

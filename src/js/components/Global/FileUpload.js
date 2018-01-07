@@ -121,7 +121,7 @@ render() {
           </i>
           <input type="file" accept="image/*" onChange={this.onFileChange} ref="input" />
         </label>
-        <p>{this.props.error.message}</p>
+        { this.props.error ? <p>{this.props.error.message}</p> : null }
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CardSection = (props) => (
-    <div style={styles.sectionStyle} className={props.className}>
+    <div style={styles.sectionStyle} className="card__section">
       {props.children}
     </div>
 );

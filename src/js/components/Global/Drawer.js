@@ -8,6 +8,12 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { signOut } from '../../actions/auth.actions';
 
+const notificationList = {
+  1: {message: 'Someone has invited you to join their group'},
+  2: {message: 'Something has been updated'},
+  3: {message: 'Something has been created'},
+}
+
 class Drawer extends Component {
   static propTypes = {
     // userName: PropTypes.string,
@@ -31,7 +37,8 @@ class Drawer extends Component {
     let dashboardUrl;
     let eventsUrl;
     let settingsUrl;
-    let messagesUrl
+    let notificationsUrl;
+    let messagesUrl;
 
     if (user) {
       // let bandsUrl = `/${userName}/bands`;
@@ -40,6 +47,7 @@ class Drawer extends Component {
       dashboardUrl = `/${user.id}/dashboard`;
       eventsUrl = `/${user.id}/events`;
       settingsUrl = `/${user.id}/settings`;
+      notificationsUrl = `/${user.id}/notifications`;
       messagesUrl = `/${user.id}/messages`;
     } else {
       bandsUrl = '';
@@ -47,6 +55,7 @@ class Drawer extends Component {
       dashboardUrl = '';
       eventsUrl = '';
       settingsUrl = '';
+      notificationsUrl = '';
       messagesUrl= '';
     }
   	return (
@@ -70,6 +79,13 @@ class Drawer extends Component {
           </li>
           <li className="drawer__item">
               <Link to={ eventsUrl } onClick={ this.props.toggle }>Events</Link>
+          </li>
+          <li className="drawer__item">
+              <Link to={ notificationsUrl } onClick={ this.props.toggle }>
+                Notifications 
+                {/* <i class="material-icons">notifications</i> */}
+                <span className="badge red">{Object.keys(notificationList).length}</span>
+              </Link>
           </li>
           <li className="drawer__item">
               <Link to={ messagesUrl } onClick={ this.props.toggle }>Messages</Link>

@@ -1,10 +1,19 @@
 import React from 'react';
 
-const Card = (props) => (
-    <div style={styles.cardStyle} album={props.album} key={props.index} className={props.className} >
+
+const Card = (props) => {
+  let classes = "card__link";
+  if (props.className) {
+    classes += ` ${props.className}`
+  }
+  return (
+  <a className={ classes } >
+    <div style={styles.cardStyle} key={props.index} className="card" >
       { props.children }
     </div>
-);
+  </a>
+)
+};
 
 const styles = {
   cardStyle: {

@@ -11,7 +11,7 @@ import BandDashboard from './BandDashboard';
 import BandList from './BandList';
 import BandDetails from './BandDetails';
 import EventDetails from './EventDetails';
-import EventList from './EventList';
+import BandEventList from './BandEventList';
 import ForgotPassword from './ForgotPassword';
 import Header from '../components/Global/Header';
 import history from '../history';
@@ -22,7 +22,8 @@ import Register from './Register';
 import UserDashboard from './UserDashboard';
 import UserEventList from './UserEventList';
 import UserProfile from './UserProfile';
-import Search from '../components/Global/Search'
+import Notifications from './Notifications';
+import Search from '../components/Global/Search';
 import store from '../store';
 
 import { auth, storageKey } from '../config/fire'
@@ -151,13 +152,19 @@ class App extends Component {
               />
               <PrivateRoute
                 authenticated={this.props.auth}
+                path={`/:userId/notifications`}
+                // path={routeCodes.USER_DASHBOARD}
+                component={Notifications}
+              />
+              <PrivateRoute
+                authenticated={this.props.auth}
                 path={routeCodes.EVENT_DETAILS}
                 component={EventDetails}
               />
               <PrivateRoute
                 authenticated={this.props.auth}
                 path={routeCodes.EVENT_LIST}
-                component={EventList}
+                component={BandEventList}
               />
               <PrivateRoute
                 authenticated={this.props.auth}

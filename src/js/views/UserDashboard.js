@@ -135,9 +135,8 @@ class UserDashboard extends Component {
   render() {
 
     let breadcrumbs = [
-      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
-      { link: null, name: this.props.user.displayName || this.props.user.email },
-      // { link: null, name: gig.venue },
+      // { link: null, name: this.props.user.displayName || this.props.user.email },
+      { link: `${this.props.match.params.userId}/dashboard`, name: 'Dashboard' },
     ];
 
     return (
@@ -166,9 +165,9 @@ class UserDashboard extends Component {
         />
         <div className='page__content page__content--two-col'>
         <div className="page__content__container">
-          <h1>User Dashboard</h1>
+          <h1>Welcome {this.props.user.displayName ? this.props.user.displayName : ''}</h1>
 
-          <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3>
+          {/* <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3> */}
           <Link to={`/${this.props.user.id}}/bands`}>
             <h3>Bands</h3>
           </Link>
