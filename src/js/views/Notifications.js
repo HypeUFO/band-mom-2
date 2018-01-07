@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
-import { acceptInviteToGroup, declineInviteToGroup } from '../actions/band.actions';
+import { acceptGroupInvite, declineGroupInvite } from '../actions/band.actions';
 
 
 import Drawer from '../components/Global/Drawer';
@@ -15,7 +15,7 @@ import Card from '../components/Global/Card/Card';
 import CardSection from '../components/Global/Card/CardSection';
 
 const notificationList = {
-  1: {message: 'Someone has invited you to join their group', action: 'acceptInviteToGroup', actionType: 'Confirm', actionId: '-L2HuFLpyDFfJVtfUMnA'},
+  1: {message: 'Someone has invited you to join their group', action: 'acceptGroupInvite', actionType: 'Confirm', actionId: '-L2HuFLpyDFfJVtfUMnA'},
   2: {message: 'Something has been updated'},
   3: {message: 'Something has been created'},
 }
@@ -39,12 +39,12 @@ class Notifications extends Component {
           </CardSection>
           <CardSection>
             <div className="form__row">
-              <Input type="button-thin-cancel" value="Dismiss" onCancel={() => this.props.declineInviteToGroup(notificationList[key].actionId, this.props.user.id)}/>
+              <Input type="button-thin-cancel" value="Dismiss" onCancel={() => this.props.declineGroupInvite(notificationList[key].actionId, this.props.user.id)}/>
               { notificationList[key].action
                 ? <Input
                     type="button-thin-button"
                     value={ notificationList[key].actionType }
-                    onClick={() => this.props.acceptInviteToGroup(notificationList[key].actionId, this.props.user.id)}
+                    onClick={() => this.props.acceptGroupInvite(notificationList[key].actionId, this.props.user.id)}
                   />
                 : null }
             </div>
@@ -108,8 +108,8 @@ function mapDispatchToProps(dispatch) {
     // onGetUser: actions.getUser,
     // onGetActiveProfile: actions.getActiveProfile,
     // clearActiveProfile: actions.clearActiveProfile,
-    acceptInviteToGroup: acceptInviteToGroup,
-    declineInviteToGroup: declineInviteToGroup,
+    acceptGroupInvite: acceptGroupInvite,
+    declineGroupInvite: declineGroupInvite,
     // uploadProfileImage: actions.uploadProfileImage,
     // onClearEvent: actions.clearEvent,
     // onGetEvent: actions.getEvent,

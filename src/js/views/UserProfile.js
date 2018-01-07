@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
-import { inviteToGroup } from '../actions/band.actions';
+import { sendGroupInvite } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
@@ -194,7 +194,7 @@ class BandDashboard extends Component {
   }
 
   inviteUser() {
-    this.props.inviteToGroup(this.state.bandId, this.props.activeProfile.id);
+    this.props.sendGroupInvite(this.state.bandId, this.props.activeProfile.id);
   }
 
   inviteUserCancel() {
@@ -458,7 +458,7 @@ function mapDispatchToProps(dispatch) {
     onGetUser: actions.getUser,
     onGetActiveProfile: actions.getActiveProfile,
     clearActiveProfile: actions.clearActiveProfile,
-    inviteToGroup: inviteToGroup,
+    sendGroupInvite: sendGroupInvite,
     uploadProfileImage: actions.uploadProfileImage,
     // onClearEvent: actions.clearEvent,
     // onGetEvent: actions.getEvent,
