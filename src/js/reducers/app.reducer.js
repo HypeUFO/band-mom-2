@@ -293,5 +293,24 @@ export function appReducer(state = initialState, action) {
         error: action.error,
         loading: false,
       }
+
+    case ActionTypes.UPLOAD_PROFILE_PIC_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.UPLOAD_PROFILE_PIC_FULFILLED:
+      return {
+      ...state,
+        loading: false,
+        imageUrl: action.imageUrl,
+        // bands: action.bands.bands,
+      }
+    case ActionTypes.UPLOAD_PROFILE_PIC_REJECTED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      }
   }
 }

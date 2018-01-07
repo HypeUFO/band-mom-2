@@ -1,5 +1,5 @@
 import ActionTypes from '../constants/action_types';
-import { database, auth } from '../config/fire';
+import { database, auth, storage } from '../config/fire';
 
 export function createUser(user) {
   console.log('Creating user: ' + user);
@@ -306,4 +306,49 @@ function clearActiveProfileFulfilledAction() {
   return {
     type: ActionTypes.CLEAR_PROFILE_FULFILLED,
   };
+}
+
+
+
+export function uploadProfileImage(file, userId) {
+  const name = (+new Date()) + '-' + file.name;
+
+  var metadata = {
+    name,
+    contentType: file.type,
+  };
+
+  return dispatch => {
+    dispatch(uploadProfilePicRequestedAction());
+    return storage.ref().child('/profileImages/' + userId).child(file.name).put(file, metadata)
+    .then((snapshot) => {
+      const url = snapshot.downloadURL;
+      database.ref('users').child(userId).update({imageUrl: url, imageName: file.name});
+      return dispatch(uploadProfilePicFulfilledAction(url))
+    })
+    .catch((error) => {
+      console.error(error);
+      return dispatch(uploadProfilePicRejectedAction(error));
+    });
+  }
+}
+
+function uploadProfilePicRequestedAction() {
+  return {
+    type: ActionTypes.UPLOAD_PROFILE_PIC_REQUESTED
+  }
+}
+
+function uploadProfilePicFulfilledAction(imageUrl) {
+  return {
+    type: ActionTypes.UPLOAD_PROFILE_PIC_FULFILLED,
+    imageUrl
+  };
+}
+
+function uploadProfilePicRejectedAction(error) {
+  return {
+    type: ActionTypes.UPLOAD_PROFILE_PIC_REJECTED,
+    error
+  }
 }

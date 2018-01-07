@@ -215,6 +215,7 @@ export default class Input extends Component {
           className="btn-link bg-clr-grey"
           type="button"
           onClick={ onClick }
+          style={ this.props.style }
         >
           { value }
         </button>

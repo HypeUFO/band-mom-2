@@ -23,24 +23,16 @@ class UserDashboard extends Component {
   }
 
   componentWillMount() {
-  //   let userBands = this.props.user.groups;
-  //   if (userBands) {
-  //     Object.keys(userBands).map(key => {
-  //       console.log(key);
-  //       this.props.onGetBand(key);
-  //     })
-  // }
     this.db.on('value', () => {
       this.props.onGetBandMany(this.props.user);
       this.props.onGetUserEventMany(this.props.user.id);
-      // this.props.onGetEventMany(this.props.user.id);
     })
     this.props.onClearEvent()
     this.props.onClearBand()
   }
 
   renderCard(doc, index, type) {
-    if (doc) {
+    // if (doc) {
       let statusColorClass = '';
       switch(doc.status) {
         case 'upcoming':
@@ -91,107 +83,13 @@ class UserDashboard extends Component {
       }
 
       return card;
-    }
+    // }
   }
 
-  // sortData(docs) {
-  //   let events;
-  //   // Sort data
-  //   events = Object.keys(docs)
-
-  //   return {
-  //     events,
-  //   };
-  // }
-  renderEventList(list, type) {
-    if(list && Object.keys(list).length > 0 && list.constructor === Object) {
-      let userEvents = {};
-      Object.keys(list).map((key) => {
-        let bandId = key;
-        let bandName = list[key].name;
-        list[key].id = key;
-        if (list[key].events) {
-        Object.keys(list[key].events).map(key2 => {
-          list[key].events[key2].id = key2;
-          // list[key].events[key2].bandId = bandId;
-          // list[key].events[key2].bandName = bandName;
-          console.log(list[key])
-          console.log(list[key].events)
-          console.log(list[key].events[key2])
-          return userEvents[key2] = list[key].events[key2];
-        })
-      }
-        // return this.props.list[key].events
-        // return userEvents[key] = this.props.list[key].events
-      });
-
-      let rows = Object.keys(userEvents).map((key) => {
-        // console.log('rendering row')
-        // list[key].id = key;
-
-        // if (list[key].status === 'upcoming') {
-          return this.renderCard(userEvents[key], key, type)
-        // }
-      })
-      if (type === 'event') {
-      rows.sort((a, b) => {
-        const valueA = new Date(a.key);
-        const valueB = new Date(b.key);
-        // return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-        return 1;
-      })
-    }
-
-      // .sort((a, b) => {
-      //   const valueA = new Date(a.key);
-      //   const valueB = new Date(b.key);
-      //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-      // })
-
-      return (
-        <Carousel>
-          { rows }
-        </Carousel>
-      );
-    } else {
-        if (type === 'event') {
-          return (
-            // <NoContent text="No Shows" />
-            <div className="no-content__wrapper">
-              <div>No Events</div>
-            </div>
-          );
-        } else if (type === 'band') {
-          return (
-            // <NoContent text="No Shows" />
-            <div className="no-content__wrapper">
-              <div>No Events</div>
-            </div>
-          );
-        } else {
-          return (
-            // <NoContent text="No Shows" />
-            <div className="no-content__wrapper">
-              <div>No Content</div>
-            </div>
-          );
-        }
-    }
-}
-
   renderPreviewList(list, type) {
-    console.log('LIST + ' + list)
-      if(list && Object.keys(list).length > 0 && list.constructor === Object) {
-        // let results = this.sortData(events);
-        // console.log(results);
-
+      if (list && Object.keys(list).length > 0 && list.constructor === Object) {
         let rows = Object.keys(list).map((key) => {
-          // console.log('rendering row')
-          // list[key].id = key;
-
-          // if (list[key].status === 'upcoming') {
-            return this.renderCard(list[key], key, type)
-          // }
+          return this.renderCard(list[key], key, type)
         })
         if (type === 'event') {
         rows.sort((a, b) => {
@@ -201,12 +99,6 @@ class UserDashboard extends Component {
           return 1;
         })
       }
-
-        // .sort((a, b) => {
-        //   const valueA = new Date(a.key);
-        //   const valueB = new Date(b.key);
-        //   return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-        // })
 
         return (
           <Carousel>
@@ -225,7 +117,7 @@ class UserDashboard extends Component {
             return (
               // <NoContent text="No Shows" />
               <div className="no-content__wrapper">
-                <div>No Events</div>
+                <div>No Bands</div>
               </div>
             );
           } else {
@@ -283,8 +175,6 @@ class UserDashboard extends Component {
 
           <Link to={`/${this.props.user.id}/events`}><h3>Events</h3></Link>
           { this.renderPreviewList(this.props.userEvents, 'event') }
-          {/* { this.renderPreviewList(this.props.events, 'event') } */}
-          {/* { this.renderEventList(this.props.bands, 'event') } */}
         </div>
         </div>
       </div>

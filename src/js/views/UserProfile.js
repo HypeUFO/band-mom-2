@@ -39,10 +39,11 @@ import AlertModal from '../modals/AlertModal';
 const initialState = {
   showAlert: false,
   showInviteModal: false,
+  showImageModal: false,
   displayName: '',
   location: '',
   about: '',
-  profilePic: '',
+  imageUrl: '',
   instruments: {},
 };
 
@@ -64,6 +65,8 @@ class BandDashboard extends Component {
 
     this.inviteUser = this.inviteUser.bind(this);
     this.inviteUserCancel = this.inviteUserCancel.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
+    this.uploadImageCancel = this.uploadImageCancel.bind(this);
     // this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     // this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     // this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
@@ -115,7 +118,7 @@ class BandDashboard extends Component {
         displayName: activeProfile.displayName || '',
         location: activeProfile.location || '',
         about: activeProfile.about || '',
-        profilePic: activeProfile.profilePic || '',
+        imageUrl: activeProfile.imageUrl || '',
         instruments: activeProfile.instruments || {},
       })
 
@@ -187,7 +190,7 @@ class BandDashboard extends Component {
       displayName: this.state.displayName,
       location: this.state.location,
       about: this.state.about,
-      profilePic: this.state.profilePic || '',
+      imageUrl: this.state.imageUrl || '',
       instruments: this.state.instruments || {},
       id: this.props.activeProfile.id,
     }
@@ -200,6 +203,14 @@ class BandDashboard extends Component {
 
   inviteUserCancel() {
     this.setState({showInviteModal: false});
+  }
+
+  uploadImage() {
+    this.props.uploadProfileImage()
+  }
+
+  uploadImageCancel() {
+    this.setState({showImageModal: false});
   }
 
   renderCheckboxes(list) {
@@ -288,11 +299,11 @@ class BandDashboard extends Component {
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
           <FileUploadModal
-            show={ this.state.showLogoModal }
-            onCancel={ this.onCancelLogoUpload }
-            onUpload={this.props.uploadBandLogo}
+            show={ this.state.showImageModal }
+            onCancel={ this.uploadImageCancel }
+            onUpload={ this.props.uploadProfileImage }
             pathId={this.props.activeProfile.id}
-            header="Upload Logo"
+            header="Upload Profile Picture"
           />
           <AlertModal
             show={ this.state.showInviteModal }
@@ -324,26 +335,27 @@ class BandDashboard extends Component {
             : null
             }
           </div>
-          <div className="band__details__container">
-          <div className="band__details__image__wrapper">
+          <div className="user__profile__container">
+          <div className="user__profile__image__wrapper">
             <img
-              src={activeProfile.profilePic || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
+              src={activeProfile.imageUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
               alt="profile pic"
               className="user__logo"
               style={{marginBottom: 24}}
             />
-            {/* <button className="modal__logo__link" href onClick={() => this.setState({showLogoModal: true})}>
+            {/* <button className="modal__logo__link" href onClick={() => this.setState({showImageModal: true})}>
               { user.logoUrl ? 'Change logo' : 'Upload logo' }
             </button> */}
             <Input
               type="button-link"
-              value={ activeProfile.profilePic ? 'Change logo' : 'Upload logo' }
-              onClick={() => this.setState({showLogoModal: true})}
+              style={{fontSize: '0.8rem'}}
+              value={ activeProfile.imageUrl ? 'Change Profile Picture' : 'Upload Profile Picture' }
+              onClick={() => this.setState({showImageModal: true})}
             />
           </div>
           <Form
             // className="form__container"
-            className="user__details__form"
+            className="user__profile__form"
             id="user-details__form"
             onSubmit={ this.onSubmit }
             onCancel={ this.onCancel }
@@ -443,6 +455,7 @@ function mapDispatchToProps(dispatch) {
     onGetActiveProfile: actions.getActiveProfile,
     clearActiveProfile: actions.clearActiveProfile,
     inviteToGroup: inviteToGroup,
+    uploadProfileImage: actions.uploadProfileImage,
     // onClearEvent: actions.clearEvent,
     // onGetEvent: actions.getEvent,
     // onGetEventMany: actions.getEventMany,

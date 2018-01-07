@@ -44,12 +44,9 @@ class UserEventList extends Component {
   }
 
   componentWillMount() {
-    database.ref(`userEvents`).on('value', (snapshot) => {
-      // this.props.onGetBandMany(this.props.match.params.userId)
+    database.ref().on('value', () => {
       this.props.onGetUserEventMany(this.props.match.params.userId)
-      // console.log(snapshot.val())
     })
-    // this.props.onClearEvent()
   }
 
   componentDidMount() {
@@ -81,7 +78,6 @@ class UserEventList extends Component {
   handleRowClick(row) {
     window.location = `/${this.props.match.params.userId}/bands/${row.bandId}/events/${row.id}/details`;
     // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row.id}/details`);
-    // history.push(`/testUser/bands/testBand/events/${row.id}/details`);
   }
 
   handleRowMenuItemClick(doc, action, event) {
@@ -211,31 +207,9 @@ class UserEventList extends Component {
     );
   }
 
-  // sortData(docs) {
-  //   let events;
-  //   // Sort data
-  //   events = Object.keys(docs)
-
-  //   return {
-  //     events,
-  //   };
-  // }
-
   renderTable(events) {
       if(events && Object.keys(events).length > 0 && events.constructor === Object) {
-        // let userEvents = {};
-        // Object.keys(events).map((key) => {
-        //   let bandId = key;
-        //   let bandName = events[key].name;
-        //   // if (events[key].events) {
-        //   //   Object.keys(events[key].events).map(key2 => {
-        //   //     events[key].events[key2].id = key2;
-        //   //     // events[key].events[key2].bandId = bandId;
-        //   //     // events[key].events[key2].bandName = bandName;
-        //   //     return userEvents[key2] = events[key].events[key2];
-        //   //   })
-        //   // }
-        // });
+
         let rows = Object.keys(events).map((key) => {
 
           const status = this.props.statusFilter === 'ALL';
@@ -280,15 +254,9 @@ class UserEventList extends Component {
   render() {
 
     // Subheader
-    // let breadcrumbs = [
-    //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
-    //   { link: null, name: project.name },
-    // ];
-
     let breadcrumbs = [
-      // { link: `/${match.params.userId}/gigs` : null, name: 'Gigs' },
+      { link: `/${this.props.match.params.userId}/dashboard`, name: this.props.user.displayName || this.props.user.email },
       { link: null, name: 'Events' },
-      // { link: null, name: gig.venue },
     ];
 
     return (
