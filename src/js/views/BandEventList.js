@@ -219,8 +219,8 @@ class EventList extends Component {
   // }
 
   renderTable() {
-    const { events } = this.props;
-      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
+    const { events, loading } = this.props;
+      if(events && Object.keys(events).length > 0 && events.constructor === Object && !loading) {
 
         let rows = Object.keys(events).map((key) => {
           const status = this.props.statusFilter === 'ALL';
@@ -367,6 +367,7 @@ function mapStateToProps(state) {
     typeFilter: state.events.typeFilter,
     recentlyDeleted: state.events.recentlyDeleted,
     notification: state.notification,
+    loading: state.app.loading,
   };
 }
 

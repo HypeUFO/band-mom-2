@@ -207,17 +207,18 @@ class UserEventList extends Component {
     );
   }
 
-  renderTable(events) {
-      if(events && Object.keys(events).length > 0 && events.constructor === Object) {
+  renderTable() {
+    const {userEvents, loading} = this.props;
+      if(userEvents && Object.keys(userEvents).length > 0 && userEvents.constructor === Object && !loading) {
 
-        let rows = Object.keys(events).map((key) => {
+        let rows = Object.keys(userEvents).map((key) => {
 
           const status = this.props.statusFilter === 'ALL';
           const type = this.props.typeFilter === 'ALL';
 
-          if ((events[key].status === this.props.statusFilter.toLowerCase() || status) &&
-            (events[key].type === this.props.typeFilter.toLowerCase() || type)) {
-            return this.renderRow(events[key], key)
+          if ((userEvents[key].status === this.props.statusFilter.toLowerCase() || status) &&
+            (userEvents[key].type === this.props.typeFilter.toLowerCase() || type)) {
+            return this.renderRow(userEvents[key], key)
           } else {
             return null;
           }
@@ -353,6 +354,7 @@ function mapStateToProps(state) {
     typeFilter: state.events.typeFilter,
     recentlyDeleted: state.events.recentlyDeleted,
     notification: state.notification,
+    loading: state.app.loading,
   };
 }
 

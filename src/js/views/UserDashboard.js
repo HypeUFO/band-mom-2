@@ -88,10 +88,13 @@ class UserDashboard extends Component {
   }
 
   renderPreviewList(list, type) {
-      if (list && Object.keys(list).length > 0 && list.constructor === Object) {
+    const { loading } = this.props;
+      if (!loading && list && Object.keys(list).length > 0 && list.constructor === Object) {
         let rows = Object.keys(list).map((key) => {
-          let index = list[key].date || key
-          return this.renderCard(list[key], index, type)
+          if (list[key]) {
+            let index = list[key].date || key
+            return this.renderCard(list[key], index, type)
+          }
         })
         if (type === 'event') {
         rows.sort((a, b) => {
@@ -205,6 +208,7 @@ class UserDashboard extends Component {
 function mapStateToProps(state) {
   return {
     user: state.auth.user,
+    loading: state.app.loading,
     events: state.events.events,
     userEvents: state.events.userEvents,
     bands: state.bands.bands,
