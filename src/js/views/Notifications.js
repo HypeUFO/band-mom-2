@@ -41,7 +41,7 @@ class Notifications extends Component {
   renderNotifications() {
     const { notifications } = this.props.notifications;
 
-    if (notifications) {
+    if (notifications && Object.keys(notifications).length > 0) {
 
     return Object.keys(notifications).map(key => {
       console.log(notifications)

@@ -16,22 +16,16 @@ export const auth = firebase.auth();
 export const storage = firebase.storage();
 export const messaging = firebase.messaging();
 
-messaging.requestPermission()
-.then(() => {
-  console.log('Permission granted!')
-  return messaging.getToken();
-})
-.then((token) => {
-  console.log(token);
-})
-.catch((err) => console.log('Permission denied', err))
+// messaging.requestPermission()
+// .then(() => {
+//   console.log('Permission granted!')
+//   return messaging.getToken();
+// })
+// .then((token) => {
+//   console.log(token);
+// })
+// .catch((err) => console.log('Permission denied', err))
 
-messaging.onMessage((payload) => {
-  console.log('onMessage: ', payload);
-})
-
-// export const storageKey = 'KEY_FOR_LOCAL_STORAGE';
-
-// export const isAuthenticated = () => {
-//   return !!auth.currentUser || !!localStorage.getItem(storageKey);
-// }
+// messaging.onMessage((payload) => {
+//   console.log('onMessage: ', payload);
+// })
