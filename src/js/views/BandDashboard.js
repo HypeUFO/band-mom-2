@@ -70,6 +70,7 @@ class BandDashboard extends Component {
     this.onCancelLogoUpload = this.onCancelLogoUpload.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onUpdateBandEdit = this.onUpdateBandEdit.bind(this);
     // this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
     // this.onDeleteEventError = this.onDeleteEventError.bind(this);
     // this.deleteEvent = this.deleteEvent.bind(this);
@@ -218,6 +219,25 @@ class BandDashboard extends Component {
 
   onSubmitDeleteStagePlot() {
     this.setState({showAlert: false})
+  }
+
+  onUpdateBandEdit() {
+    Promise.resolve()
+    .then(() => {
+      const { activeProfile } = this.props;
+      this.setState({
+        name: this.props.band.name || '',
+        location: this.props.band.location || '',
+        genre1: this.props.band.genre1 || '',
+        genre2: this.props.band.genre2 || '',
+        bio: this.props.band.bio || '',
+        logoUrl: this.props.band.logoUrl || '',
+        logoName: this.props.band.logoName || '',
+        stagePlotUrl: this.props.stagPlotUrl || '',
+        stagePlotName: this.props.stagePlotName || '',
+      })
+    })
+    .then(() => this.props.updateBandEdit())
   }
 
   renderEventCard(doc, index) {
@@ -425,7 +445,7 @@ class BandDashboard extends Component {
             <Input
               type="button-link"
               value="Edit"
-              onClick={this.props.updateBandEdit}
+              onClick={this.onUpdateBandEdit}
               onSubmit={ this.onSubmitDeleteStagePlot }
               onCancel={ this.onCancelDeleteStagePlot }
             />

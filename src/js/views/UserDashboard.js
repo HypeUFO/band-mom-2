@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import classNames from 'classnames';
 import * as actions from '../actions/event.actions';
 import { clearBand, getBand, getBandMany } from '../actions/band.actions';
 
@@ -134,6 +135,8 @@ class UserDashboard extends Component {
 
   render() {
 
+    let verifyEmailButtonClasses = classNames('btn-icon', {'btn--hide': this.props.user.emailVerified})
+
     let breadcrumbs = [
       // { link: null, name: this.props.user.displayName || this.props.user.email },
       { link: `${this.props.match.params.userId}/dashboard`, name: 'Dashboard' },
@@ -148,24 +151,41 @@ class UserDashboard extends Component {
           // toggle={ this.toggleDrawer }
         />
         <Subheader breadcrumbs={ breadcrumbs }
-          buttonHide={ this.props.user.emailVerified }
-          // buttonHide={ true }
-          buttonLabel="Verify Email"
-          // buttonIcon="add"
-          buttonOnClick={ () => {
-            auth.currentUser.sendEmailVerification()
-            .then(() => {
-              // Email sent.
-              console.log('Email sent')
-            }).catch((error) =>{
-              // An error happened.
-              console.log('An error occurred' + error)
-            });
-          } }
+          // buttonHide={ this.props.user.emailVerified }
+          buttonHide={ true }
+          // buttonLabel="Verify Email"
+          // // buttonIcon="add"
+          // buttonOnClick={ () => {
+          //   auth.currentUser.sendEmailVerification()
+          //   .then(() => {
+          //     // Email sent.
+          //     console.log('Email sent')
+          //   }).catch((error) =>{
+          //     // An error happened.
+          //     console.log('An error occurred' + error)
+          //   });
+          // } }
         />
         <div className='page__content page__content--two-col'>
         <div className="page__content__container">
-          <h1>Welcome {this.props.user.displayName ? this.props.user.displayName : ''}</h1>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <h1>Welcome {this.props.user.displayName ? this.props.user.displayName : ''}</h1>
+            <button
+              className="btn-icon btn--hide"
+              onClick={() => {
+                auth.currentUser.sendEmailVerification()
+                .then(() => {
+                  // Email sent.
+                  console.log('Email sent')
+                }).catch((error) =>{
+                  // An error happened.
+                  console.log('An error occurred' + error)
+                });
+              }}
+            >
+              Verify Email
+            </button>
+          </div>
 
           {/* <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3> */}
           <Link to={`/${this.props.user.id}}/bands`}>

@@ -3,8 +3,13 @@ import classNames from 'classnames';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import { database, auth } from '../config/fire';
+
+
 import * as actions from '../actions/auth.actions';
 import { acceptGroupInvite, declineGroupInvite } from '../actions/band.actions';
+import { getNotificationsMany } from '../actions/notification.actions';
 
 
 import Drawer from '../components/Global/Drawer';
@@ -15,7 +20,7 @@ import Card from '../components/Global/Card/Card';
 import CardSection from '../components/Global/Card/CardSection';
 
 const notificationList = {
-  1: {message: 'Someone has invited you to join their group', action: 'acceptGroupInvite', actionType: 'Confirm', actionId: '-L2HuFLpyDFfJVtfUMnA'},
+  1: {message: 'Someone has invited you to join their group', action: 'acceptGroupInvite', actionType: 'Confirm', actionId: '-L2J1Ug6x2IeDZdNLZLO'},
   2: {message: 'Something has been updated'},
   3: {message: 'Something has been created'},
 }
@@ -23,28 +28,42 @@ const notificationList = {
 class Notifications extends Component {
   constructor(props) {
     super(props);
-
+    this.db = database.ref('notifications');
     this.renderNotifications = this.renderNotifications.bind(this);
   }
 
-  renderNotifications() {
+  componentWillMount() {
+    this.db.on('value', () => {
+      this.props.getNotificationsMany(this.props.user);
+    })
+  }
 
-    return Object.keys(notificationList).map(key => {
+  renderNotifications() {
+    const { notifications } = this.props.notifications;
+
+    if (notifications) {
+
+    return Object.keys(notifications).map(key => {
+      console.log(notifications)
+      console.log(notifications[key])
+      console.log(notifications[key].action)
       return (
         <Card className="card__notification" key={key}>
           <CardSection>
             <p className="notification__card__message">
-              {notificationList[key].message}
+              {notifications[key].message}
             </p>
           </CardSection>
           <CardSection>
             <div className="form__row">
-              <Input type="button-thin-cancel" value="Dismiss" onCancel={() => this.props.declineGroupInvite(notificationList[key].actionId, this.props.user.id)}/>
-              { notificationList[key].action
+              <Input type="button-thin-cancel" value="Dismiss"
+                onCancel={() => this.props.declineGroupInvite(notifications[key].actionId, this.props.user.id, key)}
+              />
+              { notifications[key].action
                 ? <Input
                     type="button-thin-button"
-                    value={ notificationList[key].actionType }
-                    onClick={() => this.props.acceptGroupInvite(notificationList[key].actionId, this.props.user.id)}
+                    value={ notifications[key].actionType }
+                    onClick={() => this.props[notifications[key].action](notifications[key].bandId, this.props.user.id, key)}
                   />
                 : null }
             </div>
@@ -52,6 +71,13 @@ class Notifications extends Component {
         </Card>
       )
     })
+  } else {
+    return (
+      <div>
+        <h3>You are up to date</h3>
+      </div>
+    )
+  }
   }
 
   render() {
@@ -97,7 +123,8 @@ function mapStateToProps(state) {
     isLoading: state.app.loading,
     bands: state.bands.bands,
     uploading: state.bands.loading,
-    notification: state.notification,
+    // notification: state.notification,
+    notifications: state.notification,
   };
 }
 
@@ -110,6 +137,7 @@ function mapDispatchToProps(dispatch) {
     // clearActiveProfile: actions.clearActiveProfile,
     acceptGroupInvite: acceptGroupInvite,
     declineGroupInvite: declineGroupInvite,
+    getNotificationsMany: getNotificationsMany,
     // uploadProfileImage: actions.uploadProfileImage,
     // onClearEvent: actions.clearEvent,
     // onGetEvent: actions.getEvent,

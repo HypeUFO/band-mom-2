@@ -195,7 +195,7 @@ class BandDashboard extends Component {
   }
 
   inviteUser() {
-    this.props.sendGroupInvite(this.state.bandId, this.props.activeProfile.id);
+    this.props.sendGroupInvite(this.state.band.split('/')[1], this.props.activeProfile.id, this.props.user);
   }
 
   inviteUserCancel() {
@@ -327,7 +327,7 @@ class BandDashboard extends Component {
             </AlertModal>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <h3>{activeProfile.displayName}</h3>
-              {/* { user.id === this.props.match.params.userId
+              { user.id === this.props.match.params.userId
               ? <Input
                 type="button-link"
                 value="Edit"
@@ -337,15 +337,15 @@ class BandDashboard extends Component {
                 onCancel={ this.onCancelDeleteStagePlot }
               />
               : null
-              } */}
-              <Input
+              }
+              {/* <Input
                 type="button-link"
                 value="Edit"
                 // onClick={this.props.updateUserEdit}
                 onClick={this.onUpdateUserEdit}
                 onSubmit={ this.onSubmitDeleteStagePlot }
                 onCancel={ this.onCancelDeleteStagePlot }
-              />
+              /> */}
             </div>
             <div className="user__profile__container">
               <div className="user__profile__image__wrapper">

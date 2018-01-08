@@ -37,5 +37,27 @@ export function notificationReducer(state = initialState, action) {
         ...state,
         state: initialState,
       }
+
+
+    case ActionTypes.GET_NOTIFICATIONS_MANY_REQUESTED:
+      return {
+        ...state,
+        // actionLabel: 'Undo',
+        // display: true,
+        // message: 'Event deleted'
+      }
+
+    case ActionTypes.GET_NOTIFICATIONS_MANY_REJECTED:
+      return {
+        ...state,
+        // display: false,
+      }
+
+    case ActionTypes.GET_NOTIFICATIONS_MANY_FULFILLED:
+      return {
+        ...state,
+        notifications: action.notifications
+      }
   }
 }
+

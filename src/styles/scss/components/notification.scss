@@ -61,7 +61,13 @@
   border-radius: 50%;
   padding: 5px;
   margin-left: 10px;
-  min-width: 28px;
+  // min-width: 28px;
+
+  height: 25px;
+  min-width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   // display: inline-block;
 }
 
@@ -91,4 +97,10 @@
     justify-content: center;
     font-size: 18px;
   }
+}
+
+.notification__link__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

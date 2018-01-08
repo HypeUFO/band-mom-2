@@ -81,10 +81,13 @@ class Drawer extends Component {
               <Link to={ eventsUrl } onClick={ this.props.toggle }>Events</Link>
           </li>
           <li className="drawer__item">
-              <Link to={ notificationsUrl } onClick={ this.props.toggle }>
-                Notifications 
+              <Link to={ notificationsUrl } onClick={ this.props.toggle } className="notification__link__container">
+                Notifications
                 {/* <i class="material-icons">notifications</i> */}
-                <span className="badge red">{Object.keys(notificationList).length}</span>
+                { this.props.notifications && Object.keys(this.props.notifications).length > 0
+                  ? <span className="badge red">{Object.keys(this.props.notifications).length}</span>
+                  : null
+                }
               </Link>
           </li>
           <li className="drawer__item">
@@ -108,6 +111,7 @@ function mapStateToProps(state) {
   return {
     // loading: state.app.loading,
     user: state.auth.user,
+    notifications: state.notification.notifications,
     // auth: state.app.authenticated,
   };
 }

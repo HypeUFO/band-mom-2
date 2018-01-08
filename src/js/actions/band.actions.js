@@ -101,7 +101,7 @@ export function createBand(band, user) {
 
     var updates = {};
     updates['/groups/' + newBandKey] = band;
-    updates['/users/' + user.id + '/groups'] = userGroup;
+    updates['/users/' + user.id + '/groups/' + newBandKey] = true;
     updates['/groupMembers/'+ newBandKey] = bandMembers;
     updates[`/userGroups/${user.id}/${newBandKey}`] = true;
 
@@ -398,18 +398,28 @@ function deleteStagePlotRejectedAction(error) {
 }
 
 
-export function sendGroupInvite(bandId, userId) {
+export function sendGroupInvite(bandId, recipientId, user) {
 
   return dispatch => {
     dispatch(sendGroupInviteRequestedAction())
     Promise.resolve()
     .then(() => {
-    var updates = {};
-    updates[`/groupMembers/${bandId}/pending/${userId}`] = true;
+    const newNotificationKey = database.ref().child('notifications').push().key;
+    const updates = {};
+
+    const notification = {
+      from: user.displayName || user.email,
+      message: `${user.displayName || user.email} has invited you to join a band`,
+      action: `acceptGroupInvite`,
+      actionType: 'Confirm',
+      bandId: bandId,
+    }
+    updates[`/groupMembers/${bandId}/pending/${recipientId}`] = true;
+    updates[`/notifications/${recipientId}/${newNotificationKey}`] = notification;
 
     return database.ref().update(updates)
     .then(() => {
-      dispatch(sendGroupInviteFulfilledAction());
+      dispatch(sendGroupInviteFulfilledAction(bandId));
     })
     .catch((error) => {
       dispatch(sendGroupInviteRejectedAction(error));
@@ -433,14 +443,14 @@ function sendGroupInviteRejectedAction(error) {
   }
 }
 
-function sendGroupInviteFulfilledAction(bands) {
+function sendGroupInviteFulfilledAction(bandId) {
   return {
     type: ActionTypes.INVITE_TO_GROUP_FULFILLED,
-    bands
+    bandId
   };
 }
 
-export function acceptGroupInvite(bandId, userId) {
+export function acceptGroupInvite(bandId, userId, notificationId) {
 
   return dispatch => {
     dispatch(acceptGroupInviteRequestedAction());
@@ -466,6 +476,7 @@ export function acceptGroupInvite(bandId, userId) {
     updates[`/groupMembers/${bandId}/${userId}`] = true;
     updates[`/userGroups/${userId}/${bandId}`] = true;
     updates[`/userEvents/${userId}`] = groupEvents;
+    updates[`/notifications/${userId}/${notificationId}`] = null;
 
 
     return database.ref().update(updates)
@@ -502,7 +513,7 @@ function acceptGroupInviteFulfilledAction(bands) {
 }
 
 
-export function declineGroupInvite(bandId, userId) {
+export function declineGroupInvite(bandId, userId, notificationId) {
 
   return dispatch => {
     dispatch(declineGroupInviteRequestedAction());
@@ -510,6 +521,7 @@ export function declineGroupInvite(bandId, userId) {
     .then(() => {
     var updates = {};
     updates[`/groupMembers/${bandId}/pending/${userId}`] = null;
+    updates[`/notifications/${userId}/${notificationId}`] = null;
 
     return database.ref().update(updates)
     .then(() => {
