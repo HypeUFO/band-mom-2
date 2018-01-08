@@ -31,5 +31,45 @@ export function searchReducer(state = initialState, action) {
         loading: false,
         error: action.error,
       }
+
+      case ActionTypes.GET_PROFILE_REQUESTED:
+      return {
+          ...state,
+          activeProfile: null,
+          // loading: true,
+      }
+    case ActionTypes.GET_PROFILE_FULFILLED:
+      return {
+          ...state,
+          // edit: !state.edit
+          activeProfile: action.activeProfile,
+          // loading: false,
+      }
+    case ActionTypes.GET_PROFILE_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          // loading: false,
+      }
+
+    case ActionTypes.CLEAR_PROFILE_REQUESTED:
+      return {
+          ...state,
+          activeProfile: null,
+          // loading: true,
+      }
+    case ActionTypes.CLEAR_PROFILE_FULFILLED:
+      return {
+          ...state,
+          // edit: !state.edit
+          activeProfile: null,
+          // loading: false,
+      }
+    case ActionTypes.CLEAR_PROFILE_REJECTED:
+      return {
+          ...state,
+          error: action.error,
+          // loading: false,
+      }
   }
 }

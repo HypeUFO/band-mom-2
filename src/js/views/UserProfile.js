@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
 import { sendGroupInvite } from '../actions/band.actions';
+import { getActiveProfile, clearActiveProfile } from '../actions/search.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
@@ -441,9 +442,9 @@ class BandDashboard extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.app.user,
-    activeProfile: state.app.activeProfile,
-    userEdit: state.app.edit,
+    user: state.auth.user,
+    activeProfile: state.search.activeProfile,
+    userEdit: state.auth.edit,
     isLoading: state.app.loading,
     bands: state.bands.bands,
     uploading: state.bands.loading,
@@ -456,8 +457,8 @@ function mapDispatchToProps(dispatch) {
     updateUserEdit: actions.updateUserEdit,
     onUpdateUser: actions.updateUser,
     onGetUser: actions.getUser,
-    onGetActiveProfile: actions.getActiveProfile,
-    clearActiveProfile: actions.clearActiveProfile,
+    onGetActiveProfile: getActiveProfile,
+    clearActiveProfile: clearActiveProfile,
     sendGroupInvite: sendGroupInvite,
     uploadProfileImage: actions.uploadProfileImage,
     // onClearEvent: actions.clearEvent,

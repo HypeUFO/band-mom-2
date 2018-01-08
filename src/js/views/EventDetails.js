@@ -401,7 +401,7 @@ class EventDetails extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.app.user,
+    user: state.auth.user,
     event: state.events.activeEvent,
     band: state.bands.activeBand,
     isLoading: state.app.loading,

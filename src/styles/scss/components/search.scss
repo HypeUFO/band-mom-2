@@ -34,7 +34,7 @@
     }
     &-section {
       display: flex;
-      > .material-icons {
+      >.material-icons {
         font-size: 1.5em;
         color: $color-light;
         position: relative;
@@ -51,28 +51,35 @@
     background: $color-light;
     width: 25%;
     min-width: 200px;
-    > .spinner__wrapper {
+    display: none;
+    &--show {
+      display: block;
+    }
+    >.spinner__wrapper {
       position: static;
       padding: 10px;
     }
-    > ul {
+    >ul {
       display: flex;
       flex-direction: column;
       text-shadow: none;
       padding: 0;
       margin: 0;
-      > a > li {
-        display: flex;
-        align-items: center;
-        text-shadow: none;
-        padding: 1rem;
-        margin: 0;
-        width: 100%;
-        padding: 10px;
-        > img {
-          width: 40px;
-          height: 40px;
-          margin-right: 10px;
+      >a {
+        text-decoration: none;
+        >li {
+          display: flex;
+          align-items: center;
+          text-shadow: none;
+          padding: 1rem;
+          margin: 0;
+          width: 100%;
+          padding: 10px;
+          >img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+          }
         }
       }
     }

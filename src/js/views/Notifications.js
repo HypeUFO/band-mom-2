@@ -31,7 +31,7 @@ class Notifications extends Component {
 
     return Object.keys(notificationList).map(key => {
       return (
-        <Card className="card__notification">
+        <Card className="card__notification" key={key}>
           <CardSection>
             <p className="notification__card__message">
               {notificationList[key].message}
@@ -91,9 +91,9 @@ class Notifications extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.app.user,
-    activeProfile: state.app.activeProfile,
-    userEdit: state.app.edit,
+    user: state.auth.user,
+    activeProfile: state.search.activeProfile,
+    userEdit: state.auth.edit,
     isLoading: state.app.loading,
     bands: state.bands.bands,
     uploading: state.bands.loading,

@@ -244,7 +244,7 @@ class CreateBandEventModal extends Component {
 const mapStateToProps = (state) => {
   return {
     // band: state.bands.activeBand,
-    user: state.app.user,
+    user: state.auth.user,
   }
 }
 

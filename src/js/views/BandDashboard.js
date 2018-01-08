@@ -565,7 +565,7 @@ function mapStateToProps(state) {
     events: state.events.events,
     band: state.bands.activeBand,
     bandEdit: state.bands.edit,
-    user: state.app.user,
+    user: state.auth.user,
     activeBandLogo: state.bands.activeBandLogoUrl,
     activeStagePlotUrl: state.bands.activeStagePlotUrl,
     isLoading: state.app.loading,

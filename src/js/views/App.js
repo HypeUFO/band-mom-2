@@ -74,7 +74,7 @@ class App extends Component {
     this.persistor = persistStore(
       store,
       {
-      whitelist: ['app', 'bands'],
+      whitelist: ['app', 'auth', 'bands'],
       storage: new CookieStorage({
         expiration: {
           'default': 365 * 86400 // Cookies expire after one year
@@ -224,8 +224,8 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     loading: state.app.loading,
-    user: state.app.user,
-    auth: state.app.authenticated,
+    user: state.auth.user,
+    auth: state.auth.authenticated,
     from: state.app.nextRoute,
   };
 }

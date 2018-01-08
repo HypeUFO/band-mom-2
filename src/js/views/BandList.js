@@ -278,7 +278,7 @@ class BandList extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.app.user,
+    user: state.auth.user,
     bands: state.bands.bands,
     recentlyDeleted: state.bands.recentlyDeleted,
     notification: state.notification,

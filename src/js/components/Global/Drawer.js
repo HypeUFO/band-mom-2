@@ -107,7 +107,7 @@ class Drawer extends Component {
 function mapStateToProps(state) {
   return {
     // loading: state.app.loading,
-    user: state.app.user,
+    user: state.auth.user,
     // auth: state.app.authenticated,
   };
 }

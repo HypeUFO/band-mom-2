@@ -360,7 +360,7 @@ class EventList extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.app.user,
+    user: state.auth.user,
     events: state.events.events,
     band: state.bands.activeBand,
     statusFilter: state.events.statusFilter,

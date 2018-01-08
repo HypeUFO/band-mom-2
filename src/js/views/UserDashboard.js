@@ -184,7 +184,7 @@ class UserDashboard extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.app.user,
+    user: state.auth.user,
     events: state.events.events,
     userEvents: state.events.userEvents,
     bands: state.bands.bands,

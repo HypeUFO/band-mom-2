@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import classNames from 'classnames';
 import * as actions from '../../actions/search.actions';
 
 // import Card from './Card/Card';
@@ -24,14 +25,18 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
+      showResults: false,
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.renderResults = this.renderResults.bind(this);
+    this.handleClickAway = this.handleClickAway.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
   }
 
   componentDidMount() {
     // Add clickaway to close search results
+    document.addEventListener('click', (event) => this.handleClickAway(event));
   }
 
   handleInputChange(event) {
@@ -39,35 +44,48 @@ class Search extends Component {
     this.props.search(event.target.value);
   }
 
+
+  handleClickAway(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({
+        showResults: false,
+      })
+      document.removeEventListener('click', this.handleClickAway);
+    } else {
+      this.setState({
+        showResults: true,
+      })
+    }
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
   renderResults() {
     const { searchResults, loading } = this.props;
     if (loading) {
       return (
-        <div className="search__results">
-          <Spinner size="small"/>
-        </div>
+        <Spinner size="small"/>
       )
     }
     else if (searchResults.users) {
       return (
-         // <Card className="search__results">
-        <div className="search__results">
-          {/* <CardSection> */}
-            <ul>
-              {Object.keys(searchResults.users).map(key => {
-              return(
-                <a href={`/${searchResults.users[key].id}/profile`}>
-                <li>
-                  { searchResults.users[key].imageUrl ? <img src={searchResults.users[key].imageUrl} alt="Profile Pic" /> : null }
-                  {searchResults.users[key].displayName}
-                </li>
-                </a>
-              )
-              })}
-            </ul>
-          {/* </CardSection> */}
-          </div>
-        // </Card>
+        <ul>
+          {Object.keys(searchResults.users).map(key => {
+          return (
+            <a href={`/${searchResults.users[key].id}/profile`} key={ key }>
+            <li>
+              <img
+                src={ searchResults.users[key].imageUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png" }
+                alt="Profile Pic"
+              />
+              {searchResults.users[key].displayName}
+            </li>
+            </a>
+          )
+          })}
+        </ul>
       )
     } else {
       return null;
@@ -75,11 +93,16 @@ class Search extends Component {
   }
 
   render() {
+    let classes = classNames({
+      'search__results': true,
+      'search__results--show': this.state.showResults
+    });
     return (
-      <div className="search">
+      <div className="search" ref={this.setWrapperRef}>
         <div className="search__input-section">
           <input
             className="search__input"
+            id="search-input"
             type="text"
             name="search"
             value={this.state.search}
@@ -89,7 +112,9 @@ class Search extends Component {
           />
           <i className="material-icons">search</i>
         </div>
+        <div className={ classes } id="search-results">
           { this.renderResults() }
+        </div>
       </div>
     )
   }
