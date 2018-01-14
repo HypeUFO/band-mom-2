@@ -138,10 +138,67 @@ function createBandFulfilledAction(bands) {
 }
 
 
-export function deleteBand(band) {
+export function deleteBand(band, user) {
   return dispatch => {
+    let groupMembers = {};
+    let groupEvents = {};
     dispatch(deleteBandRequestedAction(band));
-    return database.ref('groups').child(band.id).remove()
+    // return database.ref('groups').child(band.id).remove()
+    database.ref().child("groupEvents").child(band.id).once('value', snap => {
+      console.log('band.actions line 465 - snap.val = ', snap.val)
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+            return groupEvents[key] = key;
+        })
+      }
+    })
+      return database.ref().child("groupMembers").child(band.id).once('value', snap => {
+        console.log('band.actions line 465 - snap.val = ', snap.val)
+        if (snap.val()) {
+          Object.keys(snap.val()).map(key => {
+              return groupMembers[key] = key;
+          })
+        }
+      })
+      .then(() => {
+      const updates = {};
+
+      const notification = {
+        message: `${user.displayName || user.email} has deleted ${band.name}`,
+      }
+
+      updates[`/groups/${band.id}`] = null;
+      updates[`/groupEvents/${band.id}`] = null;
+      updates[`/groupMembers/${band.id}`] = null;
+      // updates[`/eventGroups/${band.id}`] = null;
+
+      Object.keys(groupMembers).map(key => {
+        console.log('line 175 groupMember[key] = ', groupMembers[key])
+        const newNotificationKey = database.ref().child('notifications').child(groupMembers[key]).push().key;
+        database.ref().child("userEvents").child(groupMembers[key]).once('value', snap => {
+          console.log(snap.val())
+          if (snap.val()) {
+            Object.keys(snap.val()).map(key2 => {
+              console.log('key 2 = ', key2)
+              console.log('snap.val()[key2] = ', snap.val()[key2])
+              console.log('bandId = ', band.id)
+                // updates[`/userEvents/${groupMembers[key]}/${key2}`] = null;
+                // updates[`/events/${key2}`] = null;
+                database.ref().child("eventGroups").child(key2).child(band.id).remove()
+                if (snap.val()[key2].bandId === band.id) {
+                  database.ref().child("events").child(key2).remove()
+                  database.ref().child("userEvents").child(key).child(key2).remove()
+                }
+            })
+          }
+        })
+          updates[`/notifications/${groupMembers[key]}/${newNotificationKey}`] = notification;
+          updates[`/userGroups/${groupMembers[key]}/${band.id}`] = null;
+      })
+      console.log('updates = ', updates)
+      return database.ref().update(updates)
+    })
+
     .then(() => {
       return dispatch(deleteBandFulfilledAction());
     })
@@ -457,7 +514,7 @@ export function acceptGroupInvite(band, user, notificationId) {
     return database.ref().child("groupEvents").child(bandId).once('value', snap => {
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
-          return groupEvents[key] = true;
+          return groupEvents[key] = band.id;
         })
       }
     })
@@ -578,5 +635,60 @@ function declineGroupInviteFulfilledAction(bands) {
   return {
     type: ActionTypes.DECLINE_INVITE_TO_GROUP_FULFILLED,
     bands
+  };
+}
+
+
+
+export function leaveBand(band, user) {
+  return dispatch => {
+    const updates = {};
+    const notification = {
+      message: `${user.displayName || user.email} has left ${band.name}`,
+    }
+    dispatch(leaveBandRequestedAction(band));
+
+      return database.ref().child("groupMembers").child(band.id).once('value', snap => {
+        if (snap.val()) {
+          Object.keys(snap.val()).map(key => {
+            if (key !== user.id) {
+              const newNotificationKey = database.ref().child('notifications').child(key).push().key;
+              return updates[`/notifications/${key}/${newNotificationKey}`] = notification;
+            }
+          })
+        }
+      })
+      .then(() => {
+
+      updates[`/groupMembers/${band.id}/${user.id}`] = null;
+      updates[`/userGroups/${user.id}/${band.id}`] = null;
+
+      return database.ref().update(updates)
+    })
+    .then(() => {
+      return dispatch(leaveBandFulfilledAction());
+    })
+    .catch((error) => {
+      return dispatch(leaveBandRejectedAction());
+    });
+  }
+}
+
+function leaveBandRequestedAction(band) {
+  return {
+    type: ActionTypes.LEAVE_BAND_REQUESTED,
+    band,
+  };
+}
+
+function leaveBandRejectedAction() {
+  return {
+    type: ActionTypes.LEAVE_BAND_REJECTED,
+  }
+}
+
+function leaveBandFulfilledAction() {
+  return {
+    type: ActionTypes.LEAVE_BAND_FULFILLED,
   };
 }

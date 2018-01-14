@@ -10,6 +10,7 @@ import {
   uploadStagePlot,
   deleteBand,
   deleteStagePlot,
+  leaveBand,
   restoreBand,
 } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
@@ -38,7 +39,9 @@ import AlertModal from '../modals/AlertModal';
 
 const initialState = {
   showCreateBandEventModal: false,
-  showAlert: false,
+  showDeleteStagePlotAlert: false,
+  showDeleteBandAlert: false,
+  showLeaveBandAlert: false,
   showShareModal: false,
   selected: '',
   showStageplotModal: false,
@@ -75,12 +78,14 @@ class BandDashboard extends Component {
     // this.onDeleteEventError = this.onDeleteEventError.bind(this);
     // this.deleteEvent = this.deleteEvent.bind(this);
     // this.restoreEvent = this.restoreEvent.bind(this);
+    this.onDeleteBand = this.onDeleteBand.bind(this);
+    this.onLeaveBand = this.onLeaveBand.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
-    this.onCancelDeleteStagePlot = this.onCancelDeleteStagePlot.bind(this);
+    this.onCancelAlert = this.onCancelAlert.bind(this);
     this.onDeleteStagePlot = this.onDeleteStagePlot.bind(this);
 
     this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(this);
@@ -208,17 +213,44 @@ class BandDashboard extends Component {
     .then(() => this.props.deleteStagePlot(this.state.selectedStagePlot, this.props.band.id))
     .then(() => {
       if (!this.props.uploading) {
-        this.setState({showAlert: false})
+        this.setState({showDeleteStagePlotAlert: false})
       }
     })
   }
 
-  onCancelDeleteStagePlot() {
-    this.setState({showAlert: false})
+  onCancelAlert() {
+    // this.setState({showDeleteStagePlotAlert: false})
+    this.setState({
+      showDeleteStagePlotAlert: false,
+      showDeleteBandAlert: false,
+      showLeaveBandAlert: false,
+      showStageplotModal: false,
+      showLogoModal: false
+    })
   }
 
   onSubmitDeleteStagePlot() {
-    this.setState({showAlert: false})
+    this.setState({showDeleteStagePlotAlert: false})
+  }
+
+  onDeleteBand() {
+    Promise.resolve()
+    .then(() => this.props.deleteBand(this.props.band, this.props.user))
+    .then(() => {
+      this.props.updateBandEdit()
+      this.props.history.push(`/${this.props.user.id}/bands`)
+    })
+    .catch(err => console.log(err))
+  }
+
+  onLeaveBand() {
+    Promise.resolve()
+    .then(() => this.props.leaveBand(this.props.band, this.props.user))
+    .then(() => {
+      this.props.updateBandEdit()
+      this.props.history.push(`/${this.props.user.id}/bands`)
+    })
+    .catch(err => console.log(err))
   }
 
   onUpdateBandEdit() {
@@ -294,7 +326,7 @@ class BandDashboard extends Component {
           event.preventDefault();
           Promise.resolve()
           .then(() => {
-            this.setState({showAlert: true, selectedStagePlot: doc});
+            this.setState({showDeleteStagePlotAlert: true, selectedStagePlot: doc});
             console.log(doc);
           })
           .then(() => {
@@ -388,7 +420,9 @@ class BandDashboard extends Component {
     ];
 
     if (band) {
-    let formBottomClasses = classNames('form__bottom', 'band-details__form__bottom', { 'form__bottom--hidden': !this.props.bandEdit });
+    let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !this.props.bandEdit });
+
+    let removeActions = classNames('band__details__remove-actions', { 'band__details__remove-actions--hidden': !this.props.bandEdit });
 
     return (
       <div className='page__container'>
@@ -421,15 +455,38 @@ class BandDashboard extends Component {
             header="Upload Logo"
           />
           <AlertModal
-            show={ this.state.showAlert }
+            show={ this.state.showDeleteStagePlotAlert }
             title="Are you sure you want to delete this stageplot?"
             actionType="Delete"
             action={this.onDeleteStagePlot}
-            onCancel={this.onCancelDeleteStagePlot}
+            onCancel={this.onCancelAlert}
             isLoading={ this.props.uploading }
           >
             <p>This action can not be undone</p>
           </AlertModal>
+
+          <AlertModal
+            show={ this.state.showDeleteBandAlert }
+            title="Are you sure you want to delete this band?"
+            actionType="Delete"
+            action={this.onDeleteBand}
+            onCancel={this.onCancelAlert}
+            // isLoading={ this.props.uploading }
+          >
+            <p>This action can not be undone</p>
+          </AlertModal>
+
+          <AlertModal
+            show={ this.state.showLeaveBandAlert }
+            title="Are you sure you want to leave this band?"
+            actionType="Leave"
+            action={this.onLeaveBand}
+            onCancel={this.onCancelAlert}
+            // isLoading={ this.props.uploading }
+          >
+            <p>This action can not be undone</p>
+          </AlertModal>
+
           <CreateBandEventModal
             show={ this.state.showCreateBandEventModal }
             onSubmit={ this.onCreateEventSubmit }
@@ -440,6 +497,47 @@ class BandDashboard extends Component {
             activeBand={this.props.band || ''}
             onCreateEvent={this.props.onCreateEvent}
           />
+          <div
+            // className="form__row"
+            className={ removeActions }
+          >
+            <button
+              // className="card__delete"
+              onClick={(event) => {
+              // event.preventDefault();
+              Promise.resolve()
+              .then(() => {
+                this.setState({showDeleteBandAlert: true});
+                // console.log(doc);
+              })
+              // .then(() => {
+                // this.props.onGetBand(this.props.band.id)
+              // })
+              } }
+            >
+              Delete Band
+            </button>
+            {/* <p>leave band</p> */}
+
+            <button
+              // className="card__delete"
+              onClick={(event) => {
+              // event.preventDefault();
+              Promise.resolve()
+              .then(() => {
+                this.setState({showLeaveBandAlert: true});
+                // console.log(doc);
+              })
+              // .then(() => {
+                // this.props.onGetBand(this.props.band.id)
+              // })
+              } }
+            >
+              Leave Band
+            </button>
+
+            {/* { this.renderFiles() } */}
+          </div>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h3>Band Details</h3>
             <Input
@@ -447,7 +545,7 @@ class BandDashboard extends Component {
               value="Edit"
               onClick={this.onUpdateBandEdit}
               onSubmit={ this.onSubmitDeleteStagePlot }
-              onCancel={ this.onCancelDeleteStagePlot }
+              onCancel={ this.onCancelAlert }
             />
           </div>
           <div className="band__details__container">
@@ -532,9 +630,12 @@ class BandDashboard extends Component {
                     // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                   />
                 </div>
-                <div className="form__column">
-                  {/* { this.renderFiles() } */}
-                </div>
+                {/* <div className="form__column">
+                <div className="form__row">
+                  <p>delete band</p>
+                  <p>leave band</p>
+                  { this.renderFiles() }
+                </div> */}
               </div>
             </div>
             <div
@@ -597,6 +698,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     updateBandEdit: updateBandEdit,
+    deleteBand: deleteBand,
+    leaveBand: leaveBand,
     onUpdateBand: updateBand,
     onGetBand: getBand,
     onClearEvent: actions.clearEvent,

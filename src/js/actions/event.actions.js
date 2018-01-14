@@ -159,10 +159,10 @@ export function createEvent(event, bandId, userId) {
     updates[`/groups/${bandId}/events`] = eventGroup;
     updates[`/eventGroups//${newEventKey}`] = eventGroup;
     updates[`/groupEvents/${bandId}/${newEventKey}`] = true;
-    updates[`/userEvents/${userId}/${newEventKey}`] = true;
+    updates[`/userEvents/${userId}/${newEventKey}`] = {bandId};
 
     Object.keys(groupMembers).map(key => {
-      return updates[`/userEvents/${key}/${newEventKey}`] = true;
+      return updates[`/userEvents/${key}/${newEventKey}`] = {bandId};
     })
 
     return database.ref().update(updates)
@@ -288,10 +288,10 @@ export function restoreEvent(event, bandId, userId) {
     updates[`/groups/${bandId}/events`] = eventGroup;
     updates[`/eventGroups//${newEventKey}`] = eventGroup;
     updates[`/groupEvents/${bandId}/${newEventKey}`] = true;
-    updates[`/userEvents/${userId}/${newEventKey}`] = true;
+    updates[`/userEvents/${userId}/${newEventKey}`] = {bandId};
 
     Object.keys(groupMembers).map(key => {
-      return updates[`/userEvents/${key}/${newEventKey}`] = true;
+      return updates[`/userEvents/${key}/${newEventKey}`] = {bandId};
     })
 
     return database.ref().update(updates)

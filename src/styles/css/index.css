@@ -279,6 +279,12 @@ input {
       justify-content: space-around; }
       .band__details__container > div {
         margin: 30px 10% 0 0; } }
+.band__details__remove-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; }
+  .band__details__remove-actions--hidden {
+    display: none; }
 
 .band__logo {
   height: 150px;

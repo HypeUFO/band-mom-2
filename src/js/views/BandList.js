@@ -42,7 +42,7 @@ class BandList extends Component {
   }
 
   componentWillMount() {
-    this.db.on('child_added', () => {
+    this.db.on('value', () => {
       this.props.onGetBandMany(this.props.user)
     })
     this.props.onClearBand()
@@ -50,9 +50,7 @@ class BandList extends Component {
 
   handleRowClick(e, row) {
     e.preventDefault();
-    window.location = `/${this.props.match.params.userId}/bands/${row.id}/dashboard`;
-    // history.push(`/${this.props.match.params.userId}/bands/testBand/bands/${row.id}/details`);
-    // history.push(`/testUser/bands/testBand/bands/${row.id}/details`);
+    this.props.history.push(`/${this.props.match.params.userId}/bands/${row.id}/dashboard`);
   }
 
   handleRowMenuItemClick(doc, action, event) {
