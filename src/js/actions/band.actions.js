@@ -252,15 +252,36 @@ function restoreBandFulfilledAction(band) {
 
 
 
-export function updateBand(band) {
+export function updateBand(band, user) {
+
   return dispatch => {
     dispatch(updateBandRequestedAction());
-    database.ref().child('groups/' + band.id).update(band)
+
+    const updates = {};
+
+    const notification = {
+      message: `${user.displayName || user.email} has edited ${band.name}`,
+    }
+
+    updates[`/groups/${band.id}`] = band;
+
+    database.ref().child("groupMembers").child(band.id).once('value', snap => {
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          if (key !== user.id) {
+            const newNotificationKey = database.ref().child('notifications').child(key).push().key;
+            return database.ref('notifications').child(key).child(newNotificationKey).set(notification);
+          }
+        })
+      }
+    })
+    console.log(updates);
+    return database.ref().update(updates)
     .then(() => {
-      dispatch(updateBandFulfilledAction());
+      dispatch(updateBandFulfilledAction(band));
     })
     .catch((error) => {
-      dispatch(updateBandRejectedAction());
+      dispatch(updateBandRejectedAction(error));
     });
   }
 }
@@ -271,9 +292,10 @@ function updateBandRequestedAction() {
   };
 }
 
-function updateBandRejectedAction() {
+function updateBandRejectedAction(error) {
   return {
-    type: ActionTypes.UPDATE_BAND_REJECTED
+    type: ActionTypes.UPDATE_BAND_REJECTED,
+    error
   }
 }
 

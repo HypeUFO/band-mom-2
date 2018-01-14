@@ -166,7 +166,7 @@ class BandDashboard extends Component {
       bio: this.state.bio,
       id: this.props.match.params.bandId,
     }
-    this.props.onUpdateBand(band)
+    this.props.onUpdateBand(band, this.props.user)
   }
 
   handleRowClick(row) {
