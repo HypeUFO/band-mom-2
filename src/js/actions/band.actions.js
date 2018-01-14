@@ -138,9 +138,6 @@ function createBandFulfilledAction(bands) {
 }
 
 
-
-
-
 export function deleteBand(band) {
   return dispatch => {
     dispatch(deleteBandRequestedAction(band));
@@ -398,8 +395,8 @@ function deleteStagePlotRejectedAction(error) {
 }
 
 
-export function sendGroupInvite(bandId, recipientId, user) {
-
+export function sendGroupInvite(band, recipientId, user) {
+  const bandId = band.id
   return dispatch => {
     dispatch(sendGroupInviteRequestedAction())
     Promise.resolve()
@@ -409,10 +406,10 @@ export function sendGroupInvite(bandId, recipientId, user) {
 
     const notification = {
       from: user.displayName || user.email,
-      message: `${user.displayName || user.email} has invited you to join a band`,
+      message: `${user.displayName || user.email} has invited you to join ${band.name}`,
       action: `acceptGroupInvite`,
       actionType: 'Confirm',
-      bandId: bandId,
+      band: band,
     }
     updates[`/groupMembers/${bandId}/pending/${recipientId}`] = true;
     updates[`/notifications/${recipientId}/${newNotificationKey}`] = notification;
@@ -450,8 +447,10 @@ function sendGroupInviteFulfilledAction(bandId) {
   };
 }
 
-export function acceptGroupInvite(bandId, userId, notificationId) {
-
+export function acceptGroupInvite(band, user, notificationId) {
+  const userId = user.id
+  const bandId = band.id
+  let groupMembers = {}
   return dispatch => {
     dispatch(acceptGroupInviteRequestedAction());
     let groupEvents = {}
@@ -463,30 +462,56 @@ export function acceptGroupInvite(bandId, userId, notificationId) {
       }
     })
     .then(() => {
-
-    const userGroup = {}
-    const bandMembers = {}
-
-    userGroup[bandId] = true
-    bandMembers[userId] = true
-
-    var updates = {};
-    updates['/users/' + userId + '/groups/' + bandId] = true;
-    updates[`/groupMembers/${bandId}/pending/${userId}`] = null;
-    updates[`/groupMembers/${bandId}/${userId}`] = true;
-    updates[`/userGroups/${userId}/${bandId}`] = true;
-    updates[`/userEvents/${userId}`] = groupEvents;
-    updates[`/notifications/${userId}/${notificationId}`] = null;
-
-
-    return database.ref().update(updates)
+      // let groupMembers = {}
+      return database.ref().child("groupMembers").child(bandId).once('value', snap => {
+        console.log('band.actions line 465 - snap.val = ', snap.val)
+        if (snap.val()) {
+          Object.keys(snap.val()).map(key => {
+            if (key !== userId && key !== 'pending') {
+              return groupMembers[key] = key;
+            }
+          })
+        }
+        console.log('line 473 groupMembers = ', groupMembers)
+      })
     .then(() => {
-      dispatch(acceptGroupInviteFulfilledAction());
+      const notification = {
+        // from: user.displayName || user.email,
+        message: `${user.displayName || user.email} has joined a ${band.name}`,
+        // action: `acceptGroupInvite`,
+        // actionType: 'Confirm',
+        band: band,
+      }
+
+      const userGroup = {}
+      const bandMembers = {}
+
+      userGroup[bandId] = true
+      bandMembers[userId] = true
+
+      var updates = {};
+      updates['/users/' + userId + '/groups/' + bandId] = true;
+      updates[`/groupMembers/${bandId}/pending/${userId}`] = null;
+      updates[`/groupMembers/${bandId}/${userId}`] = true;
+      updates[`/userGroups/${userId}/${bandId}`] = true;
+      updates[`/userEvents/${userId}`] = groupEvents;
+      updates[`/notifications/${userId}/${notificationId}`] = null;
+
+      Object.keys(groupMembers).map(key => {
+        console.log(groupMembers[key]);
+        const newNotificationKey = database.ref().child('notifications').child(groupMembers[key]).push().key;
+        return updates[`/notifications/${groupMembers[key]}/${newNotificationKey}`] = notification;
+      })
+
+      return database.ref().update(updates)
+      })
+      .then(() => {
+        dispatch(acceptGroupInviteFulfilledAction());
+      })
+      .catch((error) => {
+        dispatch(acceptGroupInviteRejectedAction(error));
+      });
     })
-    .catch((error) => {
-      dispatch(acceptGroupInviteRejectedAction(error));
-    });
-  })
   }
 }
 

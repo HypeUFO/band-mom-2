@@ -63,7 +63,10 @@ class Notifications extends Component {
                 ? <Input
                     type="button-thin-button"
                     value={ notifications[key].actionType }
-                    onClick={() => this.props[notifications[key].action](notifications[key].bandId, this.props.user.id, key)}
+                    onClick={() => {
+                      console.log("notification = ", notifications[key])
+                      this.props[notifications[key].action](notifications[key].band, this.props.user, key)}
+                    }
                   />
                 : null }
             </div>

@@ -128,10 +128,10 @@ class BandDashboard extends Component {
   }
 
   handleBandSelect(event) {
+    const band = this.props.bands[event.target.value.split('/')[1]];
+    console.log(band);
     this.setState({
-      bandName: event.target.value.split('/')[0],
-      bandId: event.target.value.split('/')[1],
-      band: event.target.value
+      band
     });
   }
 
@@ -184,18 +184,18 @@ class BandDashboard extends Component {
     .then(() => {
       const { activeProfile } = this.props;
       this.setState({
-        displayName: activeProfile.displayName,
-        location: activeProfile.location,
-        about: activeProfile.about,
-        imageUrl: activeProfile.imageUrl,
-        instruments: activeProfile.instruments,
+        displayName: activeProfile.displayName || '',
+        location: activeProfile.location || '',
+        about: activeProfile.about || '',
+        imageUrl: activeProfile.imageUrl || '',
+        instruments: activeProfile.instruments || '',
       })
     })
     .then(() => this.props.updateUserEdit())
   }
 
   inviteUser() {
-    this.props.sendGroupInvite(this.state.band.split('/')[1], this.props.activeProfile.id, this.props.user);
+    this.props.sendGroupInvite(this.state.band, this.props.activeProfile.id, this.props.user);
   }
 
   inviteUserCancel() {
@@ -221,7 +221,7 @@ class BandDashboard extends Component {
             key={index}
             disabled={ !this.props.userEdit }
             onChange={ this.handleCheckboxChange }
-            isChecked={ this.state.instruments[item.label] || this.props.activeProfile.instruments[item.label] ? true : false }
+            isChecked={ this.state.instruments[item.label] || (this.props.activeProfile.instruments && this.props.activeProfile.instruments[item.label]) ? true : false }
           />
         );
       })
@@ -229,17 +229,19 @@ class BandDashboard extends Component {
   }
 
   renderInstrumentList(list) {
-    let listItems = []
-    Object.keys(list).map(key => {
-      if (list[key]) {
-        listItems.push(
-          <li key={key}>
-            { key }
-          </li>
-        );
-      }
-    })
-    return listItems;
+    if (list) {
+      let listItems = []
+      Object.keys(list).map(key => {
+        if (list[key]) {
+          listItems.push(
+            <li key={key}>
+              { key }
+            </li>
+          );
+        }
+      })
+      return listItems;
+    }
   }
 
 
@@ -338,14 +340,6 @@ class BandDashboard extends Component {
               />
               : null
               }
-              {/* <Input
-                type="button-link"
-                value="Edit"
-                // onClick={this.props.updateUserEdit}
-                onClick={this.onUpdateUserEdit}
-                onSubmit={ this.onSubmitDeleteStagePlot }
-                onCancel={ this.onCancelDeleteStagePlot }
-              /> */}
             </div>
             <div className="user__profile__container">
               <div className="user__profile__image__wrapper">
