@@ -70,7 +70,7 @@ onFileChange(e, file) {
     }
 
     reader.readAsDataURL(file);
-    this.props.onUpload(file, this.props.pathId);
+    this.props.onUpload(file, this.props.uploader);
 }
 
 

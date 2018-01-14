@@ -187,6 +187,7 @@ export function deleteBand(band, user) {
             updates[`/notifications/${groupMembers[key]}/${newNotificationKey}`] = notification;
           }
       })
+      storage.ref().child(`/groupLogos/${band.id}/${band.logoName}`).delete();
       return database.ref().update(updates)
     })
 
@@ -305,7 +306,8 @@ function updateBandEditRejectedAction(error) {
 }
 
 
-export function uploadBandLogo(file, bandId) {
+export function uploadBandLogo(file, band) {
+  const bandId = band.id
   const name = (+new Date()) + '-' + file.name;
 
   var metadata = {
@@ -315,6 +317,9 @@ export function uploadBandLogo(file, bandId) {
 
   return dispatch => {
     dispatch(uploadBandLogoRequestedAction());
+    if (band.logoName) {
+      storage.ref().child(`/groupLogos/${band.id}/${band.logoName}`).delete();
+    }
     return storage.ref().child('/groupLogos/' + bandId).child(file.name).put(file, metadata)
     .then((snapshot) => {
       const url = snapshot.downloadURL;
@@ -348,7 +353,8 @@ function uploadBandLogoRejectedAction(error) {
   }
 }
 
-export function uploadStagePlot(file, bandId) {
+export function uploadStagePlot(file, band) {
+  const bandId = band.id;
   const name = (+new Date()) + '-' + file.name;
   var metadata = {
     name,

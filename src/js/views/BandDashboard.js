@@ -443,14 +443,14 @@ class BandDashboard extends Component {
             show={ this.state.showStageplotModal }
             onCancel={ this.onCancelStageplotUpload }
             onUpload={this.props.uploadStagePlot}
-            pathId={this.props.band.id}
+            uploader={this.props.band}
             header="Upload Stageplot"
           />
           <FileUploadModal
             show={ this.state.showLogoModal }
             onCancel={ this.onCancelLogoUpload }
             onUpload={this.props.uploadBandLogo}
-            pathId={this.props.band.id}
+            uploader={this.props.band}
             header="Upload Logo"
           />
           <AlertModal

@@ -30,7 +30,7 @@ render() {
             <FileUpload
               onUpload={ this.props.onUpload }
               onCancel={ this.props.onCancel }
-              pathId={this.props.pathId}
+              uploader={this.props.uploader}
             />
           </div>
         </div>
