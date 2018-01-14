@@ -99,27 +99,6 @@ class CreateBandModal extends Component {
     .catch(err => this.onError(err));
   }
 
-  // renderFiles() {
-  //   const {
-  //     files,
-  //   } = this.state;
-  //   let filesElements = files.map((file, index) => {
-  //     return (
-  //       <div className="modal__file" key={ index }>
-  //         <label className="model__file__name">{ truncate(file.name, 24) }</label>
-  //         <button
-  //           className="model__file__close"
-  //           onClick={ this.removeFile.bind(this, index) }
-  //           type="button"
-  //         >
-  //           <i className="material-icons">close</i>
-  //         </button>
-  //       </div>
-  //     );
-  //   });
-  //   return filesElements;
-  // }
-
   render() {
     const {
       asyncCreateLoading,
