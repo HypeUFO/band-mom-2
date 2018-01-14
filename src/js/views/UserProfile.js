@@ -13,7 +13,7 @@ import Subheader from '../components/Global/Subheader';
 
 import instrumentList from '../constants/instrument_list';
 
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 
 import Input from '../components/Global/Input';
 import moment from 'moment';

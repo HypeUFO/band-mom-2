@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { createBand } from '../actions/band.actions';
 import classNames from 'classnames';
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 import Input from '../components/Global/Input';
 import { database } from '../config/fire';
 import genres from '../constants/genre_list';

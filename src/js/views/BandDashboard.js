@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import classNames from 'classnames';
+import moment from 'moment';
+import { database } from '../config/fire'
 import * as actions from '../actions/event.actions';
 import {
   getBand,
@@ -17,21 +20,10 @@ import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
 import CreateBandEventModal from '../modals/CreateBandEventModal';
-
-
-
-import genres from '../constants/genre_list';
-
-import Form from '../components/Global/Form';
-
+import BandEditForm from '../components/Global/Forms/BandEditForm';
 import Carousel from '../components/Carousel';
 import Input from '../components/Global/Input';
-import moment from 'moment';
 import history from '../history';
-
-import classNames from 'classnames';
-
-import { database } from '../config/fire'
 import FileUploadModal from '../modals/FileUploadModal';
 import AlertModal from '../modals/AlertModal';
 
@@ -44,128 +36,36 @@ const initialState = {
   showShareModal: false,
   selected: '',
   showStageplotModal: false,
-  name: '',
-  location: '',
-  genre1: '',
-  genre2: '',
-  bio: '',
-  logoUrl: '',
-  logoName: '',
-  id: '',
-  stagePlotUrl: '',
-  stagePlotName: '',
-  selectedStagePlot: '',
 };
 
 class BandDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-
-    // this.db = database.ref().child('bands');
-    this.id = window.location.pathname.split('/')[3];
-
     this.toggleCreateBandEventModal = this.toggleCreateBandEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
     this.onCancelStageplotUpload = this.onCancelStageplotUpload.bind(this);
     this.onCancelLogoUpload = this.onCancelLogoUpload.bind(this);
-    this.onCancel = this.onCancel.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.onUpdateBandEdit = this.onUpdateBandEdit.bind(this);
-    // this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
-    // this.onDeleteEventError = this.onDeleteEventError.bind(this);
-    // this.deleteEvent = this.deleteEvent.bind(this);
-    // this.restoreEvent = this.restoreEvent.bind(this);
     this.onDeleteBand = this.onDeleteBand.bind(this);
     this.onLeaveBand = this.onLeaveBand.bind(this);
-
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onCancel = this.onCancel.bind(this);
-    this.onSuccess = this.onSuccess.bind(this);
-    this.onError = this.onError.bind(this);
     this.onCancelAlert = this.onCancelAlert.bind(this);
     this.onDeleteStagePlot = this.onDeleteStagePlot.bind(this);
-
-    this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(this);
-
-    // this.handleFormEdit = this.handleFormEdit.bind(this);
-
   }
 
   componentWillMount() {
     Promise.resolve()
     .then(() => {
-      this.props.onGetBand(this.id)
-    })
-    .then(() => {
-      console.log(this.props.band);
-      this.setState({
-        // disabled: !!this.props.bandEdit,
-        name: this.props.band.name || '',
-        location: this.props.band.location || '',
-        genre1: this.props.band.genre1 || '',
-        genre2: this.props.band.genre2 || '',
-        bio: this.props.band.bio || '',
-        logoUrl: this.props.band.logoUrl || '',
-        logoName: this.props.band.logoName || '',
-        stagePlotUrl: this.props.stagPlotUrl || '',
-        stagePlotName: this.props.stagePlotName || '',
-      })
+      this.props.onGetBand(this.props.match.params.bandId)
     })
     .catch((err) => console.log(err));
 
     database.ref(`events`).on('value', () => {
-      this.props.onGetEventMany((this.id))
+      this.props.onGetEventMany((this.props.match.params.bandId))
     })
     database.ref(`groups/${this.props.match.params.bandId}`).on('value', () => {
         this.props.onGetBand(this.props.match.params.bandId)
       })
-  }
-
-  handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-    if(this.refs.form.validate()) {
-      this.handleAsyncUpdateButtonClick();
-      // this.props.onSubmit();
-    }
-  }
-
-  onCancel() {
-    // this.handleFormEdit();
-    this.props.updateBandEdit();
-  }
-
-  onSuccess() {
-    this.props.updateBandEdit();
-    this.props.onGetBand(this.id);
-  }
-
-  onError(err) {
-    console.log('An error occurred: ' + err)
-  }
-
-  handleAsyncUpdateButtonClick() {
-    Promise.resolve()
-    .then(this.updateBand())
-    .then(() => this.onSuccess())
-    .catch(err => this.onError(err));
-  }
-
-  updateBand() {
-    const band = {
-      name: this.state.name,
-      location: this.state.location,
-      genre1: this.state.genre1,
-      genre2: this.state.genre2,
-      bio: this.state.bio,
-      id: this.props.match.params.bandId,
-    }
-    this.props.onUpdateBand(band, this.props.user)
   }
 
   handleRowClick(row) {
@@ -218,7 +118,6 @@ class BandDashboard extends Component {
   }
 
   onCancelAlert() {
-    // this.setState({showDeleteStagePlotAlert: false})
     this.setState({
       showDeleteStagePlotAlert: false,
       showDeleteBandAlert: false,
@@ -250,25 +149,6 @@ class BandDashboard extends Component {
       this.props.history.push(`/${this.props.user.id}/bands`)
     })
     .catch(err => console.log(err))
-  }
-
-  onUpdateBandEdit() {
-    Promise.resolve()
-    .then(() => {
-      const { activeProfile } = this.props;
-      this.setState({
-        name: this.props.band.name || '',
-        location: this.props.band.location || '',
-        genre1: this.props.band.genre1 || '',
-        genre2: this.props.band.genre2 || '',
-        bio: this.props.band.bio || '',
-        logoUrl: this.props.band.logoUrl || '',
-        logoName: this.props.band.logoName || '',
-        stagePlotUrl: this.props.stagPlotUrl || '',
-        stagePlotName: this.props.stagePlotName || '',
-      })
-    })
-    .then(() => this.props.updateBandEdit())
   }
 
   renderEventCard(doc, index) {
@@ -523,7 +403,7 @@ class BandDashboard extends Component {
             <Input
               type="button-link"
               value="Edit"
-              onClick={this.onUpdateBandEdit}
+              onClick={this.props.updateBandEdit}
               onSubmit={ this.onSubmitDeleteStagePlot }
               onCancel={ this.onCancelAlert }
             />
@@ -536,97 +416,13 @@ class BandDashboard extends Component {
               className="band__logo"
               style={{marginBottom: 24}}
             />
-            {/* <button className="modal__logo__link" href onClick={() => this.setState({showLogoModal: true})}>
-              { band.logoUrl ? 'Change logo' : 'Upload logo' }
-            </button> */}
             <Input
               type="button-link"
               value={ band.logoUrl ? 'Change logo' : 'Upload logo' }
               onClick={() => this.setState({showLogoModal: true})}
             />
           </div>
-          <Form
-            // className="form__container"
-            className="band__details__form"
-            id="band-details__form"
-            onSubmit={ this.onSubmit }
-            onCancel={ this.onCancel }
-            disabled={ !this.props.bandEdit }
-            ref="form"
-            // error={ createError || uploadError }
-          >
-            <div className="form__middle form__middle__band-dashboard">
-              <div className="form__column">
-                <div className="form__row">
-                  <Input type="text"
-                    name="name"
-                    placeholder="Band Name"
-                    label="Band Name"
-                    disabled={ !this.props.bandEdit }
-                    value={ this.props.bandEdit ? this.state.name : band.name }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="text"
-                    name="location"
-                    placeholder="Location"
-                    label="Location"
-                    disabled={ !this.props.bandEdit }
-                    value={ this.props.bandEdit ? this.state.location : band.location }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  </div>
-                  <div className="form__row">
-                  <Input type="select"
-                    name="genre1"
-                    placeholder="Genre 1"
-                    label="Genre 1"
-                    disabled={ !this.props.bandEdit }
-                    options={genres}
-                    value={ this.props.bandEdit ? this.state.genre1 : band.genre1 }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="select"
-                    name="genre2"
-                    placeholder="Genre 2"
-                    label="Genre 2"
-                    disabled={ !this.props.bandEdit }
-                    options={genres}
-                    value={ this.props.bandEdit ? this.state.genre2 : band.genre2 }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                </div>
-                <div className="form__row">
-                  <Input type="textarea"
-                    name="bio"
-                    placeholder="Bio"
-                    label="Bio"
-                    disabled={ !this.props.bandEdit }
-                    value={ this.props.bandEdit ? this.state.bio : band.bio }
-                    onChange={ this.handleInputChange }
-                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                </div>
-                {/* <div className="form__column">
-                <div className="form__row">
-                  <p>delete band</p>
-                  <p>leave band</p>
-                  { this.renderFiles() }
-                </div> */}
-              </div>
-            </div>
-            <div
-            // className="form__bottom"
-              className={ formBottomClasses }
-            >
-              <Input type="button-thin-cancel" value="Cancel" />
-              <Input type="button-thin-submit" value="Save" />
-              {/* { formBottom } */}
-            </div>
-          </Form>
+          <BandEditForm bandEdit={this.props.bandEdit} />
           </div>
           <hr />
           <div className="slide-header">
@@ -637,10 +433,6 @@ class BandDashboard extends Component {
           <hr />
           <div className="slide-header">
             <h3>StagePlots</h3>
-            {/* <button className="btn-icon" onClick={() => this.setState({showStageplotModal: true})}>
-              <span className="btn-icon__text">Upload Stageplot</span>
-              <i className="material-icons btn-icon__icon">add</i>
-            </button> */}
             <Input
               type="button-link"
               value="Upload Stageplot"

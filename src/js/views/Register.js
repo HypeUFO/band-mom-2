@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actions from '../actions/auth.actions';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 import Input from '../components/Global/Input';
 
 import { auth } from '../config/fire';

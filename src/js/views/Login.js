@@ -8,7 +8,7 @@ import * as actions from '../actions/auth.actions';
 import { getEventMany } from '../actions/event.actions';
 
 import PropTypes from 'prop-types';
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 import Input from '../components/Global/Input';
 
 class Login extends Component {

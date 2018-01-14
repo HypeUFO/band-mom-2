@@ -14,7 +14,7 @@ import { getNotificationsMany } from '../actions/notification.actions';
 
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 import Input from '../components/Global/Input';
 import Card from '../components/Global/Card/Card';
 import CardSection from '../components/Global/Card/CardSection';

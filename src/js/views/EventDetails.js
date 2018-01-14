@@ -6,7 +6,7 @@ import { getBand } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 import Loader from '../components/Global/Loader';
 import Input from '../components/Global/Input';
 import Notification from '../components/Global/Notification';

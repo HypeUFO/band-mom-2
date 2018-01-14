@@ -2,7 +2,7 @@ import React from 'react';
 import Hero from '../components/Hero';
 // import Carousel from '../components/Carousel';
 import HeaderLanding from '../components/Global/HeaderLanding';
-import Form from '../components/Global/Form';
+import Form from '../components/Global/Forms/Form';
 import Input from '../components/Global/Input';
 import { Link } from 'react-router-dom';
 
