@@ -233,7 +233,8 @@ function updateUserFulfilledAction(user) {
   };
 }
 
-export function uploadProfileImage(file, userId) {
+export function uploadProfileImage(file, user) {
+  const userId = user.id;
   const name = (+new Date()) + '-' + file.name;
 
   var metadata = {
@@ -243,6 +244,9 @@ export function uploadProfileImage(file, userId) {
 
   return dispatch => {
     dispatch(uploadProfilePicRequestedAction());
+    if (user.imageName) {
+      storage.ref().child('/profileImages/' + userId).child(user.imageName).delete()
+    }
     return storage.ref().child('/profileImages/' + userId).child(file.name).put(file, metadata)
     .then((snapshot) => {
       const url = snapshot.downloadURL;

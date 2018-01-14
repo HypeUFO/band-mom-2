@@ -312,7 +312,7 @@ class BandDashboard extends Component {
               show={ this.state.showImageModal }
               onCancel={ this.uploadImageCancel }
               onUpload={ this.props.uploadProfileImage }
-              pathId={this.props.activeProfile.id}
+              uploader={this.props.activeProfile}
               header="Upload Profile Picture"
             />
             <AlertModal
@@ -460,14 +460,6 @@ function mapDispatchToProps(dispatch) {
     clearActiveProfile: clearActiveProfile,
     sendGroupInvite: sendGroupInvite,
     uploadProfileImage: actions.uploadProfileImage,
-    // onClearEvent: actions.clearEvent,
-    // onGetEvent: actions.getEvent,
-    // onGetEventMany: actions.getEventMany,
-    // uploadBandLogo: uploadBandLogo,
-    // uploadStagePlot: uploadStagePlot,
-    // deleteStagePlot: deleteStagePlot,
-    // onDeleteBand: deleteBand,
-    // onRestoreBand: restoreBand,
     dismissNotification: dismissNotification,
     },
   dispatch);

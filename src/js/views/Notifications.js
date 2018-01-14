@@ -133,24 +133,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    // updateUserEdit: actions.updateUserEdit,
-    // onUpdateUser: actions.updateUser,
-    // onGetUser: actions.getUser,
-    // onGetActiveProfile: actions.getActiveProfile,
-    // clearActiveProfile: actions.clearActiveProfile,
     acceptGroupInvite: acceptGroupInvite,
     declineGroupInvite: declineGroupInvite,
     getNotificationsMany: getNotificationsMany,
-    // uploadProfileImage: actions.uploadProfileImage,
-    // onClearEvent: actions.clearEvent,
-    // onGetEvent: actions.getEvent,
-    // onGetEventMany: actions.getEventMany,
-    // uploadBandLogo: uploadBandLogo,
-    // uploadStagePlot: uploadStagePlot,
-    // deleteStagePlot: deleteStagePlot,
-    // onDeleteBand: deleteBand,
-    // onRestoreBand: restoreBand,
-    // dismissNotification: dismissNotification,
     },
   dispatch);
 }
