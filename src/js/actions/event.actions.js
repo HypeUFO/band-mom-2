@@ -296,10 +296,10 @@ export function restoreEvent(event, bandId, userId) {
 
     return database.ref().update(updates)
     .then(() => {
-      dispatch(restoreEventFulfilledAction());
+      dispatch(restoreEventFulfilledAction(event));
     })
     .catch((error) => {
-      dispatch(restoreEventRejectedAction());
+      dispatch(restoreEventRejectedAction(error));
     });
   })
   }
@@ -311,9 +311,10 @@ function restoreEventRequestedAction() {
   };
 }
 
-function restoreEventRejectedAction() {
+function restoreEventRejectedAction(error) {
   return {
-    type: ActionTypes.RESTORE_EVENT_REJECTED
+    type: ActionTypes.RESTORE_EVENT_REJECTED,
+    error
   }
 }
 

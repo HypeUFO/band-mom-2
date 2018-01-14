@@ -143,7 +143,6 @@ export function deleteBand(band, user) {
     let groupMembers = {};
     let groupEvents = {};
     dispatch(deleteBandRequestedAction(band));
-    // return database.ref('groups').child(band.id).remove()
     database.ref().child("groupEvents").child(band.id).once('value', snap => {
       console.log('band.actions line 465 - snap.val = ', snap.val)
       if (snap.val()) {
@@ -153,7 +152,6 @@ export function deleteBand(band, user) {
       }
     })
       return database.ref().child("groupMembers").child(band.id).once('value', snap => {
-        console.log('band.actions line 465 - snap.val = ', snap.val)
         if (snap.val()) {
           Object.keys(snap.val()).map(key => {
               return groupMembers[key] = key;
@@ -170,20 +168,12 @@ export function deleteBand(band, user) {
       updates[`/groups/${band.id}`] = null;
       updates[`/groupEvents/${band.id}`] = null;
       updates[`/groupMembers/${band.id}`] = null;
-      // updates[`/eventGroups/${band.id}`] = null;
 
       Object.keys(groupMembers).map(key => {
-        console.log('line 175 groupMember[key] = ', groupMembers[key])
         const newNotificationKey = database.ref().child('notifications').child(groupMembers[key]).push().key;
         database.ref().child("userEvents").child(groupMembers[key]).once('value', snap => {
-          console.log(snap.val())
           if (snap.val()) {
             Object.keys(snap.val()).map(key2 => {
-              console.log('key 2 = ', key2)
-              console.log('snap.val()[key2] = ', snap.val()[key2])
-              console.log('bandId = ', band.id)
-                // updates[`/userEvents/${groupMembers[key]}/${key2}`] = null;
-                // updates[`/events/${key2}`] = null;
                 database.ref().child("eventGroups").child(key2).child(band.id).remove()
                 if (snap.val()[key2].bandId === band.id) {
                   database.ref().child("events").child(key2).remove()
@@ -192,10 +182,11 @@ export function deleteBand(band, user) {
             })
           }
         })
-          updates[`/notifications/${groupMembers[key]}/${newNotificationKey}`] = notification;
           updates[`/userGroups/${groupMembers[key]}/${band.id}`] = null;
+          if (key !== user.id) {
+            updates[`/notifications/${groupMembers[key]}/${newNotificationKey}`] = notification;
+          }
       })
-      console.log('updates = ', updates)
       return database.ref().update(updates)
     })
 
