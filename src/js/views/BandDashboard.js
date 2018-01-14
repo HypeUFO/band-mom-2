@@ -496,46 +496,23 @@ class BandDashboard extends Component {
             activeBand={this.props.band || ''}
             onCreateEvent={this.props.onCreateEvent}
           />
-          <div
-            // className="form__row"
-            className={ removeActions }
-          >
-            <button
-              // className="card__delete"
+          <div className={ removeActions }>
+            <Input
+              type="button-danger"
+              value="DELETE BAND"
               onClick={(event) => {
-              // event.preventDefault();
-              Promise.resolve()
-              .then(() => {
                 this.setState({showDeleteBandAlert: true});
-                // console.log(doc);
-              })
-              // .then(() => {
-                // this.props.onGetBand(this.props.band.id)
-              // })
               } }
-            >
-              Delete Band
-            </button>
-            {/* <p>leave band</p> */}
+            />
 
-            <button
-              // className="card__delete"
+            <Input
+              type="button-danger"
+              value="LEAVE BAND"
               onClick={(event) => {
-              // event.preventDefault();
-              Promise.resolve()
-              .then(() => {
                 this.setState({showLeaveBandAlert: true});
-                // console.log(doc);
-              })
-              // .then(() => {
-                // this.props.onGetBand(this.props.band.id)
-              // })
               } }
-            >
-              Leave Band
-            </button>
+            />
 
-            {/* { this.renderFiles() } */}
           </div>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h3>Band Details</h3>

@@ -222,6 +222,19 @@ export default class Input extends Component {
       );
     }
 
+    else if (type === 'button-danger') {
+      return (
+        <button
+          className="btn-danger btn-thin bg-clr-red"
+          type="button"
+          onClick={ onClick }
+          style={ this.props.style }
+        >
+          { value }
+        </button>
+      );
+    }
+
     else if (type === 'select') {
       let opt = options.map((option, index) => {
         return (

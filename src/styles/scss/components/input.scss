@@ -130,6 +130,7 @@ button {
   margin: 0;
   cursor: pointer;
   outline: none;
+  border-radius: 6px;
 }
 
 .input {
@@ -218,6 +219,12 @@ input[type="submit"] {
   padding: 1rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.btn-danger {
+  color: $color-light;
+  font-size: 16px;
+  padding: .75rem;
 }
 
 .btn-calendar {
