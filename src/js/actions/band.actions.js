@@ -218,40 +218,6 @@ function deleteBandFulfilledAction() {
   };
 }
 
-export function restoreBand(band) {
-  return dispatch => {
-    dispatch(restoreBandRequestedAction());
-    return database.ref().child('groups').push().set(band)
-    .then(() => {
-      dispatch(restoreBandFulfilledAction(band));
-    })
-    .catch((error) => {
-      dispatch(restoreBandRejectedAction());
-    });
-  }
-}
-
-function restoreBandRequestedAction() {
-  return {
-    type: ActionTypes.RESTORE_BAND_REQUESTED
-  };
-}
-
-function restoreBandRejectedAction() {
-  return {
-    type: ActionTypes.RESTORE_BAND_REJECTED
-  }
-}
-
-function restoreBandFulfilledAction(band) {
-  return {
-    type: ActionTypes.RESTORE_BAND_FULFILLED,
-    band
-  };
-}
-
-
-
 export function updateBand(band, user) {
 
   return dispatch => {

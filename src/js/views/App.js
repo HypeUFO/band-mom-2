@@ -9,7 +9,6 @@ import Cookies from 'universal-cookie';
 import * as actions from '../actions/auth.actions';
 import BandDashboard from './BandDashboard';
 import BandList from './BandList';
-import BandDetails from './BandDetails';
 import EventDetails from './EventDetails';
 import BandEventList from './BandEventList';
 import ForgotPassword from './ForgotPassword';
@@ -170,11 +169,6 @@ class App extends Component {
                 authenticated={this.props.auth}
                 path={routeCodes.BAND_DASHBOARD}
                 component={BandDashboard}
-              />
-              <PrivateRoute
-                authenticated={this.props.auth}
-                path={routeCodes.BAND_DETAILS}
-                component={BandDetails}
               />
               <PrivateRoute
                 authenticated={this.props.auth}

@@ -11,7 +11,6 @@ import {
   deleteBand,
   deleteStagePlot,
   leaveBand,
-  restoreBand,
 } from '../actions/band.actions';
 import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
@@ -710,7 +709,6 @@ function mapDispatchToProps(dispatch) {
     uploadStagePlot: uploadStagePlot,
     deleteStagePlot: deleteStagePlot,
     onDeleteBand: deleteBand,
-    onRestoreBand: restoreBand,
     dismissNotification: dismissNotification,
     },
   dispatch);

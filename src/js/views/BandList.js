@@ -37,7 +37,6 @@ class BandList extends Component {
     this.onDeleteBandSuccess = this.onDeleteBandSuccess.bind(this);
     this.onDeleteBandError = this.onDeleteBandError.bind(this);
     this.deleteBand = this.deleteBand.bind(this);
-    this.restoreBand = this.restoreBand.bind(this);
 
   }
 
@@ -97,20 +96,11 @@ class BandList extends Component {
     alert('An error occured :(');
   }
 
-  restoreBand() {
-    if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreBand(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1])
-    } else {
-      console.log('no bands to restore');
-      this.props.dismissNotification();
-    }
-  }
-
   renderNotification() {
     const { notification } = this.props;
     return (
       <Notification
-        action={this.restoreBand}
+        // action={this.restoreBand}
         actionLabel={notification.actionLabel}
         dismiss={this.props.dismissNotification}
         display={notification.display}
@@ -289,7 +279,6 @@ function mapDispatchToProps(dispatch) {
     onGetBand: actions.getBand,
     onGetBandMany: actions.getBandMany,
     onDeleteBand: actions.deleteBand,
-    onRestoreBand: actions.restoreBand,
     dismissNotification: dismissNotification,
     updateBandEdit: actions.updateBandEdit,
     },
