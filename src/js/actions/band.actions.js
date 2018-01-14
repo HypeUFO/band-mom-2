@@ -493,7 +493,7 @@ export function acceptGroupInvite(band, user, notificationId) {
     return database.ref().child("groupEvents").child(bandId).once('value', snap => {
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
-          return groupEvents[key] = band.id;
+          return groupEvents[key] = {bandId: band.id};
         })
       }
     })
@@ -512,10 +512,7 @@ export function acceptGroupInvite(band, user, notificationId) {
       })
     .then(() => {
       const notification = {
-        // from: user.displayName || user.email,
         message: `${user.displayName || user.email} has joined a ${band.name}`,
-        // action: `acceptGroupInvite`,
-        // actionType: 'Confirm',
         band: band,
       }
 
@@ -626,6 +623,18 @@ export function leaveBand(band, user) {
       message: `${user.displayName || user.email} has left ${band.name}`,
     }
     dispatch(leaveBandRequestedAction(band));
+
+    let groupEvents;
+
+    database.ref().child("groupEvents").child(band.id).once('value', snap => {
+      groupEvents = snap.val();
+    })
+
+    console.log(groupEvents);
+
+    Object.keys(groupEvents).map(key => {
+      return database.ref('userEvents').child(user.id).child(key).remove();
+    })
 
       return database.ref().child("groupMembers").child(band.id).once('value', snap => {
         if (snap.val()) {
