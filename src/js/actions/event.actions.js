@@ -1,5 +1,6 @@
 import ActionTypes from '../constants/action_types';
 import { database } from '../config/fire';
+import moment from 'moment';
 
 export function getEvent(eventId, bandId, ) {
   return dispatch => {
@@ -128,8 +129,9 @@ function getUserEventManyFulfilledAction(events) {
 }
 
 
-export function createEvent(event, bandId, userId) {
-
+export function createEvent(event, band, user) {
+  const bandId = band.id;
+  const userId = user.id;
   return dispatch => {
     dispatch(createEventRequestedAction());
     let groupMembers = {}
@@ -143,36 +145,41 @@ export function createEvent(event, bandId, userId) {
       }
     })
     .then(() => {
-    const newEventKey = database.ref().child('events').push().key;
+      const newEventKey = database.ref().child('events').push().key;
+      const eventGroup = {}
+      const groupEvents = {}
 
-    const eventGroup = {}
-    const groupEvents = {}
+      eventGroup[bandId] = true
+      groupEvents[newEventKey] = true
 
-    eventGroup[bandId] = true
-    groupEvents[newEventKey] = true
+      event.id = newEventKey;
 
-    event.id = newEventKey;
+      const updates = {};
 
-    var updates = {};
+      const notification = {
+        message: `${band.name} has a new show`
+      }
 
-    updates[`/events/${newEventKey}`] = event;
-    updates[`/groups/${bandId}/events`] = eventGroup;
-    updates[`/eventGroups//${newEventKey}`] = eventGroup;
-    updates[`/groupEvents/${bandId}/${newEventKey}`] = true;
-    updates[`/userEvents/${userId}/${newEventKey}`] = {bandId};
+      updates[`/events/${newEventKey}`] = event;
+      updates[`/groups/${bandId}/events`] = eventGroup;
+      updates[`/eventGroups//${newEventKey}`] = eventGroup;
+      updates[`/groupEvents/${bandId}/${newEventKey}`] = true;
+      updates[`/userEvents/${userId}/${newEventKey}`] = {bandId};
 
-    Object.keys(groupMembers).map(key => {
-      return updates[`/userEvents/${key}/${newEventKey}`] = {bandId};
+      Object.keys(groupMembers).map(key => {
+        const newNotificationKey = database.ref().child('notifications').child(key).push().key;
+        updates[`/userEvents/${key}/${event.id}`] = {bandId};
+        updates[`/notifications/${key}/${newNotificationKey}`] = notification
+      })
+
+      return database.ref().update(updates)
+      .then(() => {
+        dispatch(createEventFulfilledAction());
+      })
+      .catch((error) => {
+        dispatch(createEventRejectedAction());
+      });
     })
-
-    return database.ref().update(updates)
-    .then(() => {
-      dispatch(createEventFulfilledAction());
-    })
-    .catch((error) => {
-      dispatch(createEventRejectedAction());
-    });
-  })
   }
 }
 
@@ -212,7 +219,10 @@ export function deleteEvent(event, bandId, userId) {
       }
     })
     .then(() => {
-      var updates = {};
+      const updates = {};
+      const notification = {
+        message: `Your event at ${event.venue} on ${moment(event.date).format('MM/DD/YY')} has been cancelled`
+      }
 
       updates[`/events/${event.id}`] = null;
       updates[`/groups/${bandId}/events/${bandId}`] = null;
@@ -221,7 +231,9 @@ export function deleteEvent(event, bandId, userId) {
       updates[`/userEvents/${userId}/${event.id}`] = null;
 
       Object.keys(groupMembers).map(key => {
-        return updates[`/userEvents/${key}/${event.id}`] = null;
+        const newEventKey = database.ref().child('events').push().key;
+        updates[`/userEvents/${key}/${event.id}`] = null;
+        updates[`/notifications/${key}/${newEventKey}`] = notification;
       })
 
       return database.ref().update(updates)
@@ -329,7 +341,20 @@ function restoreEventFulfilledAction(event) {
 export function updateEvent(event, bandId) {
   return dispatch => {
     dispatch(updateEventRequestedAction());
-    database.ref(`events/${event.id}`).update(event)
+
+    const notification = {
+      message: `Your event at ${event.venue} with ${event.bandName} on ${moment(event.date).format('MM/DD/YY')} has been updated`
+    }
+
+    database.ref().child("groupMembers").child(bandId).once('value', snap => {
+      if (snap.val()) {
+        Object.keys(snap.val()).map(key => {
+          const newNotificationKey = database.ref().child('notifications').child(key).push().key;
+          database.ref('notifications').child(key).child(newNotificationKey).set(notification);
+        })
+      }
+    })
+    return database.ref(`events/${event.id}`).update(event)
     .then(() => {
       dispatch(updateEventFulfilledAction());
     })

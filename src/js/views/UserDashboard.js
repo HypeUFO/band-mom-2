@@ -53,7 +53,7 @@ class UserDashboard extends Component {
             <a
               href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`}
               className="card__link"
-              key={ index }
+              key={ doc.id }
             >
               <div className="card">
                 <div>
@@ -70,7 +70,7 @@ class UserDashboard extends Component {
           <a
             href={`/${this.props.match.params.userId}/bands/${doc.bandId}/events/${doc.id}/details`}
             className="card__link"
-            key={ index }
+            key={ doc.id }
           >
             <div className="card">
               <div>

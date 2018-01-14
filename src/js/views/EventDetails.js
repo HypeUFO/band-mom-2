@@ -102,7 +102,9 @@ class EventDetails extends Component {
       loadIn: this.props.event.loadIn || '',
       type: this.props.event.type,
       notes: this.props.event.notes || '',
-      id: this.props.match.params.eventId
+      id: this.props.match.params.eventId,
+      bandId: this.props.event.bandId,
+      bandName: this.props.event.bandName,
     })
     this.props.updateEventEdit();
     if (!this.props.eventEdit) {
@@ -149,7 +151,7 @@ class EventDetails extends Component {
   }
 
   updateEvent() {
-    const bandId = this.props.band.id;
+    const bandId = this.props.match.params.bandId;
     const event = {
       venue: this.state.venue,
       address: this.state.address,
@@ -161,6 +163,8 @@ class EventDetails extends Component {
       type: this.state.type,
       status: new Date(this.state.date) > new Date() ? 'upcoming' : 'past',
       id: this.state.id,
+      bandId: this.props.event.bandId,
+      bandName: this.props.event.bandName,
     }
     this.props.onUpdateEvent(event, bandId)
   }

@@ -76,12 +76,12 @@ class CreateUserEventModal extends Component {
     this.setState({
       bandName: event.target.value.split('/')[0],
       bandId: event.target.value.split('/')[1],
-      band: event.target.value
+      band: this.props.bands[event.target.value.split('/')[1]]
     });
   }
 
    addEvent() {
-     const bandId = this.state.bandId;
+    //  const bandId = this.state.bandId;
     const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
     const event = {
       venue: this.state.venue,
@@ -99,7 +99,8 @@ class CreateUserEventModal extends Component {
       // bandId: this.state.bandId,
     }
     console.log(event)
-    this.props.onCreateEvent(event, bandId);
+    // this.props.onCreateEvent(event, bandId);
+    this.props.onCreateEvent(event, this.state.band, this.props.user);
   }
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
@@ -289,6 +290,8 @@ class CreateUserEventModal extends Component {
 const mapStateToProps = (state) => {
   return {
     band: state.bands.activeBand,
+    bands: state.bands.bands,
+    user: state.auth.user,
     // bands: state.bands.bands,
   }
 }

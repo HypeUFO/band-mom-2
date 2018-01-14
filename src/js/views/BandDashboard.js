@@ -296,7 +296,7 @@ class BandDashboard extends Component {
       <a
         href={`/${this.props.match.params.userId}/bands/${this.props.match.params.bandId}/events/${doc.id}/details`}
         className="card__link card__link__list"
-        key={ index }
+        key={ doc.id }
       >
         <div className="card"
           key={ doc.date }

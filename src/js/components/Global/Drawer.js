@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { auth } from '../../config/fire';
+import { auth, database } from '../../config/fire';
 
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,6 +24,12 @@ class Drawer extends Component {
   static defaultProps = {
     show: false,
   }
+
+  // componentDidMount() {
+  //   database.ref().on('value', () => {
+  //     console.log('new data!');
+  //   })
+  // }
 
   render() {
     const {

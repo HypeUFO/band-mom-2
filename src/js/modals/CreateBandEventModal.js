@@ -73,7 +73,7 @@ class CreateBandEventModal extends Component {
    addEvent() {
     //  const bandId = this.props.bandId;
     //  const bandName = this.props.bandName;
-    const bandId = this.props.activeBand.id;
+    const band = this.props.activeBand;
     const bandName = this.props.activeBand.name || '';
     const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
     const event = {
@@ -86,10 +86,10 @@ class CreateBandEventModal extends Component {
       notes: this.state.notes,
       type: this.state.type,
       status: status,
-      bandId,
+      bandId: band.id,
       bandName,
     }
-    this.props.onCreateEvent(event, bandId, this.props.user.id);
+    this.props.onCreateEvent(event, band, this.props.user);
   }
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
