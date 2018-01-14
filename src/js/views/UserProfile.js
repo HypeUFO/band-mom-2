@@ -82,7 +82,7 @@ class BandDashboard extends Component {
 
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Promise.resolve()
     .then(() => this.props.clearActiveProfile())
     .then(() => this.setState(initialState))
@@ -314,6 +314,8 @@ class BandDashboard extends Component {
               onUpload={ this.props.uploadProfileImage }
               uploader={this.props.activeProfile}
               header="Upload Profile Picture"
+              isLoading={ this.props.isLoading }
+              error={this.props.uploadError}
             />
             <AlertModal
               show={ this.state.showInviteModal }
@@ -442,11 +444,11 @@ class BandDashboard extends Component {
 function mapStateToProps(state) {
   return {
     user: state.auth.user,
+    uploadError: state.auth.error,
     activeProfile: state.search.activeProfile,
     userEdit: state.auth.edit,
     isLoading: state.app.loading,
     bands: state.bands.bands,
-    uploading: state.bands.loading,
     notification: state.notification,
   };
 }

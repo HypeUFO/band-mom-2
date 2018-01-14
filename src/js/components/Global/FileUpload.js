@@ -14,14 +14,16 @@ defaultProps = {
   overlayColor: 'rgba(255,255,255,0.3)'
 };
 
+const initialState = {
+  active: false,
+  imageSrc: '',
+  loaded: false,
+}
+
 class FileUploadModal extends Component {
 constructor(props: any) {
     super(props);
-    this.state = {
-        active: false,
-        imageSrc: '',
-        loaded: false,
-    }
+    this.state = initialState;
 
     this.onDragEnter  = this.onDragEnter.bind(this);
     this.onDragLeave  = this.onDragLeave.bind(this);
@@ -66,11 +68,14 @@ onFileChange(e, file) {
             imageSrc: reader.result,
             loaded: true
         });
-        this.props.onCancel();
     }
 
     reader.readAsDataURL(file);
-    this.props.onUpload(file, this.props.uploader);
+    Promise.resolve()
+    .then(() => this.props.onUpload(file, this.props.uploader))
+    .then(() => this.props.onCancel())
+    .then(() => this.setState(initialState))
+    .catch(err => console.lpog(err))
 }
 
 
@@ -132,8 +137,8 @@ FileUploadModal.defaultProps = defaultProps;
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.bands.loading,
-    error: state.bands.error,
+    // isLoading: state.bands.loading,
+    // error: state.bands.error,
   };
 }
 

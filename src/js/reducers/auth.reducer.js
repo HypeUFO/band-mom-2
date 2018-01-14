@@ -258,20 +258,19 @@ export function authReducer(state = initialState, action) {
     case ActionTypes.UPLOAD_PROFILE_PIC_REQUESTED:
       return {
         ...state,
-        // loading: true,
+        loading: true,
       }
     case ActionTypes.UPLOAD_PROFILE_PIC_FULFILLED:
       return {
       ...state,
-        // loading: false,
         imageUrl: action.imageUrl,
-        // bands: action.bands.bands,
+        loading: false,
       }
     case ActionTypes.UPLOAD_PROFILE_PIC_REJECTED:
       return {
         ...state,
         error: action.error,
-        // loading: false,
+        loading: false,
       }
   }
 }

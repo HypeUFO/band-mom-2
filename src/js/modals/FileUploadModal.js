@@ -30,7 +30,9 @@ render() {
             <FileUpload
               onUpload={ this.props.onUpload }
               onCancel={ this.props.onCancel }
-              uploader={this.props.uploader}
+              uploader={ this.props.uploader }
+              isLoading={ this.props.isLoading }
+              error={this.props.error}
             />
           </div>
         </div>

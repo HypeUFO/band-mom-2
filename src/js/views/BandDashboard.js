@@ -445,6 +445,8 @@ class BandDashboard extends Component {
             onUpload={this.props.uploadStagePlot}
             uploader={this.props.band}
             header="Upload Stageplot"
+            isLoading={ this.props.uploading }
+            error={this.props.uploadError}
           />
           <FileUploadModal
             show={ this.state.showLogoModal }
@@ -452,6 +454,8 @@ class BandDashboard extends Component {
             onUpload={this.props.uploadBandLogo}
             uploader={this.props.band}
             header="Upload Logo"
+            isLoading={ this.props.uploading }
+            error={this.props.uploadError}
           />
           <AlertModal
             show={ this.state.showDeleteStagePlotAlert }
@@ -667,6 +671,7 @@ function mapStateToProps(state) {
     activeStagePlotUrl: state.bands.activeStagePlotUrl,
     isLoading: state.app.loading,
     uploading: state.bands.loading,
+    uploadError: state.bands.error,
     notification: state.notification,
   };
 }

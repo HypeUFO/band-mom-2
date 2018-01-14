@@ -127,16 +127,19 @@ export function bandReducer(state = initialState, action) {
     case ActionTypes.UPLOAD_BAND_LOGO_REQUESTED:
       return {
           ...state,
+          loading: true,
       }
     case ActionTypes.UPLOAD_BAND_LOGO_FULFILLED:
       return {
           ...state,
           activeBandLogoUrl: action.logoUrl,
+          loading: false,
       }
     case ActionTypes.UPLOAD_BAND_LOGO_REJECTED:
       return {
           ...state,
           error: action.error,
+          loading: false,
       }
 
     case ActionTypes.UPLOAD_STAGE_PLOT_REQUESTED:

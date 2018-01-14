@@ -96,19 +96,6 @@ class BandList extends Component {
     alert('An error occured :(');
   }
 
-  renderNotification() {
-    const { notification } = this.props;
-    return (
-      <Notification
-        // action={this.restoreBand}
-        actionLabel={notification.actionLabel}
-        dismiss={this.props.dismissNotification}
-        display={notification.display}
-        message={notification.message}
-      />
-    );
-  }
-
   renderCard(doc, index) {
     let card = (
           <div>
