@@ -56,38 +56,29 @@ class EventDetails extends Component {
   }
 
   componentWillMount() {
-    // database.ref(`bands/${this.props.band.id}/`).child('events').on('child_changed', () => {
-    //   this.props.onGetEvent(this.props.match.params.eventId, this.props.band.id)
-    // })
-    Promise.resolve()
-    .then(() => {
-      this.props.onGetEvent(this.props.match.params.eventId, this.props.match.params.bandId)
-    })
-    .then(() => {
-      this.props.onGetBand(this.props.match.params.bandId)
-      this.setState({
-        // disabled: !!this.props.eventEdit,
-        venue: this.props.event.venue || '',
-        address: this.props.event.address || '',
-        phone: this.props.event.phone || '',
-        date: this.props.event.date || '',
-        showTime: this.props.event.showTime || '',
-        loadIn: this.props.event.loadIn || '',
-        type: this.props.event.type,
-        notes: this.props.event.notes || '',
-        id: this.props.match.params.eventId
+    database.ref('events').child(this.props.match.params.eventId).on('value', () => {
+      Promise.resolve()
+      .then(() => {
+        this.props.onGetEvent(this.props.match.params.eventId, this.props.match.params.bandId)
       })
+      .then(() => {
+        this.props.onGetBand(this.props.match.params.bandId)
+        this.setState({
+          // disabled: !!this.props.eventEdit,
+          venue: this.props.event.venue || '',
+          address: this.props.event.address || '',
+          phone: this.props.event.phone || '',
+          date: this.props.event.date || '',
+          showTime: this.props.event.showTime || '',
+          loadIn: this.props.event.loadIn || '',
+          type: this.props.event.type,
+          notes: this.props.event.notes || '',
+          id: this.props.match.params.eventId
+        })
+      })
+      .catch((err) => console.log(err));
     })
-    .catch((err) => console.log(err));
   }
-
-  // componentDidMount() {
-  //   console.log('ComponentDidMount' + this.props.eventEdit)
-  //   if (this.props.eventEdit) {
-  //     const form = this.refs.form;
-  //     smoothScroll(form, 500);
-  //   }
-  // }
 
   handleFormEdit() {
     const form = document.querySelector('#bottom');
@@ -166,7 +157,7 @@ class EventDetails extends Component {
       bandId: this.props.event.bandId,
       bandName: this.props.event.bandName,
     }
-    this.props.onUpdateEvent(event, bandId)
+    this.props.onUpdateEvent(event, this.props.band, this.props.user)
   }
 
   handleInputChange(event) {

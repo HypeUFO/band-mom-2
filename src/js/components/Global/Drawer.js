@@ -7,12 +7,8 @@ import { auth, database } from '../../config/fire';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { signOut } from '../../actions/auth.actions';
+import { getNotificationsMany } from '../../actions/notification.actions';
 
-const notificationList = {
-  1: {message: 'Someone has invited you to join their group'},
-  2: {message: 'Something has been updated'},
-  3: {message: 'Something has been created'},
-}
 
 class Drawer extends Component {
   static propTypes = {
@@ -25,11 +21,11 @@ class Drawer extends Component {
     show: false,
   }
 
-  // componentDidMount() {
-  //   database.ref().on('value', () => {
-  //     console.log('new data!');
-  //   })
-  // }
+  componentDidMount() {
+    database.ref().on('value', () => {
+      this.props.getNotificationsMany(this.props.user);
+    })
+  }
 
   render() {
     const {
@@ -125,6 +121,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     signOut: signOut,
+    getNotificationsMany: getNotificationsMany,
     },
   dispatch);
 }

@@ -195,7 +195,12 @@ class BandDashboard extends Component {
   }
 
   inviteUser() {
-    this.props.sendGroupInvite(this.state.band, this.props.activeProfile.id, this.props.user);
+    Promise.resolve()
+    .then(() => {
+      return this.props.sendGroupInvite(this.state.band, this.props.activeProfile.id, this.props.user);
+    })
+    .then(() => this.setState({showInviteModal: false}))
+    .catch(err => console.log(err));
   }
 
   inviteUserCancel() {

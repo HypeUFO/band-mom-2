@@ -338,19 +338,22 @@ function restoreEventFulfilledAction(event) {
 }
 
 
-export function updateEvent(event, bandId) {
+export function updateEvent(event, band, user) {
+  const bandId = band.id
   return dispatch => {
     dispatch(updateEventRequestedAction());
 
     const notification = {
-      message: `Your event at ${event.venue} with ${event.bandName} on ${moment(event.date).format('MM/DD/YY')} has been updated`
+      message: `${user.displayName || user.email} has updated your event at ${event.venue} with ${event.bandName} on ${moment(event.date).format('MM/DD/YY')}`
     }
 
     database.ref().child("groupMembers").child(bandId).once('value', snap => {
       if (snap.val()) {
         Object.keys(snap.val()).map(key => {
-          const newNotificationKey = database.ref().child('notifications').child(key).push().key;
-          database.ref('notifications').child(key).child(newNotificationKey).set(notification);
+          if (key !== user.id) {
+            const newNotificationKey = database.ref().child('notifications').child(key).push().key;
+            database.ref('notifications').child(key).child(newNotificationKey).set(notification);
+          }
         })
       }
     })
