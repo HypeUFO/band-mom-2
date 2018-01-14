@@ -187,7 +187,15 @@ export function deleteBand(band, user) {
             updates[`/notifications/${groupMembers[key]}/${newNotificationKey}`] = notification;
           }
       })
-      storage.ref().child(`/groupLogos/${band.id}/${band.logoName}`).delete();
+
+      if (band.stageplots) {
+        Object.keys(band.stageplots).map(key => {
+          storage.ref().child(`/stageplots/${band.id}/${band.stageplots[key].name}`).delete();
+        })
+      }
+      if (band.logoName) {
+        storage.ref().child(`/groupLogos/${band.id}/${band.logoName}`).delete();
+      }
       return database.ref().update(updates)
     })
 
