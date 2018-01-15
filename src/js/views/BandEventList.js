@@ -89,7 +89,7 @@ class EventList extends Component {
   onDeleteEventSuccess() {
     // this.props.onGetEventMany(this.props.band.id);
     // this.props.onGetEventMany(this.props.match.params.bandId)
-    // alert('Show successfully deleted');
+    alert('Show successfully deleted');
   }
 
   onDeleteEventError() {

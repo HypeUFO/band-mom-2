@@ -112,7 +112,7 @@ a {
     .page__content {
       margin-top: 0; }
       .page__content--two-col {
-        margin-top: 120px;
+        margin-top: 130px;
         padding: 0 6rem 0 3rem;
         width: calc(100% - 180px); } }
 
@@ -367,7 +367,7 @@ input {
 
 .header {
   background: linear-gradient(135deg, #7F4FFF, #121F27);
-  justify-content: flex-start; }
+  justify-content: space-between; }
 
 .logo,
 .header__menu,
@@ -375,6 +375,9 @@ input {
   margin-left: 10px;
   color: #FFFFFF;
   display: inline-block; }
+
+.logo {
+  display: none; }
 
 /*Strip the ul of padding and list styling*/
 ul.header__menu {
@@ -424,26 +427,15 @@ li ul li a {
   min-width: 100px;
   padding: 0 20px; }
 
-/*Display the dropdown on hover*/
-ul li a:hover + .hidden,
-.hidden:hover {
-  display: block; }
-
-/*Style 'show menu' label button and hide it by default*/
 .show-drawer {
   margin: 20px;
   font-size: 2em; }
-
-/*Hide checkbox*/
-/*Show menu when invisible checkbox is checked*/
-input[type=checkbox]:checked ~ #menu {
-  display: block; }
 
 .subheader {
   position: fixed;
   top: 60px;
   width: 100%;
-  height: 50px;
+  height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -502,14 +494,15 @@ input[type=checkbox]:checked ~ #menu {
 @media (min-width: 768px) {
   .header {
     justify-content: space-between;
-    width: calc(100% - 180px);
+    width: 100%;
     right: 0; }
     .header--landing {
       justify-content: space-between; }
     .header .logo {
       text-shadow: 2px 2px #222;
       left: 25px;
-      top: 5px; }
+      top: 5px;
+      display: inline-block; }
     .header .show-drawer {
       display: none; }
 
@@ -782,6 +775,9 @@ input[type="submit"] {
   .btn-calendar--light {
     color: #7F4FFF; }
 
+.btn--hide {
+  display: none; }
+
 .slick-slider {
   margin-bottom: 20px;
   padding: 0 10px; }
@@ -1032,7 +1028,8 @@ tbody:hover > tr:hover td {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        padding-left: 2rem; }
+        padding-left: 2rem;
+        z-index: 4; }
       .drawer__close {
         display: none; } }
 

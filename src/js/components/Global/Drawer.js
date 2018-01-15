@@ -92,12 +92,12 @@ class Drawer extends Component {
                 }
               </Link>
           </li>
-          <li className="drawer__item">
+          {/* <li className="drawer__item">
               <Link to={ messagesUrl } onClick={ this.props.toggle }>Messages</Link>
-          </li>
-          <li className="drawer__item">
+          </li> */}
+          {/* <li className="drawer__item">
               <Link to={ settingsUrl } onClick={ this.props.toggle }>Settings</Link>
-          </li>
+          </li> */}
           <li className="drawer__item">
               <Link to='#' onClick={ this.props.signOut }>
                 Sign Out

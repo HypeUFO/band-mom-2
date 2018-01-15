@@ -1,6 +1,5 @@
 .header,
 .header--landing {
-  // box-sizing: border-box;
   position: fixed;
   top: 0;
   z-index: 3;
@@ -17,16 +16,20 @@
 
 .header {
   background: $color-purple-dark-gradient-diagonal;
-  justify-content: flex-start;
+  // justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .logo,
 .header__menu,
 .show-drawer {
-  // color: $color-purple;
   margin-left: 10px;
   color: $color-light;
   display: inline-block;
+}
+
+.logo {
+  display: none;
 }
 
 
@@ -108,48 +111,22 @@ li ul li a {
   padding: 0 20px;
 }
 
-
-/*Display the dropdown on hover*/
-
-ul li a:hover+.hidden,
-.hidden:hover {
-  display: block;
-}
-
-
-/*Style 'show menu' label button and hide it by default*/
-
 .show-drawer {
   margin: 20px;
   font-size: 2em;
-}
-
-
-/*Hide checkbox*/
-
-// input[type=checkbox] {
-//   display: none;
-// }
-
-
-/*Show menu when invisible checkbox is checked*/
-
-input[type=checkbox]:checked~#menu {
-  display: block;
 }
 
 .subheader {
   position: fixed;
   top: 60px;
   width: 100%;
-  height: 50px;
+  height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  padding: 0 10px; // padding: 0 2rem;
-  // height: 50px;
+  padding: 0 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 2;
   &__breadcrumbs {
@@ -166,8 +143,8 @@ input[type=checkbox]:checked~#menu {
     padding: 0;
     margin: 0;
     padding-right: 0.5rem;
-    font-weight: 400; // font-size: 1.5rem;
-    color: $color-purple; // max-width: 10%;
+    font-weight: 400;
+    color: $color-purple;
     overflow: hidden;
     white-space: nowrap;
     -o-text-overflow: ellipsis;
@@ -207,27 +184,24 @@ input[type=checkbox]:checked~#menu {
     flex-direction: row;
     align-items: center;
     button {
-      margin: 0; // margin-right: 10px;
+      margin: 0;
     }
   }
 }
 
 @include md {
   .header {
-    // justify-content: flex-start;
     justify-content: space-between;
-    // width: 80%;
-    width: calc(100% - 180px);
+    width: 100%;
     right: 0;
-    // left: 20%; // display: none;
-    // visibility: hidden;
     &--landing {
       justify-content: space-between;
     }
     .logo {
-      text-shadow: 2px 2px #222; // position: absolute;
+      text-shadow: 2px 2px #222;
       left: 25px;
       top: 5px;
+      display: inline-block;
     }
     .show-drawer {
       display: none;
@@ -237,12 +211,8 @@ input[type=checkbox]:checked~#menu {
     padding: 0 60px;
   }
   .subheader {
-    // position: relative;
-    // top: 0;
-    // width: 80%; // height: 60px;
     width: calc(100% - 180px);
-    padding: 0 2rem 0 1rem; // width: 100%;
-    // margin-left: -3rem;
+    padding: 0 2rem 0 1rem;
     &__breadcrumb {
       font-size: 1.5rem;
     }

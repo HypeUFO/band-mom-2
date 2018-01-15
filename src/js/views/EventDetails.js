@@ -29,29 +29,18 @@ export const initialState = {
   loadIn: '',
   type: '',
   notes: '',
-  // disabled: true,
 };
 class EventDetails extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    this.toggleCreateEventform = this.toggleCreateEventform.bind(this);
-    // this.onUpdateEventSubmit = this.onUpdateEventSubmit.bind(this);
-    // this.onUpdateEventCancel = this.onUpdateEventCancel.bind(this);
-    this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
-    this.onDeleteEventError = this.onDeleteEventError.bind(this);
-    // this.deleteEvent = this.deleteEvent.bind(this);
-    this.restoreEvent = this.restoreEvent.bind(this);
     this.renderForm = this.renderForm.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
-
     this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(this);
-
     this.handleFormEdit = this.handleFormEdit.bind(this);
   }
 
@@ -64,7 +53,6 @@ class EventDetails extends Component {
       .then(() => {
         this.props.onGetBand(this.props.match.params.bandId)
         this.setState({
-          // disabled: !!this.props.eventEdit,
           venue: this.props.event.venue || '',
           address: this.props.event.address || '',
           phone: this.props.event.phone || '',
@@ -82,9 +70,7 @@ class EventDetails extends Component {
 
   handleFormEdit() {
     const form = document.querySelector('#bottom');
-    // const form = this.refs.form;
     this.setState({
-      // disabled: !!this.props.eventEdit,
       venue: this.props.event.venue || '',
       address: this.props.event.address || '',
       phone: this.props.event.phone || '',
@@ -99,11 +85,8 @@ class EventDetails extends Component {
     })
     this.props.updateEventEdit();
     if (!this.props.eventEdit) {
-      // form.scrollIntoView();
       smoothScroll(form, 500);
     } else {
-      // document.body.scrollTop = 0; // For Safari
-      // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
       smoothScroll(document.body, 500);
     }
   }
@@ -118,13 +101,9 @@ class EventDetails extends Component {
 
   onCancel() {
     this.handleFormEdit();
-    // this.props.updateEventEdit();
   }
 
   onSuccess() {
-    // this.setState({
-    //   disabled: true
-    // })
     this.props.updateEventEdit();
     smoothScroll(document.body, 500);
     this.props.onGetEvent(this.props.match.params.eventId, this.props.band.id);
@@ -164,166 +143,112 @@ class EventDetails extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleRowClick(row) {
-    // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row._id}/`);
-    // history.push(`/testUser/bands/testBand/gigs/${row.id}/details`);
-  }
-
-  handleRowMenuItemClick(doc, action, event) {
-    event.stopPropagation();
-  }
-
-  toggleCreateEventform() {
-    this.setState(prevState => ({
-      showCreateEventform: !prevState.showCreateEventform
-    }));
-  }
-
-
-  onDeleteEventSuccess() {
-    this.props.onGetEvent();
-    // alert('Show successfully deleted');
-  }
-
-  onDeleteEventError() {
-    this.props.onGetEvent();
-    alert('An error occured :(');
-  }
-
-  restoreEvent() {
-    if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1], this.props.band.id)
-    } else {
-      console.log('no Events to restore');
-      this.props.dismissNotification();
-    }
-  }
-
-  renderNotification() {
-    const { notification } = this.props;
-    return (
-      <Notification
-        action={this.restoreEvent}
-        actionLabel={notification.actionLabel}
-        dismiss={this.props.dismissNotification}
-        display={notification.display}
-        message={notification.message}
-      />
-    );
-  }
-
   renderForm() {
     const { event } = this.props;
     if (event) {
       let formBottomClasses = classNames('form__bottom', 'event-details__form__bottom', { 'form__bottom--hidden': !this.props.eventEdit });
       return (
         <Form
-            // className="form__container"
-            className="event-details__form"
-            id="event-details__form"
-            onSubmit={ this.onSubmit }
-            onCancel={ this.onCancel }
-            disabled={ !this.props.eventEdit }
-            ref="form"
-            // error={ createError || uploadError }
-          >
-            <div className="form__middle">
-              <div className="form__column">
-                <div className="form__row">
-                  <Input type="text"
-                    name="venue"
-                    placeholder="Venue Name"
-                    label="Venue Name"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? this.state.venue : event.venue }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="text"
-                    name="address"
-                    placeholder="Venue Address"
-                    label="Venue Address"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? this.state.address : <a href={`http://maps.google.com/?q=${event.address}`} target="_blank">{event.address}</a> }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  </div>
-                  <div className="form__row">
-                  <Input type="text"
-                    name="phone"
-                    placeholder="Venue Phone"
-                    label="Venue Phone"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? this.state.phone : <a href="tel:${event.phone}">{event.phone}</a> }
-                    onChange={ this.handleInputChange }
-                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="date"
-                    name="date"
-                    placeholder="Date"
-                    label="Event Date"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? moment(this.state.date).format('MM/DD/YYYY') : moment(event.date).format('MM/DD/YYYY') }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
+          className="event-details__form"
+          id="event-details__form"
+          onSubmit={ this.onSubmit }
+          onCancel={ this.onCancel }
+          disabled={ !this.props.eventEdit }
+          ref="form"
+          // error={ createError || uploadError }
+        >
+          <div className="form__middle">
+            <div className="form__column">
+              <div className="form__row">
+                <Input type="text"
+                  name="venue"
+                  placeholder="Venue Name"
+                  label="Venue Name"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? this.state.venue : event.venue }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                <Input type="text"
+                  name="address"
+                  placeholder="Venue Address"
+                  label="Venue Address"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? this.state.address : <a href={`http://maps.google.com/?q=${event.address}`} target="_blank">{event.address}</a> }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
                 </div>
                 <div className="form__row">
-                  <Input type="text"
-                    name="showTime"
-                    placeholder="Show Time"
-                    label="Show Time"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? this.state.showTime : event.showTime }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="text"
-                    name="loadIn"
-                    placeholder="Load In Time"
-                    label="Load In Time"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? this.state.loadIn : event.loadIn }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                </div>
-                <div className="form__row">
-                  <Input type="select"
-                    name="type"
-                    placeholder="Show/Rehearsal"
-                    label="Event Type"
-                    disabled={ !this.props.eventEdit }
-                    options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
-                    value={ this.props.eventEdit ? this.state.type : event.type }
-                    onChange={ this.handleInputChange }
-                    validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                  <Input type="textarea"
-                    name="notes"
-                    placeholder="Notes"
-                    label="Notes"
-                    disabled={ !this.props.eventEdit }
-                    value={ this.props.eventEdit ? this.state.notes : event.notes }
-                    onChange={ this.handleInputChange }
-                    // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                  />
-                </div>
-                <div className="form__column">
-                  {/* { this.renderFiles() } */}
-                </div>
+                <Input type="text"
+                  name="phone"
+                  placeholder="Venue Phone"
+                  label="Venue Phone"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? this.state.phone : <a href="tel:${event.phone}">{event.phone}</a> }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 10, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                <Input type="date"
+                  name="date"
+                  placeholder="Date"
+                  label="Event Date"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? moment(this.state.date).format('MM/DD/YYYY') : moment(event.date).format('MM/DD/YYYY') }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
               </div>
-            <div
-            // className="form__bottom"
-            className={ formBottomClasses }
-            >
-              <Input type="button-thin-cancel" value="Cancel" />
-              <Input type="button-thin-submit" value="Save" />
-              {/* { formBottom } */}
+              <div className="form__row">
+                <Input type="text"
+                  name="showTime"
+                  placeholder="Show Time"
+                  label="Show Time"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? this.state.showTime : event.showTime }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                <Input type="text"
+                  name="loadIn"
+                  placeholder="Load In Time"
+                  label="Load In Time"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? this.state.loadIn : event.loadIn }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+              </div>
+              <div className="form__row">
+                <Input type="select"
+                  name="type"
+                  placeholder="Show/Rehearsal"
+                  label="Event Type"
+                  disabled={ !this.props.eventEdit }
+                  options={[{value: "show", label: 'Show'}, {value: "rehearsal", label: 'Rehearsal'}]}
+                  value={ this.props.eventEdit ? this.state.type : event.type }
+                  onChange={ this.handleInputChange }
+                  validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+                <Input type="textarea"
+                  name="notes"
+                  placeholder="Notes"
+                  label="Notes"
+                  disabled={ !this.props.eventEdit }
+                  value={ this.props.eventEdit ? this.state.notes : event.notes }
+                  onChange={ this.handleInputChange }
+                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                />
+              </div>
+              <div className="form__column">
+              </div>
             </div>
-            </div>
-          </Form>
+          <div className={ formBottomClasses }>
+            <Input type="button-thin-cancel" value="Cancel" />
+            <Input type="button-thin-submit" value="Save" />
+          </div>
+          </div>
+        </Form>
       )
     } else {
       return (
@@ -341,13 +266,7 @@ class EventDetails extends Component {
     } = this.props;
 
     // Subheader
-    // let breadcrumbs = [
-    //   { link: (authenticated) ? `/${match.params.userId}/projects` : null, name: 'Projects' },
-    //   { link: null, name: project.name },
-    // ];
-
     let breadcrumbs = event  && band ? [
-      // { link: `/${match.params.userId}/bands/${match.params.bandId}/events`, name: <i className="icon material-icons">chevron_left</i> },
       { link: `/${match.params.userId}/bands/${match.params.bandId}/dashboard`, name: band.name },
       { link: `/${match.params.userId}/bands/${match.params.bandId}/events`, name: 'Events' },
       { link: null, name: `${event.venue}: ${moment(event.date).format('MM/DD/YY')}` },
@@ -360,22 +279,16 @@ class EventDetails extends Component {
     return (
       <div className='page__container'>
         <Drawer
-          // userName={ userName }
           show={ true }
           className="drawer__sidebar"
-          // toggle={ this.toggleDrawer }
         />
-         <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ eventEdit }
+        <Subheader breadcrumbs={ breadcrumbs }
           buttonLabel={ !eventEdit ? 'Edit' : 'Save'}
           buttonIcon={ !eventEdit ? 'edit' : 'save' }
           buttonOnClick={ !eventEdit ? this.handleFormEdit : this.onSubmit }
         />
         <div className='page__content page__content--two-col'>
           <div className={ classes }>
-            {/* <div className="form__top">
-              <h3 className="clr-purple">Edit Event</h3>
-            </div> */}
             { event ?
             <Map
               isMarkerShown
@@ -383,7 +296,8 @@ class EventDetails extends Component {
               // center={ this.props.event.address }
             /> : null
             }
-          { this.props.isLoading ? <Loader /> : this.renderForm() }
+          {/* { this.props.isLoading ? <Loader /> : this.renderForm() } */}
+            { this.renderForm() }
             <div id="bottom" style={{width: '100%', height: 80}}></div>
           </div>
         </div>
@@ -391,8 +305,6 @@ class EventDetails extends Component {
     );
   }
 }
-
-// export default EventDetails;
 
 function mapStateToProps(state) {
   return {

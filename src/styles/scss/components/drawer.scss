@@ -5,11 +5,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  // padding: 1.5rem;
-  // width: 100vw; FIX ME: Find out why 100vw width causes overflow
   width: 70vw;
-  // min-width: 180px;
-  // width: 100%;
   height: 100vh;
   background: $color-purple-dark-gradient-vertical;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -35,7 +31,6 @@
   }
   &__logo {
     color: $color-light;
-    // padding-bottom: 1.5rem;
     text-shadow: 2px 2px #222;
     margin: 0;
   }
@@ -56,7 +51,6 @@
     flex-direction: column;
     align-items: flex-start;
     list-style: none;
-    // padding: 0 1rem;
     padding: 0;
     margin: 0;
   }
@@ -69,7 +63,6 @@
       font-weight: 400;
       padding: 0;
       &:hover {
-        // color: $color-dark;
         background: transparent;
         font-size: 1.1em;
         text-shadow: 2px 2px #222;
@@ -86,29 +79,16 @@
       height: 60px;
     }
     &__sidebar {
-      // width: 20%;
       width: 180px;
-      // width: 175px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       padding-left: 2rem;
+      z-index: 4;
+      // box-shadow: none;
     }
     &__close {
       display: none;
     }
   }
-
-  // @include lg {
-  //   transform: translateX(0);
-  //   &__close {
-  //     display: none;
-  //   }
-  // }
 }
-
-// .show-drawer {
-//   // transform: rotate(90deg);
-//   margin: 20px;
-//   font-size: 2em;
-// }

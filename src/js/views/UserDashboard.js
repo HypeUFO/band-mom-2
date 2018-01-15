@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
-import Drawer from '../components/Global/Drawer';
-import Subheader from '../components/Global/Subheader';
-
-import Carousel from '../components/Carousel';
-import moment from 'moment';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import moment from 'moment';
+import { database, auth } from '../config/fire';
 import * as actions from '../actions/event.actions';
 import { clearBand, getBand, getBandMany } from '../actions/band.actions';
-
-import { database, auth } from '../config/fire';
-
-import { Link } from 'react-router-dom';
-
+import Drawer from '../components/Global/Drawer';
+import Subheader from '../components/Global/Subheader';
+import Carousel from '../components/Carousel';
 
 class UserDashboard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {userEvents: null}
-    this.db = database.ref();
-  }
-
   componentWillMount() {
-    this.db.on('value', () => {
+    database.ref().on('value', () => {
       this.props.onGetBandMany(this.props.user);
       this.props.onGetUserEventMany(this.props.user.id);
     })
@@ -33,58 +22,43 @@ class UserDashboard extends Component {
   }
 
   renderCard(doc, index, type) {
-    // if (doc) {
-      let statusColorClass = '';
-      switch(doc.status) {
-        case 'upcoming':
-          // statusColorClass = 'clr-purple';
-          break;
-        case 'past':
-          statusColorClass = 'clr-red';
-          break;
-        default:
-          // statusColorClass = 'clr-purple';
-      }
+    let card;
 
-      let card;
-
-      if (type === 'band') {
-          card = (
-            <a
-              href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`}
-              className="card__link"
-              key={ doc.id }
-            >
-              <div className="card">
-                <div>
-                  { doc.logo ? <img src={ doc.logo } alt="logo" /> : null }
-                  <h3>{ doc.name }</h3>
-                  <p>{ doc.genre1 } / { doc.genre2 }</p>
-                  <p>{ doc.location }</p>
-                </div>
-              </div>
-            </a>
-          );
-      } else if (type === 'event') {
+    if (type === 'band') {
         card = (
           <a
-            href={`/${this.props.match.params.userId}/bands/${doc.bandId}/events/${doc.id}/details`}
+            href={`/${this.props.match.params.userId}/bands/${doc.id}/dashboard`}
             className="card__link"
             key={ doc.id }
           >
             <div className="card">
               <div>
-                <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
-                <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
-                <p>Set Time: { doc.showTime }</p>
+                { doc.logo ? <img src={ doc.logo } alt="logo" /> : null }
+                <h3>{ doc.name }</h3>
+                <p>{ doc.genre1 } / { doc.genre2 }</p>
+                <p>{ doc.location }</p>
               </div>
             </div>
           </a>
         );
-      }
-
-      return card;
-    // }
+    } else if (type === 'event') {
+      card = (
+        <a
+          href={`/${this.props.match.params.userId}/bands/${doc.bandId}/events/${doc.id}/details`}
+          className="card__link"
+          key={ doc.id }
+        >
+          <div className="card">
+            <div>
+              <h3><span className="card__type">{doc.type.toUpperCase()}</span> @ { doc.venue }</h3>
+              <p>{ moment(doc.date).format('MM/DD/YYYY')} </p>
+              <p>Set Time: { doc.showTime }</p>
+            </div>
+          </div>
+        </a>
+      );
+    }
+    return card;
   }
 
   renderPreviewList(list, type) {
@@ -101,7 +75,6 @@ class UserDashboard extends Component {
           const valueA = new Date(a.key);
           const valueB = new Date(b.key);
           return (valueB < valueA) ? 1 : (valueB > valueA) ? -1 : 0;
-          // return 1;
         })
       }
 
@@ -141,40 +114,25 @@ class UserDashboard extends Component {
     let verifyEmailButtonClasses = classNames('btn-icon', {'btn--hide': this.props.user.emailVerified})
 
     let breadcrumbs = [
-      // { link: null, name: this.props.user.displayName || this.props.user.email },
       { link: `${this.props.match.params.userId}/dashboard`, name: 'Dashboard' },
     ];
 
     return (
       <div className='page__container'>
         <Drawer
-          // userName={ userName }
           show={ true }
           className="drawer__sidebar"
-          // toggle={ this.toggleDrawer }
         />
-        <Subheader breadcrumbs={ breadcrumbs }
-          // buttonHide={ this.props.user.emailVerified }
+        <Subheader
+          breadcrumbs={ breadcrumbs }
           buttonHide={ true }
-          // buttonLabel="Verify Email"
-          // // buttonIcon="add"
-          // buttonOnClick={ () => {
-          //   auth.currentUser.sendEmailVerification()
-          //   .then(() => {
-          //     // Email sent.
-          //     console.log('Email sent')
-          //   }).catch((error) =>{
-          //     // An error happened.
-          //     console.log('An error occurred' + error)
-          //   });
-          // } }
         />
         <div className='page__content page__content--two-col'>
         <div className="page__content__container">
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <h1>Welcome {this.props.user.displayName ? this.props.user.displayName : ''}</h1>
             <button
-              className="btn-icon btn--hide"
+              className={verifyEmailButtonClasses}
               onClick={() => {
                 auth.currentUser.sendEmailVerification()
                 .then(() => {
@@ -189,8 +147,6 @@ class UserDashboard extends Component {
               Verify Email
             </button>
           </div>
-
-          {/* <h3>Charts to come (time spent, most booked, most lucrative, etc...)</h3> */}
           <Link to={`/${this.props.user.id}}/bands`}>
             <h3>Bands</h3>
           </Link>
@@ -225,10 +181,6 @@ function mapDispatchToProps(dispatch) {
     onGetBandMany: getBandMany,
     onGetBand: getBand,
     onClearBand: clearBand,
-    // onRestoreEvent: actions.restoreEvent,
-    // filterEventsByStatus: actions.filterEventsByStatus,
-    // filterEventsByType: actions.filterEventsByType,
-    // updateEventEdit: actions.updateEventEdit,
     },
   dispatch);
 }

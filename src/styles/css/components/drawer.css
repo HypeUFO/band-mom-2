@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-purple-dark-gradient-vertical".
-        on line 14 of src/styles/scss/components/drawer.scss
+        on line 10 of src/styles/scss/components/drawer.scss
 
-9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow
-10:   width: 70vw;
-11:   // min-width: 180px;
-12:   // width: 100%;
-13:   height: 100vh;
-14:   background: $color-purple-dark-gradient-vertical;
-15:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-16:   z-index: 4;
-17:   overflow: auto;
-18:   transform: translateX(-100%);
-19:   transition: transform 0.3s $ease-in-out-cubic;
+5:   position: fixed;
+6:   top: 0;
+7:   left: 0;
+8:   width: 70vw;
+9:   height: 100vh;
+10:   background: $color-purple-dark-gradient-vertical;
+11:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+12:   z-index: 4;
+13:   overflow: auto;
+14:   transform: translateX(-100%);
+15:   transition: transform 0.3s $ease-in-out-cubic;
 
 Backtrace:
-src/styles/scss/components/drawer.scss:14
+src/styles/scss/components/drawer.scss:10
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
@@ -67,4 +67,4 @@ src/styles/scss/components/drawer.scss:14
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple-dark-gradient-vertical\".\A         on line 14 of src/styles/scss/components/drawer.scss\A \A 9:   // width: 100vw; FIX ME: Find out why 100vw width causes overflow\A 10:   width: 70vw;\A 11:   // min-width: 180px;\A 12:   // width: 100%;\A 13:   height: 100vh;\A 14:   background: $color-purple-dark-gradient-vertical;\A 15:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\A 16:   z-index: 4;\A 17:   overflow: auto;\A 18:   transform: translateX(-100%);\A 19:   transition: transform 0.3s $ease-in-out-cubic;"; }
+  content: "Error: Undefined variable: \"$color-purple-dark-gradient-vertical\".\A         on line 10 of src/styles/scss/components/drawer.scss\A \A 5:   position: fixed;\A 6:   top: 0;\A 7:   left: 0;\A 8:   width: 70vw;\A 9:   height: 100vh;\A 10:   background: $color-purple-dark-gradient-vertical;\A 11:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\A 12:   z-index: 4;\A 13:   overflow: auto;\A 14:   transform: translateX(-100%);\A 15:   transition: transform 0.3s $ease-in-out-cubic;"; }
