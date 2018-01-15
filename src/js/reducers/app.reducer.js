@@ -293,5 +293,39 @@ export function appReducer(state = initialState, action) {
         error: action.error,
         loading: false,
       }
+
+    case ActionTypes.LEAVE_BAND_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.LEAVE_BAND_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+      }
+    case ActionTypes.LEAVE_BAND_REJECTED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      }
+
+    case ActionTypes.DELETE_BAND_REQUESTED:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ActionTypes.DELETE_BAND_FULFILLED:
+      return {
+        ...state,
+        loading: false,
+      }
+    case ActionTypes.DELETE_BAND_REJECTED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      }
   }
 }

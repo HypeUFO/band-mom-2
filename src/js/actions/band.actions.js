@@ -671,7 +671,7 @@ export function leaveBand(band, user) {
       return dispatch(leaveBandFulfilledAction());
     })
     .catch((error) => {
-      return dispatch(leaveBandRejectedAction());
+      return dispatch(leaveBandRejectedAction(error));
     });
   }
 }
@@ -683,9 +683,10 @@ function leaveBandRequestedAction(band) {
   };
 }
 
-function leaveBandRejectedAction() {
+function leaveBandRejectedAction(error) {
   return {
     type: ActionTypes.LEAVE_BAND_REJECTED,
+    error
   }
 }
 

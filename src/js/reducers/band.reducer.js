@@ -65,7 +65,7 @@ export function bandReducer(state = initialState, action) {
     case ActionTypes.DELETE_BAND_FULFILLED:
       return {
         ...state,
-        recentlyDeleted: [...state.recentlyDeleted, action.band],
+        // recentlyDeleted: [...state.recentlyDeleted, action.band],
       }
 
     case ActionTypes.DELETE_BAND_REJECTED:
@@ -193,5 +193,18 @@ export function bandReducer(state = initialState, action) {
       error: action.error,
       }
 
+    case ActionTypes.LEAVE_BAND_REQUESTED:
+      return {
+        ...state,
+      }
+    case ActionTypes.LEAVE_BAND_FULFILLED:
+      return {
+        ...state,
+      }
+    case ActionTypes.LEAVE_BAND_REJECTED:
+      return {
+        ...state,
+        error: action.error,
+      }
   }
 }
