@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-dark".
-        on line 16 of src/styles/scss/components/loader.scss
+        on line 17 of src/styles/scss/components/loader.scss
 
-11:     z-index: 10;
 12:     top: 0;
-13:     display: flex;
-14:     height: 100vh;
-15:     width: 100vw;
-16:     background: $color-dark;
-17:     opacity: 0.7;
-18:   }
-19:   &__three-balls {
-20:     margin: 0 auto;
-21:     width: 100px;
+13:     left: 0;
+14:     display: flex;
+15:     height: 100vh;
+16:     width: 100vw;
+17:     background: $color-dark;
+18:     opacity: 0.7;
+19:   }
+20:   &__three-balls {
+21:     margin: 0 auto;
+22:     width: 100px;
 
 Backtrace:
-src/styles/scss/components/loader.scss:16
+src/styles/scss/components/loader.scss:17
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
@@ -78,4 +78,4 @@ src/styles/scss/components/loader.scss:16
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-dark\".\A         on line 16 of src/styles/scss/components/loader.scss\A \A 11:     z-index: 10;\A 12:     top: 0;\A 13:     display: flex;\A 14:     height: 100vh;\A 15:     width: 100vw;\A 16:     background: $color-dark;\A 17:     opacity: 0.7;\A 18:   }\A 19:   &__three-balls {\A 20:     margin: 0 auto;\A 21:     width: 100px;"; }
+  content: "Error: Undefined variable: \"$color-dark\".\A         on line 17 of src/styles/scss/components/loader.scss\A \A 12:     top: 0;\A 13:     left: 0;\A 14:     display: flex;\A 15:     height: 100vh;\A 16:     width: 100vw;\A 17:     background: $color-dark;\A 18:     opacity: 0.7;\A 19:   }\A 20:   &__three-balls {\A 21:     margin: 0 auto;\A 22:     width: 100px;"; }
