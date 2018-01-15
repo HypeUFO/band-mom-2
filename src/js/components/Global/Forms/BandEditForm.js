@@ -1,27 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actions from '../../../actions/event.actions';
-import {
-  getBand,
-  updateBand,
-  updateBandEdit,
-  uploadBandLogo,
-  uploadStagePlot,
-  deleteBand,
-  deleteStagePlot,
-  leaveBand,
-} from '../../../actions/band.actions';
-import { dismissNotification } from '../../../actions/notification.actions';
 import genres from '../../../constants/genre_list';
 import Form from './Form';
 import Input from '../Input';
 import classNames from 'classnames';
-import { database } from '../../../config/fire'
 
 
 const initialState = {
-  selected: '',
   name: '',
   location: '',
   genre1: '',
@@ -32,15 +16,12 @@ const initialState = {
   id: '',
   stagePlotUrl: '',
   stagePlotName: '',
-  selectedStagePlot: '',
 };
 
-class BandDashboard extends Component {
+class BandEditForm extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-
-    this.id = window.location.pathname.split('/')[3];
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onUpdateBandEdit = this.onUpdateBandEdit.bind(this);
     this.updateBand = this.updateBand.bind(this);
@@ -55,7 +36,7 @@ class BandDashboard extends Component {
   componentWillMount() {
     Promise.resolve()
     .then(() => {
-      this.props.onGetBand(this.id)
+      this.props.onGetBand(this.props.band.id)
     })
     .then(() => {
       console.log(this.props.band);
@@ -87,13 +68,12 @@ class BandDashboard extends Component {
   }
 
   onCancel() {
-    // this.handleFormEdit();
     this.props.updateBandEdit();
   }
 
   onSuccess() {
     this.props.updateBandEdit();
-    this.props.onGetBand(this.id);
+    this.props.onGetBand(this.props.band.id);
   }
 
   onError(err) {
@@ -126,7 +106,6 @@ class BandDashboard extends Component {
   onUpdateBandEdit() {
     Promise.resolve()
     .then(() => {
-      const { activeProfile } = this.props;
       this.setState({
         name: this.props.band.name || '',
         location: this.props.band.location || '',
@@ -145,24 +124,22 @@ class BandDashboard extends Component {
   render() {
 
     const {
-      user,
       band,
-      match,
+      bandEdit,
     } = this.props;
 
 
     if (band) {
-    let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !this.props.bandEdit });
+    let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !bandEdit });
 
 
     return (
       <Form
-        // className="form__container"
         className="band__details__form"
         id="band-details__form"
         onSubmit={ this.onSubmit }
         onCancel={ this.onCancel }
-        disabled={ !this.props.bandEdit }
+        disabled={ !bandEdit }
         ref="form"
         // error={ createError || uploadError }
       >
@@ -173,19 +150,19 @@ class BandDashboard extends Component {
                 name="name"
                 placeholder="Band Name"
                 label="Band Name"
-                disabled={ !this.props.bandEdit }
-                value={ this.props.bandEdit ? this.state.name : band.name }
+                disabled={ !bandEdit }
+                value={ bandEdit ? this.state.name : band.name }
                 onChange={ this.handleInputChange }
-                validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                validation={{ isLength: { min: 1, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
               />
               <Input type="text"
                 name="location"
                 placeholder="Location"
                 label="Location"
-                disabled={ !this.props.bandEdit }
-                value={ this.props.bandEdit ? this.state.location : band.location }
+                disabled={ !bandEdit }
+                value={ bandEdit ? this.state.location : band.location }
                 onChange={ this.handleInputChange }
-                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+                validation={{ isLength: { min: 2, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
               />
               </div>
               <div className="form__row">
@@ -193,9 +170,9 @@ class BandDashboard extends Component {
                 name="genre1"
                 placeholder="Genre 1"
                 label="Genre 1"
-                disabled={ !this.props.bandEdit }
+                disabled={ !bandEdit }
                 options={genres}
-                value={ this.props.bandEdit ? this.state.genre1 : band.genre1 }
+                value={ bandEdit ? this.state.genre1 : band.genre1 }
                 onChange={ this.handleInputChange }
                 validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
               />
@@ -203,9 +180,9 @@ class BandDashboard extends Component {
                 name="genre2"
                 placeholder="Genre 2"
                 label="Genre 2"
-                disabled={ !this.props.bandEdit }
+                disabled={ !bandEdit }
                 options={genres}
-                value={ this.props.bandEdit ? this.state.genre2 : band.genre2 }
+                value={ bandEdit ? this.state.genre2 : band.genre2 }
                 onChange={ this.handleInputChange }
                 validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
               />
@@ -215,8 +192,8 @@ class BandDashboard extends Component {
                 name="bio"
                 placeholder="Bio"
                 label="Bio"
-                disabled={ !this.props.bandEdit }
-                value={ this.props.bandEdit ? this.state.bio : band.bio }
+                disabled={ !bandEdit }
+                value={ bandEdit ? this.state.bio : band.bio }
                 onChange={ this.handleInputChange }
                 // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
               />
@@ -233,25 +210,4 @@ class BandDashboard extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    band: state.bands.activeBand,
-    bandEdit: state.bands.edit,
-    user: state.auth.user,
-    activeBandLogo: state.bands.activeBandLogoUrl,
-    activeStagePlotUrl: state.bands.activeStagePlotUrl,
-    isLoading: state.app.loading,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateBandEdit: updateBandEdit,
-    onUpdateBand: updateBand,
-    onGetBand: getBand,
-    },
-  dispatch);
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(BandDashboard);
+export default BandEditForm;

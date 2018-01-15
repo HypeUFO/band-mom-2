@@ -28,7 +28,7 @@ hr {
   color: #7F4FFF !important; }
 
 .clr-red {
-  color: #E46F65 !important; }
+  color: #FF0505 !important; }
 
 .bg-clr-dark {
   background-color: #121F27 !important; }
@@ -44,7 +44,7 @@ hr {
   color: #FFFFFF !important; }
 
 .bg-clr-red {
-  background-color: #E46F65 !important; }
+  background-color: #FF0505 !important; }
 
 @media (min-width: 500px) {
   .sm-hide {
@@ -534,7 +534,7 @@ input[type=checkbox]:checked ~ #menu {
   color: #7F4FFF !important; }
 
 .clr-red {
-  color: #E46F65 !important; }
+  color: #FF0505 !important; }
 
 .bg-clr-dark {
   background-color: #121F27 !important; }
@@ -550,7 +550,7 @@ input[type=checkbox]:checked ~ #menu {
   color: #FFFFFF !important; }
 
 .bg-clr-red {
-  background-color: #E46F65 !important; }
+  background-color: #FF0505 !important; }
 
 .hero {
   height: 100%;
@@ -706,7 +706,7 @@ button {
       margin: 10px 0; }
   .input__error {
     display: inline-block;
-    color: #E46F65; }
+    color: #FF0505; }
   .input--light input,
   .input--light select,
   .input--light textarea {

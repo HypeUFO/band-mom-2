@@ -11,7 +11,7 @@ import TableRowMenuItem from '../components/Global/Table/TableRowMenuItem';
 import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
-import CreateUserEventModal from '../modals/CreateUserEventModal';
+import CreateEventModal from '../modals/CreateEventModal';
 import FilterLink from '../components/Global/FilterLink';
 import Input from '../components/Global/Input';
 import moment from 'moment';
@@ -21,7 +21,7 @@ import { database } from '../config/fire'
 
 
 export const initialState = {
-  showCreateUserEventModal: false,
+  showCreateEventModal: false,
   showShareModal: false,
   selected: '',
   userEvents: null,
@@ -30,7 +30,7 @@ class UserEventList extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    this.toggleCreateUserEventModal = this.toggleCreateUserEventModal.bind(this);
+    this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
     this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
@@ -84,19 +84,19 @@ class UserEventList extends Component {
     event.stopPropagation();
   }
 
-  toggleCreateUserEventModal() {
+  toggleCreateEventModal() {
     this.setState(prevState => ({
-      showCreateUserEventModal: !prevState.showCreateUserEventModal
+      showCreateEventModal: !prevState.showCreateEventModal
     }));
   }
 
   onCreateEventSubmit() {
     console.log('Event submitted');
-    this.toggleCreateUserEventModal();
+    this.toggleCreateEventModal();
   }
 
   onCreateEventCancel() {
-    this.toggleCreateUserEventModal();
+    this.toggleCreateEventModal();
   }
 
   onCreateEventSuccess() {
@@ -272,17 +272,31 @@ class UserEventList extends Component {
           // buttonHide={ buttonHide }
           buttonLabel="Add Event"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateUserEventModal }
+          buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
-          <CreateUserEventModal
-            show={ this.state.showCreateUserEventModal }
+          {/* <CreateEventModal
+            show={ this.state.showCreateEventModal }
             onSubmit={ this.onCreateEventSubmit }
             onCancel={ this.onCreateEventCancel }
             onSuccess={ this.onCreateEventSuccess }
             onError={ this.onCreateEventError }
             bands={ this.props.bands }
+            user={ this.props.user }
+          /> */}
+
+          <CreateEventModal
+            show={ this.state.showCreateEventModal }
+            onSubmit={ this.onCreateEventSubmit }
+            onCancel={ this.onCreateEventCancel }
+            onSuccess={ this.onCreateEventSuccess }
+            onError={ this.onCreateEventError }
+            onCreateEvent={this.props.onCreateEvent}
+            // band={this.props.band || null}
+            bands={ this.props.bands }
+            user={this.props.user}
           />
+
           <div className="page__content__container">
             {this.props.notification.display ? this.renderNotification() : null}
             <div className="filter__section">
@@ -365,6 +379,7 @@ function mapDispatchToProps(dispatch) {
     onGetEvent: actions.getEvent,
     onGetEventMany: actions.getEventMany,
     onGetUserEventMany: actions.getUserEventMany,
+    onCreateEvent: actions.createEvent,
     onDeleteEvent: actions.deleteEvent,
     onRestoreEvent: actions.restoreEvent,
     dismissNotification: dismissNotification,

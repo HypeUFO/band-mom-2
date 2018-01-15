@@ -12,10 +12,6 @@ import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
 import CreateBandModal from '../modals/CreateBandModal';
 
-import Input from '../components/Global/Input';
-import moment from 'moment';
-import history from '../history';
-
 import { database } from '../config/fire'
 
 

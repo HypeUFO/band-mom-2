@@ -8,19 +8,8 @@ import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
-
-
-
-import instrumentList from '../constants/instrument_list';
-
-import Form from '../components/Global/Forms/Form';
-
+import UserEditForm from '../components/Global/Forms/UserEditForm';
 import Input from '../components/Global/Input';
-import moment from 'moment';
-
-
-import classNames from 'classnames';
-
 import { database } from '../config/fire'
 import FileUploadModal from '../modals/FileUploadModal';
 import AlertModal from '../modals/AlertModal';
@@ -30,153 +19,35 @@ const initialState = {
   showAlert: false,
   showInviteModal: false,
   showImageModal: false,
-  displayName: '',
-  location: '',
-  about: '',
-  imageUrl: '',
-  instruments: {},
 };
 
-class BandDashboard extends Component {
+class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-
-    // this.db = database.ref().child('bands');
-    this.id = window.location.pathname.split('/')[3];
-
-    this.renderCheckboxes = this.renderCheckboxes.bind(this);
-    this.renderInstrumentList = this.renderInstrumentList.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-    this.handleBandSelect = this.handleBandSelect.bind(this);
-
     this.inviteUser = this.inviteUser.bind(this);
     this.inviteUserCancel = this.inviteUserCancel.bind(this);
     this.uploadImage = this.uploadImage.bind(this);
     this.uploadImageCancel = this.uploadImageCancel.bind(this);
-
     this.onUpdateUserEdit = this.onUpdateUserEdit.bind(this)
-    // this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
-    // this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
-    // this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
-    // this.onCancelStageplotUpload = this.onCancelStageplotUpload.bind(this);
-    // this.onCancelLogoUpload = this.onCancelLogoUpload.bind(this);
-    // this.onCancel = this.onCancel.bind(this);
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    // this.onDeleteEventSuccess = this.onDeleteEventSuccess.bind(this);
-    // this.onDeleteEventError = this.onDeleteEventError.bind(this);
-    // this.deleteEvent = this.deleteEvent.bind(this);
-    // this.restoreEvent = this.restoreEvent.bind(this);
-
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onCancel = this.onCancel.bind(this);
-    this.onSuccess = this.onSuccess.bind(this);
-    this.onError = this.onError.bind(this);
-    // this.onCancelDeleteStagePlot = this.onCancelDeleteStagePlot.bind(this);
-    // this.onDeleteStagePlot = this.onDeleteStagePlot.bind(this);
-
-    // this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(this);
-
-    // this.handleFormEdit = this.handleFormEdit.bind(this);
-
   }
 
   componentDidMount() {
     Promise.resolve()
     .then(() => this.props.clearActiveProfile())
-    .then(() => this.setState(initialState))
     .then(() => {
       return database.ref().on("value", () => this.props.onGetActiveProfile(this.props.match.params.userId))
     })
     .then(() => {
-      const { activeProfile } = this.props;
       if (this.props.userEdit) {
         this.props.updateUserEdit();
       }
-      return (
-          this.setState({
-          displayName: activeProfile.displayName || '',
-          location: activeProfile.location || '',
-          about: activeProfile.about || '',
-          imageUrl: activeProfile.imageUrl || '',
-          instruments: activeProfile.instruments || {},
-        })
-      )
     })
     .catch((err) => console.log(err));
   }
 
   componentWillUnmount() {
     this.props.clearActiveProfile();
-  }
-
-  handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
-  handleCheckboxChange(event) {
-    const name = [event.target.name];
-    const value = event.target.checked
-
-    this.setState(prevState => ({
-      instruments: {
-          ...prevState.instruments,
-          [name]: value,
-      }
-    }))
-  }
-
-  handleBandSelect(event) {
-    const band = this.props.bands[event.target.value.split('/')[1]];
-    console.log(band);
-    this.setState({
-      band
-    });
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-    if(this.refs.form.validate()) {
-      this.handleAsyncUpdateButtonClick();
-      // this.props.onSubmit();
-    }
-  }
-
-  onCancel() {
-    // this.handleFormEdit();
-    this.setState({disabled: true})
-    this.props.updateUserEdit();
-    this.props.onGetActiveProfile(this.props.match.params.userId);
-  }
-
-  onSuccess() {
-    this.props.updateUserEdit();
-    this.props.onGetActiveProfile(this.props.match.params.userId);
-    // this.props.onGetUser(this.props.user.id);
-  }
-
-  onError(err) {
-    console.log('An error occurred: ' + err)
-  }
-
-  handleAsyncUpdateButtonClick() {
-    Promise.resolve()
-    .then(this.updateUser())
-    .then(() => this.onSuccess())
-    .catch(err => this.onError(err));
-  }
-
-  updateUser() {
-    const user = {
-      displayName: this.state.displayName,
-      location: this.state.location,
-      about: this.state.about,
-      imageUrl: this.state.imageUrl || '',
-      instruments: this.state.instruments || {},
-      id: this.props.activeProfile.id,
-    }
-    this.props.onUpdateUser(user)
   }
 
   onUpdateUserEdit() {
@@ -215,41 +86,6 @@ class BandDashboard extends Component {
     this.setState({showImageModal: false});
   }
 
-  renderCheckboxes(list) {
-    return (
-      list.map((item, index) => {
-        return (
-          <Input
-            type="checkbox"
-            name={item.value}
-            label={item.label}
-            key={index}
-            disabled={ !this.props.userEdit }
-            onChange={ this.handleCheckboxChange }
-            isChecked={ this.state.instruments[item.label] || (this.props.activeProfile.instruments && this.props.activeProfile.instruments[item.label]) ? true : false }
-          />
-        );
-      })
-    );
-  }
-
-  renderInstrumentList(list) {
-    if (list) {
-      let listItems = []
-      Object.keys(list).map(key => {
-        if (list[key]) {
-          listItems.push(
-            <li key={key}>
-              { key }
-            </li>
-          );
-        }
-      })
-      return listItems;
-    }
-  }
-
-
   render() {
 
     const {
@@ -276,9 +112,6 @@ class BandDashboard extends Component {
         ];
       }
 
-      let formBottomClasses = classNames('form__bottom', { 'form__bottom--hidden': !this.props.userEdit });
-      let checkboxGroupClasses = classNames('checkbox__group', { 'checkbox__group--disabled': !this.props.userEdit });
-
       let bandList = [];
       if (this.props.bands) {
         Object.keys(bands).map(key => {
@@ -303,7 +136,7 @@ class BandDashboard extends Component {
             // buttonHide={ buttonHide }
             buttonHide={ user.id === activeProfile.id }
             buttonLabel="Invite to Group"
-            // buttonIcon="add"
+            buttonIcon="add"
             buttonOnClick={ () => this.setState({showInviteModal: true}) }
           />
           <div className='page__content page__content--two-col'>
@@ -363,71 +196,14 @@ class BandDashboard extends Component {
                   onClick={() => this.setState({showImageModal: true})}
                 />
               </div>
-              <Form
-                // className="form__container"
-                className="user__profile__form"
-                id="user-details__form"
-                onSubmit={ this.onSubmit }
-                onCancel={ this.onCancel }
-                // disabled={ !this.props.userEdit }
-                disabled={ !userEdit }
-                ref="form"
-                // error={ createError || uploadError }
-              >
-                <div className="form__middle form__middle__user-dashboard">
-                  <div className="form__column">
-                    <div className="form__row">
-                      <Input type="text"
-                        name="displayName"
-                        placeholder="Display Name"
-                        label="Display Name"
-                        // disabled={ !this.props.userEdit }
-                        disabled={ !userEdit }
-                        value={ this.props.userEdit ? this.state.displayName : activeProfile.displayName }
-                        onChange={ this.handleInputChange }
-                        validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                      />
-                      <Input type="text"
-                        name="location"
-                        placeholder="Location"
-                        label="Location"
-                        // disabled={ !this.props.userEdit }
-                        disabled={ !userEdit }
-                        value={ this.props.userEdit ? this.state.location : activeProfile.location }
-                        onChange={ this.handleInputChange }
-                        validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                      />
-                    </div>
-                    <div className="form__row">
-                      <Input type="textarea"
-                        name="about"
-                        placeholder="About"
-                        label="About"
-                        // disabled={ !this.props.userEdit }
-                        disabled={ !userEdit }
-                        value={ this.props.userEdit ? this.state.about : activeProfile.about }
-                        onChange={ this.handleInputChange }
-                        // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                      />
-                    </div>
-                    <div className="form__column">
-                      <label className="input__label">Instruments</label>
-                      <div className="form__row">
-                        <div className={checkboxGroupClasses}>
-                          { this.props.userEdit
-                            ? this.renderCheckboxes(instrumentList)
-                            : <ul>{this.renderInstrumentList(this.props.activeProfile.instruments)}</ul>
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={ formBottomClasses }>
-                  <Input type="button-thin-cancel" value="Cancel" />
-                  <Input type="button-thin-submit" value="Save" />
-                </div>
-              </Form>
+              <UserEditForm
+                activeProfile={this.props.activeProfile}
+                user={this.props.user}
+                userEdit={this.props.userEdit}
+                updateUserEdit={this.props.updateUserEdit}
+                onUpdateUser={this.props.onUpdateUser}
+                onGetActiveProfile={this.props.onGetActiveProfile}
+              />
             </div>
             <h3>SoundCloud Widgets to come...</h3>
           </div>
@@ -468,4 +244,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(BandDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { createBand } from '../actions/band.actions';
 import classNames from 'classnames';
-import CreateBandForm from '../components/Global/Forms/CreateBandForm';
+import CreateEventForm from '../components/Global/Forms/CreateEventForm';
 
-class CreateBandModal extends Component {
+class CreateEventModal extends Component {
   static propTypes = {
     show: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -22,17 +19,25 @@ class CreateBandModal extends Component {
 
     let classes = classNames('modal', { 'modal--active': show });
 
+    // Normal
     return (
       <div className={ classes }>
-        <CreateBandForm
+        <CreateEventForm
+          show={ this.props.show }
           onSubmit={ this.props.onSubmit }
           onCancel={ this.props.onCancel }
           onSuccess={ this.props.onSuccess }
           onError={ this.props.onError }
+          activeBand={this.props.band || ''}
+          onCreateEvent={this.props.onCreateEvent}
+          band={this.props.band || null}
+          bands={this.props.bands || null}
+          user={this.props.user}
         />
       </div>
     );
   }
 }
 
-export default CreateBandModal;
+export default CreateEventModal;
+

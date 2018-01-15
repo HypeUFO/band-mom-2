@@ -49,6 +49,7 @@ export function getActiveProfile(userId) {
       dispatch(getActiveProfileRequestedAction());
       database.ref(`/users/${userId}`).once('value', snap => {
         const user = snap.val();
+        console.log(user);
         return dispatch(getActiveProfileFulfilledAction(user))
       })
     })

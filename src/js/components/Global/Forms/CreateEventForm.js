@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { createEvent } from '../actions/event.actions';
-import classNames from 'classnames';
-import Form from '../components/Global/Forms/Form';
-import Input from '../components/Global/Input';
-import { database } from '../config/fire';
+import Form from './Form';
+import Input from '../Input';
 
 export const initialState = {
   venue: '',
@@ -17,6 +12,9 @@ export const initialState = {
   loadIn: '',
   notes: '',
   type: 'show',
+  bandId: '',
+  bandName: '',
+  band: ''
   // files: [],
 };
 
@@ -37,11 +35,12 @@ class CreateBandEventModal extends Component {
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleBandChange = this.handleBandChange.bind(this);
     // this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
     this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(this);
     this.addEvent = this.addEvent.bind(this);
 
-    this.db = database.ref().child('events');
+    this.renderBandSelect = this.renderBandSelect.bind(this);
   }
 
   onSubmit(event) {
@@ -70,11 +69,21 @@ class CreateBandEventModal extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  handleBandChange(event) {
+    this.setState({
+      bandName: event.target.value.split('/')[0],
+      bandId: event.target.value.split('/')[1],
+      band: this.props.bands[event.target.value.split('/')[1]]
+    });
+  }
+
    addEvent() {
-    //  const bandId = this.props.bandId;
-    //  const bandName = this.props.bandName;
-    const band = this.props.activeBand;
-    const bandName = this.props.activeBand.name || '';
+    const { band, user, onCreateEvent } = this.props;
+
+    const activeBand = band || this.state.band;
+    const activeBandId = band ? band.id : this.state.bandId
+    const activeBandName = band ? band.name : this.state.bandName;
+
     const status = new Date(this.state.date) > new Date() ? 'upcoming' : 'past';
     const event = {
       venue: this.state.venue,
@@ -86,11 +95,12 @@ class CreateBandEventModal extends Component {
       notes: this.state.notes,
       type: this.state.type,
       status: status,
-      bandId: band.id,
-      bandName,
+      bandId: activeBandId,
+      bandName: activeBandName,
     }
-    this.props.onCreateEvent(event, band, this.props.user);
+    onCreateEvent(event, activeBand, user);
   }
+
   handleAsyncCreateButtonClick() {
     console.log('submit button clicked');
     Promise.resolve()
@@ -99,26 +109,38 @@ class CreateBandEventModal extends Component {
     .catch(err => this.onError(err));
   }
 
-  // renderFiles() {
-  //   const {
-  //     files,
-  //   } = this.state;
-  //   let filesElements = files.map((file, index) => {
-  //     return (
-  //       <div className="modal__file" key={ index }>
-  //         <label className="model__file__name">{ truncate(file.name, 24) }</label>
-  //         <button
-  //           className="model__file__close"
-  //           onClick={ this.removeFile.bind(this, index) }
-  //           type="button"
-  //         >
-  //           <i className="material-icons">close</i>
-  //         </button>
-  //       </div>
-  //     );
-  //   });
-  //   return filesElements;
-  // }
+  renderBandSelect(band, bands) {
+    // const { bands, band } = this.props;
+    if (!band) {
+      let bandList = [];
+      if (bands) {
+        Object.keys(bands).map(key => {
+          let addBandInfo = {
+            label: bands[key].name,
+            value: bands[key].name + '/' + bands[key].id,
+          }
+          return bandList.push(addBandInfo);
+        })
+        // bandList.unshift({label: 'Select Band', value: ''})
+        console.log(bandList);
+      }
+      bandList.unshift({label: 'Select Band', value: ''})
+      return (
+        <div className="modal__row">
+            <Input type="select"
+              name="band"
+              placeholder="Band"
+              options={ bandList }
+              // value={ this.state.band }
+              onChange={ this.handleBandChange }
+              // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+            />
+        </div>
+      )
+    } else {
+      return false;
+    }
+  }
 
   render() {
     const {
@@ -126,7 +148,7 @@ class CreateBandEventModal extends Component {
       asyncCreateError,
       asyncUploadLoading,
       asyncUploadError,
-      show,
+      bands
     } = this.props;
 
     const {
@@ -141,15 +163,27 @@ class CreateBandEventModal extends Component {
       // files,
     } = this.state;
 
-    let classes = classNames('modal', { 'modal--active': show });
 
     // Errors
     let createError = (asyncCreateError) ? asyncCreateError.toJSON().reason : '';
     let uploadError = (asyncUploadError) ? asyncUploadError.toJSON().reason : '';
 
+    // let bandList = [];
+    // if (this.props.bands) {
+    //   Object.keys(bands).map(key => {
+    //     let addBandInfo = {
+    //       label: bands[key].name,
+    //       value: bands[key].name + '/' + bands[key].id,
+    //     }
+    //     return bandList.push(addBandInfo);
+    //   })
+    //   // bandList.unshift({label: 'Select Band', value: ''})
+    //   console.log(bandList);
+    // }
+    // bandList.unshift({label: 'Select Band', value: ''})
+
     // Normal
     return (
-      <div className={ classes }>
         <Form className="modal__container"
           onSubmit={ this.onSubmit }
           onCancel={ this.onCancel }
@@ -161,6 +195,8 @@ class CreateBandEventModal extends Component {
             <h3 className="clr-purple">Add New Event</h3>
           </div>
           <div className="modal__middle">
+            { this.renderBandSelect(this.props.band, this.props.bands) }
+
             {/* <div className="modal__column"> */}
               <div className="modal__row">
                 <Input type="text"
@@ -184,7 +220,7 @@ class CreateBandEventModal extends Component {
                   placeholder="Venue Phone"
                   value={ phone }
                   onChange={ this.handleInputChange }
-                  // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+                  validation={{ isLength: { min: 10, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
                 />
                 <Input type="date"
                   name="date"
@@ -236,24 +272,9 @@ class CreateBandEventModal extends Component {
             <Input type="button-thin-submit" value="Create" />
           </div>
         </Form>
-      </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    // band: state.bands.activeBand,
-    user: state.auth.user,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    // onCreateEvent: createEvent,
-    },
-  dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateBandEventModal);
+export default CreateBandEventModal;
 

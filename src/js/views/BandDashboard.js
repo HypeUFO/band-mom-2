@@ -19,7 +19,7 @@ import { dismissNotification } from '../actions/notification.actions';
 import Drawer from '../components/Global/Drawer';
 import Loader from '../components/Global/Loader';
 import Subheader from '../components/Global/Subheader';
-import CreateBandEventModal from '../modals/CreateBandEventModal';
+import CreateEventModal from '../modals/CreateEventModal';
 import BandEditForm from '../components/Global/Forms/BandEditForm';
 import Carousel from '../components/Carousel';
 import Input from '../components/Global/Input';
@@ -29,7 +29,7 @@ import AlertModal from '../modals/AlertModal';
 
 
 const initialState = {
-  showCreateBandEventModal: false,
+  showCreateEventModal: false,
   showDeleteStagePlotAlert: false,
   showDeleteBandAlert: false,
   showLeaveBandAlert: false,
@@ -42,7 +42,7 @@ class BandDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
-    this.toggleCreateBandEventModal = this.toggleCreateBandEventModal.bind(this);
+    this.toggleCreateEventModal = this.toggleCreateEventModal.bind(this);
     this.onCreateEventSubmit = this.onCreateEventSubmit.bind(this);
     this.onCreateEventCancel = this.onCreateEventCancel.bind(this);
     this.onCancelStageplotUpload = this.onCancelStageplotUpload.bind(this);
@@ -76,19 +76,19 @@ class BandDashboard extends Component {
     event.stopPropagation();
   }
 
-  toggleCreateBandEventModal() {
+  toggleCreateEventModal() {
     this.setState(prevState => ({
-      showCreateBandEventModal: !prevState.showCreateBandEventModal
+      showCreateEventModal: !prevState.showCreateEventModal
     }));
   }
 
   onCreateEventSubmit() {
     console.log('Event submitted');
-    this.toggleCreateBandEventModal();
+    this.toggleCreateEventModal();
   }
 
   onCreateEventCancel() {
-    this.toggleCreateBandEventModal();
+    this.toggleCreateEventModal();
   }
 
   onCreateEventSuccess() {
@@ -315,7 +315,7 @@ class BandDashboard extends Component {
           // buttonHide={ buttonHide }
           buttonLabel="Add Event"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateBandEventModal }
+          buttonOnClick={ this.toggleCreateEventModal }
         />
         <div className='page__content page__content--two-col'>
           <div className="page__content__container">
@@ -370,15 +370,15 @@ class BandDashboard extends Component {
             <p>This action can not be undone</p>
           </AlertModal>
 
-          <CreateBandEventModal
-            show={ this.state.showCreateBandEventModal }
+          <CreateEventModal
+            show={ this.state.showCreateEventModal }
             onSubmit={ this.onCreateEventSubmit }
             onCancel={ this.onCreateEventCancel }
             onSuccess={ this.onCreateEventSuccess }
             onError={ this.onCreateEventError }
-            // bandId={this.props.match.params.bandId}
-            activeBand={this.props.band || ''}
             onCreateEvent={this.props.onCreateEvent}
+            band={this.props.band}
+            user={this.props.user}
           />
           <div className={ removeActions }>
             <Input
@@ -422,7 +422,14 @@ class BandDashboard extends Component {
               onClick={() => this.setState({showLogoModal: true})}
             />
           </div>
-          <BandEditForm bandEdit={this.props.bandEdit} />
+          <BandEditForm
+            band={this.props.band}
+            bandEdit={this.props.bandEdit}
+            user={this.props.user}
+            updateBandEdit={this.props.updateBandEdit}
+            onUpdateBand={this.props.onUpdateBand}
+            onGetBand={this.props.onGetBand}
+          />
           </div>
           <hr />
           <div className="slide-header">

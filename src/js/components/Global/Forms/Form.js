@@ -37,7 +37,7 @@ export default class Form extends Component {
             };
           }
       }
-      if (child.props) {
+      if (child && child.props) {
         childProps.children = this.renderChildren(child.props.children, onCancel, true);
         return React.cloneElement(child, childProps);
       }
