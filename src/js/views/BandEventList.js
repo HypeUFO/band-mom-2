@@ -12,7 +12,7 @@ import Drawer from '../components/Global/Drawer';
 import Subheader from '../components/Global/Subheader';
 import Notification from '../components/Global/Notification';
 import CreateEventModal from '../modals/CreateEventModal';
-import FilterLink from '../components/Global/FilterLink';
+import FilterSelect from '../components/Global/FilterSelect';
 import Input from '../components/Global/Input';
 import moment from 'moment';
 import history from '../history';
@@ -36,45 +36,14 @@ class EventList extends Component {
     this.onDeleteEventError = this.onDeleteEventError.bind(this);
     this.deleteEvent = this.deleteEvent.bind(this);
     this.restoreEvent = this.restoreEvent.bind(this);
-    this.setFilterWidth = this.setFilterWidth.bind(this);
-    this.handleFilterWidth = this.handleFilterWidth.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-
   }
 
   componentWillMount() {
-    // this.props.onGetBand(this.props.match.params.bandId)
     database.ref().on('value', () => {
       this.props.onGetEventMany(this.props.match.params.bandId)
       this.props.onGetBand(this.props.match.params.bandId)
     })
     this.props.onClearEvent()
-  }
-
-  componentDidMount() {
-    this.handleFilterWidth()
-    window.addEventListener('resize', this.handleFilterWidth);
-  }
-
-  setFilterWidth(id) {
-    const filterDiv = document.querySelector(`#${id}`);
-    const template = document.querySelector('#template');
-    template.options[0].innerHTML = filterDiv.options[filterDiv.selectedIndex].textContent;
-
-    filterDiv.style.width = `${template.getBoundingClientRect().width}px`;
-  }
-
-  handleFilterWidth() {
-    const selectList = document.querySelectorAll('.event__filter');
-
-    selectList.forEach((sel) => {
-        this.setFilterWidth(sel.getAttribute('id'));
-    });
-  }
-
-  handleFilterChange(filter, action) {
-    this.handleFilterWidth();
-    action(filter);
   }
 
   handleRowClick(row) {
@@ -299,49 +268,27 @@ class EventList extends Component {
           <div className="page__content__container">
             {this.props.notification.display ? this.renderNotification() : null}
             <div className="filter__section">
-              <p className="filter__label">Filter: </p>
-              <p className="filter__link">
-                {/* Filter by status: */}
-                <select
-                  className="event__filter"
-                  id="statusFilter"
-                  defaultValue={this.props.statusFilter}
-                  ref="statusFilter"
-                  onChange={ () => this.handleFilterChange(this.refs.statusFilter.value,this.props.filterEventsByStatus) }
-                >
-                  <option value="ALL" key={ 0 }>
-                    All
-                  </option>
-                  <option value="UPCOMING" key={ 1 }>
-                    Upcoming
-                  </option>
-                  <option value="PAST" key={ 2 }>
-                    Past
-                  </option>
-                </select>
-                <i className="material-icons">chevron_right</i>
-              </p>
-              <p className="filter__link">
-                {/* Filter by type: */}
-              <select
+              <FilterSelect
+                action={ this.props.filterEventsByStatus }
                 className="event__filter"
-                id="typeFilter"
+                defaultValue={this.props.statusFilter}
+                id="statusFilter"
+                reference="statusFilter"
+                options={[{ value: 'ALL', label: 'All'}, { value: "UPCOMING", label: "Upcoming"}, { value: "PAST", label: "Past" }]}
+              />
+              <FilterSelect
+                action={ this.props.filterEventsByType }
+                className="event__filter"
                 defaultValue={this.props.typeFilter}
-                ref="typeFilter"
-                onChange={ () => this.handleFilterChange(this.refs.typeFilter.value, this.props.filterEventsByType) }
-              >
-                <option value="ALL" key={ 0 }>
-                  All
-                </option>
-                <option value="SHOW" key={ 1 }>
-                  Show
-                </option>
-                <option value="REHEARSAL" key={ 2 }>
-                  Rehearsal
-                </option>
-              </select>
-              <i className="material-icons">chevron_right</i>
-            </p>
+                id="typeFilter"
+                reference="typeFilter"
+                options={[
+                  { value: 'ALL', label: 'All'},
+                  { value: "SHOW", label: "Show"},
+                  { value: "REHEARSAL", label: "Rehearsal" },
+                  // { value: "STUDIO", label: "Studio" },
+                ]}
+              />
             </div>
             { this.renderTable() }
             <select id="template" style={{visibility: 'hidden'}}>
