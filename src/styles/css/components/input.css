@@ -6,7 +6,7 @@ Error: Undefined variable: "$color-purple".
 84: .date {
 85:   width: 100%;
 86:   font-size: 1rem;
-87:   background: #F4FAF6;
+87:   background: #f4faf6;
 88:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;
 89:   label {
 90:     line-height: 1.5;
@@ -71,4 +71,4 @@ src/styles/scss/components/input.scss:88
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 88 of src/styles/scss/components/input.scss\A \A 83: select,\A 84: .date {\A 85:   width: 100%;\A 86:   font-size: 1rem;\A 87:   background: #F4FAF6;\A 88:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;\A 89:   label {\A 90:     line-height: 1.5;\A 91:   }\A 92: }\A 93: "; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 88 of src/styles/scss/components/input.scss\A \A 83: select,\A 84: .date {\A 85:   width: 100%;\A 86:   font-size: 1rem;\A 87:   background: #f4faf6;\A 88:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;\A 89:   label {\A 90:     line-height: 1.5;\A 91:   }\A 92: }\A 93: "; }

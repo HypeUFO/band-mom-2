@@ -1,24 +1,27 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actions from '../actions/auth.actions';
-import { sendGroupInvite } from '../actions/band.actions';
-import { getActiveProfile, clearActiveProfile } from '../actions/search.actions';
-import { dismissNotification } from '../actions/notification.actions';
-import Drawer from '../components/Global/Drawer';
-import Loader from '../components/Global/Loader';
-import Subheader from '../components/Global/Subheader';
-import UserEditForm from '../components/Global/Forms/UserEditForm';
-import Input from '../components/Global/Input';
-import { database } from '../config/fire'
-import FileUploadModal from '../modals/FileUploadModal';
-import AlertModal from '../modals/AlertModal';
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "../actions/auth.actions";
+import { sendGroupInvite } from "../actions/band.actions";
+import {
+  getActiveProfile,
+  clearActiveProfile
+} from "../actions/search.actions";
+import { dismissNotification } from "../actions/notification.actions";
+import Drawer from "../components/Global/Drawer";
+import Loader from "../components/Global/Loader";
+import Subheader from "../components/Global/Subheader";
+import UserEditForm from "../components/Global/Forms/UserEditForm";
+import Input from "../components/Global/Input";
+import { database } from "../config/fire";
+import FileUploadModal from "../modals/FileUploadModal";
+import AlertModal from "../modals/AlertModal";
 
 const initialState = {
   showAlert: false,
   showInviteModal: false,
   showImageModal: false,
+  inviteError: ""
 };
 
 class UserProfile extends Component {
@@ -29,190 +32,258 @@ class UserProfile extends Component {
     this.inviteUserCancel = this.inviteUserCancel.bind(this);
     this.uploadImage = this.uploadImage.bind(this);
     this.uploadImageCancel = this.uploadImageCancel.bind(this);
-    this.onUpdateUserEdit = this.onUpdateUserEdit.bind(this)
+    this.onUpdateUserEdit = this.onUpdateUserEdit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleBandSelect = this.handleBandSelect.bind(this);
   }
 
   componentDidMount() {
     Promise.resolve()
-    .then(() => this.props.clearActiveProfile())
-    .then(() => {
-      return database.ref().on("value", () => this.props.onGetActiveProfile(this.props.match.params.userId))
-    })
-    .then(() => {
-      if (this.props.userEdit) {
-        this.props.updateUserEdit();
-      }
-    })
-    .catch((err) => console.log(err));
+      .then(() => this.props.clearActiveProfile())
+      .then(() => {
+        return database
+          .ref()
+          .on("value", () =>
+            this.props.onGetActiveProfile(this.props.match.params.userId)
+          );
+      })
+      .then(() => {
+        if (this.props.userEdit) {
+          this.props.updateUserEdit();
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   componentWillUnmount() {
     this.props.clearActiveProfile();
   }
 
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleBandSelect(event) {
+    console.log(event.target.value);
+    this.setState({
+      bandName: event.target.value.split("/")[0],
+      bandId: event.target.value.split("/")[1],
+      inviteError: ""
+    });
+  }
+
   onUpdateUserEdit() {
     Promise.resolve()
-    .then(() => {
-      const { activeProfile } = this.props;
-      this.setState({
-        displayName: activeProfile.displayName || '',
-        location: activeProfile.location || '',
-        about: activeProfile.about || '',
-        imageUrl: activeProfile.imageUrl || '',
-        instruments: activeProfile.instruments || '',
+      .then(() => {
+        const { activeProfile } = this.props;
+        this.setState({
+          displayName: activeProfile.displayName || "",
+          location: activeProfile.location || "",
+          about: activeProfile.about || "",
+          imageUrl: activeProfile.imageUrl || "",
+          instruments: activeProfile.instruments || ""
+        });
       })
-    })
-    .then(() => this.props.updateUserEdit())
+      .then(() => this.props.updateUserEdit());
   }
 
   inviteUser() {
-    Promise.resolve()
-    .then(() => {
-      return this.props.sendGroupInvite(this.state.band, this.props.activeProfile.id, this.props.user);
-    })
-    .then(() => this.setState({showInviteModal: false}))
-    .catch(err => console.log(err));
+    if (this.state.bandName && this.state.bandId) {
+      const { displayName, id, email, imageUrl } = this.props.activeProfile;
+      const band = {
+        id: this.state.bandId,
+        name: this.state.bandName
+      };
+      const recipient = {
+        displayName,
+        id,
+        email,
+        imageUrl,
+        instruments: this.state.instruments || ""
+      };
+      Promise.resolve()
+        .then(() => {
+          return this.props.sendGroupInvite(band, recipient, this.props.user);
+        })
+        .then(() => this.setState({ showInviteModal: false }))
+        .catch(err => console.log(err));
+    } else {
+      this.setState({ inviteError: "Please select a band" });
+    }
   }
 
   inviteUserCancel() {
-    this.setState({showInviteModal: false});
+    this.setState({ showInviteModal: false });
   }
 
   uploadImage() {
-    this.props.uploadProfileImage()
+    this.props.uploadProfileImage();
   }
 
   uploadImageCancel() {
-    this.setState({showImageModal: false});
+    this.setState({ showImageModal: false });
   }
 
   render() {
-
-    const {
-      user,
-      activeProfile,
-      userEdit,
-      band,
-      bands,
-      match,
-    } = this.props;
-
+    const { user, activeProfile, userEdit, band, bands, match } = this.props;
 
     if (activeProfile) {
       let breadcrumbs;
-      if (user.id === activeProfile.id ) {
+      if (user.id === activeProfile.id) {
         breadcrumbs = [
-          { link: `/${match.params.userId}/dashboard`, name: user.displayName || user.email },
-          { link: `/${match.params.userId}/profile`, name: 'Profile' },
+          {
+            link: `/${match.params.userId}/dashboard`,
+            name: user.displayName || user.email
+          },
+          { link: `/${match.params.userId}/profile`, name: "Profile" }
         ];
       } else {
         breadcrumbs = [
-          { link: `/${user.id}/dashboard`, name: user.displayName || user.email },
-          { link: `/${match.params.userId}/profile`, name: `${activeProfile.displayName || activeProfile.email}'s Profile` },
+          {
+            link: `/${user.id}/dashboard`,
+            name: user.displayName || user.email
+          },
+          {
+            link: `/${match.params.userId}/profile`,
+            name: `${activeProfile.displayName ||
+              activeProfile.email}'s Profile`
+          }
         ];
       }
 
       let bandList = [];
       if (this.props.bands) {
         Object.keys(bands).map(key => {
+          // if (!activeProfile.groups[key]) {
           let addBandInfo = {
             label: bands[key].name,
-            value: bands[key].name + '/' + bands[key].id,
-          }
+            value: bands[key].name + "/" + bands[key].id,
+            disabled: activeProfile.groups[key]
+          };
           return bandList.push(addBandInfo);
-        })
+          // }
+        });
       }
-      bandList.unshift({label: 'Select Band', value: ''})
+      bandList.unshift({ label: "Select Band", value: "" });
 
       return (
-        <div className='page__container'>
+        <div className="page__container">
           <Drawer
             // userName={ userName }
-            show={ true }
+            show={true}
             className="drawer__sidebar"
             // toggle={ this.toggleDrawer }
           />
-          <Subheader breadcrumbs={ breadcrumbs }
+          <Subheader
+            breadcrumbs={breadcrumbs}
             // buttonHide={ buttonHide }
-            buttonHide={ user.id === activeProfile.id }
+            buttonHide={user.id === activeProfile.id}
             buttonLabel="Invite to Group"
             buttonIcon="add"
-            buttonOnClick={ () => this.setState({showInviteModal: true}) }
+            buttonOnClick={() => this.setState({ showInviteModal: true })}
           />
-          <div className='page__content page__content--two-col'>
+          <div className="page__content page__content--two-col">
             <div className="page__content__container">
-            <FileUploadModal
-              show={ this.state.showImageModal }
-              onCancel={ this.uploadImageCancel }
-              onUpload={ this.props.uploadProfileImage }
-              uploader={this.props.activeProfile}
-              header="Upload Profile Picture"
-              isLoading={ this.props.isLoading }
-              error={this.props.uploadError}
-            />
-            <AlertModal
-              show={ this.state.showInviteModal }
-              title={`Invite ${activeProfile.displayName} to band`}
-              actionType="Invite"
-              action={this.inviteUser}
-              onCancel={this.inviteUserCancel}
-              // isLoading={ this.props.uploading }
-            >
-              <Input type="select"
+              <FileUploadModal
+                show={this.state.showImageModal}
+                onCancel={this.uploadImageCancel}
+                onUpload={this.props.uploadProfileImage}
+                uploader={this.props.activeProfile}
+                header="Upload Profile Picture"
+                isLoading={this.props.isLoading}
+                error={this.props.uploadError}
+              />
+              <AlertModal
+                show={this.state.showInviteModal}
+                title={`Invite ${activeProfile.displayName} to band`}
+                actionType="Invite"
+                action={this.inviteUser}
+                onCancel={this.inviteUserCancel}
+                error={this.state.inviteError}
+                // isLoading={ this.props.uploading }
+              >
+                <Input
+                  type="select"
                   name="band"
                   placeholder="Band"
-                  options={ bandList }
+                  options={bandList}
                   // value={ this.state.band }
-                  onChange={ this.handleBandSelect }
-                  // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-            </AlertModal>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-              <h3>{activeProfile.displayName}</h3>
-              { user.id === this.props.match.params.userId
-              ? <Input
-                type="button-link"
-                value="Edit"
-                // onClick={this.props.updateUserEdit}
-                onClick={this.onUpdateUserEdit}
-                onSubmit={ this.onSubmitDeleteStagePlot }
-                onCancel={ this.onCancelDeleteStagePlot }
-              />
-              : null
-              }
-            </div>
-            <div className="user__profile__container">
-              <div className="user__profile__image__wrapper">
-                <img
-                  src={activeProfile.imageUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"}
-                  alt="profile pic"
-                  className="user__logo"
-                  style={{marginBottom: 24}}
+                  onChange={this.handleBandSelect}
+                  validation={{
+                    isLength: { min: 1, max: 80 },
+                    isAlphanumeric: { blacklist: [" "] }
+                  }}
                 />
                 <Input
-                  type="button-link"
-                  style={{fontSize: '0.8rem'}}
-                  value={ activeProfile.imageUrl ? 'Change Profile Picture' : 'Upload Profile Picture' }
-                  onClick={() => this.setState({showImageModal: true})}
+                  type="text"
+                  name="instruments"
+                  placeholder="Instruments"
+                  value={this.state.instruments}
+                  onChange={this.handleInputChange}
+                  validation={{
+                    isLength: { min: 1, max: 80 },
+                    isAlphanumeric: { blacklist: [" "] }
+                  }}
+                />
+              </AlertModal>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center"
+                }}
+              >
+                <h3>{activeProfile.displayName}</h3>
+                {user.id === this.props.match.params.userId ? (
+                  <Input
+                    type="button-link"
+                    value="Edit"
+                    // onClick={this.props.updateUserEdit}
+                    onClick={this.onUpdateUserEdit}
+                    onSubmit={this.onSubmitDeleteStagePlot}
+                    onCancel={this.onCancelDeleteStagePlot}
+                  />
+                ) : null}
+              </div>
+              <div className="user__profile__container">
+                <div className="user__profile__image__wrapper">
+                  <img
+                    src={
+                      activeProfile.imageUrl ||
+                      "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"
+                    }
+                    alt="profile pic"
+                    className="user__logo"
+                    style={{ marginBottom: 24 }}
+                  />
+                  <Input
+                    type="button-link"
+                    style={{ fontSize: "0.8rem" }}
+                    value={
+                      activeProfile.imageUrl
+                        ? "Change Profile Picture"
+                        : "Upload Profile Picture"
+                    }
+                    onClick={() => this.setState({ showImageModal: true })}
+                  />
+                </div>
+                <UserEditForm
+                  activeProfile={this.props.activeProfile}
+                  user={this.props.user}
+                  userEdit={this.props.userEdit}
+                  updateUserEdit={this.props.updateUserEdit}
+                  onUpdateUser={this.props.onUpdateUser}
+                  onGetActiveProfile={this.props.onGetActiveProfile}
                 />
               </div>
-              <UserEditForm
-                activeProfile={this.props.activeProfile}
-                user={this.props.user}
-                userEdit={this.props.userEdit}
-                updateUserEdit={this.props.updateUserEdit}
-                onUpdateUser={this.props.onUpdateUser}
-                onGetActiveProfile={this.props.onGetActiveProfile}
-              />
+              <h3>SoundCloud Widgets to come...</h3>
             </div>
-            <h3>SoundCloud Widgets to come...</h3>
+            <hr />
           </div>
-          <hr />
         </div>
-      </div>
       );
     } else {
-      return <Loader />
+      return <Loader />;
     }
   }
 }
@@ -225,23 +296,24 @@ function mapStateToProps(state) {
     userEdit: state.auth.edit,
     isLoading: state.app.loading,
     bands: state.bands.bands,
-    notification: state.notification,
+    notification: state.notification
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateUserEdit: actions.updateUserEdit,
-    onUpdateUser: actions.updateUser,
-    onGetUser: actions.getUser,
-    onGetActiveProfile: getActiveProfile,
-    clearActiveProfile: clearActiveProfile,
-    sendGroupInvite: sendGroupInvite,
-    uploadProfileImage: actions.uploadProfileImage,
-    dismissNotification: dismissNotification,
+  return bindActionCreators(
+    {
+      updateUserEdit: actions.updateUserEdit,
+      onUpdateUser: actions.updateUser,
+      onGetUser: actions.getUser,
+      onGetActiveProfile: getActiveProfile,
+      clearActiveProfile: clearActiveProfile,
+      sendGroupInvite: sendGroupInvite,
+      uploadProfileImage: actions.uploadProfileImage,
+      dismissNotification: dismissNotification
     },
-  dispatch);
+    dispatch
+  );
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

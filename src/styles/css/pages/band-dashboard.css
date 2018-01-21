@@ -12,7 +12,7 @@ Error: Undefined mixin 'md'.
 25:       flex-direction: row;
 26:       align-items: flex-start;
 27:       justify-content: space-around;
-28:       >div {
+28:       > div {
 29:         margin: 30px 10% 0 0;
 
 Backtrace:
@@ -82,4 +82,4 @@ src/styles/scss/pages/band-dashboard.scss:24
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined mixin 'md'.\A         on line 24 of src/styles/scss/pages/band-dashboard.scss, in `md'\A         from line 24 of src/styles/scss/pages/band-dashboard.scss\A \A 19:         width: 150px;\A 20:         border-radius: 50%;\A 21:         margin: 0;\A 22:       }\A 23:     }\A 24:     @include md {\A 25:       flex-direction: row;\A 26:       align-items: flex-start;\A 27:       justify-content: space-around;\A 28:       >div {\A 29:         margin: 30px 10% 0 0;"; }
+  content: "Error: Undefined mixin 'md'.\A         on line 24 of src/styles/scss/pages/band-dashboard.scss, in `md'\A         from line 24 of src/styles/scss/pages/band-dashboard.scss\A \A 19:         width: 150px;\A 20:         border-radius: 50%;\A 21:         margin: 0;\A 22:       }\A 23:     }\A 24:     @include md {\A 25:       flex-direction: row;\A 26:       align-items: flex-start;\A 27:       justify-content: space-around;\A 28:       > div {\A 29:         margin: 30px 10% 0 0;"; }

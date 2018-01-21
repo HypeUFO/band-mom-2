@@ -10,9 +10,9 @@ Error: Undefined variable: "$color-purple".
 26:   color: $color-purple;
 27: }
 28: 
-29: @keyframes App-logo-spin {
-30:   from { transform: rotate(0deg); }
-31:   to { transform: rotate(360deg); }
+29: .error {
+30:   color: $color-red;
+31:   text-align: center;
 
 Backtrace:
 src/styles/scss/app.scss:26
@@ -67,4 +67,4 @@ src/styles/scss/app.scss:26
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 26 of src/styles/scss/app.scss\A \A 21: .App-intro {\A 22:   font-size: large;\A 23: }\A 24: \A 25: a {\A 26:   color: $color-purple;\A 27: }\A 28: \A 29: @keyframes App-logo-spin {\A 30:   from { transform: rotate(0deg); }\A 31:   to { transform: rotate(360deg); }"; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 26 of src/styles/scss/app.scss\A \A 21: .App-intro {\A 22:   font-size: large;\A 23: }\A 24: \A 25: a {\A 26:   color: $color-purple;\A 27: }\A 28: \A 29: .error {\A 30:   color: $color-red;\A 31:   text-align: center;"; }

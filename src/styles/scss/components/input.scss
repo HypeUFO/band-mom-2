@@ -37,15 +37,15 @@ input[type="checkbox"] {
   flex-wrap: wrap;
   padding: 15px;
   font-size: 1rem;
-  background: #F4FAF6;
-  -webkit-box-shadow: 0px 0.15rem 0px #7F4FFF;
-  box-shadow: 0px 0.15rem 0px #7F4FFF;
+  background: #f4faf6;
+  -webkit-box-shadow: 0px 0.15rem 0px #7f4fff;
+  box-shadow: 0px 0.15rem 0px #7f4fff;
   &--disabled {
     background: transparent;
     -webkit-box-shadow: none;
     box-shadow: none;
     padding: 0;
-    >ul {
+    > ul {
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
@@ -54,7 +54,7 @@ input[type="checkbox"] {
       list-style: circle !important;
       margin-left: 20px;
       margin-top: 8px;
-      >li {
+      > li {
         display: list-item;
         width: 30%; // margin-right: 40px;
         padding: 5px 0;
@@ -84,7 +84,7 @@ select,
 .date {
   width: 100%;
   font-size: 1rem;
-  background: #F4FAF6;
+  background: #f4faf6;
   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;
   label {
     line-height: 1.5;
@@ -103,7 +103,7 @@ input[type="submit"],
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 500;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   background: $color-purple;
   &:hover {
@@ -137,7 +137,8 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center; // justify-content: flex-start;
-  justify-content: center;
+  // justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   padding: 0 5px;
   margin-bottom: 10px;
@@ -163,7 +164,7 @@ button {
   &__label {
     align-self: flex-start;
     color: $color-purple;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 300;
   }
 }
@@ -224,7 +225,7 @@ input[type="submit"] {
 .btn-danger {
   color: $color-light;
   font-size: 16px;
-  padding: .75rem;
+  padding: 0.75rem;
 }
 
 .btn-calendar {
@@ -233,7 +234,7 @@ input[type="submit"] {
   align-items: center;
   width: 100%;
   font-size: 1rem;
-  background: #F4FAF6;
+  background: #f4faf6;
   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem;
   padding: 14px; // border-radius: 0;
   label {

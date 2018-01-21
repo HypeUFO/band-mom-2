@@ -28,10 +28,9 @@
   display: inline-block;
 }
 
-.logo {
+.header > .logo {
   display: none;
 }
-
 
 /*Strip the ul of padding and list styling*/
 
@@ -42,14 +41,12 @@ ul.header__menu {
   right: 5px;
 }
 
-
 /*Create a horizontal list with spacing*/
 
 li {
   display: inline-block; // float: left;
   margin-right: 1px;
 }
-
 
 /*Style for menu links*/
 
@@ -63,13 +60,11 @@ li a {
   text-decoration: none;
 }
 
-
 /*Hover state for top level links*/
 
 li:hover a {
   // color: $color-purple;
 }
-
 
 /*Style for dropdown links*/
 
@@ -79,7 +74,6 @@ li:hover ul a {
   // line-height: 40px;
 }
 
-
 /*Hover state for dropdown links*/
 
 li:hover ul a:hover {
@@ -87,13 +81,11 @@ li:hover ul a:hover {
   color: #fff;
 }
 
-
 /*Hide dropdown links until they are needed*/
 
 li ul {
   display: none;
 }
-
 
 /*Make dropdown links vertical*/
 
@@ -101,7 +93,6 @@ li ul li {
   display: block;
   float: none;
 }
-
 
 /*Prevent text wrapping*/
 
@@ -158,7 +149,7 @@ li ul li a {
     a {
       color: $color-gray;
       text-decoration: none;
-      >i {
+      > i {
         font-size: 36px;
         line-height: 1.5;
         color: $color-purple-light;

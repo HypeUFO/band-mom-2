@@ -85,6 +85,10 @@ hr {
 a {
   color: #7F4FFF; }
 
+.error {
+  color: #FF0505;
+  text-align: center; }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg); }
@@ -293,6 +297,9 @@ input {
   border-radius: 50%;
   margin: 0; }
 
+.band__member__list {
+  display: flex; }
+
 .user__profile__form {
   width: 100%; }
 .user__profile__image__wrapper {
@@ -376,7 +383,7 @@ input {
   color: #FFFFFF;
   display: inline-block; }
 
-.logo {
+.header > .logo {
   display: none; }
 
 /*Strip the ul of padding and list styling*/
@@ -603,9 +610,9 @@ input[type="checkbox"] {
   flex-wrap: wrap;
   padding: 15px;
   font-size: 1rem;
-  background: #F4FAF6;
-  -webkit-box-shadow: 0px 0.15rem 0px #7F4FFF;
-  box-shadow: 0px 0.15rem 0px #7F4FFF; }
+  background: #f4faf6;
+  -webkit-box-shadow: 0px 0.15rem 0px #7f4fff;
+  box-shadow: 0px 0.15rem 0px #7f4fff; }
   .checkbox__group--disabled {
     background: transparent;
     -webkit-box-shadow: none;
@@ -643,7 +650,7 @@ select,
 .date {
   width: 100%;
   font-size: 1rem;
-  background: #F4FAF6;
+  background: #f4faf6;
   box-shadow: 0px 0.15rem 0px #7F4FFF; }
   input label,
   textarea label,
@@ -657,7 +664,7 @@ input[type="submit"],
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 500;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   background: #7F4FFF; }
   input[type="submit"]:hover,
@@ -687,7 +694,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   padding: 0 5px;
   margin-bottom: 10px; }
@@ -707,7 +714,7 @@ button {
   .input__label {
     align-self: flex-start;
     color: #7F4FFF;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 300; }
 
 .btn {
@@ -756,7 +763,7 @@ input[type="submit"] {
 .btn-danger {
   color: #FFFFFF;
   font-size: 16px;
-  padding: .75rem; }
+  padding: 0.75rem; }
 
 .btn-calendar {
   display: inline-flex;
@@ -764,7 +771,7 @@ input[type="submit"] {
   align-items: center;
   width: 100%;
   font-size: 1rem;
-  background: #F4FAF6;
+  background: #f4faf6;
   box-shadow: 0px 0.15rem 0px #7F4FFF;
   padding: 14px;
   cursor: pointer; }
@@ -1072,7 +1079,7 @@ tbody:hover > tr:hover td {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(175, 160, 200, 0.8);
   z-index: 4;
   opacity: 0;
   pointer-events: none;
@@ -1108,7 +1115,8 @@ tbody:hover > tr:hover td {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transform: scale(0.9);
     transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
-  .modal__top h3, .modal__top p {
+  .modal__top h3,
+  .modal__top p {
     margin: 0;
     padding: 0; }
   .modal__top p {
@@ -1549,6 +1557,14 @@ tbody:hover > tr:hover td {
   color: #7F4FFF;
   width: 100%;
   min-width: 30%; }
+  .card__user {
+    text-align: center;
+    align-items: center;
+    width: 175px; }
+    .card__user > img {
+      height: 75px !important;
+      width: 75px !important;
+      border-radius: 50%; }
   .card > div {
     height: 100%;
     display: flex;
@@ -1568,11 +1584,11 @@ tbody:hover > tr:hover td {
   .card__type {
     color: #7F4FFF; }
   .card__link {
+    display: inline-block;
     text-decoration: none;
     padding: 10px;
     margin: 10px 0;
     margin-right: 20px;
-    width: 100%;
     height: 200px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1599,6 +1615,7 @@ tbody:hover > tr:hover td {
   .card__delete {
     display: flex;
     position: absolute;
+    width: auto;
     top: 0;
     right: 0;
     margin: 0.25rem;

@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
-import { createBand } from '../../../actions/band.actions';
-import Form from './Form';
-import Input from '../Input';
-import genres from '../../../constants/genre_list';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import PropTypes from "prop-types";
+import { createBand } from "../../../actions/band.actions";
+import Form from "./Form";
+import Input from "../Input";
+import genres from "../../../constants/genre_list";
 
 const initialState = {
-  name: '',
-  location: '',
-  email: '',
-  genre1: '',
-  genre2: '',
-  bio: '',
+  name: "",
+  location: "",
+  email: "",
+  genre1: "",
+  genre2: "",
+  bio: "",
+  instruments: "",
   stageplots: [],
-  type: 'band',
+  type: "band"
 };
 
 class CreateBandForm extends Component {
@@ -24,8 +25,8 @@ class CreateBandForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
-  }
+    onError: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -36,13 +37,15 @@ class CreateBandForm extends Component {
     this.onError = this.onError.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     // this.handleInputFilesChange = this.handleInputFilesChange.bind(this);
-    this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(this);
+    this.handleAsyncCreateButtonClick = this.handleAsyncCreateButtonClick.bind(
+      this
+    );
     this.addBand = this.addBand.bind(this);
   }
 
   onSubmit(event) {
     event.preventDefault();
-    if(this.refs.form.validate()) {
+    if (this.refs.form.validate()) {
       this.handleAsyncCreateButtonClick();
       this.props.onSubmit();
     }
@@ -66,12 +69,20 @@ class CreateBandForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-   addBand() {
-    const members = {}
-    members[this.props.user.id] = true
-    const userId = this.props.user.id;
-    const roles = {}
-    roles[userId] = 'owner';
+  addBand() {
+    const { user } = this.props;
+    const members = {};
+    const founder = {
+      name: user.displayName || "",
+      id: user.id || "",
+      email: user.email || "",
+      imageUrl: user.imageUrl || "",
+      instruments: this.state.instruments || ""
+    };
+    members[user.id] = founder;
+    const userId = user.id;
+    const roles = {};
+    roles[userId] = "owner";
     const band = {
       name: this.state.name,
       location: this.state.location,
@@ -83,16 +94,16 @@ class CreateBandForm extends Component {
       type: this.state.type,
       roles,
       events: {},
-      members,
-    }
-    this.props.onCreateBand(band, this.props.user);
+      members
+    };
+    this.props.onCreateBand(band, user);
   }
   handleAsyncCreateButtonClick() {
-    console.log('submit button clicked');
+    console.log("submit button clicked");
     Promise.resolve()
-    .then(this.addBand())
-    .then(() => this.onSuccess())
-    .catch(err => this.onError(err));
+      .then(this.addBand())
+      .then(() => this.onSuccess())
+      .catch(err => this.onError(err));
   }
 
   render() {
@@ -100,7 +111,7 @@ class CreateBandForm extends Component {
       asyncCreateLoading,
       asyncCreateError,
       asyncUploadLoading,
-      asyncUploadError,
+      asyncUploadError
     } = this.props;
 
     const {
@@ -110,33 +121,34 @@ class CreateBandForm extends Component {
       genre1,
       genre2,
       bio,
+      instruments
       // stageplots,
       // type,
       // files,
     } = this.state;
 
-
     // Errors
-    let createError = (asyncCreateError) ? asyncCreateError.toJSON().reason : '';
-    let uploadError = (asyncUploadError) ? asyncUploadError.toJSON().reason : '';
+    let createError = asyncCreateError ? asyncCreateError.toJSON().reason : "";
+    let uploadError = asyncUploadError ? asyncUploadError.toJSON().reason : "";
 
     // Normal
     return (
-        <Form className="modal__container"
-          onSubmit={ this.onSubmit }
-          onCancel={ this.onCancel }
-          disabled={ asyncCreateLoading || asyncUploadLoading }
-          ref="form"
-          error={ createError || uploadError }
-        >
-          <div className="modal__top">
-            <h3 className="clr-purple">Start A Band</h3>
-          </div>
-          <div className="modal__middle">
-            {/* <div className="modal__column"> */}
+      <Form
+        className="modal__container"
+        onSubmit={this.onSubmit}
+        onCancel={this.onCancel}
+        disabled={asyncCreateLoading || asyncUploadLoading}
+        ref="form"
+        error={createError || uploadError}
+      >
+        <div className="modal__top">
+          <h3 className="clr-purple">Start A Band</h3>
+        </div>
+        <div className="modal__middle">
+          {/* <div className="modal__column"> */}
 
-            {/* Add this back when users can create venues */}
-            {/* <div className="modal__row">
+          {/* Add this back when users can create venues */}
+          {/* <div className="modal__row">
               <Input type="select"
                 name="type"
                 placeholder="Type"
@@ -146,78 +158,108 @@ class CreateBandForm extends Component {
                 validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
               />
             </div> */}
-            <div className="modal__row">
-              <Input type="text"
-                name="name"
-                placeholder="Band Name"
-                value={ name }
-                onChange={ this.handleInputChange }
-                validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-              />
-              <Input type="text"
-                name="location"
-                placeholder="Location"
-                value={ location }
-                onChange={ this.handleInputChange }
-                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-              />
-            </div>
+          <div className="modal__row">
+            <Input
+              type="text"
+              name="name"
+              placeholder="Band Name"
+              value={name}
+              onChange={this.handleInputChange}
+              validation={{
+                isLength: { min: 3, max: 30 },
+                isAlphanumeric: { blacklist: [" "] }
+              }}
+            />
+            <Input
+              type="text"
+              name="location"
+              placeholder="Location"
+              value={location}
+              onChange={this.handleInputChange}
+              validation={{
+                isLength: { min: 3, max: 80 },
+                isAlphanumeric: { blacklist: [" "] }
+              }}
+            />
+          </div>
 
-            <div className="modal__row">
-              <Input type="select"
-                name="genre1"
-                placeholder="Genre 1"
-                options={genres}
-                value={ genre1 }
-                onChange={ this.handleInputChange }
-                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-              />
-              <Input type="select"
-                name="genre2"
-                placeholder="Genre 2"
-                options={genres}
-                value={ genre2 }
-                onChange={ this.handleInputChange }
-                validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-              />
-            </div>
-            <div className="modal__row">
-              <Input type="text"
-                  name="email"
-                  placeholder="Band Email"
-                  value={ email }
-                  onChange={ this.handleInputChange }
-                  // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
-                />
-              <Input type="textarea"
-                name="bio"
-                placeholder="Bio"
-                value={ bio }
-                onChange={ this.handleInputChange }
-                // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
-              />
-            </div>
+          <div className="modal__row">
+            <Input
+              type="select"
+              name="genre1"
+              placeholder="Genre 1"
+              options={genres}
+              value={genre1}
+              onChange={this.handleInputChange}
+              validation={{
+                isLength: { min: 3, max: 80 },
+                isAlphanumeric: { blacklist: [" "] }
+              }}
+            />
+            <Input
+              type="select"
+              name="genre2"
+              placeholder="Genre 2"
+              options={genres}
+              value={genre2}
+              onChange={this.handleInputChange}
+              validation={{
+                isLength: { min: 3, max: 80 },
+                isAlphanumeric: { blacklist: [" "] }
+              }}
+            />
           </div>
-          <div className="modal__bottom">
-            <Input type="button-thin-cancel" value="Cancel" />
-            <Input type="button-thin-submit" value="Create" />
+          <div className="modal__row">
+            <Input
+              type="text"
+              name="email"
+              placeholder="Band Email"
+              value={email}
+              onChange={this.handleInputChange}
+              // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+            />
+            <Input
+              type="textarea"
+              name="bio"
+              placeholder="Bio"
+              value={bio}
+              onChange={this.handleInputChange}
+              // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+            />
           </div>
-        </Form>
+          <div className="modal__row">
+            <Input
+              type="text"
+              name="instruments"
+              placeholder="What instrument do you play?"
+              value={instruments}
+              onChange={this.handleInputChange}
+              // validation={{ isLength: { min: 3, max: 30 }, isAlphanumeric: { blacklist: [' '] } }}
+            />
+          </div>
+        </div>
+        <div className="modal__bottom">
+          <Input type="button-thin-cancel" value="Cancel" />
+          <Input type="button-thin-submit" value="Create" />
+        </div>
+      </Form>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    user: state.auth.user,
-  }
-}
+    user: state.auth.user
+  };
+};
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    onCreateBand: createBand,
+  return bindActionCreators(
+    {
+      onCreateBand: createBand
     },
-  dispatch);
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateBandForm);

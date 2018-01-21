@@ -3,15 +3,15 @@ Error: Undefined variable: "$ease-in-out-cubic".
         on line 11 of src/styles/scss/components/modal.scss
 
 6:   height: 100%;
-7:   background: rgba(255, 255, 255, 0.8);
+7:   background: rgba(175, 160, 200, 0.8);
 8:   z-index: 4;
 9:   opacity: 0;
 10:   pointer-events: none;
 11:   transition: opacity 0.3s $ease-in-out-cubic;
 12:   overflow: visible;
 13: 
-14:  &__close {
-15:    display: flex;
+14:   &__close {
+15:     display: flex;
 16:     position: absolute;
 
 Backtrace:
@@ -71,4 +71,4 @@ src/styles/scss/components/modal.scss:11
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$ease-in-out-cubic\".\A         on line 11 of src/styles/scss/components/modal.scss\A \A 6:   height: 100%;\A 7:   background: rgba(255, 255, 255, 0.8);\A 8:   z-index: 4;\A 9:   opacity: 0;\A 10:   pointer-events: none;\A 11:   transition: opacity 0.3s $ease-in-out-cubic;\A 12:   overflow: visible;\A 13: \A 14:  &__close {\A 15:    display: flex;\A 16:     position: absolute;"; }
+  content: "Error: Undefined variable: \"$ease-in-out-cubic\".\A         on line 11 of src/styles/scss/components/modal.scss\A \A 6:   height: 100%;\A 7:   background: rgba(175, 160, 200, 0.8);\A 8:   z-index: 4;\A 9:   opacity: 0;\A 10:   pointer-events: none;\A 11:   transition: opacity 0.3s $ease-in-out-cubic;\A 12:   overflow: visible;\A 13: \A 14:   &__close {\A 15:     display: flex;\A 16:     position: absolute;"; }

@@ -10,9 +10,9 @@ Error: Undefined variable: "$color-purple".
 8:   color: $color-purple; // margin-right: 20px;
 9:   width: 100%;
 10:   min-width: 30%;
-11:   >div {
-12:     height: 100%;
-13:     display: flex;
+11:   &__user {
+12:     text-align: center;
+13:     align-items: center;
 
 Backtrace:
 src/styles/scss/components/card.scss:8
@@ -67,4 +67,4 @@ src/styles/scss/components/card.scss:8
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 8 of src/styles/scss/components/card.scss\A \A 3:   justify-content: space-between;\A 4:   flex-direction: column;\A 5:   align-items: center;\A 6:   height: 100%;\A 7:   cursor: pointer;\A 8:   color: $color-purple; // margin-right: 20px;\A 9:   width: 100%;\A 10:   min-width: 30%;\A 11:   >div {\A 12:     height: 100%;\A 13:     display: flex;"; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 8 of src/styles/scss/components/card.scss\A \A 3:   justify-content: space-between;\A 4:   flex-direction: column;\A 5:   align-items: center;\A 6:   height: 100%;\A 7:   cursor: pointer;\A 8:   color: $color-purple; // margin-right: 20px;\A 9:   width: 100%;\A 10:   min-width: 30%;\A 11:   &__user {\A 12:     text-align: center;\A 13:     align-items: center;"; }
