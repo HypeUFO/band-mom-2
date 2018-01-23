@@ -135,7 +135,7 @@ export default class BandMemberList extends Component {
             ) : null}
             {doc.displayName && (
               <a href={`/${doc.id}/profile`}>
-                <h3 style={{ margin: "0.5rem" }}>{doc.displayName}</h3>
+                <h3 style={{ margin: 0 }}>{doc.displayName}</h3>
               </a>
             )}
             <p>{doc.email}</p>

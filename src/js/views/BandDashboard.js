@@ -33,6 +33,7 @@ import BandMemberList from "../components/BandMemberList";
 const initialState = {
   showCreateEventModal: false,
   showDeleteStagePlotAlert: false,
+  showStagePlotActionsModal: false,
   showDeleteBandAlert: false,
   showLeaveBandAlert: false,
   showShareModal: false,
@@ -53,6 +54,7 @@ class BandDashboard extends Component {
     this.onLeaveBand = this.onLeaveBand.bind(this);
     this.onCancelAlert = this.onCancelAlert.bind(this);
     this.onDeleteStagePlot = this.onDeleteStagePlot.bind(this);
+    this.downloadStagePlot = this.downloadStagePlot.bind(this);
   }
 
   componentWillMount() {
@@ -127,6 +129,7 @@ class BandDashboard extends Component {
   onCancelAlert() {
     this.setState({
       showDeleteStagePlotAlert: false,
+      showStagePlotActionsModal: false,
       showDeleteBandAlert: false,
       showLeaveBandAlert: false,
       showStageplotModal: false,
@@ -218,7 +221,7 @@ class BandDashboard extends Component {
             Promise.resolve()
               .then(() => {
                 this.setState({
-                  showDeleteStagePlotAlert: true,
+                  showStagePlotActionsModal: true,
                   selectedStagePlot: doc
                 });
                 console.log(doc);
@@ -296,6 +299,13 @@ class BandDashboard extends Component {
     }
   }
 
+  downloadStagePlot(blob, fileName) {
+    var a = document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = fileName;
+    a.click();
+  }
+
   render() {
     const { user, band, match } = this.props;
 
@@ -355,6 +365,89 @@ class BandDashboard extends Component {
                 isLoading={this.props.uploading}
                 error={this.props.uploadError}
               />
+              <AlertModal
+                show={this.state.showStagePlotActionsModal}
+                title="Actions"
+                // actionType="Delete"
+                // action={this.onDeleteStagePlot}
+                onCancel={this.onCancelAlert}
+                isLoading={this.props.uploading}
+              >
+                <button
+                  className="btn btn-danger btn-full"
+                  onClick={event => {
+                    event.preventDefault();
+                    Promise.resolve()
+                      .then(() => {
+                        this.setState({
+                          showDeleteStagePlotAlert: true
+                          // selectedStagePlot: doc
+                        });
+                        // console.log(doc);
+                      })
+                      .then(() => {
+                        this.props.onGetBand(this.props.band.id);
+                      });
+                  }}
+                >
+                  DELETE
+                </button>
+                <button
+                  className="btn btn-full"
+                  onClick={event => {
+                    event.preventDefault();
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = "blob";
+                    xhr.onload = function(event) {
+                      var blob = xhr.response;
+                      console.log(blob);
+                      const fileName = "stageplot";
+                      // var fileName = xhr
+                      //   .getResponseHeader("Content-Disposition")
+                      //   .match(/\sfilename="([^"]+)"(\s|$)/)[1];
+                      // this.downloadStagePlot(blob, fileName);
+                      var a = document.createElement("a");
+                      a.href = window.URL.createObjectURL(blob);
+                      a.download = fileName;
+                      a.click();
+                    };
+                    xhr.open("GET", this.state.selectedStagePlot.url);
+                    xhr.send();
+                    // Promise.resolve()
+                    //   .then(() => {
+                    //     this.setState({
+                    //       showDeleteStagePlotAlert: true
+                    //       // selectedStagePlot: doc
+                    //     });
+                    //     // console.log(doc);
+                    //   })
+                    //   .then(() => {
+                    //     this.props.onGetBand(this.props.band.id);
+                    //   });
+                  }}
+                >
+                  DOWNLOAD
+                </button>
+                <button
+                  className="btn btn-full"
+                  onClick={event => {
+                    event.preventDefault();
+                    // Promise.resolve()
+                    //   .then(() => {
+                    //     this.setState({
+                    //       showDeleteStagePlotAlert: true
+                    //       // selectedStagePlot: doc
+                    //     });
+                    //     // console.log(doc);
+                    //   })
+                    //   .then(() => {
+                    //     this.props.onGetBand(this.props.band.id);
+                    //   });
+                  }}
+                >
+                  EMAIL
+                </button>
+              </AlertModal>
               <AlertModal
                 show={this.state.showDeleteStagePlotAlert}
                 title="Are you sure you want to delete this stageplot?"

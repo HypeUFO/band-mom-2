@@ -65,6 +65,8 @@
   }
   &__bottom {
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
   }
   &__column {
     flex: 1;

@@ -219,7 +219,15 @@ input[type="submit"] {
 .btn-thin {
   padding: 1rem;
   font-weight: 600;
+  margin: 0 5px;
   cursor: pointer;
+  &--cancel {
+    border: 1px solid $color-purple;
+  }
+}
+
+.btn-full {
+  width: 100%;
 }
 
 .btn-danger {

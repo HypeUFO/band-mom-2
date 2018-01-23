@@ -211,6 +211,7 @@ export default class Input extends Component {
     } = this.props;
 
     const { showCalender } = this.state;
+    const full = this.props.full ? 'btn-full' : null
 
     if (disabled === true) {
       return (
@@ -222,7 +223,7 @@ export default class Input extends Component {
     } else if (type === "button-thin-submit") {
       return (
         <button
-          className="btn-thin bg-clr-purple"
+          className={`btn-thin bg-clr-purple ${full}`}
           type="submit"
           style={this.props.style}
         >
@@ -232,7 +233,7 @@ export default class Input extends Component {
     } else if (type === "button-thin-cancel") {
       return (
         <button
-          className="btn-thin clr-grey"
+          className={`btn-thin btn-thin--cancel clr-purple ${full}`}
           type="button"
           onClick={onCancel}
           style={this.props.style}
@@ -243,7 +244,7 @@ export default class Input extends Component {
     } else if (type === "button-thin-button") {
       return (
         <button
-          className="btn-thin bg-clr-purple"
+          className={`btn-thin bg-clr-purple ${full}`}
           type="button"
           onClick={onClick}
           style={this.props.style}
@@ -254,7 +255,7 @@ export default class Input extends Component {
     } else if (type === "button-link") {
       return (
         <button
-          className="btn-link bg-clr-grey"
+          className={`btn-link bg-clr-grey ${full}`}
           type="button"
           onClick={onClick}
           style={this.props.style}
@@ -265,7 +266,7 @@ export default class Input extends Component {
     } else if (type === "button-danger") {
       return (
         <button
-          className="btn-danger btn-thin bg-clr-red"
+          className={`btn-danger btn-thin bg-clr-red ${full}`}
           type="button"
           onClick={onClick}
           style={this.props.style}

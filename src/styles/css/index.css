@@ -758,7 +758,13 @@ input[type="submit"] {
 .btn-thin {
   padding: 1rem;
   font-weight: 600;
+  margin: 0 5px;
   cursor: pointer; }
+  .btn-thin--cancel {
+    border: 1px solid #7F4FFF; }
+
+.btn-full {
+  width: 100%; }
 
 .btn-danger {
   color: #FFFFFF;
@@ -1124,7 +1130,9 @@ tbody:hover > tr:hover td {
   .modal__middle {
     padding: 0.5rem 0; }
   .modal__bottom {
-    text-align: right; }
+    text-align: right;
+    display: flex;
+    justify-content: flex-end; }
   .modal__column {
     flex: 1; }
   .modal__row {
