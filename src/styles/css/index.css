@@ -718,7 +718,6 @@ button {
     font-weight: 300; }
 
 .btn {
-  width: 4rem;
   font-size: 16px; }
 
 .btn,
@@ -1412,7 +1411,8 @@ tbody:hover > tr:hover td {
     transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
   .form__top {
     margin: 10px; }
-    .form__top h3, .form__top p {
+    .form__top h3,
+    .form__top p {
       margin: 0;
       padding: 0; }
     .form__top p {
@@ -1426,7 +1426,8 @@ tbody:hover > tr:hover td {
       visibility: hidden; }
     .form__bottom > button {
       font-size: 18px;
-      width: 8rem; }
+      width: 8rem;
+      margin: 5px; }
   .form__column {
     flex: 1; }
   .form__row {

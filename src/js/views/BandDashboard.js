@@ -286,7 +286,7 @@ class BandDashboard extends Component {
   }
 
   render() {
-    const { user, band, match } = this.props;
+    const { user, band, bandEdit, match } = this.props;
 
     let breadcrumbs = [
       {
@@ -301,12 +301,14 @@ class BandDashboard extends Component {
     ];
 
     if (band) {
+      const lastMember = Object.keys(band.members).length === 1;
+
       let formBottomClasses = classNames("form__bottom", {
-        "form__bottom--hidden": !this.props.bandEdit
+        "form__bottom--hidden": !bandEdit
       });
 
       let removeActions = classNames("band__details__remove-actions", {
-        "band__details__remove-actions--hidden": !this.props.bandEdit
+        "band__details__remove-actions--hidden": !bandEdit
       });
 
       return (
@@ -433,13 +435,24 @@ class BandDashboard extends Component {
 
               <AlertModal
                 show={this.state.showLeaveBandAlert}
-                title="Are you sure you want to leave this band?"
-                actionType="Leave"
-                action={this.onLeaveBand}
+                title={
+                  !lastMember
+                    ? "Are you sure you want to leave this band?"
+                    : "You are the only band member"
+                }
+                actionType={!lastMember ? "Leave" : null}
+                action={!lastMember ? this.onLeaveBand : null}
                 onCancel={this.onCancelAlert}
                 // isLoading={ this.props.uploading }
               >
-                <p>This action can not be undone</p>
+                {Object.keys(this.props.band.members).length > 1 ? (
+                  <p>This action can not be undone</p>
+                ) : (
+                  <p>
+                    Invite someone to maintain this band before you leave, or
+                    delete the band
+                  </p>
+                )}
               </AlertModal>
 
               <CreateEventModal
@@ -477,13 +490,15 @@ class BandDashboard extends Component {
                 }}
               >
                 <h3>Band Details</h3>
-                <Input
-                  type="button-link"
-                  value="Edit"
-                  onClick={this.props.updateBandEdit}
-                  onSubmit={this.onSubmitDeleteStagePlot}
-                  onCancel={this.onCancelAlert}
-                />
+                {!bandEdit && (
+                  <Input
+                    type="button-link"
+                    value="Edit"
+                    onClick={this.props.updateBandEdit}
+                    onSubmit={this.onSubmitDeleteStagePlot}
+                    onCancel={this.onCancelAlert}
+                  />
+                )}
               </div>
               <div className="band__details__container">
                 <div className="band__details__image__wrapper">
@@ -504,7 +519,7 @@ class BandDashboard extends Component {
                 </div>
                 <BandEditForm
                   band={this.props.band}
-                  bandEdit={this.props.bandEdit}
+                  bandEdit={bandEdit}
                   user={this.props.user}
                   updateBandEdit={this.props.updateBandEdit}
                   onUpdateBand={this.props.onUpdateBand}

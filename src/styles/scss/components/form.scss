@@ -30,7 +30,8 @@
   }
   &__top {
     margin: 10px;
-    h3, p {
+    h3,
+    p {
       margin: 0;
       padding: 0;
     }
@@ -51,6 +52,7 @@
     > button {
       font-size: 18px;
       width: 8rem;
+      margin: 5px;
     }
   }
   &__column {

@@ -170,7 +170,7 @@ button {
 }
 
 .btn {
-  width: 4rem;
+  // width: 4rem;
   font-size: 16px;
 }
 
@@ -219,8 +219,7 @@ input[type="submit"] {
 
 .btn-thin {
   padding: 1rem;
-  font-weight: 600;
-  // margin: 5px;
+  font-weight: 600; // margin: 5px;
   cursor: pointer;
   &--cancel {
     border: 1px solid $color-purple;
