@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import { createEvent } from "../../../actions/event.actions";
 import Form from "./Form";
 import Input from "../Input";
 
@@ -18,7 +21,7 @@ export const initialState = {
   // files: [],
 };
 
-class CreateBandEventModal extends Component {
+class CreateEventForm extends Component {
   static propTypes = {
     show: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -309,4 +312,21 @@ class CreateBandEventModal extends Component {
   }
 }
 
-export default CreateBandEventModal;
+// export default CreateBandEventModal;
+
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      onCreateEvent: createEvent
+    },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEventForm);

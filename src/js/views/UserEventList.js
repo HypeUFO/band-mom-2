@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actions from '../actions/event.actions';
-import { getBandMany } from '../actions/band.actions';
-import { dismissNotification } from '../actions/notification.actions';
-import Table from '../components/Global/Table/Table';
-import TableRow from '../components/Global/Table/TableRow';
-import TableRowMenu from '../components/Global/Table/TableRowMenu';
-import TableRowMenuItem from '../components/Global/Table/TableRowMenuItem';
-import Drawer from '../components/Global/Drawer';
-import Subheader from '../components/Global/Subheader';
-import Notification from '../components/Global/Notification';
-import CreateEventModal from '../modals/CreateEventModal';
-import FilterSelect from '../components/Global/FilterSelect';
-import Input from '../components/Global/Input';
-import moment from 'moment';
-import history from '../history';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "../actions/event.actions";
+import { getBandMany } from "../actions/band.actions";
+import { dismissNotification } from "../actions/notification.actions";
+import Table from "../components/Global/Table/Table";
+import TableRow from "../components/Global/Table/TableRow";
+import TableRowMenu from "../components/Global/Table/TableRowMenu";
+import TableRowMenuItem from "../components/Global/Table/TableRowMenuItem";
+import Drawer from "../components/Global/Drawer";
+import Subheader from "../components/Global/Subheader";
+import Notification from "../components/Global/Notification";
+import CreateEventModal from "../modals/CreateEventModal";
+import FilterSelect from "../components/Global/FilterSelect";
+import Input from "../components/Global/Input";
+import moment from "moment";
+import history from "../history";
 
-import { database } from '../config/fire'
+import { database } from "../config/fire";
 
-
-export const initialState = {
+const initialState = {
   showCreateEventModal: false,
   showShareModal: false,
-  selected: '',
-  userEvents: null,
+  selected: "",
+  userEvents: null
 };
 class UserEventList extends Component {
   constructor(props) {
@@ -40,13 +39,15 @@ class UserEventList extends Component {
   }
 
   componentWillMount() {
-    database.ref().on('value', () => {
-      this.props.onGetUserEventMany(this.props.match.params.userId)
-    })
+    database.ref().on("value", () => {
+      this.props.onGetUserEventMany(this.props.match.params.userId);
+    });
   }
 
   handleRowClick(row) {
-    window.location = `/${this.props.match.params.userId}/bands/${row.bandId}/events/${row.id}/details`;
+    window.location = `/${this.props.match.params.userId}/bands/${
+      row.bandId
+    }/events/${row.id}/details`;
     // history.push(`/${this.props.match.params.userId}/bands/testBand/events/${row.id}/details`);
   }
 
@@ -61,7 +62,7 @@ class UserEventList extends Component {
   }
 
   onCreateEventSubmit() {
-    console.log('Event submitted');
+    console.log("Event submitted");
     this.toggleCreateEventModal();
   }
 
@@ -70,20 +71,21 @@ class UserEventList extends Component {
   }
 
   onCreateEventSuccess() {
-    console.log('Show successfully created');
+    console.log("Show successfully created");
     // this.props.onGetBandMany(this.props.match.params.userId);
   }
 
   onCreateEventError(err) {
-    console.log('An error occured:' + err);
+    console.log("An error occured:" + err);
   }
 
-  deleteEvent(event,) {
+  deleteEvent(event) {
     const bandId = this.props.match.params.bandId;
-    this.props.onDeleteEvent(event, bandId)
-    // this.db.child(gigId).remove()
-    .then(() => this.onDeleteEventSuccess())
-    .catch(err => this.onDeleteEventError())
+    this.props
+      .onDeleteEvent(event, bandId)
+      // this.db.child(gigId).remove()
+      .then(() => this.onDeleteEventSuccess())
+      .catch(err => this.onDeleteEventError());
   }
 
   onDeleteEventSuccess() {
@@ -93,14 +95,18 @@ class UserEventList extends Component {
 
   onDeleteEventError() {
     this.props.onGetEventMany();
-    alert('An error occured :(');
+    alert("An error occured :(");
   }
 
   restoreEvent() {
     if (this.props.recentlyDeleted.length > 0) {
-      this.props.onRestoreEvent(this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1], this.props.band.id, this.props.user.id)
+      this.props.onRestoreEvent(
+        this.props.recentlyDeleted[this.props.recentlyDeleted.length - 1],
+        this.props.band.id,
+        this.props.user.id
+      );
     } else {
-      console.log('no Events to restore');
+      console.log("no Events to restore");
       this.props.dismissNotification();
     }
   }
@@ -119,83 +125,91 @@ class UserEventList extends Component {
   }
 
   renderRow(doc, index) {
-
-    let statusColorClass = '';
-    switch(doc.status) {
-      case 'upcoming':
+    let statusColorClass = "";
+    switch (doc.status) {
+      case "upcoming":
         // statusColorClass = 'clr-purple';
         break;
-      case 'past':
-        statusColorClass = 'clr-red';
+      case "past":
+        statusColorClass = "clr-red";
         break;
       default:
-        // statusColorClass = 'clr-purple';
+      // statusColorClass = 'clr-purple';
     }
 
     let columns = [
-      { value: moment(doc.date).format('MM/DD/YYYY') || '' , colorClass: statusColorClass},
-      { value: doc.bandName.toUpperCase(), colorClass: 'clr-purple' || '' },
-      { value: doc.venue || '' },
-      { value: doc.address || '' },
-      { value: doc.phone || '' },
-      { value: doc.loadIn || '' },
-      { value: doc.showTime || '' },
-      { value: doc.type || '' },
+      {
+        value: moment(doc.date).format("MM/DD/YYYY") || "",
+        colorClass: statusColorClass
+      },
+      { value: doc.bandName.toUpperCase(), colorClass: "clr-purple" || "" },
+      { value: doc.venue || "" },
+      { value: doc.address || "" },
+      { value: doc.phone || "" },
+      { value: doc.loadIn || "" },
+      { value: doc.showTime || "" },
+      { value: doc.type || "" }
       // { value: doc.status.toUpperCase() || '', colorClass: statusColorClass },
     ];
 
-    let menu = (
-      doc.status === 'upcoming' ?
-      <TableRowMenu>
-        <TableRowMenuItem
-          label="Delete"
-          onClick={ () => this.deleteEvent(doc) }
-        />
-      </TableRowMenu>
-      :
-      <TableRowMenu>
-      <TableRowMenuItem
-        label="Delete"
-        onClick={ () => this.deleteEvent(doc) }
-      />
-      <TableRowMenuItem
-        label="Archive"
-        // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_ARCHIVE) }
-      />
-    </TableRowMenu>
-
-    );
+    let menu =
+      doc.status === "upcoming" ? (
+        <TableRowMenu>
+          <TableRowMenuItem
+            label="Delete"
+            onClick={() => this.deleteEvent(doc)}
+          />
+        </TableRowMenu>
+      ) : (
+        <TableRowMenu>
+          <TableRowMenuItem
+            label="Delete"
+            onClick={() => this.deleteEvent(doc)}
+          />
+          <TableRowMenuItem
+            label="Archive"
+            // onClick={ this.handleRowMenuItemClick.bind(this, doc, MENU_ARCHIVE) }
+          />
+        </TableRowMenu>
+      );
 
     return (
       <TableRow
-        key={ index }
-        columns={ columns }
-        onClick={ this.handleRowClick.bind(this, doc) }
+        key={index}
+        columns={columns}
+        onClick={this.handleRowClick.bind(this, doc)}
       >
-      { menu }
+        {menu}
       </TableRow>
     );
   }
 
   renderTable() {
-    const {userEvents, loading} = this.props;
-      if(userEvents && Object.keys(userEvents).length > 0 && userEvents.constructor === Object && !loading) {
+    const { userEvents, loading } = this.props;
+    if (
+      userEvents &&
+      Object.keys(userEvents).length > 0 &&
+      userEvents.constructor === Object &&
+      !loading
+    ) {
+      let rows = Object.keys(userEvents).map(key => {
+        const status = this.props.statusFilter === "ALL";
+        const type = this.props.typeFilter === "ALL";
 
-        let rows = Object.keys(userEvents).map((key) => {
+        if (
+          (userEvents[key].status === this.props.statusFilter.toLowerCase() ||
+            status) &&
+          (userEvents[key].type === this.props.typeFilter.toLowerCase() || type)
+        ) {
+          return this.renderRow(userEvents[key], key);
+        } else {
+          return null;
+        }
+      });
 
-          const status = this.props.statusFilter === 'ALL';
-          const type = this.props.typeFilter === 'ALL';
-
-          if ((userEvents[key].status === this.props.statusFilter.toLowerCase() || status) &&
-            (userEvents[key].type === this.props.typeFilter.toLowerCase() || type)) {
-            return this.renderRow(userEvents[key], key)
-          } else {
-            return null;
-          }
-        });
-
-        return (
-          <Table columnLabels={[
+      return (
+        <Table
+          columnLabels={[
             "Date",
             "Band",
             "Venue",
@@ -207,93 +221,87 @@ class UserEventList extends Component {
             // "Status",
             ""
           ]}
-          >
-            { rows }
-          </Table>
-        );
-      }
-      else {
-        return (
-          // <NoContent text="No Shows" />
-          <div className="no-content__wrapper">
-            <div>No Events</div>
-          </div>
-        );
-      }
+        >
+          {rows}
+        </Table>
+      );
+    } else {
+      return (
+        // <NoContent text="No Shows" />
+        <div className="no-content__wrapper">
+          <div>No Events</div>
+        </div>
+      );
+    }
   }
 
   render() {
-
     // Subheader
     let breadcrumbs = [
-      { link: `/${this.props.match.params.userId}/dashboard`, name: this.props.user.displayName || this.props.user.email },
-      { link: null, name: 'Events' },
+      {
+        link: `/${this.props.match.params.userId}/dashboard`,
+        name: this.props.user.displayName || this.props.user.email
+      },
+      { link: null, name: "Events" }
     ];
 
     return (
-      <div className='page__container'>
+      <div className="page__container">
         <Drawer
           // userName={ userName }
-          show={ true }
+          show={true}
           className="drawer__sidebar"
           // toggle={ this.toggleDrawer }
         />
-        <Subheader breadcrumbs={ breadcrumbs }
+        <Subheader
+          breadcrumbs={breadcrumbs}
           // buttonHide={ buttonHide }
           buttonLabel="Add Event"
           buttonIcon="add"
-          buttonOnClick={ this.toggleCreateEventModal }
+          buttonOnClick={this.toggleCreateEventModal}
         />
-        <div className='page__content page__content--two-col'>
-          {/* <CreateEventModal
-            show={ this.state.showCreateEventModal }
-            onSubmit={ this.onCreateEventSubmit }
-            onCancel={ this.onCreateEventCancel }
-            onSuccess={ this.onCreateEventSuccess }
-            onError={ this.onCreateEventError }
-            bands={ this.props.bands }
-            user={ this.props.user }
-          /> */}
-
+        <div className="page__content page__content--two-col">
           <CreateEventModal
-            show={ this.state.showCreateEventModal }
-            onSubmit={ this.onCreateEventSubmit }
-            onCancel={ this.onCreateEventCancel }
-            onSuccess={ this.onCreateEventSuccess }
-            onError={ this.onCreateEventError }
-            onCreateEvent={this.props.onCreateEvent}
+            show={this.state.showCreateEventModal}
+            onSubmit={this.onCreateEventSubmit}
+            onCancel={this.onCreateEventCancel}
+            onSuccess={this.onCreateEventSuccess}
+            onError={this.onCreateEventError}
             // band={this.props.band || null}
-            bands={ this.props.bands }
-            user={this.props.user}
+            bands={this.props.bands}
           />
 
           <div className="page__content__container">
             {this.props.notification.display ? this.renderNotification() : null}
             <div className="filter__section">
               <FilterSelect
-                action={ this.props.filterEventsByStatus }
+                action={this.props.filterEventsByStatus}
                 className="event__filter"
                 defaultValue={this.props.statusFilter}
                 id="statusFilter"
                 reference="statusFilter"
-                options={[{ value: 'ALL', label: 'All'}, { value: "UPCOMING", label: "Upcoming"}, { value: "PAST", label: "Past" }]}
+                options={[
+                  { value: "ALL", label: "All" },
+                  { value: "UPCOMING", label: "Upcoming" },
+                  { value: "PAST", label: "Past" }
+                ]}
               />
               <FilterSelect
-                action={ this.props.filterEventsByType }
+                action={this.props.filterEventsByType}
                 className="event__filter"
                 defaultValue={this.props.typeFilter}
                 id="typeFilter"
                 reference="typeFilter"
                 options={[
-                  { value: 'ALL', label: 'All'},
-                  { value: "SHOW", label: "Show"},
-                  { value: "REHEARSAL", label: "Rehearsal" },
+                  { value: "ALL", label: "All" },
+                  { value: "SHOW", label: "Show" },
+                  { value: "REHEARSAL", label: "Rehearsal" }
                   // { value: "STUDIO", label: "Studio" },
                 ]}
               />
             </div>
-            { this.renderTable(this.props.userEvents) }
-            <select id="template" style={{visibility: 'hidden'}}>
+            {this.renderTable(this.props.userEvents)}
+            <select id="template" style={{ visibility: "hidden" }}>
               <option id="templateOption" />
             </select>
           </div>
@@ -314,26 +322,28 @@ function mapStateToProps(state) {
     typeFilter: state.events.typeFilter,
     recentlyDeleted: state.events.recentlyDeleted,
     notification: state.notification,
-    loading: state.app.loading,
+    loading: state.app.loading
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    onGetBandMany: getBandMany,
-    onClearEvent: actions.clearEvent,
-    onGetEvent: actions.getEvent,
-    onGetEventMany: actions.getEventMany,
-    onGetUserEventMany: actions.getUserEventMany,
-    onCreateEvent: actions.createEvent,
-    onDeleteEvent: actions.deleteEvent,
-    onRestoreEvent: actions.restoreEvent,
-    dismissNotification: dismissNotification,
-    filterEventsByStatus: actions.filterEventsByStatus,
-    filterEventsByType: actions.filterEventsByType,
-    updateEventEdit: actions.updateEventEdit,
+  return bindActionCreators(
+    {
+      onGetBandMany: getBandMany,
+      onClearEvent: actions.clearEvent,
+      onGetEvent: actions.getEvent,
+      onGetEventMany: actions.getEventMany,
+      onGetUserEventMany: actions.getUserEventMany,
+      onCreateEvent: actions.createEvent,
+      onDeleteEvent: actions.deleteEvent,
+      onRestoreEvent: actions.restoreEvent,
+      dismissNotification: dismissNotification,
+      filterEventsByStatus: actions.filterEventsByStatus,
+      filterEventsByType: actions.filterEventsByType,
+      updateEventEdit: actions.updateEventEdit
     },
-  dispatch);
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserEventList);
