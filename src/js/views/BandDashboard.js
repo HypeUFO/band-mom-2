@@ -250,6 +250,19 @@ class BandDashboard extends Component {
         // <NoContent text="No Shows" />
         <div className="no-content__wrapper">
           <div>No Events</div>
+          <div className="no-content__wrapper__actions">
+            <Input
+              type="button-thin-button"
+              onClick={this.toggleCreateEventModal}
+              value="Create Event"
+            />
+
+            {/* <Input
+                type="button-thin-button"
+                onClick={() => console.log("Search is coming soon!")}
+                value="Search Events"
+              /> */}
+          </div>
         </div>
       );
     }
