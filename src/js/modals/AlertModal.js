@@ -87,12 +87,14 @@ export default class AlertModal extends Component {
               onCancel={this.onCancel}
               full
             />
-            <Input
-              type="button-thin-button"
-              value={this.props.actionType}
-              onClick={this.props.action}
-              full
-            />
+            {this.props.action && (
+              <Input
+                type="button-thin-button"
+                value={this.props.actionType}
+                onClick={this.props.action}
+                full
+              />
+            )}
           </div>
         </div>
       </div>

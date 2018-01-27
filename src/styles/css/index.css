@@ -718,7 +718,8 @@ button {
     font-weight: 300; }
 
 .btn {
-  width: 4rem; }
+  width: 4rem;
+  font-size: 16px; }
 
 .btn,
 .btn-icon {
@@ -758,10 +759,12 @@ input[type="submit"] {
 .btn-thin {
   padding: 1rem;
   font-weight: 600;
-  margin: 0 5px;
   cursor: pointer; }
   .btn-thin--cancel {
-    border: 1px solid #7F4FFF; }
+    border: 1px solid #7F4FFF;
+    background-color: #FFFFFF; }
+    .btn-thin--cancel:hover {
+      background-color: #FFFFFF; }
 
 .btn-full {
   width: 100%; }

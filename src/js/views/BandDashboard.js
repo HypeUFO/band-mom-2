@@ -72,14 +72,6 @@ class BandDashboard extends Component {
     });
   }
 
-  handleRowClick(row) {
-    history.push(`/testUser/bands/testBand/events/${row.id}/details`);
-  }
-
-  handleRowMenuItemClick(doc, action, event) {
-    event.stopPropagation();
-  }
-
   toggleCreateEventModal() {
     this.setState(prevState => ({
       showCreateEventModal: !prevState.showCreateEventModal
@@ -190,11 +182,7 @@ class BandDashboard extends Component {
         className="card__link card__link__list"
         key={doc.id}
       >
-        <div
-          className="card"
-          key={doc.date}
-          onClick={this.handleRowClick.bind(this, doc)}
-        >
+        <div className="card" key={doc.date}>
           {card}
         </div>
       </a>
@@ -209,38 +197,29 @@ class BandDashboard extends Component {
     );
 
     return (
-      <a
-        href={doc.url}
+      <div
+        // href={doc.url}
         className="card__link card__link__stageplot card__link__list"
         key={index}
-      >
-        <button
-          className="card__delete"
-          onClick={event => {
-            event.preventDefault();
-            Promise.resolve()
-              .then(() => {
-                this.setState({
-                  showStagePlotActionsModal: true,
-                  selectedStagePlot: doc
-                });
-                console.log(doc);
-              })
-              .then(() => {
-                this.props.onGetBand(this.props.band.id);
+        onClick={event => {
+          event.preventDefault();
+          Promise.resolve()
+            .then(() => {
+              this.setState({
+                showStagePlotActionsModal: true,
+                selectedStagePlot: doc
               });
-          }}
-        >
-          <i className="material-icons">close</i>
-        </button>
-        <div
-          className="card card__stageplot"
-          key={doc.id}
-          onClick={this.handleRowClick.bind(this, doc)}
-        >
+              console.log(doc);
+            })
+            .then(() => {
+              this.props.onGetBand(this.props.band.id);
+            });
+        }}
+      >
+        <div className="card card__stageplot" key={doc.id}>
           {card}
         </div>
-      </a>
+      </div>
     );
   }
 
@@ -356,6 +335,7 @@ class BandDashboard extends Component {
                 isLoading={this.props.uploading}
                 error={this.props.uploadError}
               />
+
               <FileUploadModal
                 show={this.state.showLogoModal}
                 onCancel={this.onCancelLogoUpload}
@@ -365,35 +345,34 @@ class BandDashboard extends Component {
                 isLoading={this.props.uploading}
                 error={this.props.uploadError}
               />
+
               <AlertModal
                 show={this.state.showStagePlotActionsModal}
                 title="Actions"
-                // actionType="Delete"
-                // action={this.onDeleteStagePlot}
                 onCancel={this.onCancelAlert}
                 isLoading={this.props.uploading}
               >
-                <button
-                  className="btn btn-danger btn-full"
+                <Input
+                  type="button-danger"
+                  value="DELETE"
+                  full
                   onClick={event => {
                     event.preventDefault();
                     Promise.resolve()
                       .then(() => {
                         this.setState({
                           showDeleteStagePlotAlert: true
-                          // selectedStagePlot: doc
                         });
-                        // console.log(doc);
                       })
                       .then(() => {
                         this.props.onGetBand(this.props.band.id);
                       });
                   }}
-                >
-                  DELETE
-                </button>
-                <button
-                  className="btn btn-full"
+                />
+                <Input
+                  type="button-thin-button"
+                  value="DOWNLOAD"
+                  full
                   onClick={event => {
                     event.preventDefault();
                     var xhr = new XMLHttpRequest();
@@ -402,10 +381,6 @@ class BandDashboard extends Component {
                       var blob = xhr.response;
                       console.log(blob);
                       const fileName = "stageplot";
-                      // var fileName = xhr
-                      //   .getResponseHeader("Content-Disposition")
-                      //   .match(/\sfilename="([^"]+)"(\s|$)/)[1];
-                      // this.downloadStagePlot(blob, fileName);
                       var a = document.createElement("a");
                       a.href = window.URL.createObjectURL(blob);
                       a.download = fileName;
@@ -413,41 +388,27 @@ class BandDashboard extends Component {
                     };
                     xhr.open("GET", this.state.selectedStagePlot.url);
                     xhr.send();
-                    // Promise.resolve()
-                    //   .then(() => {
-                    //     this.setState({
-                    //       showDeleteStagePlotAlert: true
-                    //       // selectedStagePlot: doc
-                    //     });
-                    //     // console.log(doc);
-                    //   })
-                    //   .then(() => {
-                    //     this.props.onGetBand(this.props.band.id);
-                    //   });
                   }}
-                >
-                  DOWNLOAD
-                </button>
-                <button
-                  className="btn btn-full"
+                />
+                {/* Not functional yet */}
+                {/* <Input
+                  type="button-thin-button"
+                  value="EMAIL"
+                  full
                   onClick={event => {
                     event.preventDefault();
-                    // Promise.resolve()
-                    //   .then(() => {
-                    //     this.setState({
-                    //       showDeleteStagePlotAlert: true
-                    //       // selectedStagePlot: doc
-                    //     });
-                    //     // console.log(doc);
-                    //   })
-                    //   .then(() => {
-                    //     this.props.onGetBand(this.props.band.id);
-                    //   });
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = "blob";
+                    xhr.onload = function(event) {
+                      var blob = xhr.response;
+                      console.log(blob);
+                    };
+                    xhr.open("GET", this.state.selectedStagePlot.url);
+                    xhr.send();
                   }}
-                >
-                  EMAIL
-                </button>
+                /> */}
               </AlertModal>
+
               <AlertModal
                 show={this.state.showDeleteStagePlotAlert}
                 title="Are you sure you want to delete this stageplot?"

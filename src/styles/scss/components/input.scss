@@ -171,6 +171,7 @@ button {
 
 .btn {
   width: 4rem;
+  font-size: 16px;
 }
 
 .btn,
@@ -219,10 +220,14 @@ input[type="submit"] {
 .btn-thin {
   padding: 1rem;
   font-weight: 600;
-  margin: 0 5px;
+  // margin: 5px;
   cursor: pointer;
   &--cancel {
     border: 1px solid $color-purple;
+    background-color: $color-light;
+    &:hover {
+      background-color: $color-light;
+    }
   }
 }
 
