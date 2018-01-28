@@ -329,6 +329,42 @@ export default class Input extends Component {
           {errorLabel}
         </div>
       );
+    } else if (type === "tel") {
+      let errorLabel = this.renderErrorLabel();
+      return (
+        <div className="input">
+          <label className="input__label">{label}</label>
+          <input
+            type="tel"
+            className="input__input"
+            name={name}
+            placeholder={placeholder}
+            rows={rows}
+            cols={cols}
+            onChange={onChange}
+            value={value}
+          />
+          {errorLabel}
+        </div>
+      );
+    } else if (type === "email") {
+      let errorLabel = this.renderErrorLabel();
+      return (
+        <div className="input">
+          <label className="input__label">{label}</label>
+          <input
+            type="email"
+            className="input__input"
+            name={name}
+            placeholder={placeholder}
+            rows={rows}
+            cols={cols}
+            onChange={onChange}
+            value={value}
+          />
+          {errorLabel}
+        </div>
+      );
     } else if (type === "date") {
       return (
         <div className="input">
@@ -349,6 +385,22 @@ export default class Input extends Component {
             onClickOk={this.onClickDateOk}
             value={value}
           />
+        </div>
+      );
+    } else if (type === "time") {
+      let errorLabel = this.renderErrorLabel();
+      return (
+        <div className="input">
+          <label className="input__label">{label}</label>
+          <input
+            className="input__input"
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+          />
+          {errorLabel}
         </div>
       );
     } else if (type === "file") {

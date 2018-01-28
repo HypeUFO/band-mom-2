@@ -161,6 +161,7 @@ class CreateBandForm extends Component {
           <div className="modal__row">
             <Input
               type="text"
+              label="Band Name"
               name="name"
               placeholder="Band Name"
               value={name}
@@ -172,6 +173,7 @@ class CreateBandForm extends Component {
             />
             <Input
               type="text"
+              label="Location"
               name="location"
               placeholder="Location"
               value={location}
@@ -186,6 +188,7 @@ class CreateBandForm extends Component {
           <div className="modal__row">
             <Input
               type="select"
+              label="Genre 1"
               name="genre1"
               placeholder="Genre 1"
               options={genres}
@@ -198,6 +201,7 @@ class CreateBandForm extends Component {
             />
             <Input
               type="select"
+              label="Genre 2"
               name="genre2"
               placeholder="Genre 2"
               options={genres}
@@ -211,7 +215,8 @@ class CreateBandForm extends Component {
           </div>
           <div className="modal__row">
             <Input
-              type="text"
+              type="email"
+              label="Band Email"
               name="email"
               placeholder="Band Email"
               value={email}
@@ -220,6 +225,7 @@ class CreateBandForm extends Component {
             />
             <Input
               type="textarea"
+              label="Band Bio"
               name="bio"
               placeholder="Bio"
               value={bio}
@@ -230,6 +236,7 @@ class CreateBandForm extends Component {
           <div className="modal__row">
             <Input
               type="text"
+              label="Your Instrument(s)"
               name="instruments"
               placeholder="What instrument do you play?"
               value={instruments}

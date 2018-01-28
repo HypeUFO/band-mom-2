@@ -124,7 +124,7 @@ class UserDashboard extends Component {
                 {doc.venue}
               </h3>
               <p>{moment(doc.date).format("MM/DD/YYYY")} </p>
-              <p>Set Time: {doc.showTime}</p>
+              <p>Set Time: {moment(doc.showTime).format("hh:mm A")}</p>
             </div>
           </div>
         </a>

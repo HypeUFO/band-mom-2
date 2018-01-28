@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { createEvent } from "../../../actions/event.actions";
 import Form from "./Form";
 import Input from "../Input";
@@ -11,8 +12,8 @@ export const initialState = {
   address: "",
   phone: "",
   date: "",
-  showTime: "",
-  loadIn: "",
+  showTime: "22:00",
+  loadIn: "19:00",
   notes: "",
   type: "show",
   bandId: "",
@@ -71,7 +72,9 @@ class CreateEventForm extends Component {
   }
 
   handleInputChange(event) {
+    console.log([event.target.name] + ": " + event.target.value);
     this.setState({ [event.target.name]: event.target.value });
+    console.log(this.state);
   }
 
   handleBandChange(event) {
@@ -85,6 +88,16 @@ class CreateEventForm extends Component {
   addEvent() {
     const { band, user, onCreateEvent } = this.props;
 
+    console.log(this.state.date);
+    const eventDate = new Date(this.state.date);
+    const showTime = moment(
+      this.state.date + " " + this.state.showTime
+    ).format();
+
+    const loadIn = moment(this.state.date + " " + this.state.loadIn).format();
+
+    console.log(showTime);
+
     const activeBand = band || this.state.band;
     const activeBandId = band ? band.id : this.state.bandId;
     const activeBandName = band ? band.name : this.state.bandName;
@@ -95,8 +108,9 @@ class CreateEventForm extends Component {
       address: this.state.address,
       phone: this.state.phone,
       date: new Date(this.state.date).toISOString(),
-      showTime: this.state.showTime,
-      loadIn: this.state.loadIn,
+      showTime: showTime,
+      // showTime: this.state.showTime,
+      loadIn: loadIn,
       notes: this.state.notes,
       type: this.state.type,
       status: status,
@@ -134,6 +148,7 @@ class CreateEventForm extends Component {
         <div className="modal__row">
           <Input
             type="select"
+            label="Band"
             name="band"
             placeholder="Band"
             options={bandList}
@@ -207,6 +222,7 @@ class CreateEventForm extends Component {
           <div className="modal__row">
             <Input
               type="text"
+              label="Venue Name"
               name="venue"
               placeholder="Venue Name"
               value={venue}
@@ -218,6 +234,7 @@ class CreateEventForm extends Component {
             />
             <Input
               type="text"
+              label="Venue Address"
               name="address"
               placeholder="Venue Address"
               value={address}
@@ -230,7 +247,8 @@ class CreateEventForm extends Component {
           </div>
           <div className="modal__row">
             <Input
-              type="text"
+              type="tel"
+              label="Venue Phone"
               name="phone"
               placeholder="Venue Phone"
               value={phone}
@@ -242,6 +260,7 @@ class CreateEventForm extends Component {
             />
             <Input
               type="date"
+              label="Event Date"
               name="date"
               placeholder="Date"
               value={date}
@@ -254,7 +273,8 @@ class CreateEventForm extends Component {
           </div>
           <div className="modal__row">
             <Input
-              type="text"
+              type="time"
+              label="Show Time"
               name="showTime"
               placeholder="Show Time"
               value={showTime}
@@ -265,7 +285,8 @@ class CreateEventForm extends Component {
               }}
             />
             <Input
-              type="text"
+              type="time"
+              label="Load In Time"
               name="loadIn"
               placeholder="Load In Time"
               value={loadIn}
@@ -276,6 +297,7 @@ class CreateEventForm extends Component {
           <div className="modal__row">
             <Input
               type="select"
+              label="Event Type"
               name="type"
               placeholder="Show/Rehearsal"
               options={[
@@ -292,6 +314,7 @@ class CreateEventForm extends Component {
             />
             <Input
               type="textarea"
+              label="Notes"
               name="notes"
               placeholder="Notes"
               value={notes}

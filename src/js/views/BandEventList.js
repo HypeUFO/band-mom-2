@@ -91,7 +91,7 @@ class EventList extends Component {
   onDeleteEventSuccess() {
     // this.props.onGetEventMany(this.props.band.id);
     // this.props.onGetEventMany(this.props.match.params.bandId)
-    alert("Show successfully deleted");
+    // alert("Show successfully deleted");
   }
 
   onDeleteEventError() {
@@ -146,8 +146,8 @@ class EventList extends Component {
       { value: doc.venue || "" },
       { value: doc.address || "" },
       { value: doc.phone || "" },
-      { value: doc.loadIn || "" },
-      { value: doc.showTime || "" },
+      { value: moment(doc.loadIn).format("hh:mm A") || "" },
+      { value: moment(doc.showTime).format("hh:mm A") || "" },
       { value: doc.type || "" }
       // { value: doc.status.toUpperCase() || '', colorClass: statusColorClass },
     ];
