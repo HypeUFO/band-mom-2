@@ -12,6 +12,8 @@ export const initialState = {
   date: "",
   showTime: "",
   loadIn: "",
+  showMeridiem: "",
+  loadInMeridiem: "",
   type: "",
   notes: ""
 };
@@ -26,6 +28,12 @@ class EventDetails extends Component {
     this.handleAsyncUpdateButtonClick = this.handleAsyncUpdateButtonClick.bind(
       this
     );
+    this.handleShowTimeChange = this.handleShowTimeChange.bind(this);
+    this.handleShowMeridiemChange = this.handleShowMeridiemChange.bind(this);
+    this.handleLoadInTimeChange = this.handleLoadInTimeChange.bind(this);
+    this.handleLoadInMeridiemChange = this.handleLoadInMeridiemChange.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -34,8 +42,10 @@ class EventDetails extends Component {
       address: this.props.event.address || "",
       phone: this.props.event.phone || "",
       date: this.props.event.date || "",
-      showTime: this.props.event.showTime || "",
-      loadIn: this.props.event.loadIn || "",
+      showTime: moment(this.props.event.showTime).format("hh:mm A") || "",
+      showMeridiem: moment(this.props.event.showTime).format("A") || "",
+      loadIn: moment(this.props.event.loadIn).format("hh:mm A") || "",
+      loadInMeridiem: moment(this.props.event.loadIn).format("A") || "",
       type: this.props.event.type,
       notes: this.props.event.notes || "",
       id: this.props.event.id
@@ -56,8 +66,10 @@ class EventDetails extends Component {
       address: this.props.event.address || "",
       phone: this.props.event.phone || "",
       date: this.props.event.date || "",
-      showTime: this.props.event.showTime || "",
-      loadIn: this.props.event.loadIn || "",
+      showTime: moment(this.props.event.showTime).format("hh:mm A") || "",
+      showMeridiem: moment(this.props.event.showTime).format("A") || "",
+      loadIn: moment(this.props.event.loadIn).format("hh:mm A") || "",
+      loadInMeridiem: moment(this.props.event.loadIn).format("A") || "",
       type: this.props.event.type,
       notes: this.props.event.notes || "",
       id: this.props.event.id
@@ -68,7 +80,7 @@ class EventDetails extends Component {
   onSuccess() {
     this.props.handleFormEdit();
     smoothScroll(document.body, 500);
-    this.props.onGetEvent(this.props.event.id, this.props.band.id);
+    // this.props.onGetEvent(this.props.event.id, this.props.band.id);
   }
 
   onError(err) {
@@ -83,13 +95,27 @@ class EventDetails extends Component {
   }
 
   updateEvent() {
+    const eventDate = moment(this.state.date).format("MM/DD/YYYY");
+
+    const showTime = new Date(
+      moment(
+        eventDate + " " + this.state.showTime + " " + this.state.showMeridiem
+      )
+    ).toISOString();
+
+    const loadIn = new Date(
+      moment(
+        eventDate + " " + this.state.loadIn + " " + this.state.loadInMeridiem
+      )
+    ).toISOString();
+
     const event = {
       venue: this.state.venue,
       address: this.state.address,
       phone: this.state.phone,
       date: new Date(this.state.date).toISOString(),
-      showTime: this.state.showTime,
-      loadIn: this.state.loadIn,
+      showTime: showTime,
+      loadIn: loadIn,
       notes: this.state.notes,
       type: this.state.type,
       status: new Date(this.state.date) > new Date() ? "upcoming" : "past",
@@ -104,7 +130,36 @@ class EventDetails extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  handleShowTimeChange(time) {
+    this.setState({ showTime: time });
+  }
+
+  handleLoadInTimeChange(time) {
+    this.setState({ loadIn: time });
+  }
+
+  handleLoadInMeridiemChange(time) {
+    this.setState({ loadInMeridiem: time });
+  }
+
+  handleShowMeridiemChange(time) {
+    this.setState({ showMeridiem: time });
+  }
+
   render() {
+    const {
+      venue,
+      address,
+      phone,
+      date,
+      showTime,
+      showMeridiem,
+      loadInMeridiem,
+      loadIn,
+      notes,
+      type
+      // files,
+    } = this.state;
     const { event } = this.props;
     if (event) {
       let formBottomClasses = classNames(
@@ -131,7 +186,7 @@ class EventDetails extends Component {
                   placeholder="Venue Name"
                   label="Venue Name"
                   disabled={!this.props.eventEdit}
-                  value={this.props.eventEdit ? this.state.venue : event.venue}
+                  value={this.props.eventEdit ? venue : event.venue}
                   onChange={this.handleInputChange}
                   validation={{
                     isLength: { min: 3, max: 30 },
@@ -146,7 +201,7 @@ class EventDetails extends Component {
                   disabled={!this.props.eventEdit}
                   value={
                     this.props.eventEdit ? (
-                      this.state.address
+                      address
                     ) : (
                       <a
                         href={`http://maps.google.com/?q=${event.address}`}
@@ -165,14 +220,14 @@ class EventDetails extends Component {
               </div>
               <div className="form__row">
                 <Input
-                  type="text"
+                  type="tel"
                   name="phone"
                   placeholder="Venue Phone"
                   label="Venue Phone"
                   disabled={!this.props.eventEdit}
                   value={
                     this.props.eventEdit ? (
-                      this.state.phone
+                      phone
                     ) : (
                       <a href={`tel:${event.phone}`}>{event.phone}</a>
                     )
@@ -188,7 +243,7 @@ class EventDetails extends Component {
                   disabled={!this.props.eventEdit}
                   value={
                     this.props.eventEdit
-                      ? moment(this.state.date).format("MM/DD/YYYY")
+                      ? moment(date).format("MM/DD/YYYY")
                       : moment(event.date).format("MM/DD/YYYY")
                   }
                   onChange={this.handleInputChange}
@@ -200,32 +255,33 @@ class EventDetails extends Component {
               </div>
               <div className="form__row">
                 <Input
-                  type="text"
+                  type="time"
+                  label="Show Time"
                   name="showTime"
                   placeholder="Show Time"
-                  label="Show Time"
+                  // value={showTime}
+                  value={showTime}
+                  onChange={this.handleShowTimeChange}
+                  onMeridiemChange={this.handleShowMeridiemChange}
+                  meridiem={showMeridiem}
                   disabled={!this.props.eventEdit}
-                  value={
-                    this.props.eventEdit ? this.state.showTime : event.showTime
-                  }
-                  onChange={this.handleInputChange}
                   validation={{
-                    isLength: { min: 3, max: 30 },
+                    isLength: { min: 4, max: 8 },
                     isAlphanumeric: { blacklist: [" "] }
                   }}
                 />
                 <Input
-                  type="text"
+                  type="time"
+                  label="Load In Time"
                   name="loadIn"
                   placeholder="Load In Time"
-                  label="Load In Time"
+                  value={loadIn}
+                  meridiem={loadInMeridiem}
+                  onChange={this.handleLoadInTimeChange}
+                  onMeridiemChange={this.handleLoadInMeridiemChange}
                   disabled={!this.props.eventEdit}
-                  value={
-                    this.props.eventEdit ? this.state.loadIn : event.loadIn
-                  }
-                  onChange={this.handleInputChange}
                   validation={{
-                    isLength: { min: 3, max: 80 },
+                    isLength: { min: 4, max: 8 },
                     isAlphanumeric: { blacklist: [" "] }
                   }}
                 />
@@ -241,7 +297,7 @@ class EventDetails extends Component {
                     { value: "show", label: "Show" },
                     { value: "rehearsal", label: "Rehearsal" }
                   ]}
-                  value={this.props.eventEdit ? this.state.type : event.type}
+                  value={this.props.eventEdit ? type : event.type}
                   onChange={this.handleInputChange}
                   validation={{
                     isLength: { min: 3, max: 80 },
@@ -254,7 +310,7 @@ class EventDetails extends Component {
                   placeholder="Notes"
                   label="Notes"
                   disabled={!this.props.eventEdit}
-                  value={this.props.eventEdit ? this.state.notes : event.notes}
+                  value={this.props.eventEdit ? notes : event.notes}
                   onChange={this.handleInputChange}
                   // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
                 />

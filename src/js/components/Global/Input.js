@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import validator from "validator";
 import CalenderModal from "../../modals/CalendarModal";
+import Timepicker from "../Timpicker";
 
 export default class Input extends Component {
   static propTypes = {
@@ -203,9 +204,13 @@ export default class Input extends Component {
       label,
       accept,
       onChange,
+      onMeridiemChange,
+      meridiem,
       onCancel,
       onClick,
       disabled,
+      required,
+      pattern,
       ref,
       id
     } = this.props;
@@ -388,17 +393,40 @@ export default class Input extends Component {
         </div>
       );
     } else if (type === "time") {
+      // else if (type === "time") {
+      //   let errorLabel = this.renderErrorLabel();
+      //   return (
+      //     <div className="input">
+      //       <label className="input__label">{label}</label>
+      //       <input
+      //         className="input__input"
+      //         type={type}
+      //         name={name}
+      //         placeholder={placeholder}
+      //         value={value}
+      //         onChange={onChange}
+      //         pattern={pattern}
+      //         required={required}
+      //       />
+      //       {errorLabel}
+      //     </div>
+      //   );
+      // }
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">
           <label className="input__label">{label}</label>
-          <input
+          <Timepicker
             className="input__input"
             type={type}
             name={name}
             placeholder={placeholder}
-            value={value}
+            time={value}
             onChange={onChange}
+            onMeridiemChange={onMeridiemChange}
+            meridiem={meridiem}
+            pattern={pattern}
+            required={required}
           />
           {errorLabel}
         </div>

@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$color-purple".
-        on line 88 of src/styles/scss/components/input.scss
+        on line 108 of src/styles/scss/components/input.scss
 
-83: select,
-84: .date {
-85:   width: 100%;
-86:   font-size: 1rem;
-87:   background: #f4faf6;
-88:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;
-89:   label {
-90:     line-height: 1.5;
-91:   }
-92: }
-93: 
+103: .date,
+104: .time_picker_container {
+105:   width: 100%;
+106:   font-size: 1rem;
+107:   background: #f4faf6;
+108:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;
+109:   label {
+110:     line-height: 1.5;
+111:   }
+112: }
+113: 
 
 Backtrace:
-src/styles/scss/components/input.scss:88
+src/styles/scss/components/input.scss:108
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/node.rb:58:in `perform'
 /Users/michaelmaio/.rvm/gems/ruby-2.2.4/gems/sass-3.4.25/lib/sass/script/tree/list_literal.rb:63:in `block in _perform'
@@ -71,4 +71,4 @@ src/styles/scss/components/input.scss:88
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-purple\".\A         on line 88 of src/styles/scss/components/input.scss\A \A 83: select,\A 84: .date {\A 85:   width: 100%;\A 86:   font-size: 1rem;\A 87:   background: #f4faf6;\A 88:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;\A 89:   label {\A 90:     line-height: 1.5;\A 91:   }\A 92: }\A 93: "; }
+  content: "Error: Undefined variable: \"$color-purple\".\A         on line 108 of src/styles/scss/components/input.scss\A \A 103: .date,\A 104: .time_picker_container {\A 105:   width: 100%;\A 106:   font-size: 1rem;\A 107:   background: #f4faf6;\A 108:   box-shadow: 0px 0.15rem 0px $color-purple; // border-radius: 0.25rem; // border-radius: 0;\A 109:   label {\A 110:     line-height: 1.5;\A 111:   }\A 112: }\A 113: "; }

@@ -578,6 +578,7 @@ li ul li a {
 input,
 select,
 textarea,
+.time_picker_container,
 .btn,
 .btn-icon {
   font-weight: 500;
@@ -589,6 +590,21 @@ textarea,
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
+
+.date {
+  font-weight: 500;
+  margin: 0.5rem 0;
+  border-radius: 0.25rem;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+  .date .btn-calendar {
+    border-radius: 0.25rem; }
 
 input[type="checkbox"] {
   box-shadow: none;
@@ -634,6 +650,7 @@ input[type="checkbox"] {
 
 input,
 select,
+.date,
 .btn {
   height: 3.5rem; }
 
@@ -647,7 +664,8 @@ textarea {
 input,
 textarea,
 select,
-.date {
+.date,
+.time_picker_container {
   width: 100%;
   font-size: 1rem;
   background: #f4faf6;
@@ -655,8 +673,25 @@ select,
   input label,
   textarea label,
   select label,
-  .date label {
+  .date label,
+  .time_picker_container label {
     line-height: 1.5; }
+
+.time_picker_preview {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important; }
+  .time_picker_preview > .preview_container {
+    width: 100%; }
+
+.classic_theme_container {
+  border-bottom: 1px solid #5d5d5d;
+  background: linear-gradient(#7F4FFF, #121F27) !important; }
+
+.classic_time {
+  border-bottom: 1px solid #5d5d5d;
+  background-color: transparent !important;
+  color: #FFFFFF; }
 
 input[type="submit"],
 .btn,
@@ -780,8 +815,6 @@ input[type="submit"] {
   width: 100%;
   font-size: 1rem;
   background: #f4faf6;
-  box-shadow: 0px 0.15rem 0px #7F4FFF;
-  padding: 14px;
   cursor: pointer; }
   .btn-calendar__icon {
     padding-bottom: 4px; }
@@ -1337,7 +1370,7 @@ tbody:hover > tr:hover td {
 .notification {
   position: fixed;
   left: 50%;
-  top: 15%;
+  top: 20%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1814,7 +1847,7 @@ tbody:hover > tr:hover td {
 .notification {
   position: fixed;
   left: 50%;
-  top: 15%;
+  top: 20%;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -142,7 +142,7 @@ class UserEventList extends Component {
         value: moment(doc.date).format("MM/DD/YYYY") || "",
         colorClass: statusColorClass
       },
-      { value: doc.bandName.toUpperCase(), colorClass: "clr-purple" || "" },
+      { value: doc.bandName.toUpperCase() || "" },
       { value: doc.venue || "" },
       { value: doc.address || "" },
       { value: doc.phone || "" },

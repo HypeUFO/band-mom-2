@@ -6,6 +6,8 @@ import moment from "moment";
 import { createEvent } from "../../../actions/event.actions";
 import Form from "./Form";
 import Input from "../Input";
+import Timepicker from "../../Timpicker";
+// import TimePicker from "react-times/lib/components/TimePicker";
 
 export const initialState = {
   venue: "",
@@ -45,6 +47,12 @@ class CreateEventForm extends Component {
       this
     );
     this.addEvent = this.addEvent.bind(this);
+    this.handleShowTimeChange = this.handleShowTimeChange.bind(this);
+    this.handleShowMeridiemChange = this.handleShowMeridiemChange.bind(this);
+    this.handleLoadInTimeChange = this.handleLoadInTimeChange.bind(this);
+    this.handleLoadInMeridiemChange = this.handleLoadInMeridiemChange.bind(
+      this
+    );
 
     this.renderBandSelect = this.renderBandSelect.bind(this);
   }
@@ -72,9 +80,7 @@ class CreateEventForm extends Component {
   }
 
   handleInputChange(event) {
-    console.log([event.target.name] + ": " + event.target.value);
     this.setState({ [event.target.name]: event.target.value });
-    console.log(this.state);
   }
 
   handleBandChange(event) {
@@ -85,18 +91,40 @@ class CreateEventForm extends Component {
     });
   }
 
+  handleShowTimeChange(time) {
+    this.setState({ showTime: time });
+  }
+
+  handleLoadInTimeChange(time) {
+    this.setState({ loadIn: time });
+  }
+
+  handleLoadInMeridiemChange(time) {
+    this.setState({ loadInMeridiem: time });
+  }
+
+  handleShowMeridiemChange(time) {
+    this.setState({ showMeridiem: time });
+  }
+
   addEvent() {
     const { band, user, onCreateEvent } = this.props;
 
-    console.log(this.state.date);
-    const eventDate = new Date(this.state.date);
-    const showTime = moment(
-      this.state.date + " " + this.state.showTime
-    ).format();
+    const eventDate = moment(this.state.date).format("MM/DD/YYYY");
 
-    const loadIn = moment(this.state.date + " " + this.state.loadIn).format();
+    const showTime =
+      this.state.showMeridiem === "PM"
+        ? new Date(
+            moment(eventDate + " " + this.state.showTime).add(12, "hours")
+          ).toISOString()
+        : new Date(moment(eventDate + " " + this.state.showTime)).toISOString();
 
-    console.log(showTime);
+    const loadIn =
+      this.state.loadInMeridiem === "PM"
+        ? new Date(
+            moment(eventDate + " " + this.state.loadIn).add(12, "hours")
+          ).toISOString()
+        : new Date(moment(eventDate + " " + this.state.loadIn)).toISOString();
 
     const activeBand = band || this.state.band;
     const activeBandId = band ? band.id : this.state.bandId;
@@ -109,7 +137,6 @@ class CreateEventForm extends Component {
       phone: this.state.phone,
       date: new Date(this.state.date).toISOString(),
       showTime: showTime,
-      // showTime: this.state.showTime,
       loadIn: loadIn,
       notes: this.state.notes,
       type: this.state.type,
@@ -121,7 +148,6 @@ class CreateEventForm extends Component {
   }
 
   handleAsyncCreateButtonClick() {
-    console.log("submit button clicked");
     Promise.resolve()
       .then(this.addEvent())
       .then(() => this.onSuccess())
@@ -129,7 +155,6 @@ class CreateEventForm extends Component {
   }
 
   renderBandSelect(band, bands) {
-    // const { bands, band } = this.props;
     if (!band) {
       let bandList = [];
       if (bands) {
@@ -140,8 +165,6 @@ class CreateEventForm extends Component {
           };
           return bandList.push(addBandInfo);
         });
-        // bandList.unshift({label: 'Select Band', value: ''})
-        console.log(bandList);
       }
       bandList.unshift({ label: "Select Band", value: "" });
       return (
@@ -154,7 +177,10 @@ class CreateEventForm extends Component {
             options={bandList}
             // value={ this.state.band }
             onChange={this.handleBandChange}
-            // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+            validation={{
+              isLength: { min: 1, max: 80 },
+              isAlphanumeric: { blacklist: [" "] }
+            }}
           />
         </div>
       );
@@ -178,6 +204,8 @@ class CreateEventForm extends Component {
       phone,
       date,
       showTime,
+      showMeridiem,
+      loadInMeridiem,
       loadIn,
       notes,
       type
@@ -188,21 +216,6 @@ class CreateEventForm extends Component {
     let createError = asyncCreateError ? asyncCreateError.toJSON().reason : "";
     let uploadError = asyncUploadError ? asyncUploadError.toJSON().reason : "";
 
-    // let bandList = [];
-    // if (this.props.bands) {
-    //   Object.keys(bands).map(key => {
-    //     let addBandInfo = {
-    //       label: bands[key].name,
-    //       value: bands[key].name + '/' + bands[key].id,
-    //     }
-    //     return bandList.push(addBandInfo);
-    //   })
-    //   // bandList.unshift({label: 'Select Band', value: ''})
-    //   console.log(bandList);
-    // }
-    // bandList.unshift({label: 'Select Band', value: ''})
-
-    // Normal
     return (
       <Form
         className="modal__container"
@@ -278,9 +291,11 @@ class CreateEventForm extends Component {
               name="showTime"
               placeholder="Show Time"
               value={showTime}
-              onChange={this.handleInputChange}
+              onChange={this.handleShowTimeChange}
+              onMeridiemChange={this.handleShowMeridiemChange}
+              meridiem={showMeridiem}
               validation={{
-                isLength: { min: 3, max: 30 },
+                isLength: { min: 4, max: 8 },
                 isAlphanumeric: { blacklist: [" "] }
               }}
             />
@@ -290,8 +305,13 @@ class CreateEventForm extends Component {
               name="loadIn"
               placeholder="Load In Time"
               value={loadIn}
-              onChange={this.handleInputChange}
-              // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              meridiem={loadInMeridiem}
+              onChange={this.handleLoadInTimeChange}
+              onMeridiemChange={this.handleLoadInMeridiemChange}
+              validation={{
+                isLength: { min: 4, max: 8 },
+                isAlphanumeric: { blacklist: [" "] }
+              }}
             />
           </div>
           <div className="modal__row">
@@ -319,12 +339,12 @@ class CreateEventForm extends Component {
               placeholder="Notes"
               value={notes}
               onChange={this.handleInputChange}
-              // validation={{ isLength: { min: 3, max: 80 }, isAlphanumeric: { blacklist: [' '] } }}
+              validation={{
+                isLength: { min: 0, max: 80 },
+                isAlphanumeric: { blacklist: [" "] }
+              }}
             />
           </div>
-          {/* <div className="modal__column">
-                {/* { this.renderFiles() } */}
-          {/* </div> */}
         </div>
         <div className="modal__bottom">
           <Input type="button-thin-cancel" value="Cancel" />
@@ -334,8 +354,6 @@ class CreateEventForm extends Component {
     );
   }
 }
-
-// export default CreateBandEventModal;
 
 const mapStateToProps = state => {
   return {
