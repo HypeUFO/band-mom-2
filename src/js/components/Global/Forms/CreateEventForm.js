@@ -84,11 +84,13 @@ class CreateEventForm extends Component {
   }
 
   handleBandChange(event) {
+    console.log(this.props.bands[event.target.value.split("/")[1]]);
     this.setState({
       bandName: event.target.value.split("/")[0],
       bandId: event.target.value.split("/")[1],
       band: this.props.bands[event.target.value.split("/")[1]]
     });
+    console.log(this.state);
   }
 
   handleShowTimeChange(time) {
@@ -129,7 +131,6 @@ class CreateEventForm extends Component {
     const activeBand = band || this.state.band;
     const activeBandId = band ? band.id : this.state.bandId;
     const activeBandName = band ? band.name : this.state.bandName;
-
     const status = new Date(this.state.date) > new Date() ? "upcoming" : "past";
     const event = {
       venue: this.state.venue,
@@ -175,11 +176,10 @@ class CreateEventForm extends Component {
             name="band"
             placeholder="Band"
             options={bandList}
-            // value={ this.state.band }
+            value={`${this.state.bandName}/${this.state.bandId}`}
             onChange={this.handleBandChange}
             validation={{
-              isLength: { min: 1, max: 80 },
-              isAlphanumeric: { blacklist: [" "] }
+              isLength: { min: 1, max: 80 }
             }}
           />
         </div>
@@ -221,9 +221,9 @@ class CreateEventForm extends Component {
         className="modal__container"
         onSubmit={this.onSubmit}
         onCancel={this.onCancel}
-        disabled={asyncCreateLoading || asyncUploadLoading}
+        // disabled={asyncCreateLoading || asyncUploadLoading}
         ref="form"
-        error={createError || uploadError}
+        // error={createError || uploadError}
       >
         <div className="modal__top">
           <h3 className="clr-purple">Add New Event</h3>

@@ -287,6 +287,7 @@ export default class Input extends Component {
           </option>
         );
       });
+      let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">
           <label className="input__label">{label}</label>
@@ -301,9 +302,11 @@ export default class Input extends Component {
           >
             {opt}
           </select>
+          {errorLabel}
         </div>
       );
     } else if (type === "checkbox") {
+      let errorLabel = this.renderErrorLabel();
       return (
         <div className="input__checkbox">
           <input
@@ -315,6 +318,7 @@ export default class Input extends Component {
             checked={this.props.isChecked}
           />
           <label htmlFor={this.props.id}>{this.props.label}</label>
+          {errorLabel}
         </div>
       );
     } else if (type === "textarea") {
@@ -393,25 +397,6 @@ export default class Input extends Component {
         </div>
       );
     } else if (type === "time") {
-      // else if (type === "time") {
-      //   let errorLabel = this.renderErrorLabel();
-      //   return (
-      //     <div className="input">
-      //       <label className="input__label">{label}</label>
-      //       <input
-      //         className="input__input"
-      //         type={type}
-      //         name={name}
-      //         placeholder={placeholder}
-      //         value={value}
-      //         onChange={onChange}
-      //         pattern={pattern}
-      //         required={required}
-      //       />
-      //       {errorLabel}
-      //     </div>
-      //   );
-      // }
       let errorLabel = this.renderErrorLabel();
       return (
         <div className="input">

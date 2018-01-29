@@ -72,29 +72,27 @@ class UserEventList extends Component {
 
   onCreateEventSuccess() {
     console.log("Show successfully created");
-    // this.props.onGetBandMany(this.props.match.params.userId);
   }
 
   onCreateEventError(err) {
     console.log("An error occured:" + err);
   }
 
-  deleteEvent(event) {
-    const bandId = this.props.match.params.bandId;
+  deleteEvent(e, event) {
+    e.stopPropagation();
+    const bandId = event.bandId;
     this.props
       .onDeleteEvent(event, bandId)
-      // this.db.child(gigId).remove()
-      .then(() => this.onDeleteEventSuccess())
+      .then(() => this.onDeleteEventSuccess(bandId))
       .catch(err => this.onDeleteEventError());
   }
 
-  onDeleteEventSuccess() {
-    this.props.onGetEventMany(this.props.match.params.bandId);
-    // alert('Show successfully deleted');
+  onDeleteEventSuccess(bandId) {
+    this.props.onGetEventMany(bandId);
   }
 
   onDeleteEventError() {
-    this.props.onGetEventMany();
+    // this.props.onGetEventMany();
     alert("An error occured :(");
   }
 
@@ -157,14 +155,14 @@ class UserEventList extends Component {
         <TableRowMenu>
           <TableRowMenuItem
             label="Delete"
-            onClick={() => this.deleteEvent(doc)}
+            onClick={event => this.deleteEvent(event, doc)}
           />
         </TableRowMenu>
       ) : (
         <TableRowMenu>
           <TableRowMenuItem
             label="Delete"
-            onClick={() => this.deleteEvent(doc)}
+            onClick={event => this.deleteEvent(event, doc)}
           />
           <TableRowMenuItem
             label="Archive"
@@ -267,7 +265,7 @@ class UserEventList extends Component {
             onCancel={this.onCreateEventCancel}
             onSuccess={this.onCreateEventSuccess}
             onError={this.onCreateEventError}
-            // band={this.props.band || null}
+            band={null}
             bands={this.props.bands}
           />
 
