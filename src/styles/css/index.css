@@ -299,6 +299,11 @@ input {
 
 .band__member__list {
   display: flex; }
+  .band__member__list .member__email {
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .band__member__list input {
+    height: 3rem; }
 
 .band__profile__contact__section {
   display: "flex";

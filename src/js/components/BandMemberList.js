@@ -138,7 +138,7 @@ export default class BandMemberList extends Component {
                 <h3 style={{ margin: 0 }}>{doc.displayName}</h3>
               </a>
             )}
-            <p>{doc.email}</p>
+            <p className="member__email">{doc.email}</p>
             {this.props.memberEdit ? (
               <Form
                 className="band__member__form"

@@ -49,4 +49,11 @@
 
 .band__member__list {
   display: flex;
+  .member__email {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  input {
+    height: 3rem;
+  }
 }
