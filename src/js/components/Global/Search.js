@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import classNames from 'classnames';
-import * as actions from '../../actions/search.actions';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import classNames from "classnames";
+import * as actions from "../../actions/search.actions";
+import history from "../../history";
 
 // import Card from './Card/Card';
 // import CardSection from './Card/CardSection';
-import Spinner from './Spinner';
-
+import Spinner from "./Spinner";
 
 const searchResults = {
   user1: {
-    name: 'user1'
+    name: "user1"
   },
   user2: {
-    name: 'user2'
+    name: "user2"
   },
   user3: {
-    name: 'user3'
+    name: "user3"
   }
-}
+};
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
-      showResults: false,
-    }
+      search: "",
+      showResults: false
+    };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.renderResults = this.renderResults.bind(this);
     this.handleClickAway = this.handleClickAway.bind(this);
@@ -36,7 +36,7 @@ class Search extends Component {
 
   componentDidMount() {
     // Add clickaway to close search results
-    document.addEventListener('click', (event) => this.handleClickAway(event));
+    document.addEventListener("click", event => this.handleClickAway(event));
   }
 
   handleInputChange(event) {
@@ -44,17 +44,16 @@ class Search extends Component {
     this.props.search(event.target.value);
   }
 
-
   handleClickAway(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.setState({
-        showResults: false,
-      })
-      document.removeEventListener('click', this.handleClickAway);
+        showResults: false
+      });
+      document.removeEventListener("click", this.handleClickAway);
     } else {
       this.setState({
-        showResults: true,
-      })
+        showResults: true
+      });
     }
   }
 
@@ -65,28 +64,39 @@ class Search extends Component {
   renderResults() {
     const { searchResults, loading } = this.props;
     if (loading) {
-      return (
-        <Spinner size="small"/>
-      )
-    }
-    else if (searchResults.users) {
+      return <Spinner size="small" />;
+    } else if (searchResults.users) {
       return (
         <ul>
           {Object.keys(searchResults.users).map(key => {
-          return (
-            <a href={`/${searchResults.users[key].id}/profile`} key={ key }>
-            <li>
-              <img
-                src={ searchResults.users[key].imageUrl || "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png" }
-                alt="Profile Pic"
-              />
-              {searchResults.users[key].displayName}
-            </li>
-            </a>
-          )
+            return (
+              <a
+                href={
+                  searchResults.users[key].displayName
+                    ? `/${searchResults.users[key].id}/profile`
+                    : `/${this.props.user.id}/bands/${
+                        searchResults.users[key].id
+                      }/profile`
+                }
+                key={key}
+              >
+                <li>
+                  <img
+                    src={
+                      searchResults.users[key].imageUrl ||
+                      searchResults.users[key].logoUrl ||
+                      "https://www.timeshighereducation.com/sites/default/files/byline_photos/anonymous-user-gravatar_0.png"
+                    }
+                    alt="Profile Pic"
+                  />
+                  {searchResults.users[key].displayName ||
+                    searchResults.users[key].name}
+                </li>
+              </a>
+            );
           })}
         </ul>
-      )
+      );
     } else {
       return null;
     }
@@ -94,8 +104,8 @@ class Search extends Component {
 
   render() {
     let classes = classNames({
-      'search__results': true,
-      'search__results--show': this.state.showResults
+      search__results: true,
+      "search__results--show": this.state.showResults
     });
     return (
       <div className="search" ref={this.setWrapperRef}>
@@ -112,27 +122,29 @@ class Search extends Component {
           />
           <i className="material-icons">search</i>
         </div>
-        <div className={ classes } id="search-results">
-          { this.renderResults() }
+        <div className={classes} id="search-results">
+          {this.renderResults()}
         </div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
+    user: state.auth.user,
     searchResults: state.search,
-    loading: state.search.loading,
+    loading: state.search.loading
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    search: actions.searchUsers,
+  return bindActionCreators(
+    {
+      search: actions.searchUsers
     },
-  dispatch);
+    dispatch
+  );
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

@@ -314,6 +314,12 @@ class BandDashboard extends Component {
     ];
 
     if (band) {
+      if (!this.props.band.members[this.props.user.id]) {
+        window.location = `/${this.props.user.id}/bands/${
+          this.props.band.id
+        }/profile`;
+        return null;
+      }
       const lastMember = Object.keys(band.members).length === 1;
 
       let formBottomClasses = classNames("form__bottom", {
@@ -544,6 +550,7 @@ class BandDashboard extends Component {
                 user={this.props.user}
                 band={this.props.band}
                 memberEdit={this.props.memberEdit}
+                editable
                 updateMemberEdit={this.props.updateMemberEdit}
                 onUpdateMember={this.props.updateMember}
                 removeMember={this.props.leaveBand}

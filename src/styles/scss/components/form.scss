@@ -47,7 +47,8 @@
     display: flex;
     justify-content: center;
     &--hidden {
-      visibility: hidden;
+      // visibility: hidden;
+      display: none;
     }
     > button {
       font-size: 18px;

@@ -300,6 +300,10 @@ input {
 .band__member__list {
   display: flex; }
 
+.band__profile__contact__section {
+  display: "flex";
+  justify-content: "space-between"; }
+
 .user__profile__form {
   width: 100%; }
 .user__profile__image__wrapper {
@@ -1462,7 +1466,7 @@ tbody:hover > tr:hover td {
     display: flex;
     justify-content: center; }
     .form__bottom--hidden {
-      visibility: hidden; }
+      display: none; }
     .form__bottom > button {
       font-size: 18px;
       width: 8rem;

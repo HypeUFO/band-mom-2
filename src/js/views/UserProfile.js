@@ -158,7 +158,7 @@ class UserProfile extends Component {
           let addBandInfo = {
             label: bands[key].name,
             value: bands[key].name + "/" + bands[key].id,
-            disabled: activeProfile.groups[key]
+            disabled: activeProfile.groups ? activeProfile.groups[key] : false
           };
           return bandList.push(addBandInfo);
           // }

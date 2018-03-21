@@ -891,6 +891,7 @@ export function leaveBand(band, user) {
         updates["/groups/" + band.id + "/members/" + user.id] = null;
         updates[`/groupMembers/${band.id}/${user.id}`] = null;
         updates[`/userGroups/${user.id}/${band.id}`] = null;
+        updates["/users/" + user.id + "/groups/" + band.id] = null;
 
         return database.ref().update(updates);
       })

@@ -177,7 +177,7 @@ class UserEventList extends Component {
         columns={columns}
         onClick={this.handleRowClick.bind(this, doc)}
       >
-        {menu}
+        {this.props.user.id === this.props.match.params.userId ? menu : null}
       </TableRow>
     );
   }
@@ -243,6 +243,8 @@ class UserEventList extends Component {
       { link: null, name: "Events" }
     ];
 
+    const buttonHide = !(this.props.user.id === this.props.match.params.userId);
+
     return (
       <div className="page__container">
         <Drawer
@@ -253,7 +255,7 @@ class UserEventList extends Component {
         />
         <Subheader
           breadcrumbs={breadcrumbs}
-          // buttonHide={ buttonHide }
+          buttonHide={buttonHide}
           buttonLabel="Add Event"
           buttonIcon="add"
           buttonOnClick={this.toggleCreateEventModal}

@@ -213,11 +213,13 @@ export default class BandMemberList extends Component {
           }}
         >
           <h3>Members</h3>
-          <Input
-            type="button-link"
-            value={this.props.memberEdit ? "Done" : "Edit"}
-            onClick={this.onUpdateMemberEdit}
-          />
+          {this.props.editable && (
+            <Input
+              type="button-link"
+              value={this.props.memberEdit ? "Done" : "Edit"}
+              onClick={this.onUpdateMemberEdit}
+            />
+          )}
         </div>
         <div className="band__member__list">{this.renderMembers()}</div>
         <AlertModal

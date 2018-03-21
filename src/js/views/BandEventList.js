@@ -179,7 +179,10 @@ class EventList extends Component {
         columns={columns}
         onClick={this.handleRowClick.bind(this, doc)}
       >
-        {menu}
+        {this.props.user.groups &&
+        this.props.user.groups[this.props.match.params.bandId]
+          ? menu
+          : null}
       </TableRow>
     );
   }
@@ -268,7 +271,10 @@ class EventList extends Component {
         name: "Events"
       }
     ];
-
+    const buttonHide =
+      !this.props.user.groups ||
+      (this.props.user.groups &&
+        !this.props.user.groups[this.props.match.params.bandId]);
     return (
       <div className="page__container">
         <Drawer
@@ -279,7 +285,7 @@ class EventList extends Component {
         />
         <Subheader
           breadcrumbs={breadcrumbs}
-          // buttonHide={ buttonHide }
+          buttonHide={buttonHide}
           buttonLabel="Add Event"
           buttonIcon="add"
           buttonOnClick={this.toggleCreateEventModal}
