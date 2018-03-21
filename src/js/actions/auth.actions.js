@@ -205,18 +205,22 @@ function updateUserEditRejectedAction(error) {
 export function updateUser(user) {
   return dispatch => {
     dispatch(updateUserRequestedAction());
-    database
-      .ref()
-      .child("users/" + user.id)
-      .update(user)
-      .then(() => {
-        database.ref(`/users/${user.id}`).once("value", snap => {
-          const updatedUser = snap.val();
-          return dispatch(updateUserFulfilledAction(updatedUser));
-        });
-      })
+    // database
+    //   .ref()
+    //   .child("users/" + user.id)
+    //   .update(user)
+    //   .then(() => {
+    // database
+    //   .ref(`/users/${user.id}`)
+    //   .once("value", snap => {
+    //     const updatedUser = snap.val();
+    //     return dispatch(updateUserFulfilledAction(updatedUser));
+    //   })
+    // })
+    Promise.resolve()
       .then(() => {
         const updates = {};
+        updates[`users/${user.id}`] = user;
         database
           .ref()
           .child("userGroups/" + user.id)
@@ -279,11 +283,21 @@ export function uploadProfileImage(file, user) {
       .put(file, metadata)
       .then(snapshot => {
         const url = snapshot.downloadURL;
+        const updates = {};
+        updates[`/users/${userId}/imageUrl`] = url;
+        updates[`/users/${userId}/imageName`] = file.name;
         database
-          .ref("users")
-          .child(userId)
-          .update({ imageUrl: url, imageName: file.name });
-        return dispatch(uploadProfilePicFulfilledAction(url));
+          .ref()
+          .child("userGroups/" + user.id)
+          .once("value", snap => {
+            const userGroups = snap.val();
+            Object.keys(userGroups).map(key => {
+              return (updates[
+                `groups/${key}/members/${user.id}/imageUrl`
+              ] = url);
+            });
+          });
+        return database.ref().update(updates);
       })
       .catch(error => {
         return dispatch(uploadProfilePicRejectedAction(error));

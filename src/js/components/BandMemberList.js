@@ -106,7 +106,7 @@ export default class BandMemberList extends Component {
             onClick={event => {
               event.preventDefault();
               console.log(
-                `are you sure you want to remove ${doc.name ||
+                `are you sure you want to remove ${doc.displayName ||
                   doc.email} from the band?`
               );
               Promise.resolve()
