@@ -1,0 +1,125 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  color: $color-purple; // margin-right: 20px;
+  width: 100%;
+  min-width: 30%;
+  &__user {
+    text-align: center;
+    align-items: center;
+    width: 175px;
+    > img {
+      height: 75px !important;
+      width: 75px !important;
+      border-radius: 50%;
+    }
+  }
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    > * {
+      margin: 0;
+      width: 100%;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+      // overflow: hidden;
+    }
+    > img {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+    }
+  }
+  &__stageplot {
+    > div > img {
+      border-radius: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  &__type {
+    color: $color-purple;
+  }
+  &__link {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px 0;
+    margin-right: 20px;
+    // width: 100%;
+    height: 200px !important;
+    box-shadow: $card-shadow-1;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translateZ(0);
+    &__list {
+      // width: 200px !important;
+    }
+    &__bandlist {
+      > div > div {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        > * {
+          margin: 0;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+      }
+    }
+    &__stageplot {
+      padding: 0;
+    }
+  }
+  &__delete {
+    display: flex;
+    position: absolute;
+    width: auto;
+    top: 0;
+    right: 0;
+    margin: 0.25rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: $color-light;
+    border-radius: 50%;
+    -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    > .material-icons {
+      font-size: 1.2rem;
+    }
+    &:hover {
+      background: $color-purple;
+    }
+  }
+  @include md {
+    &__link__bandlist {
+      width: 100%;
+    }
+  }
+
+  &__list__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__section {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+  }
+}

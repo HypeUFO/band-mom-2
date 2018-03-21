@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,gCAAoB;EAClB,OAAO,EAAE,MAAM;EACf,eAAe,EAAE,eAAe",
+"sources": ["../../scss/pages/band-profile.scss"],
+"names": [],
+"file": "band-profile.css"
+}

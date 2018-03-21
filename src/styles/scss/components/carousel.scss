@@ -1,0 +1,37 @@
+.slick {
+  &-slider {
+    margin-bottom: 20px;
+    padding: 0 10px;
+    &--no-arrows {
+      .slick-arrow {
+        display: none !important;
+      }
+    }
+  }
+  &-track {
+    padding: 0 10px !important;
+  }
+  &-prev:before,
+  &-next:before {
+    color: black;
+  }
+  @include sm-only {
+    &-next {
+      right: 0;
+    }
+    &-prev {
+      left: 0;
+    }
+    &-slide {
+      min-width: 150px;
+    }
+  }
+}
+
+.slide-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}

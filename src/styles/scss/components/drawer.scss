@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+}
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70vw;
+  height: 100vh;
+  background: $color-purple-dark-gradient-vertical;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 4;
+  overflow: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s $ease-in-out-cubic;
+  text-shadow: none;
+  padding-left: 2rem;
+  &__sidebar {
+    display: none;
+    width: 20%;
+    z-index: inherit;
+  }
+  &--active {
+    transform: translateX(0);
+  }
+  &__header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  &__logo {
+    color: $color-light;
+    text-shadow: 2px 2px #222;
+    margin: 0;
+  }
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: $color-light;
+    padding: 5px;
+    border-radius: 50%;
+    &:hover {
+      background: $color-purple-light;
+    }
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  &__item {
+    h2, h4, a {
+      color: $color-light;
+      text-align: left;
+    }
+    a {
+      font-weight: 400;
+      padding: 0;
+      &:hover {
+        background: transparent;
+        font-size: 1.1em;
+        text-shadow: 2px 2px #222;
+      }
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+  @include md {
+    width: 18rem;
+    width: 20%;
+    &__header {
+      height: 60px;
+    }
+    &__sidebar {
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 2rem;
+      z-index: 4;
+      // box-shadow: none;
+    }
+    &__close {
+      display: none;
+    }
+  }
+}

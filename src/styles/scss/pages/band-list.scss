@@ -1,0 +1,12 @@
+.band__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+
+  @include md {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}

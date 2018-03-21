@@ -1,0 +1,65 @@
+.filter {
+  &__section {
+    padding-left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 20px 0;
+  }
+  &__link {
+    margin: 0 10px;
+    color: $color-purple;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    >.material-icons {
+      transform: rotate(90deg);
+      margin-right: 10px;
+      position: relative;
+      right: 38px;
+      pointer-events: none;
+    }
+    &--active {
+      color: $color-purple;
+    }
+    >select {
+      height: 2.5rem;
+    }
+  }
+  &__label {
+    color: $color-gray-dark;
+    margin-right: 10px;
+  }
+  @include md {
+    &__section {
+      padding-left: 10px;
+      &__link {
+        margin: 10px 0;
+        >select {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+.event__filter,
+#template {
+  color: $color-purple;
+  border: none;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  height: auto;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+  width: auto;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 20px;
+  box-sizing: content-box;
+}

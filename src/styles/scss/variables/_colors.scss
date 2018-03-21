@@ -1,0 +1,59 @@
+$color-dark: #121F27;
+$color-gray: #BBBBBB;
+$color-gray-dark: #999999;
+$color-light: #FFFFFF;
+$color-red: #FF0505;
+$color-purple: #7F4FFF;
+$color-purple-light: #b79cff;
+// $color-purple-dark: #662dff;
+$color-purple-dark: #5a1cff;
+$color-purple-dark-gradient-vertical: linear-gradient($color-purple, $color-dark);
+$color-purple-dark-gradient-diagonal: linear-gradient(135deg, $color-purple, $color-dark);
+$color-dark-purple-gradient-diagonal: linear-gradient(135deg, $color-dark, $color-purple);
+$color-purple-light-gradient-vertical: linear-gradient($color-purple, $color-light);
+$color-purple-light-gradient-diagonal: linear-gradient(135deg, $color-purple, $color-light);
+
+$card-shadow-1: 0 2px 4px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+$card-shadow-1-hover: 0 8px 16px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+.clr-dark {
+  color: $color-dark !important;
+}
+
+.clr-gray {
+  color: $color-gray !important;
+}
+
+.clr-light {
+  color: $color-light !important;
+}
+
+.clr-purple {
+  color: $color-purple !important;
+}
+
+.clr-red {
+  color: $color-red !important;
+}
+
+.bg-clr-dark {
+  background-color: $color-dark !important;
+}
+
+.bg-clr-gray {
+  background-color: $color-gray !important;
+}
+
+.bg-clr-light {
+  background-color: $color-light !important;
+}
+
+.bg-clr-purple {
+  background-color: $color-purple !important;
+  color: $color-light !important;
+}
+
+.bg-clr-red {
+  background-color: $color-red !important;
+}
+

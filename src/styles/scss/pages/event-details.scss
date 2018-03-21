@@ -1,0 +1,44 @@
+  // .event-details__form__bottom {
+//   position: absolute;
+//   top: 71px;
+//   right: 0px;
+//   z-index: 3;
+//   button.clr-grey {
+//     display: none;
+//   }
+// }
+// @include md {
+//   .event-details__form__bottom {
+//     top: 4px;
+//     right: 32px;
+//     button.clr-grey {
+//       display: inline-block;
+//     }
+//   }
+// }
+.event-details {
+  &__container {
+    padding: 0 10px;
+  }
+  &__form {
+    padding-top: 130px;
+    margin-top: -130px;
+
+    input,
+    textarea,
+    select,
+    .date {
+      width: 100%;
+    }
+  }
+  @include md {
+    &__container {
+      // margin-top: 50px;
+      // padding: 0 20px;
+    }
+  }
+  .event__address--link {
+    position: relative;
+    z-index: 10000;
+  }
+}

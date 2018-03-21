@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,UAAW;EACT,OAAO,EAAE,IAAI",
+"sources": ["../../scss/pages/band-list.scss"],
+"names": [],
+"file": "band-list.css"
+}

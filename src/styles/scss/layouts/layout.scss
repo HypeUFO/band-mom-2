@@ -1,0 +1,33 @@
+.page {
+  width: 100%;
+  &__container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  &__content {
+    width: 100%;
+    order: 1;
+    margin-top: 135px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    &--two-col {
+      margin-top: 135px;
+      width: 100%;
+    }
+    &__container {
+      padding: 0 1rem;
+    }
+  }
+  @include md {
+    &__content {
+      margin-top: 0;
+      &--two-col {
+        margin-top: 130px;
+        padding: 0 6rem 0 3rem;
+        width: calc(100% - 180px);
+      }
+    }
+  }
+}
